@@ -9,11 +9,10 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// "mikestead.dotenv",
-				// "amiralizadeh9480.laravel-extra-intellisense",
-				// "ryannaddy.laravel-artisan",
-				// "onecentlin.laravel5-snippets",
-				// "onecentlin.laravel-blade"
+				"onecentlin.laravel5-snippets",
+				"bmewburn.vscode-intelephense-client",
+				"xdebug.php-debug",
+				"amiralizadeh9480.laravel-extra-intellisense"
 			],
 			"settings": {}
 		}
