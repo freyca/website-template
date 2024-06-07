@@ -26,10 +26,11 @@ class Product extends Model
         'discount',
         'published',
         'stock',
+        'slogan',
         'short_description',
         'description',
+        'images',
         'category_id',
-        'images'
     ];
 
     protected $casts = [

@@ -26,8 +26,21 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slogan')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->required(),
+                Forms\Components\FileUpload::make('big_image')
+                    ->required()
+                    ->moveFiles()
+                    ->orientImagesFromExif(false)
+                    ->directory('category-images'),
+                Forms\Components\FileUpload::make('small_image')
+                    ->required()
+                    ->moveFiles()
+                    ->orientImagesFromExif(false)
+                    ->directory('category-images'),
             ]);
     }
 

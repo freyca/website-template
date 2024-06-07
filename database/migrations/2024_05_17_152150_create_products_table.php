@@ -18,6 +18,7 @@ return new class extends Migration
             $table->float('discount')->nullable();
             $table->boolean('published')->default(false);
             $table->unsignedInteger('stock');
+            $table->string('slogan');
             $table->text('short_description');
             $table->text('description');
             $table->json('images');
