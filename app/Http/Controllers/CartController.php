@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -17,16 +19,13 @@ class CartController extends Controller
 
     public function index()
     {
-
     }
 
     public function store(Product $product)
     {
-
     }
 
     public function delete(Product $product)
     {
-
     }
 }
