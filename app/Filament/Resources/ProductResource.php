@@ -3,16 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\FileUpload;
 
 class ProductResource extends Resource
 {
@@ -25,6 +21,9 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('meta_description')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slogan')
@@ -46,7 +45,7 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->required(),
-                Forms\Components\FileUpload::make('images', 'images')
+                Forms\Components\FileUpload::make('images')
                     ->multiple()
                     ->required()
                     ->reorderable()

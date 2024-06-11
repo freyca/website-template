@@ -27,6 +27,7 @@ class Product extends Model
         'published',
         'stock',
         'slogan',
+        'meta_description',
         'short_description',
         'description',
         'images',
@@ -39,6 +40,6 @@ class Product extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class,);
+        return $this->belongsTo(Category::class);
     }
 }

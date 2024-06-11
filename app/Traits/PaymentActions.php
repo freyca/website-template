@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Traits;
+
+use App\Models\Order;
+
+trait PaymentActions
+{
+    public function isPurchasePayed(Order $order): bool
+    {
+        return $order->its_payed;
+    }
+
+    public function cancelPurchase(Order $order): void
+    {
+        $order->delete();
+    }
+}

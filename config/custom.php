@@ -21,7 +21,7 @@ return [
     'featured-categories' => [
         'cortacésped',
         'motosierras',
-        'desbrozadoras'
+        'desbrozadoras',
     ],
 
     /**

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('published')->default(false);
             $table->unsignedInteger('stock');
             $table->string('slogan');
+            $table->string('meta_description');
             $table->text('short_description');
             $table->text('description');
             $table->json('images');
