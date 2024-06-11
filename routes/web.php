@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
+use App\Livewire\ContactForm;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('frontend')->group(function () {
@@ -20,12 +21,8 @@ Route::middleware('frontend')->group(function () {
     });
 
     /** Contact */
-    Route::controller(ContactController::class)->group(function () {
-        Route::get('/contacto', function () {
-            return view('contact');
-        })->name('contacto');
-        Route::post('/contacto', 'store');
-    });
+    Route::get('/contacto', [ContactController::class, 'index']);
+    Route::post('/contacto', ContactForm::class);
 
     /** Cart */
     Route::prefix('carrito')->name('cart.')->group(function () {

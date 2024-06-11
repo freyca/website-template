@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ContactController extends Controller
 {
-    public function store(ContactRequest $request): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('contacto');
+        return view('contact');
     }
 }

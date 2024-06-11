@@ -12,6 +12,10 @@
         @yield('main-content')
     </div>
 
+    @isset($slot)
+        {{ $slot }}
+    @endisset
+
     @include('layouts.footer')
 </body>
 
