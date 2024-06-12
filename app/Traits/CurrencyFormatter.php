@@ -6,7 +6,7 @@ namespace App\Traits;
 
 use NumberFormatter;
 
-trait CurrencyFormattter
+trait CurrencyFormatter
 {
     public function formatCurrency(float $value): string
     {

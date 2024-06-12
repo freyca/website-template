@@ -31,4 +31,14 @@ return [
      */
     'featured-products' => [],
 
+    /**
+     * Directory to save product images
+     */
+    'product-image-storage' => base_path('/public/storage/product-images'),
+
+    /**
+     * Directory to save category images
+     */
+    'category-image-storage' => base_path('/public/storage/category-images'),
+
 ];

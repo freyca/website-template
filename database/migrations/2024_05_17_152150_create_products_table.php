@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->float('price');
-            $table->float('discount')->nullable();
+            $table->float('price_with_discount')->nullable();
             $table->boolean('published')->default(false);
             $table->unsignedInteger('stock');
             $table->string('slogan');

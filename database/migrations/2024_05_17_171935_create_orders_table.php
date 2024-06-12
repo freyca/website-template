@@ -12,12 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        $payment_methods = [];
+
+        foreach (PaymentMethods::cases() as $case) {
+            array_push($payment_methods, $case->name);
+        }
+
+        Schema::create('orders', function (Blueprint $table) use ($payment_methods) {
             $table->id();
             $table->float('purchase_cost');
-            $table->enum('payment_method', ['card', 'bank_transfer'])->default(PaymentMethods::bank_transfer->name);
-            $table->boolean('its_payed');
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->enum('payment_method', $payment_methods)->default(PaymentMethods::bank_transfer->name);
+            $table->boolean('payed');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

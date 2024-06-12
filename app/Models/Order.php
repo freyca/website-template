@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\PaymentMethods;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -15,7 +16,7 @@ class Order extends Model
     protected $fillable = [
         'purchase_cost',
         'payment_method',
-        'its_payed',
+        'payed',
         'customer_id',
     ];
 
@@ -24,5 +25,10 @@ class Order extends Model
         return [
             'payment_method' => PaymentMethods::class,
         ];
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

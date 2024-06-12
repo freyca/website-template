@@ -10,7 +10,7 @@ trait PaymentActions
 {
     public function isPurchasePayed(Order $order): bool
     {
-        return $order->its_payed;
+        return $order->payed;
     }
 
     public function cancelPurchase(Order $order): void

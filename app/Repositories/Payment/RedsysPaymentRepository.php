@@ -16,7 +16,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
         return false;
 
         return $order->save([
-            'its_payed' => true,
+            'payed' => true,
         ]);
     }
 }

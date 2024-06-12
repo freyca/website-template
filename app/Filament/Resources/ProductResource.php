@@ -34,7 +34,7 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('discount')
+                Forms\Components\TextInput::make('price_with_discount')
                     ->numeric(),
                 Forms\Components\Select::make('category_id')
                     ->required()
