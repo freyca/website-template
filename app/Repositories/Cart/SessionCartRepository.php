@@ -18,7 +18,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
     public function __construct()
     {
-        if (!Session::has(self::SESSION)) {
+        if (! Session::has(self::SESSION)) {
             Session::put(self::SESSION, collect());
         }
     }
@@ -48,7 +48,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has($product->id)) {
             if (data_get($cart->get($product->id), $product->stock <= 'quantity')) {
-                throw new Exception('Not enough stock of ' . $product->name);
+                throw new Exception('Not enough stock of '.$product->name);
             }
 
             $productInCart = $cart->get($product->id);

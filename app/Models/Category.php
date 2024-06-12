@@ -20,9 +20,6 @@ class Category extends Model
         'small_image',
     ];
 
-    /**
-     * Get all of the comments for the Category
-     */
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

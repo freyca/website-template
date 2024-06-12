@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Servies;
+namespace App\Services;
 
 use App\Models\Order;
 use App\Repositories\Payment\PaymentRepositoryInterface;

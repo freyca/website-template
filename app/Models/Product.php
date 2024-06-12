@@ -51,4 +51,14 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class);
     }
+
+    public function complements(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductComplement::class);
+    }
+
+    public function spareParts(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSparePart::class);
+    }
 }

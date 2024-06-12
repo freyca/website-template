@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Servies;
+namespace App\Services;
 
 use App\Repositories\Shipping\ShippingRepositoryInterface;
 

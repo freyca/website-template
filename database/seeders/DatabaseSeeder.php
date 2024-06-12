@@ -6,8 +6,9 @@ use App\Enums\Roles;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use App\Models\User;
-use App\Models\UserMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -32,15 +33,17 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
-        // Creates an admin user
-        User::create([
-            'name' => fake()->name(),
-            'email' => 'fran@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'role' => Roles::admin,
-        ]);
+        // Creates an admin user if not exists
+        if (User::where('email', 'fran@gmail.com')->first() === null) {
+            User::create([
+                'name' => fake()->name(),
+                'email' => 'fran@gmail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+                'role' => Roles::admin,
+            ]);
+        }
 
         Category::factory(5)->create([
             'big_image' => $categoryImage,
@@ -48,6 +51,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(40)->create([
+            'main_image' => $productImage,
+            'images' => $this->generateImageArray($productImage),
+        ]);
+
+        ProductSparePart::factory(20)->create([
+            'main_image' => $productImage,
+            'images' => $this->generateImageArray($productImage),
+        ]);
+
+        ProductComplement::factory(20)->create([
             'main_image' => $productImage,
             'images' => $this->generateImageArray($productImage),
         ]);
@@ -61,11 +74,27 @@ class DatabaseSeeder extends Seeder
                 $products->random(rand(1, 3))->pluck('id')->toArray()
             );
         });
+
+        // Populate the pivot table product_product_spare_part
+        $productSpareParts = ProductSparePart::all();
+        Product::all()->each(function ($product) use ($productSpareParts) {
+            $product->spareParts()->attach(
+                $productSpareParts->random(rand(3, 5))->pluck('id')->toArray()
+            );
+        });
+
+        // Populate the pivot table product_product_complement
+        $productComplements = ProductComplement::all();
+        Product::all()->each(function ($product) use ($productComplements) {
+            $product->complements()->attach(
+                $productComplements->random(rand(3, 5))->pluck('id')->toArray()
+            );
+        });
     }
 
     private function generateImage(string $path): string
     {
-        return '/' . Str::ltrim((fake()->image($path)), base_path('/public'));
+        return '/'.Str::ltrim((fake()->image($path)), base_path('/public'));
     }
 
     private function generateImageArray(string $productImage): array

@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use Database\Traits\WithProductDiscounts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductComplement>
  */
-class ProductFactory extends Factory
+class ProductComplementFactory extends Factory
 {
     use WithProductDiscounts;
 
@@ -26,13 +25,13 @@ class ProductFactory extends Factory
             'name' => fake()->word(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),
+            'price_when_user_owns_product' => $price * 0.8,
             'published' => fake()->boolean(75),
             'stock' => fake()->numberBetween(10, 100),
             'slogan' => fake()->text(50),
             'meta_description' => fake()->text(20),
             'short_description' => fake()->text(200),
             'description' => fake()->text(1000),
-            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }
