@@ -34,10 +34,7 @@
   # Landings
   - complementos/recambios a un precio rebajado si compras maquina
 
-  Complemento: rodas mais grandes, arado, desbrozadora
-  Recambio: correa de transmisión, aceite
-
-  # Categorias
+  # Categorias (custom queries para custom url)
    - Motoazadas gasolina menos de 1000€
 
   # Paginas
