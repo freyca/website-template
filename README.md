@@ -8,8 +8,6 @@
   - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation
   - user metadata para guardar los datos para los envios
 
- # Nombre: MAQUINARIA ROTECO
-
  # Producto:
    - titulo
    - slogan

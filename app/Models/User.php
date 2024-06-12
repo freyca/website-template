@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -54,5 +55,10 @@ class User extends Authenticatable
     public function canAccessFilament(): bool
     {
         return $this->hasVerifiedEmail();
+    }
+
+    public function metadata(): HasOne
+    {
+        return $this->hasOne(UserMetadata::class);
     }
 }
