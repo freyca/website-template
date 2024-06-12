@@ -68,8 +68,8 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('discount'),
+                Tables\Columns\TextColumn::make('price')->badge(),
+                Tables\Columns\TextColumn::make('price_with_discount')->badge(),
                 Tables\Columns\TextColumn::make('category_id'),
                 Tables\Columns\IconColumn::make('published')->boolean(),
                 Tables\Columns\TextColumn::make('stock'),

@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\Repositories\Cart;
 
 use App\Models\Product;
-use App\Traits\CurrencyFormattter;
+use App\Traits\CurrencyFormatter;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 class SessionCartRepository implements CartRepositoryInterface
 {
-    use CurrencyFormattter;
+    use CurrencyFormatter;
 
     const SESSION = 'cart';
 
     public function __construct()
     {
-        if (! Session::has(self::SESSION)) {
+        if (!Session::has(self::SESSION)) {
             Session::put(self::SESSION, collect());
         }
     }
@@ -48,7 +48,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has($product->id)) {
             if (data_get($cart->get($product->id), $product->stock <= 'quantity')) {
-                throw new Exception('Not enough stock of '.$product->name);
+                throw new Exception('Not enough stock of ' . $product->name);
             }
 
             $productInCart = $cart->get($product->id);

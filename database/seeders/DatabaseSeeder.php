@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
     private function generateImage(string $path): string
     {
-        return '/' . Str::ltrim((fake()->image($path)), base_path('/public'));
+        return '/'.Str::ltrim((fake()->image($path)), base_path('/public'));
     }
 
     private function generateImageArray(string $productImage): array

@@ -7,7 +7,7 @@
                 <a class="mx-auto p-6" href="{{$url}}"><span class="text-red-50">{{ ucfirst($section) }}</span></a>
             @endforeach
 
-            <a class="mx-auto p-2" href="/mi-perfil" style="justify-content: flex-end;"><span class="text-red-50">Mi perfil</span></a>
+            <a class="mx-auto p-2" href="/user" style="justify-content: flex-end;"><span class="text-red-50">Mi perfil</span></a>
         </nav>
     </div>
 </nav>

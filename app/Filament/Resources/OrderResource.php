@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Enums\PaymentMethods;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Models\Order;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,7 +23,20 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('purchase_cost')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Select::make('payment_method')
+                    ->required()
+                    ->options(PaymentMethods::class),
+                Forms\Components\Checkbox::make('payed'),
+                Forms\Components\Select::make('user_id')
+                    ->required()
+                    ->relationship('user', 'name'),
+                Forms\Components\Select::make('products')
+                    ->required()
+                    ->multiple()
+                    ->relationship('products', 'name'),
             ]);
     }
 
@@ -29,7 +44,10 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('user.name'),
+                Tables\Columns\TextColumn::make('purchase_cost')->badge(),
+                Tables\Columns\IconColumn::make('payed')->boolean(),
             ])
             ->filters([
                 //

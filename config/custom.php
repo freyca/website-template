@@ -4,7 +4,7 @@ return [
     /**
      * Default website title
      */
-    'title' => 'Casa Quiroga',
+    'title' => 'Maquinaria Roteco',
 
     /**
      * Sections which will be shown in the navigation bar
