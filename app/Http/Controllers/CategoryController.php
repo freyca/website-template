@@ -9,12 +9,20 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function index(Category $category): View
+    public function index(): View
     {
-        $category = $category::with('products')->where('published', true)->simplePaginate(15);
+        $categories = Category::all();
+
+        return view('categories', ['categories' => $categories]);
+    }
+
+    public function category(Category $category): View
+    {
+        $products = $category->products;
 
         return view('category', [
             'category' => $category,
+            'products' => $products,
         ]);
     }
 }

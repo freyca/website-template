@@ -47,6 +47,12 @@ class ProductResource extends Resource
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->required(),
+                Forms\Components\FileUpload::make('main-image')
+                    ->required()
+                    ->reorderable()
+                    ->moveFiles()
+                    ->orientImagesFromExif(false)
+                    ->directory('product-images'),
                 Forms\Components\FileUpload::make('images')
                     ->multiple()
                     ->required()

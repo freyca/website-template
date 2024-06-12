@@ -32,6 +32,7 @@ class Product extends Model
         'meta_description',
         'short_description',
         'description',
+        'main_image',
         'images',
         'category_id',
     ];

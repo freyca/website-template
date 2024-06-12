@@ -31,6 +31,8 @@ class ContactForm extends Component
 
         SendContactFormEmail::dispatch($validated);
 
+        $this->reset();
+
         session()->flash('message', 'Your message will be replied soon.');
     }
 }

@@ -4,8 +4,13 @@
 
 @section('main-content')
     <div class="container text-3xl font-bold underline">
-        @php
-            dump($category->name)
-        @endphp
+    <img src="{{$category->big_image}}">
+    <p>{{$category->name}}</p>
+    <p>{{$category->description}}</p>
+
+        @foreach ( $products as $product)
+            <img src={{$product->main_image}}>
+            {{$product->name}}
+        @endforeach
     </h1>
 @endsection

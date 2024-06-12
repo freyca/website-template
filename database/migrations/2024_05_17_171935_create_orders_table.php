@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->float('purchase_cost');
-            $table->enum('payment_method', ['card', 'bank_transfer'])->default(PaymentMethods::bank_transfer->value);
+            $table->enum('payment_method', ['card', 'bank_transfer'])->default(PaymentMethods::bank_transfer->name);
             $table->boolean('its_payed');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->timestamps();

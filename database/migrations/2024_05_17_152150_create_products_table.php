@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('meta_description');
             $table->text('short_description');
             $table->text('description');
+            $table->string('main_image');
             $table->json('images');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
