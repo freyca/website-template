@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Roles;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
 
@@ -18,6 +20,16 @@ class DatabaseSeeder extends Seeder
         $categoryImage = $this->generateImage(config('custom.category-image-storage'));
 
         User::factory(10)->create();
+
+        // Creates an admin user
+        User::create([
+            'name' => fake()->name(),
+            'email' => 'fran@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'role' => Roles::admin,
+        ]);
 
         Category::factory(5)->create([
             'big_image' => $categoryImage,
@@ -42,7 +54,7 @@ class DatabaseSeeder extends Seeder
 
     private function generateImage(string $path): string
     {
-        return '/'.Str::ltrim((fake()->image($path)), base_path('/public'));
+        return '/' . Str::ltrim((fake()->image($path)), base_path('/public'));
     }
 
     private function generateImageArray(string $productImage): array
