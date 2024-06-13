@@ -65,6 +65,7 @@ class Order extends Model
 
     public function allPurchasedItems(): self
     {
-        return $this::with(['products', 'productComplements', 'productSpareParts'])->where('id', $this->id)->firstOrFail();
+        /** @var Order */
+        return $this::with(['products', 'productComplements', 'productSpareParts'])->find($this->id);
     }
 }
