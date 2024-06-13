@@ -21,6 +21,9 @@ class Order extends Model
         'user_id',
     ];
 
+    /**
+     * @return array<string, string>
+     */
     protected function casts()
     {
         return [
@@ -28,13 +31,40 @@ class Order extends Model
         ];
     }
 
+    /**
+     * @return BelongsTo<User, Order>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsToMany<Product>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    /**
+     * @return BelongsToMany<ProductSparePart>
+     */
+    public function productSpareParts(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductSparePart::class);
+    }
+
+    /**
+     * @return BelongsToMany<ProductComplement>
+     */
+    public function productComplements(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductComplement::class);
+    }
+
+    public function allPurchasedItems(): self
+    {
+        return $this::with(['products', 'productComplements', 'productSpareParts'])->where('id', $this->id)->firstOrFail();
     }
 }

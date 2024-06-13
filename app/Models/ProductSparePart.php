@@ -1,15 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductSparePart extends Model
+class ProductSparePart extends BaseProduct
 {
-    use HasFactory;
-
     protected $fillable = [
         'name',
         'price',
@@ -25,12 +24,19 @@ class ProductSparePart extends Model
         'images',
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
-
+    /**
+     * @return BelongsToMany<Product>
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function categories(): Collection
+    {
+        return Category::whereIn('id', $this->products->pluck('category_id')->unique())->get();
     }
 }

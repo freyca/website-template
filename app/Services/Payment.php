@@ -28,6 +28,6 @@ final readonly class Payment
 
     public function cancelPurchase(Order $order): void
     {
-        return $this->repository->cancelPurchase($order);
+        $this->repository->cancelPurchase($order);
     }
 }

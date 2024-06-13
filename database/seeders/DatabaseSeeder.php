@@ -67,7 +67,9 @@ class DatabaseSeeder extends Seeder
 
         Order::factory(30)->create();
 
-        // Populate the pivot table order_product
+        /**
+         * Populate the pivot table order_product
+         */
         $products = Product::all();
         Order::all()->each(function ($order) use ($products) {
             $order->products()->attach(
@@ -75,7 +77,9 @@ class DatabaseSeeder extends Seeder
             );
         });
 
-        // Populate the pivot table product_product_spare_part
+        /**
+         * Populate the pivot table product_product_spare_part
+         */
         $productSpareParts = ProductSparePart::all();
         Product::all()->each(function ($product) use ($productSpareParts) {
             $product->spareParts()->attach(
@@ -83,11 +87,27 @@ class DatabaseSeeder extends Seeder
             );
         });
 
-        // Populate the pivot table product_product_complement
+        // Populate the pivot table order_product_spare_part
+        Order::all()->each(function ($order) use ($productSpareParts) {
+            $order->productSpareParts()->attach(
+                $productSpareParts->random(rand(1, 3))->pluck('id')->toArray()
+            );
+        });
+
+        /**
+         * Populate the pivot table product_product_complement
+         */
         $productComplements = ProductComplement::all();
         Product::all()->each(function ($product) use ($productComplements) {
             $product->complements()->attach(
                 $productComplements->random(rand(3, 5))->pluck('id')->toArray()
+            );
+        });
+
+        // Populate the pivot table order_product_complement
+        Order::all()->each(function ($order) use ($productComplements) {
+            $order->productComplements()->attach(
+                $productComplements->random(rand(1, 3))->pluck('id')->toArray()
             );
         });
     }

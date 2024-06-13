@@ -12,6 +12,7 @@ trait CurrencyFormatter
     {
         $formatter = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
 
+        /** @var string */
         return $formatter->formatCurrency($value, 'EUR');
     }
 }

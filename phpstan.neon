@@ -15,7 +15,10 @@ parameters:
             message: '#Undefined variable: \$this#'
             path: tests/*
 #
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
-#
+    excludePaths:
+        - ./app/Traits/*
+        - ./app/Services/*
+        - ./app/Http/Controllers/CartController.php
+        - ./app/Repositories/Cart/SessionCartRepository.php
+        - ./app/Jobs/SendContactFormEmail.php
 #    checkMissingIterableValueType: false

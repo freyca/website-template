@@ -16,7 +16,10 @@ class ContactForm extends Component
 
     public string $message;
 
-    protected $rules = [
+    /**
+     * @var array<string, string>
+     */
+    protected array $rules = [
         'name' => 'required|string',
         'email' => 'required|email',
         'message' => 'required|string',

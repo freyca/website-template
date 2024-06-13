@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Events\ProductDeleted;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Product extends Model
+class Product extends BaseProduct
 {
-    use HasFactory;
-
     /**
      * The event map for the model.
      *
@@ -38,25 +35,25 @@ class Product extends Model
         'category_id',
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
-
+    /**
+     * @return BelongsTo<Category, Product>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function orders(): BelongsToMany
-    {
-        return $this->belongsToMany(Order::class);
-    }
-
+    /**
+     * @return BelongsToMany<ProductComplement>
+     */
     public function complements(): BelongsToMany
     {
         return $this->belongsToMany(ProductComplement::class);
     }
 
+    /**
+     * @return BelongsToMany<ProductSparePart>
+     */
     public function spareParts(): BelongsToMany
     {
         return $this->belongsToMany(ProductSparePart::class);

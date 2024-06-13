@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Cart;
 
-use App\Models\Product;
+use App\Models\BaseProduct;
 use App\Traits\CurrencyFormatter;
 use Exception;
 use Illuminate\Support\Collection;
@@ -23,7 +23,7 @@ class SessionCartRepository implements CartRepositoryInterface
         }
     }
 
-    public function add(Product $product, int $quantity): void
+    public function add(BaseProduct $product, int $quantity): void
     {
         $cart = $this->getCart();
 
@@ -42,7 +42,7 @@ class SessionCartRepository implements CartRepositoryInterface
     /**
      * @throws Exception
      */
-    public function increment(Product $product): void
+    public function increment(BaseProduct $product): void
     {
         $cart = $this->getCart();
 
@@ -68,7 +68,7 @@ class SessionCartRepository implements CartRepositoryInterface
             $cart->put($productId, $productInCart);
             $this->updateCart($cart);
 
-            if (data_get($cart->get($productId), 'quantity' <= 0)) {
+            if (data_get($cart->get($productId), 'quantity') <= 0) {
                 $cart->forget($productId);
             }
         }
@@ -83,18 +83,19 @@ class SessionCartRepository implements CartRepositoryInterface
         $this->updateCart($cart);
     }
 
-    public function getTotalQuantityForProduct(Product $product): int
+    public function getTotalQuantityForProduct(BaseProduct $product): int
     {
         $cart = $this->getCart();
 
         if ($cart->has($product->id)) {
+            /** @var int */
             return data_get($product->id, 'quantity');
         }
 
         return 0;
     }
 
-    public function getTotalCostforProduct(Product $product, bool $formatted = false): float|string
+    public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string
     {
         $cart = $this->getCart();
 
@@ -111,6 +112,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
+        /** @var int */
         return $cart->sum('quantity');
     }
 
@@ -118,6 +120,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
+        /** @var float */
         $total = $cart->sum(function ($item) {
             return data_get($item, 'quantity') * data_get($item, 'product.price');
         });
@@ -125,7 +128,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
-    public function hasProduct(Product $product): bool
+    public function hasProduct(BaseProduct $product): bool
     {
         $cart = $this->getCart();
 
@@ -134,6 +137,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
     public function getCart(): Collection
     {
+        /** @var Collection<int, BaseProduct> */
         return Session::get(self::SESSION);
     }
 
@@ -147,6 +151,9 @@ class SessionCartRepository implements CartRepositoryInterface
         Session::forget(self::SESSION);
     }
 
+    /**
+     * @param  Collection<int, BaseProduct>  $cart
+     */
     private function updateCart(Collection $cart): void
     {
         Session::put(self::SESSION, $cart);

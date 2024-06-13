@@ -15,11 +15,10 @@ class SendContactFormEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
+     * @param  array<string, string>  $form_params
      */
-    public function __construct()
+    public function __construct(array $form_params)
     {
-        //
     }
 
     /**

@@ -57,6 +57,9 @@ class User extends Authenticatable
         return $this->hasVerifiedEmail();
     }
 
+    /**
+     * @return HasOne<UserMetadata>
+     */
     public function metadata(): HasOne
     {
         return $this->hasOne(UserMetadata::class);
