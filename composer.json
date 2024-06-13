@@ -22,7 +22,8 @@
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^2.34",
         "phpstan/phpstan": "^1.11",
-        "spatie/laravel-ignition": "^2.4"
+        "spatie/laravel-ignition": "^2.4",
+        "spatie/laravel-web-tinker": "^1.9"
     },
     "autoload": {
         "psr-4": {
