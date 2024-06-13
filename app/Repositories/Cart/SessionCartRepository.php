@@ -27,10 +27,16 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->id)) {
-            $cart->get($product->id)['quantity'] += $quantity;
+        if ($cart->has($product->name)) {
+            /** @var array<string, BaseProduct|int> */
+            $sessionProduct = $cart->get($product->name);
+            if (array_key_exists('quantity', $sessionProduct)) {
+                /** @var int */
+                $oldQuantity = $sessionProduct['quantity'];
+                $oldQuantity += $quantity;
+            }
         } else {
-            $cart->put($product->id, [
+            $cart->put($product->name, [
                 'product' => $product,
                 'quantity' => $quantity,
             ]);
@@ -46,39 +52,41 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->id)) {
-            if (data_get($cart->get($product->id), $product->stock <= 'quantity')) {
+        if ($cart->has($product->name)) {
+            if (data_get($cart->get($product->name), 'quantity') <= $product->stock) {
                 throw new Exception('Not enough stock of '.$product->name);
             }
 
-            $productInCart = $cart->get($product->id);
+            $productInCart = $cart->get($product->name);
+            /** @phpstan-ignore-next-line */
             $productInCart['quantity']++;
-            $cart->put($product->id, $productInCart);
+            $cart->put($product->name, $productInCart);
             $this->updateCart($cart);
         }
     }
 
-    public function decrement(int $productId): void
+    public function decrement(BaseProduct $product): void
     {
         $cart = $this->getCart();
 
-        if ($cart->has($productId)) {
-            $productInCart = $cart->get($productId);
+        if ($cart->has($product->name)) {
+            $productInCart = $cart->get($product->name);
+            /** @phpstan-ignore-next-line */
             $productInCart['quantity']--;
-            $cart->put($productId, $productInCart);
+            $cart->put($product->name, $productInCart);
             $this->updateCart($cart);
 
-            if (data_get($cart->get($productId), 'quantity') <= 0) {
-                $cart->forget($productId);
+            if (data_get($cart->get($product->name), 'quantity') <= 0) {
+                $cart->forget($product->name);
             }
         }
     }
 
-    public function remove(int $productId): void
+    public function remove(BaseProduct $product): void
     {
         $cart = $this->getCart();
 
-        $cart->forget($productId);
+        $cart->forget($product->name);
 
         $this->updateCart($cart);
     }
@@ -87,9 +95,9 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->id)) {
+        if ($cart->has($product->name)) {
             /** @var int */
-            return data_get($product->id, 'quantity');
+            return data_get($product->name, 'quantity');
         }
 
         return 0;
@@ -101,8 +109,8 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $total = 0;
 
-        if ($cart->has($product->id)) {
-            $total = data_get($cart->get($product->id), 'quantity') * $product->price;
+        if ($cart->has($product->name)) {
+            $total = data_get($cart->get($product->name), 'quantity') * $product->price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -132,12 +140,15 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        return $cart->has($product->id);
+        return $cart->has($product->name);
     }
 
+    /**
+     * @return Collection<string, array<string, BaseProduct|int>>
+     */
     public function getCart(): Collection
     {
-        /** @var Collection<int, BaseProduct> */
+        /** @var Collection<string, array<string, BaseProduct|int>> */
         return Session::get(self::SESSION);
     }
 
@@ -152,7 +163,7 @@ class SessionCartRepository implements CartRepositoryInterface
     }
 
     /**
-     * @param  Collection<int, BaseProduct>  $cart
+     * @param  Collection<string, array<string, BaseProduct|int>>  $cart
      */
     private function updateCart(Collection $cart): void
     {

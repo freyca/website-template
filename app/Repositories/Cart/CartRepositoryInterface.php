@@ -13,9 +13,9 @@ interface CartRepositoryInterface
 
     public function increment(BaseProduct $product): void;
 
-    public function decrement(int $productId): void;
+    public function decrement(BaseProduct $product): void;
 
-    public function remove(int $productId): void;
+    public function remove(BaseProduct $product): void;
 
     public function getTotalQuantityForProduct(BaseProduct $product): int;
 
@@ -28,7 +28,7 @@ interface CartRepositoryInterface
     public function hasProduct(BaseProduct $product): bool;
 
     /**
-     * @return Collection<int, BaseProduct>
+     * @return Collection<string, array<string, BaseProduct|int>>
      */
     public function getCart(): Collection;
 

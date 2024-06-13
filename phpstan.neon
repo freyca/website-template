@@ -15,6 +15,6 @@ parameters:
             message: '#Undefined variable: \$this#'
             path: tests/*
 #
-    excludePaths:
-        - ./app/Repositories/Cart/SessionCartRepository.php
+#    excludePaths:
+#       -
 #    checkMissingIterableValueType: false

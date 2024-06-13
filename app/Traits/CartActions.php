@@ -30,13 +30,17 @@ trait CartActions
     public function decrementProductQuantity(): void
     {
         $productId = request()->integer('product_id');
-        $this->cart->decrement($productId);
+        $product = $this->repository->find($productId);
+
+        $this->cart->decrement($product);
     }
 
     public function removeProduct(): void
     {
         $productId = request()->integer('product_id');
-        $this->cart->remove($productId);
+        $product = $this->repository->find($productId);
+
+        $this->cart->remove($product);
     }
 
     public function clearCart(): void

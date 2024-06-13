@@ -27,14 +27,14 @@ final readonly class Cart
         $this->repository->increment($product);
     }
 
-    public function decrement(int $productId): void
+    public function decrement(BaseProduct $product): void
     {
-        $this->repository->decrement($productId);
+        $this->repository->decrement($product);
     }
 
-    public function remove(int $productId): void
+    public function remove(BaseProduct $product): void
     {
-        $this->repository->remove($productId);
+        $this->repository->remove($product);
     }
 
     public function getTotalQuantityForProduct(BaseProduct $product): int
@@ -63,7 +63,7 @@ final readonly class Cart
     }
 
     /**
-     * @return Collection<int, \App\Models\BaseProduct>
+     * @return Collection<string, array<string, BaseProduct|int>>
      */
     public function getCart(): Collection
     {
