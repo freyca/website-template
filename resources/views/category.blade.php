@@ -3,14 +3,20 @@
 @section('title', config('custom.title'))
 
 @section('main-content')
-    <div class="container text-3xl font-bold underline">
+    <div class="container mx-auto">
     <img src="{{$category->big_image}}">
-    <p>{{$category->name}}</p>
+    <p class="text-3xl font-bold">{{$category->name}}</p>
     <p>{{$category->description}}</p>
 
-        @foreach ( $products as $product)
-            <img src="{{$product->main_image}}">
-            <a href="/producto/{{$product->name}}">{{$product->name}}</a>
+    <div class="mt-10">
+        @foreach ( $products as $product )
+        <div class="w-full max-w-xs" style="border: 4px solid black">
+            {{$product->main_image}}
+            <a href="{{$product->name}}">
+                <h2 class="text-2xl font-bold"> {{$product->name}} </h2>
+            </a>
+            <p>{{$product->slogan}}</p>
+        </div>
         @endforeach
-    </h1>
+    </div>
 @endsection

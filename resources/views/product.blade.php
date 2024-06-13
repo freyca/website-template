@@ -4,7 +4,7 @@
 @section('description', $product->short_description)
 
 @section('main-content')
-    <div class="container">
+    <div class="container mx-auto">
         {{-- Aqui necesitamos hacer una galeria de imagenes --}}
         <img src="{{$product->main_image}}">
         @foreach ( $product->images as $productImage )

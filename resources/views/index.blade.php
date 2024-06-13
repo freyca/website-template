@@ -4,7 +4,7 @@
 
 @section('main-content')
     @include('partials.main-slider')
-    <div class="container text-3xl font-bold underline">
+    <div class="container mx-auto text-3xl font-bold underline">
         Hello world!
     </h1>
 @endsection
