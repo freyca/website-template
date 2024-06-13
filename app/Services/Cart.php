@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Product;
+use App\Models\BaseProduct;
 use App\Repositories\Cart\CartRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -14,7 +14,7 @@ final readonly class Cart
     {
     }
 
-    public function add(Product $product, int $quantity): void
+    public function add(BaseProduct $product, int $quantity): void
     {
         $this->repository->add($product, $quantity);
     }
@@ -22,7 +22,7 @@ final readonly class Cart
     /**
      * @throws \Exception
      */
-    public function increment(Product $product): void
+    public function increment(BaseProduct $product): void
     {
         $this->repository->increment($product);
     }
@@ -37,12 +37,12 @@ final readonly class Cart
         $this->repository->remove($productId);
     }
 
-    public function getTotalQuantityForProduct(Product $product): int
+    public function getTotalQuantityForProduct(BaseProduct $product): int
     {
         return $this->repository->getTotalQuantityForProduct($product);
     }
 
-    public function getTotalCostforProduct(Product $product, bool $formatted = false): float|string
+    public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string
     {
         return $this->repository->getTotalCostforProduct($product, $formatted);
     }
@@ -57,11 +57,14 @@ final readonly class Cart
         return $this->repository->getTotalCost($formatted);
     }
 
-    public function hasProduct(Product $product): bool
+    public function hasProduct(BaseProduct $product): bool
     {
         return $this->repository->hasProduct($product);
     }
 
+    /**
+     * @return Collection<int, \App\Models\BaseProduct>
+     */
     public function getCart(): Collection
     {
         return $this->repository->getCart();

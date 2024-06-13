@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMethods;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,7 +22,7 @@ class OrderFactory extends Factory
         return [
             'purchase_cost' => fake()->randomFloat(100),
             'payment_method' => $this->getRandomPaymentMethod(),
-            'payed' => fake()->boolean(70),
+            'status' => $this->getRandomOrderStatus(),
             'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
@@ -37,5 +38,18 @@ class OrderFactory extends Factory
         $rand = array_rand($payment_methods);
 
         return $payment_methods[$rand];
+    }
+
+    private function getRandomOrderStatus(): OrderStatus
+    {
+        $order_status = [];
+
+        foreach (OrderStatus::cases() as $case) {
+            array_push($order_status, $case);
+        }
+
+        $rand = array_rand($order_status);
+
+        return $order_status[$rand];
     }
 }

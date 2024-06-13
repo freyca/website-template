@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Resources;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMethods;
 use App\Filament\User\Resources\OrderResource\Pages;
 use App\Models\Order;
@@ -30,7 +31,9 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('payment_method')
                     ->required()
                     ->options(PaymentMethods::class),
-                Forms\Components\Checkbox::make('payed'),
+                Forms\Components\Select::make('status')
+                    ->required()
+                    ->options(OrderStatus::class),
                 Forms\Components\Select::make('products')
                     ->required()
                     ->multiple()
@@ -51,7 +54,7 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('purchase_cost')->badge(),
-                Tables\Columns\IconColumn::make('payed')->boolean(),
+                Tables\Columns\TextColumn::make('status')->badge(),
             ])
             ->filters([
                 //

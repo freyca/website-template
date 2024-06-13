@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMethods;
 use App\Models\Scopes\OrderScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -20,19 +21,14 @@ class Order extends Model
     protected $fillable = [
         'purchase_cost',
         'payment_method',
-        'payed',
+        'status',
         'user_id',
     ];
 
-    /**
-     * @return array<string, string>
-     */
-    protected function casts()
-    {
-        return [
-            'payment_method' => PaymentMethods::class,
-        ];
-    }
+    protected $casts = [
+        'payment_method' => PaymentMethods::class,
+        'status' => OrderStatus::class,
+    ];
 
     /**
      * @return BelongsTo<User, Order>

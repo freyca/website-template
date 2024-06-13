@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMethods;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,11 +19,17 @@ return new class extends Migration
             array_push($payment_methods, $case->name);
         }
 
-        Schema::create('orders', function (Blueprint $table) use ($payment_methods) {
+        $order_status = [];
+
+        foreach (OrderStatus::cases() as $case) {
+            array_push($order_status, $case->value);
+        }
+
+        Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
             $table->id();
             $table->float('purchase_cost');
             $table->enum('payment_method', $payment_methods)->default(PaymentMethods::bank_transfer->name);
-            $table->boolean('payed');
+            $table->enum('status', $order_status)->default(OrderStatus::PENDING_PAYMENT->value);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

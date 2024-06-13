@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Payment;
 
 use App\Models\Order;
-use App\Traits\PaymentActions;
+use App\Payment\Traits\PaymentActions;
 
 class RedsysPaymentRepository implements PaymentRepositoryInterface
 {
@@ -16,7 +16,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
         return false;
 
         //return $order->save([
-        //    'payed' => true,
+        //    'status' => OrderStatus::payed,
         //]);
     }
 }

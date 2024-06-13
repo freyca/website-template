@@ -17,15 +17,15 @@ class CartController extends Controller
     {
     }
 
-    public function index()
+    public function index(): void
     {
     }
 
-    public function store(Product $product)
+    public function store(Product $product): void
     {
     }
 
-    public function delete(Product $product)
+    public function delete(Product $product): void
     {
     }
 }

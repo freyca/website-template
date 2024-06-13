@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\PaymentMethods;
 use App\Models\Order;
+use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
+use App\Repositories\Payment\RedsysPaymentRepository;
 
 final readonly class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 
-    public function __construct(private Order $order)
+    public function __construct(Order $order)
     {
-        $this->repository = $order->payment_method;
+        $this->repository = match ($order->payment_method) {
+            PaymentMethods::card => new RedsysPaymentRepository(),
+            default => new BankTransferPaymentRepository(),
+        };
     }
 
     public function isPurchasePayed(Order $order): bool
