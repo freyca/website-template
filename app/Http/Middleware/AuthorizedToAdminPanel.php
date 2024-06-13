@@ -19,11 +19,12 @@ class AuthorizedToAdminPanel
      */
     public function handle(Request $request, Closure $next): Response
     {
+        /** @var ?\App\Models\User */
         $user = Auth::getUser();
 
         return match (true) {
             $user === null => $next($request),
-            isset($user->role) && $user->role !== Roles::admin => redirect('/'),
+            $user->role !== Roles::admin => redirect('/user'),
             default => $next($request),
         };
     }
