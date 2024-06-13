@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\User\Resources\OrderResource\Pages;
 
 use App\Filament\User\Resources\OrderResource;

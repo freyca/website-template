@@ -4,7 +4,7 @@ return [
     /**
      * Default website title
      */
-    'title' => 'Maquinaria Roteco',
+    'title' => env('APP_NAME', 'Maquinaria Roteco'),
 
     /**
      * Sections which will be shown in the navigation bar
