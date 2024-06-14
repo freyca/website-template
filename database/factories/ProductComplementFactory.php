@@ -32,10 +32,10 @@ class ProductComplementFactory extends Factory
             'meta_description' => fake()->realText(20),
             'short_description' => fake()->realText(200),
             'description' => fake()->realText(1000),
-            'main_image' => '/storage/product-images/1dcdcbdccdafab10080b9ae4365e4d18.png',
+            'main_image' => 'product-images/sample-image.png',
             'images' => [
-                '/storage/product-images/sample-image.png',
-                '/storage/product-images/sample-image.png',
+                'product-images/sample-image.png',
+                'product-images/sample-image.png',
             ],
         ];
     }
