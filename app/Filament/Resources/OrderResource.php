@@ -66,11 +66,18 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('created_at'),
-                Tables\Columns\TextColumn::make('status')->badge(),
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('purchase_cost')->badge(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('purchase_cost')
+                    ->badge()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->sortable()
+                    ->badge(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->date()
+                    ->label('Order Date'),
             ])
             ->filters([
                 //

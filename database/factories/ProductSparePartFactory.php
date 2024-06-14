@@ -22,16 +22,16 @@ class ProductSparePartFactory extends Factory
         $price = fake()->randomFloat(2, 10, 3000);
 
         return [
-            'name' => fake()->word(),
+            'name' => fake()->unique()->catchPhrase(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),
             'price_when_user_owns_product' => $price * 0.8,
             'published' => fake()->boolean(75),
             'stock' => fake()->numberBetween(10, 100),
-            'slogan' => fake()->text(50),
-            'meta_description' => fake()->text(20),
-            'short_description' => fake()->text(200),
-            'description' => fake()->text(1000),
+            'slogan' => fake()->realText(50),
+            'meta_description' => fake()->realText(20),
+            'short_description' => fake()->realText(200),
+            'description' => fake()->realText(1000),
             'main_image' => '/storage/product-images/1dcdcbdccdafab10080b9ae4365e4d18.png',
             'images' => [
                 '/storage/product-images/sample-image.png',

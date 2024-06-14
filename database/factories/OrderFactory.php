@@ -35,9 +35,7 @@ class OrderFactory extends Factory
             array_push($payment_methods, $case->name);
         }
 
-        $rand = array_rand($payment_methods);
-
-        return $payment_methods[$rand];
+        return fake()->randomElement($payment_methods);
     }
 
     private function getRandomOrderStatus(): OrderStatus
@@ -48,8 +46,6 @@ class OrderFactory extends Factory
             array_push($order_status, $case);
         }
 
-        $rand = array_rand($order_status);
-
-        return $order_status[$rand];
+        return fake()->randomElement($order_status);
     }
 }
