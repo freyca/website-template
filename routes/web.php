@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SeoController;
 use App\Livewire\ContactForm;
 use Illuminate\Support\Facades\Route;
 
@@ -38,10 +39,16 @@ Route::middleware('frontend')->group(function () {
         Route::delete('{product}', [CartController::class, 'delete'])->name('delete-product');
     });
 
+    /** Products */
+    Route::get('/productos', [ProductController::class, 'all']);
+    Route::get('/complementos-producto', [ProductController::class, 'components']);
+    Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts']);
+    Route::get('producto/{product:name}', [ProductController::class, 'index']);
+
+    /** Seo URL's */
+    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas']);
+
     /** Categories */
     Route::get('categorias', [CategoryController::class, 'index']);
     Route::get('{category:name}', [CategoryController::class, 'category']);
-
-    /** Products */
-    Route::get('producto/{product:name}', [ProductController::class, 'index']);
 });

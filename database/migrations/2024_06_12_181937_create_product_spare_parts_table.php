@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('product_spare_parts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->float('price');
             $table->float('price_with_discount')->nullable();
             $table->float('price_when_user_owns_product');
-            $table->boolean('published')->default(false);
+            $table->boolean('published')->default(false)->index();
             $table->unsignedInteger('stock');
             $table->string('slogan');
             $table->string('meta_description');
