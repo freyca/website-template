@@ -106,7 +106,7 @@ class OrderResource extends Resource
         return Repeater::make('orderProducts')
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('shop_product_id')
+                Forms\Components\Select::make('product_id')
                     ->label('Products')
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
@@ -119,7 +119,7 @@ class OrderResource extends Resource
                     ])
                     ->searchable(),
 
-                Forms\Components\TextInput::make('qty')
+                Forms\Components\TextInput::make('quantity')
                     ->label('Quantity')
                     ->numeric()
                     ->default(1)
@@ -145,7 +145,7 @@ class OrderResource extends Resource
                     ->url(function (array $arguments, Repeater $component): ?string {
                         $itemData = $component->getRawItemState($arguments['item']);
 
-                        $product = Product::find($itemData['shop_product_id']);
+                        $product = Product::find($itemData['product_id']);
 
                         if (! $product) {
                             return null;
@@ -153,7 +153,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
+                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -167,20 +167,20 @@ class OrderResource extends Resource
         return Repeater::make('orderProductComplements')
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('shop_product_id')
+                Forms\Components\Select::make('product_complement_id')
                     ->label('Product Complements')
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
-                    //->distinct()
-                    //->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                    ->distinct()
+                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
                         'md' => 5,
                     ])
                     ->searchable(),
 
-                Forms\Components\TextInput::make('qty')
+                Forms\Components\TextInput::make('quantity')
                     ->label('Quantity')
                     ->numeric()
                     ->default(1)
@@ -206,7 +206,7 @@ class OrderResource extends Resource
                     ->url(function (array $arguments, Repeater $component): ?string {
                         $itemData = $component->getRawItemState($arguments['item']);
 
-                        $product = Product::find($itemData['shop_product_id']);
+                        $product = Product::find($itemData['product_complement_id']);
 
                         if (! $product) {
                             return null;
@@ -214,7 +214,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
+                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_complement_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -228,20 +228,20 @@ class OrderResource extends Resource
         return Repeater::make('orderProductSpareParts')
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('shop_product_id')
+                Forms\Components\Select::make('product_spare_part_id')
                     ->label('Product Spare Parts')
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
-                    //->distinct()
-                    //->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                    ->distinct()
+                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
                         'md' => 5,
                     ])
                     ->searchable(),
 
-                Forms\Components\TextInput::make('qty')
+                Forms\Components\TextInput::make('quantity')
                     ->label('Quantity')
                     ->numeric()
                     ->default(1)
@@ -267,7 +267,7 @@ class OrderResource extends Resource
                     ->url(function (array $arguments, Repeater $component): ?string {
                         $itemData = $component->getRawItemState($arguments['item']);
 
-                        $product = Product::find($itemData['shop_product_id']);
+                        $product = Product::find($itemData['product_spare_part_id']);
 
                         if (! $product) {
                             return null;
@@ -275,7 +275,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['shop_product_id'])),
+                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_spare_part_id'])),
             ])
             ->defaultItems(1)
             ->columns([
