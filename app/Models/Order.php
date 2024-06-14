@@ -67,7 +67,7 @@ class Order extends Model
         /** @var Order */
         return $this::with(
             [
-                'orderProduct',
+                'orderProducts',
                 'orderProductSpareParts',
                 'orderProductComplements',
             ]
