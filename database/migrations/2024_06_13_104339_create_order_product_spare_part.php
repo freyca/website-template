@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('order_id');
             $table->integer('product_spare_part_id');
+            $table->float('unit_price');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

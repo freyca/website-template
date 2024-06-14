@@ -33,6 +33,11 @@ class ProductFactory extends Factory
             'short_description' => fake()->text(200),
             'description' => fake()->text(1000),
             'category_id' => Category::inRandomOrder()->first()->id,
+            'main_image' => '/storage/product-images/1dcdcbdccdafab10080b9ae4365e4d18.png',
+            'images' => [
+                '/storage/product-images/sample-image.png',
+                '/storage/product-images/sample-image.png',
+            ],
         ];
     }
 }

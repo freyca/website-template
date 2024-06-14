@@ -20,6 +20,8 @@ class CategoryFactory extends Factory
             'name' => fake()->word(),
             'slogan' => fake()->text(30),
             'description' => fake()->text(500),
+            'big_image' => '/storage/category-images/sample-image.png',
+            'small_image' => '/storage/category-images/sample-image.png',
         ];
     }
 }

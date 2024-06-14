@@ -34,11 +34,11 @@ return [
     /**
      * Directory to save product images
      */
-    'product-image-storage' => base_path('/public/storage/product-images'),
+    'product-image-storage' => public_path('/storage/product-images'),
 
     /**
      * Directory to save category images
      */
-    'category-image-storage' => base_path('/public/storage/category-images'),
+    'category-image-storage' => public_path('/storage/category-images'),
 
 ];

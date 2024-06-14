@@ -5,12 +5,17 @@ namespace Database\Seeders;
 use App\Enums\Roles;
 use App\Models\Category;
 use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\OrderProductComplement;
+use App\Models\OrderProductSparePart;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\User;
+use App\Models\UserMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
 
@@ -18,20 +23,29 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $productImage = $this->generateImage(config('custom.product-image-storage'));
-        $categoryImage = $this->generateImage(config('custom.category-image-storage'));
+        // For convenience, all categories and products has the same image
+        // We hardcode it here and, if it not exists, we create it
+        $imageName = 'sample-image.png';
+        $this->generateImage(config('custom.product-image-storage'), $imageName);
+        $this->generateImage(config('custom.category-image-storage'), $imageName);
 
-        User::factory(10)->create();
+        Category::factory(5)
+            ->has(
+                Product::factory(10)
+                    ->has(ProductSparePart::factory(1))
+                    ->has(ProductComplement::factory(1))
+            )
+            ->create();
 
-        User::all()->each(function ($user) {
-            $user->metadata()->create([
-                'user_id' => $user->id,
-                'address' => fake()->address(),
-                'city' => fake()->city(),
-                'postal_code' => fake()->numberBetween(10000, 99999),
-
-            ]);
-        });
+        User::factory(10)
+            ->has(UserMetadata::factory(1))
+            ->has(
+                Order::factory(4)
+                    ->has(OrderProduct::factory(2))
+                    ->has(OrderProductSparePart::factory(2))
+                    ->has(OrderProductComplement::factory(2))
+            )
+            ->create();
 
         // Creates an admin user if not exists
         if (User::where('email', 'fran@gmail.com')->first() === null) {
@@ -44,90 +58,19 @@ class DatabaseSeeder extends Seeder
                 'role' => Roles::admin,
             ]);
         }
-
-        Category::factory(5)->create([
-            'big_image' => $categoryImage,
-            'small_image' => $categoryImage,
-        ]);
-
-        Product::factory(40)->create([
-            'main_image' => $productImage,
-            'images' => $this->generateImageArray($productImage),
-        ]);
-
-        ProductSparePart::factory(20)->create([
-            'main_image' => $productImage,
-            'images' => $this->generateImageArray($productImage),
-        ]);
-
-        ProductComplement::factory(20)->create([
-            'main_image' => $productImage,
-            'images' => $this->generateImageArray($productImage),
-        ]);
-
-        Order::factory(30)->create();
-
-        /**
-         * Populate the pivot table order_product
-         */
-        $products = Product::all();
-        Order::all()->each(function ($order) use ($products) {
-            $order->products()->attach(
-                $products->random(rand(1, 3))->pluck('id')->toArray()
-            );
-        });
-
-        /**
-         * Populate the pivot table product_product_spare_part
-         */
-        $productSpareParts = ProductSparePart::all();
-        Product::all()->each(function ($product) use ($productSpareParts) {
-            $product->spareParts()->attach(
-                $productSpareParts->random(rand(3, 5))->pluck('id')->toArray()
-            );
-        });
-
-        // Populate the pivot table order_product_spare_part
-        Order::all()->each(function ($order) use ($productSpareParts) {
-            $order->productSpareParts()->attach(
-                $productSpareParts->random(rand(1, 3))->pluck('id')->toArray()
-            );
-        });
-
-        /**
-         * Populate the pivot table product_product_complement
-         */
-        $productComplements = ProductComplement::all();
-        Product::all()->each(function ($product) use ($productComplements) {
-            $product->complements()->attach(
-                $productComplements->random(rand(3, 5))->pluck('id')->toArray()
-            );
-        });
-
-        // Populate the pivot table order_product_complement
-        Order::all()->each(function ($order) use ($productComplements) {
-            $order->productComplements()->attach(
-                $productComplements->random(rand(1, 3))->pluck('id')->toArray()
-            );
-        });
     }
 
-    private function generateImage(string $path): string
+    private function generateImage(string $path, string $imageName): void
     {
-        return '/'.Str::ltrim((fake()->image($path)), base_path('/public'));
-    }
+        $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-    private function generateImageArray(string $productImage): array
-    {
-        $imageNumber = fake()->randomNumber(1);
-        $counter = 0;
-        $imageArray = [];
-
-        while ($counter <= $imageNumber) {
-            array_push($imageArray, $productImage);
-            $counter++;
+        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
+            return;
         }
 
-        return $imageArray;
+        $newImage = fake()->image($path);
+        $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
+
+        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
     }
 }

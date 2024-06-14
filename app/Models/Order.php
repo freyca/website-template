@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[ScopedBy([OrderScope::class])]
 class Order extends Model
@@ -39,32 +39,38 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsToMany<Product>
+     * @return HasMany<OrderProduct>
      */
-    public function products(): BelongsToMany
+    public function orderProduct(): HasMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(OrderProduct::class);
     }
 
     /**
-     * @return BelongsToMany<ProductSparePart>
+     * @return HasMany<OrderProductSparePart>
      */
-    public function productSpareParts(): BelongsToMany
+    public function orderProductSpareParts(): HasMany
     {
-        return $this->belongsToMany(ProductSparePart::class);
+        return $this->hasMany(OrderProductSparePart::class);
     }
 
     /**
-     * @return BelongsToMany<ProductComplement>
+     * @return HasMany<OrderProductComplement>
      */
-    public function productComplements(): BelongsToMany
+    public function orderProductComplements(): HasMany
     {
-        return $this->belongsToMany(ProductComplement::class);
+        return $this->hasMany(OrderProductComplement::class);
     }
 
     public function allPurchasedItems(): self
     {
         /** @var Order */
-        return $this::with(['products', 'productComplements', 'productSpareParts'])->find($this->id);
+        return $this::with(
+            [
+                'orderProduct',
+                'orderProductSpareParts',
+                'orderProductComplements',
+            ]
+        )->find($this->id);
     }
 }

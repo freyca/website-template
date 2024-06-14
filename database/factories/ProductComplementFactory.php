@@ -32,6 +32,11 @@ class ProductComplementFactory extends Factory
             'meta_description' => fake()->text(20),
             'short_description' => fake()->text(200),
             'description' => fake()->text(1000),
+            'main_image' => '/storage/product-images/1dcdcbdccdafab10080b9ae4365e4d18.png',
+            'images' => [
+                '/storage/product-images/sample-image.png',
+                '/storage/product-images/sample-image.png',
+            ],
         ];
     }
 }

@@ -38,7 +38,7 @@ class Product extends BaseProduct
     /**
      * @return BelongsTo<Category, Product>
      */
-    public function category(): BelongsTo
+    public function productCategory(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
@@ -46,7 +46,7 @@ class Product extends BaseProduct
     /**
      * @return BelongsToMany<ProductComplement>
      */
-    public function complements(): BelongsToMany
+    public function productComplements(): BelongsToMany
     {
         return $this->belongsToMany(ProductComplement::class);
     }
@@ -54,7 +54,7 @@ class Product extends BaseProduct
     /**
      * @return BelongsToMany<ProductSparePart>
      */
-    public function spareParts(): BelongsToMany
+    public function productSpareParts(): BelongsToMany
     {
         return $this->belongsToMany(ProductSparePart::class);
     }
