@@ -103,7 +103,7 @@ class OrderResource extends Resource
 
     public static function getProductsRepeater(): Repeater
     {
-        return Repeater::make('products')
+        return Repeater::make('orderProducts')
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('shop_product_id')
@@ -164,7 +164,7 @@ class OrderResource extends Resource
 
     public static function getProductComplementsRepeater(): Repeater
     {
-        return Repeater::make('productComplements')
+        return Repeater::make('orderProductComplements')
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('shop_product_id')
@@ -225,7 +225,7 @@ class OrderResource extends Resource
 
     public static function getProductSparePartsRepeater(): Repeater
     {
-        return Repeater::make('productSpareParts')
+        return Repeater::make('orderProductSpareParts')
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('shop_product_id')
