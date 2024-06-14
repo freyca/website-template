@@ -29,7 +29,7 @@ return new class extends Migration
             $table->id();
             $table->float('purchase_cost');
             $table->enum('payment_method', $payment_methods)->default(PaymentMethods::bank_transfer->name);
-            $table->enum('status', $order_status)->default(OrderStatus::PENDING_PAYMENT->value);
+            $table->enum('status', $order_status)->default(OrderStatus::New->value);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

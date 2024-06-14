@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasColor;
@@ -10,46 +8,41 @@ use Filament\Support\Contracts\HasLabel;
 
 enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 {
-    case PENDING_PAYMENT = 'pending_payment';
-    case PAYED = 'payed';
-    case PENDING_DELIVERY = 'pending_delivery';
-    case DELIVERING = 'delivering';
-    case COMPLETED = 'completed';
-    case CANCELLED = 'canceled';
+    case New = 'new';
+    case Processing = 'processing';
+    case Shipped = 'shipped';
+    case Delivered = 'delivered';
+    case Cancelled = 'cancelled';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return match ($this) {
-            self::PENDING_PAYMENT => 'Pending payment',
-            self::PAYED => 'Payed',
-            self::PENDING_DELIVERY => 'Pending delivery',
-            self::DELIVERING => 'Delivering',
-            self::COMPLETED => 'Completed',
-            self::CANCELLED => 'Cancelled',
+            self::New => 'New',
+            self::Processing => 'Processing',
+            self::Shipped => 'Shipped',
+            self::Delivered => 'Delivered',
+            self::Cancelled => 'Cancelled',
         };
     }
 
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::PENDING_PAYMENT => 'warning',
-            self::PAYED => 'info',
-            self::PENDING_DELIVERY => '',
-            self::DELIVERING => '',
-            self::COMPLETED => 'success',
-            self::CANCELLED => 'danger',
+            self::New => 'info',
+            self::Processing => 'warning',
+            self::Shipped, self::Delivered => 'success',
+            self::Cancelled => 'danger',
         };
     }
 
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::PENDING_PAYMENT => 'heroicon-m-currency-euro',
-            self::PAYED => 'heroicon-m-building-storefront',
-            self::PENDING_DELIVERY => 'heroicon-m-cube',
-            self::DELIVERING => 'heroicon-m-archive-box',
-            self::COMPLETED => 'heroicon-m-check-badge',
-            self::CANCELLED => 'heroicon-m-no-symbol',
+            self::New => 'heroicon-m-sparkles',
+            self::Processing => 'heroicon-m-arrow-path',
+            self::Shipped => 'heroicon-m-truck',
+            self::Delivered => 'heroicon-m-check-badge',
+            self::Cancelled => 'heroicon-m-x-circle',
         };
     }
 }
