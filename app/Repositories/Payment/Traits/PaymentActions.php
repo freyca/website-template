@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Payment\Traits;
+namespace App\Repositories\Payment\Traits;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;

@@ -11,8 +11,8 @@
     <div class="mt-10">
         @foreach ( $categories as $category )
         <div class="w-full max-w-xs" style="border: 4px solid black">
-            {{$category->big_image}}
             <a href="{{$category->name}}">
+                <img src="{{$category->big_image}}" style="max-height: 200px" />
                 <h2 class="text-2xl font-bold"> {{$category->name}} </h2>
             </a>
             <p>{{$category->slogan}}</p>

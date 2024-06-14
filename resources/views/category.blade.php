@@ -11,8 +11,8 @@
     <div class="mt-10">
         @foreach ( $products as $product )
         <div class="w-full max-w-xs" style="border: 4px solid black">
-            {{$product->main_image}}
             <a href="/producto/{{$product->name}}">
+                <img src="{{$product->main_image}}" style="max-height: 200px" />
                 <h2 class="text-2xl font-bold"> {{$product->name}} </h2>
             </a>
             <p>{{$product->slogan}}</p>

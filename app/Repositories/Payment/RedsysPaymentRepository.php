@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Payment;
 
 use App\Models\Order;
-use App\Payment\Traits\PaymentActions;
+use App\Repositories\Payment\Traits\PaymentActions;
 
 class RedsysPaymentRepository implements PaymentRepositoryInterface
 {

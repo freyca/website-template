@@ -12,10 +12,12 @@
             <img src="{{$productImage}}">
         @endforeach
         <h1>{{$product->name}}</h1>
-        <span>{{$product->price}}</span>
         @if ($product->price_with_discount)
             {{-- Tachamos el precio anterior y lo mostramos con descuento --}}
-            <span>{{$product->price_with_discount}}</span>
+            <span class="line-through">{{$product->price}} €</span>
+            <span>{{$product->price_with_discount}} €</span>
+        @else
+            <span {{$product->price}}</span>
         @endif
         <p>{{$product->slogan}}</p>
         <span>{{$product->description}}</span>

@@ -20,7 +20,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'purchase_cost' => fake()->randomFloat(100),
+            'purchase_cost' => fake()->randomFloat(2, 10, 3000),
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
             'user_id' => User::inRandomOrder()->first()->id,

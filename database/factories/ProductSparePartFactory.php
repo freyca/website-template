@@ -19,7 +19,7 @@ class ProductSparePartFactory extends Factory
      */
     public function definition(): array
     {
-        $price = fake()->randomFloat(2, 10);
+        $price = fake()->randomFloat(2, 10, 3000);
 
         return [
             'name' => fake()->word(),
