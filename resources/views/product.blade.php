@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@inject(cart, '\App\Services\Cart')
 
 @section('title', config('custom.title'))
 @section('description', $product->short_description)
