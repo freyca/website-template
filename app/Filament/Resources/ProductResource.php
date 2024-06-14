@@ -22,44 +22,67 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('meta_description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slogan')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('price_with_discount')
-                    ->numeric(),
-                Forms\Components\Select::make('category_id')
-                    ->required()
-                    ->relationship('category', 'name'),
-                Forms\Components\Checkbox::make('published'),
-                Forms\Components\TextInput::make('stock')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('short_description')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->required(),
-                Forms\Components\FileUpload::make('main-image')
-                    ->required()
-                    ->reorderable()
-                    ->moveFiles()
-                    ->orientImagesFromExif(false)
-                    ->directory('product-images'),
-                Forms\Components\FileUpload::make('images')
-                    ->multiple()
-                    ->required()
-                    ->reorderable()
-                    ->moveFiles()
-                    ->orientImagesFromExif(false)
-                    ->directory('product-images'),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Toggle::make('published')
+                        ->label('Visible on shop')
+                        ->helperText('If off, this product will be hidden from the shop.')
+                        ->columnSpan('full')
+                        ->default(false),
+                    Forms\Components\TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('slogan')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('meta_description')
+                        ->required()
+                        ->columnSpan('full')
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('short_description')
+                        ->required()
+                        ->columnSpan('full'),
+                    Forms\Components\MarkdownEditor::make('description')
+                        ->required()
+                        ->columnSpan('full'),
+                ])->columns(2),
+
+                Forms\Components\Section::make('Pricing')
+                    ->schema([
+                        Forms\Components\TextInput::make('price')
+                            ->numeric()
+                            ->required(),
+                        Forms\Components\TextInput::make('price_with_discount')
+                            ->numeric(),
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric(),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Category')
+                    ->schema([
+                        Forms\Components\Select::make('category_id')
+                            ->required()
+                            ->relationship('category', 'name'),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Images')
+                    ->schema([
+                        Forms\Components\FileUpload::make('main-image')
+                            ->required()
+                            ->reorderable()
+                            ->moveFiles()
+                            ->orientImagesFromExif(false)
+                            ->directory('product-images')
+                            ->helperText('Product main image'),
+                        Forms\Components\FileUpload::make('images')
+                            ->multiple()
+                            ->required()
+                            ->reorderable()
+                            ->moveFiles()
+                            ->orientImagesFromExif(false)
+                            ->directory('product-images')
+                            ->helperText('Product additional images'),
+                    ])->columns(2),
             ]);
     }
 
