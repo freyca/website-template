@@ -35,8 +35,8 @@ class ProductFactory extends Factory
             'category_id' => Category::inRandomOrder()->first()->id,
             'main_image' => '/storage/product-images/1dcdcbdccdafab10080b9ae4365e4d18.png',
             'images' => [
-                '/storage/product-images/sample-image.png',
-                '/storage/product-images/sample-image.png',
+                'product-images/sample-image.png',
+                'product-images/sample-image.png',
             ],
         ];
     }
