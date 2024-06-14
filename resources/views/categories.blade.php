@@ -12,7 +12,7 @@
         @foreach ( $categories as $category )
         <div class="w-full max-w-xs" style="border: 4px solid black">
             <a href="{{$category->name}}">
-                <img src="{{@asset($category->big_image)}}" style="max-height: 200px" />
+                <img src="{{@asset('/storage/' . $category->big_image)}}" style="max-height: 200px" />
                 <h2 class="text-2xl font-bold"> {{$category->name}} </h2>
             </a>
             <p>{{$category->slogan}}</p>

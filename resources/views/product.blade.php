@@ -7,9 +7,9 @@
 @section('main-content')
     <div class="container mx-auto">
         {{-- Aqui necesitamos hacer una galeria de imagenes --}}
-        <img src="{{$product->main_image}}">
+        <img src="{{@asset('/storage/' . $product->main_image)}}">
         @foreach ( $product->images as $productImage )
-            <img src="{{$productImage}}">
+            <img src="{{@asset('/storage/' . $productImage)}}">
         @endforeach
         <h1>{{$product->name}}</h1>
         @if ($product->price_with_discount)
