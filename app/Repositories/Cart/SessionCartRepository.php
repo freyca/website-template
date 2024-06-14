@@ -28,13 +28,10 @@ class SessionCartRepository implements CartRepositoryInterface
         $cart = $this->getCart();
 
         if ($cart->has($product->name)) {
-            /** @var array<string, BaseProduct|int> */
             $sessionProduct = $cart->get($product->name);
-            if (array_key_exists('quantity', $sessionProduct)) {
-                /** @var int */
-                $oldQuantity = $sessionProduct['quantity'];
-                $oldQuantity += $quantity;
-            }
+            $oldQuantity = data_get($sessionProduct, 'quantity');
+            data_set($sessionProduct, 'quantity', $oldQuantity + $quantity);
+            $cart->put($product->name, $sessionProduct);
         } else {
             $cart->put($product->name, [
                 'product' => $product,
@@ -58,8 +55,8 @@ class SessionCartRepository implements CartRepositoryInterface
             }
 
             $productInCart = $cart->get($product->name);
-            /** @phpstan-ignore-next-line */
-            $productInCart['quantity']++;
+            $oldQuantity = data_get($productInCart, 'quantity');
+            data_set($productInCart, 'quantity', $oldQuantity + 1);
             $cart->put($product->name, $productInCart);
             $this->updateCart($cart);
         }
@@ -71,8 +68,8 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has($product->name)) {
             $productInCart = $cart->get($product->name);
-            /** @phpstan-ignore-next-line */
-            $productInCart['quantity']--;
+            $oldQuantity = data_get($productInCart, 'quantity');
+            data_set($productInCart, 'quantity', $oldQuantity - 1);
             $cart->put($product->name, $productInCart);
             $this->updateCart($cart);
 
