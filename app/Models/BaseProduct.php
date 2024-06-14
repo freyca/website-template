@@ -37,4 +37,12 @@ abstract class BaseProduct extends Model
     {
         return $this->belongsToMany(Order::class);
     }
+
+    /**
+     * @return BelongsToMany<ProductFeature>
+     */
+    public function productFeatures(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductFeature::class);
+    }
 }

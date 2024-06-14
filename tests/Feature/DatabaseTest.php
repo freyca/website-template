@@ -7,6 +7,7 @@ use App\Models\OrderProductComplement;
 use App\Models\OrderProductSparePart;
 use App\Models\Product;
 use App\Models\ProductComplement;
+use App\Models\ProductFeature;
 use App\Models\ProductSparePart;
 use App\Models\User;
 use App\Models\UserMetadata;
@@ -22,6 +23,7 @@ test('db has correct items after been seeded', function () {
     expect(ProductSparePart::count())->toBe(0);
     expect(User::count())->toBe(0);
     expect(UserMetadata::count())->toBe(0);
+    expect(ProductFeature::count())->toBe(0);
 
     $this->seed();
 
@@ -35,4 +37,5 @@ test('db has correct items after been seeded', function () {
     expect(ProductSparePart::count())->toBe(50);
     expect(User::count())->toBe(11);
     expect(UserMetadata::count())->toBe(10);
+    expect(ProductFeature::count())->toBe(300);
 });

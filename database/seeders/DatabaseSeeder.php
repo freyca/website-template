@@ -10,6 +10,7 @@ use App\Models\OrderProductComplement;
 use App\Models\OrderProductSparePart;
 use App\Models\Product;
 use App\Models\ProductComplement;
+use App\Models\ProductFeature;
 use App\Models\ProductSparePart;
 use App\Models\User;
 use App\Models\UserMetadata;
@@ -32,10 +33,30 @@ class DatabaseSeeder extends Seeder
         Category::factory(5)
             ->has(
                 Product::factory(10)
-                    ->has(ProductSparePart::factory(1))
-                    ->has(ProductComplement::factory(1))
+                    ->has(ProductFeature::factory(2))
+                    ->has(ProductSparePart::factory(1)
+                        ->has(ProductFeature::factory(2)))
+                    ->has(
+                        ProductComplement::factory(1)->has(
+                            ProductFeature::factory(2)
+                        )
+                    )
             )
             ->create();
+
+        ProductFeature::all()->each(function (ProductFeature $productFeature) {
+            $productFeature->products()->attach(
+                Product::inRandomOrder()->limit(2)->pluck('id')->toArray()
+            );
+
+            $productFeature->products()->attach(
+                ProductSparePart::inRandomOrder()->limit(2)->pluck('id')->toArray()
+            );
+
+            $productFeature->products()->attach(
+                ProductComplement::inRandomOrder()->limit(2)->pluck('id')->toArray()
+            );
+        });
 
         User::factory(10)
             ->has(UserMetadata::factory(1))

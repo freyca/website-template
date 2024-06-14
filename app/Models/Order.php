@@ -62,15 +62,14 @@ class Order extends Model
         return $this->hasMany(OrderProductComplement::class);
     }
 
-    public function allPurchasedItems(): self
+    public static function allPurchasedItems(int $id): ?self
     {
-        /** @var Order */
-        return $this::with(
+        return self::with(
             [
                 'orderProducts',
                 'orderProductSpareParts',
                 'orderProductComplements',
             ]
-        )->find($this->id);
+        )->find($id);
     }
 }
