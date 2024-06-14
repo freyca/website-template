@@ -158,8 +158,7 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->columns([
                 'md' => 10,
-            ])
-            ->required();
+            ]);
     }
 
     public static function getProductComplementsRepeater(): Repeater
@@ -219,8 +218,7 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->columns([
                 'md' => 10,
-            ])
-            ->required();
+            ]);
     }
 
     public static function getProductSparePartsRepeater(): Repeater
@@ -280,7 +278,6 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->columns([
                 'md' => 10,
-            ])
-            ->required();
+            ]);
     }
 }

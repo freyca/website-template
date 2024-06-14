@@ -15,4 +15,10 @@ class OrderProduct extends Model
      * @var string
      */
     protected $table = 'order_product';
+
+    protected $fillable = [
+        'product_id',
+        'unit_price',
+        'quantity',
+    ];
 }
