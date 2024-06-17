@@ -7,10 +7,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
+use App\Repositories\Product\Product\ProductRepositoryInterface;
+use App\Repositories\Product\ProductComplement\ProductComplementRepositoryInterface;
+use App\Repositories\Product\ProductSparePart\ProductSparePartRepositoryInterface;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private ProductRepositoryInterface $productRepository,
+        private ProductComplementRepositoryInterface $productComplementRepository,
+        private ProductSparePartRepositoryInterface $productSparePartRepository,
+    ) {
+    }
+
     /**
      * Products
      */
@@ -19,7 +29,7 @@ class ProductController extends Controller
         return view(
             'products',
             [
-                'products' => Product::where('published', true)->get(),
+                'products' => $this->productRepository->getAll(),
             ]
         );
     }
@@ -37,7 +47,7 @@ class ProductController extends Controller
         return view(
             'products',
             [
-                'products' => ProductComplement::where('published', true)->get(),
+                'products' => $this->productComplementRepository->getAll(),
             ]
         );
     }
@@ -55,7 +65,7 @@ class ProductController extends Controller
         return view(
             'products',
             [
-                'products' => ProductSparePart::where('published', true)->get(),
+                'products' => $this->productSparePartRepository->getAll(),
             ]
         );
     }

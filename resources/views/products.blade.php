@@ -5,7 +5,7 @@
 @section('main-content')
 <div class="container mx-auto">
     <h1 class="text-3xl font-bold m-10">
-        Categories
+        Products
     </h1>
 
     <div class="mt-10">

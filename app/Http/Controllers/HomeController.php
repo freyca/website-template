@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Product;
+use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Product\Product\ProductRepositoryInterface;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
+    public function __construct(
+        private CategoryRepositoryInterface $categoryRepository,
+        private ProductRepositoryInterface $productRepository,
+    ) {
+    }
+
     public function index(): View
     {
-        $featured_categories = config('custom.featured-categories');
-        $categories = Category::whereIn('id', $featured_categories)->get();
-
-        $featured_products = config('custom.featured-products');
-        $products = Product::whereIn('id', $featured_products)->get();
+        $categories = $this->categoryRepository->featured();
+        $products = $this->productRepository->featured();
 
         return view(
             'index',

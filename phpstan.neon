@@ -14,6 +14,9 @@ parameters:
         -
             message: '#Undefined variable: \$this#'
             path: tests/*
+        -
+            message: '#Method App\\Repositories\\Product\\BaseProductRepositoryInterface#'
+            path: app/Repositories/Product/BaseProductRepositoryInterface.php
 #
 #    excludePaths:
 #       -
