@@ -62,6 +62,16 @@ class ProductSparePartResource extends Resource
                             ->numeric(),
                     ])->columns(3),
 
+                Forms\Components\Section::make('Features')
+                    ->schema([
+                        Forms\Components\Select::make('Features')
+                            ->multiple()
+                            ->relationship('productFeatures', 'name')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2)
+                    ->columnSpan(1),
+
                 Forms\Components\Section::make('Images')
                     ->schema([
                         Forms\Components\FileUpload::make('main_image')

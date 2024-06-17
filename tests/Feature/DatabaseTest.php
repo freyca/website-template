@@ -37,5 +37,5 @@ test('db has correct items after been seeded', function () {
     expect(ProductSparePart::count())->toBe(50);
     expect(User::count())->toBe(11);
     expect(UserMetadata::count())->toBe(10);
-    expect(ProductFeature::count())->toBe(300);
+    expect(ProductFeature::count())->toBe(10);
 });

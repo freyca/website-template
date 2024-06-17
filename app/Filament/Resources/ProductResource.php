@@ -67,7 +67,19 @@ class ProductResource extends Resource
                         Forms\Components\Select::make('category_id')
                             ->required()
                             ->relationship('category', 'name'),
-                    ])->columns(2),
+                    ])
+                    ->columns(2)
+                    ->columnSpan(1),
+
+                Forms\Components\Section::make('Features')
+                    ->schema([
+                        Forms\Components\Select::make('features')
+                            ->multiple()
+                            ->relationship('productFeatures', 'name')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2)
+                    ->columnSpan(1),
 
                 Forms\Components\Section::make('Images')
                     ->schema([

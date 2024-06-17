@@ -33,28 +33,28 @@ class DatabaseSeeder extends Seeder
         Category::factory(5)
             ->has(
                 Product::factory(10)
-                    ->has(ProductFeature::factory(2))
-                    ->has(ProductSparePart::factory(1)
-                        ->has(ProductFeature::factory(2)))
-                    ->has(
-                        ProductComplement::factory(1)->has(
-                            ProductFeature::factory(2)
-                        )
-                    )
+                    ->has(ProductSparePart::factory(1))
+                    ->has(ProductComplement::factory(1))
             )
             ->create();
 
-        ProductFeature::all()->each(function (ProductFeature $productFeature) {
-            $productFeature->products()->attach(
-                Product::inRandomOrder()->limit(2)->pluck('id')->toArray()
-            );
+        ProductFeature::factory(10)->create();
 
-            $productFeature->products()->attach(
-                ProductSparePart::inRandomOrder()->limit(2)->pluck('id')->toArray()
+        Product::all()->each(function (Product $product) {
+            $product->productFeatures()->attach(
+                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
             );
+        });
 
-            $productFeature->products()->attach(
-                ProductComplement::inRandomOrder()->limit(2)->pluck('id')->toArray()
+        ProductSparePart::all()->each(function (ProductSparePart $product) {
+            $product->productFeatures()->attach(
+                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
+            );
+        });
+
+        ProductComplement::all()->each(function (ProductComplement $product) {
+            $product->productFeatures()->attach(
+                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
             );
         });
 
