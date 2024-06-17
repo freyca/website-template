@@ -36,7 +36,15 @@ class ProductController extends Controller
 
     public function product(Product $product): View
     {
-        return view('product', ['product' => $product]);
+        $features = $product->productFeatures;
+
+        return view(
+            'product',
+            [
+                'product' => $product,
+                'features' => $features,
+            ]
+        );
     }
 
     /**
@@ -54,7 +62,15 @@ class ProductController extends Controller
 
     public function productComplement(ProductComplement $productComplement): View
     {
-        return view('product', ['product' => $productComplement]);
+        $features = $productComplement->productFeatures;
+
+        return view(
+            'product',
+            [
+                'product' => $productComplement,
+                'features' => $features,
+            ]
+        );
     }
 
     /**
@@ -72,6 +88,14 @@ class ProductController extends Controller
 
     public function ProductSparePart(ProductSparePart $productSparePart): View
     {
-        return view('product', ['product' => $productSparePart]);
+        $features = $productSparePart->productFeatures;
+
+        return view(
+            'product',
+            [
+                'product' => $productSparePart,
+                'features' => $features,
+            ]
+        );
     }
 }
