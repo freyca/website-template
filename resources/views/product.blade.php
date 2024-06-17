@@ -12,7 +12,7 @@
             <img src="{{@asset('/storage/' . $productImage)}}">
         @endforeach
 
-        <h1>{{$product->name}}</h1>
+        <h1 class="font-bold">{{$product->name}}</h1>
 
         @if ($product->price_with_discount)
             {{-- Tachamos el precio anterior y lo mostramos con descuento --}}
@@ -22,14 +22,16 @@
             <span {{$product->price}}</span>
         @endif
 
-        <p>{{$product->slogan}}</p>
-        <span>{{$product->description}}</span>
+        <p class="py-2">{{$product->slogan}}</p>
+        <br/>
+        <p>{{$product->description}}</p>
+        <br/>
 
         @if (count($features) > 0)
-            <h3>Features</h3>
+            <h3 class="py-2 font-bold text-lg">Features</h3>
             <br/>
             @foreach ( $features as $feature )
-                <p>{{$feature->name}}</p>
+                <p class="font-bold">{{$feature->name}}</p>
                 <p>{{$feature->description}}</p>
                 <br/>
             @endforeach

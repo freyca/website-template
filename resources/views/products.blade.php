@@ -8,9 +8,9 @@
         Products
     </h1>
 
-    <div class="mt-10">
+    <div class="columns-3">
         @foreach ( $products as $product )
-        <div class="w-full max-w-xs" style="border: 4px solid black">
+        <div class="md:container md:mx-auto" style="border: 4px solid black">
             @php
                 $path = match (true) {
                     get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',

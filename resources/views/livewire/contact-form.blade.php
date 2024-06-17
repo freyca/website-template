@@ -1,3 +1,5 @@
+@section('title', 'Contacta con nosotros')
+
 <div class="grid grid-cols-5">
     <span></span>
     <form wire:submit="save" class="col-span-3 py-10" method="post">

@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    @include('layouts.head')
+    @include('partials.head')
 </head>
 
 <body>
@@ -16,7 +16,7 @@
         {{ $slot }}
     @endisset
 
-    @include('layouts.footer')
+    @include('partials.footer')
 </body>
 
 </html>

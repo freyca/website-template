@@ -10,7 +10,7 @@
             Categories
         </h2>
 
-        <div class="mt-10">
+        <div class="mt-10 columns-3">
             <div class="w-full max-w-xs" style="border: 4px solid black">
                 @foreach ($categories as $category )
                     <div class="w-full max-w-xs" style="border: 4px solid black">
@@ -30,7 +30,7 @@
             Products
         </h2>
 
-        <div class="mt-10">
+        <div class="mt-10 columns-3">
             <div class="w-full max-w-xs" style="border: 4px solid black">
                 @foreach ( $products as $product )
                     <div class="w-full max-w-xs" style="border: 4px solid black">
