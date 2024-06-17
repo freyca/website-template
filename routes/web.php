@@ -41,9 +41,11 @@ Route::middleware('frontend')->group(function () {
 
     /** Products */
     Route::get('/productos', [ProductController::class, 'all']);
-    Route::get('/complementos-producto', [ProductController::class, 'components']);
+    Route::get('producto/{product:name}', [ProductController::class, 'product']);
+    Route::get('/complementos-producto', [ProductController::class, 'complements']);
+    Route::get('complemento/{productComplement:name}', [ProductController::class, 'productComplement']);
     Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts']);
-    Route::get('producto/{product:name}', [ProductController::class, 'index']);
+    Route::get('pieza-de-repuesto/{productSparePart:name}', [ProductController::class, 'productSparePart']);
 
     /** Seo URL's */
     Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas']);

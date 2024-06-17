@@ -11,11 +11,9 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(Product $product): View
-    {
-        return view('product', ['product' => $product]);
-    }
-
+    /**
+     * Products
+     */
     public function all(): View
     {
         return view(
@@ -26,7 +24,15 @@ class ProductController extends Controller
         );
     }
 
-    public function components(): View
+    public function product(Product $product): View
+    {
+        return view('product', ['product' => $product]);
+    }
+
+    /**
+     * Complements
+     */
+    public function complements(): View
     {
         return view(
             'products',
@@ -36,6 +42,14 @@ class ProductController extends Controller
         );
     }
 
+    public function productComplement(ProductComplement $productComplement): View
+    {
+        return view('product', ['product' => $productComplement]);
+    }
+
+    /**
+     * Spare parts
+     */
     public function spareParts(): View
     {
         return view(
@@ -44,5 +58,10 @@ class ProductController extends Controller
                 'products' => ProductSparePart::where('published', true)->get(),
             ]
         );
+    }
+
+    public function ProductSparePart(ProductSparePart $productSparePart): View
+    {
+        return view('product', ['product' => $productSparePart]);
     }
 }
