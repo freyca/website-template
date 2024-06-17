@@ -1,8 +1,17 @@
+# Requirements
+ - php8.2+
+ - node20
+ - npm10
+
 # Deploy
  - composer install
+ - npm install
  - npm run build
  - php artisan key:generate
  - php artisan storage:link
+ - Ensure dirs exists
+   - public/storage/product-images
+   - public/storage/category-images
 
  # TODO:
   - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation

@@ -11,7 +11,7 @@
         {{ $category->description }}
     </x-markdown>
 
-    <div class="mt-10">
+    <div class="mt-10 columns-3">
         @foreach ( $products as $product )
         <div class="w-full max-w-xs" style="border: 4px solid black">
             <a href="/producto/{{$product->name}}">
