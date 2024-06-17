@@ -33,8 +33,10 @@ class UserResource extends Resource
                         ->options(Roles::class),
                     Forms\Components\TextInput::make('name')
                         ->required()
-                        ->label('Name')
-                        ->columnSpan('full'),
+                        ->label('Name'),
+                    Forms\Components\TextInput::make('surname')
+                        ->required()
+                        ->label('Surname'),
                     Forms\Components\TextInput::make('email')
                         ->required()
                         ->email(),
