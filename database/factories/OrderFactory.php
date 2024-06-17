@@ -32,7 +32,7 @@ class OrderFactory extends Factory
         $payment_methods = [];
 
         foreach (PaymentMethods::cases() as $case) {
-            array_push($payment_methods, $case->name);
+            array_push($payment_methods, $case->value);
         }
 
         return fake()->randomElement($payment_methods);

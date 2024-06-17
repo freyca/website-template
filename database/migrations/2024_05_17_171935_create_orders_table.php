@@ -16,7 +16,7 @@ return new class extends Migration
         $payment_methods = [];
 
         foreach (PaymentMethods::cases() as $case) {
-            array_push($payment_methods, $case->name);
+            array_push($payment_methods, $case->value);
         }
 
         $order_status = [];
@@ -28,7 +28,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
             $table->id();
             $table->float('purchase_cost');
-            $table->enum('payment_method', $payment_methods)->default(PaymentMethods::bank_transfer->name);
+            $table->enum('payment_method', $payment_methods)->default(PaymentMethods::BankTransfer->value);
             $table->enum('status', $order_status)->default(OrderStatus::New->value);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

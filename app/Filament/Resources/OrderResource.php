@@ -34,9 +34,10 @@ class OrderResource extends Resource
                         ->required()
                         ->relationship('user', 'name')
                         ->label('Customer'),
-                    Forms\Components\Select::make('payment_method')
-                        ->required()
-                        ->options(PaymentMethods::class),
+                    Forms\Components\ToggleButtons::make('payment_method')
+                        ->inline()
+                        ->options(PaymentMethods::class)
+                        ->required(),
                     Forms\Components\TextInput::make('purchase_cost')
                         ->label('Price')
                         ->required()
@@ -74,6 +75,8 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->sortable()
                     ->badge(),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->date()
