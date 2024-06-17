@@ -22,14 +22,18 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slogan')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required(),
+                Forms\Components\Section::make([
+                    Forms\Components\TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('slogan')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\MarkdownEditor::make('description')
+                        ->required()
+                        ->columnSpanFull(),
+                ])->columns(2),
+
                 Forms\Components\FileUpload::make('big_image')
                     ->required()
                     ->moveFiles()

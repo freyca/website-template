@@ -6,7 +6,10 @@
     <div class="container mx-auto">
     <img src="{{@asset('/storage/' . $category->big_image)}}">
     <p class="text-3xl font-bold">{{$category->name}}</p>
-    <p>{{$category->description}}</p>
+
+    <x-markdown>
+        {{ $category->description }}
+    </x-markdown>
 
     <div class="mt-10">
         @foreach ( $products as $product )
