@@ -31,7 +31,11 @@ class CategoryResource extends Resource
                         ->maxLength(255),
                     Forms\Components\MarkdownEditor::make('description')
                         ->required()
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->disableToolbarButtons([
+                            'attachFiles',
+                            'table',
+                        ]),
                 ])->columns(2),
 
                 Forms\Components\FileUpload::make('big_image')
