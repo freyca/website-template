@@ -31,6 +31,8 @@ class ProductComplementResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
+                    Forms\Components\TextInput::make('slug')
+                        ->disabled(),
                     Forms\Components\TextInput::make('slogan')
                         ->required()
                         ->maxLength(255),

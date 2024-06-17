@@ -11,6 +11,7 @@ class ProductComplement extends BaseProduct
 {
     protected $fillable = [
         'name',
+        'slug',
         'price',
         'price_with_discount',
         'price_when_user_owns_product',

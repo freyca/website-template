@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->float('price');
             $table->float('price_with_discount')->nullable();
             $table->boolean('published')->default(false)->index();

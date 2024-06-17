@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_spare_parts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->float('price');
             $table->float('price_with_discount')->nullable();
             $table->float('price_when_user_owns_product');

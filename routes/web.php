@@ -40,16 +40,16 @@ Route::middleware('frontend')->group(function () {
 
     /** Products */
     Route::get('/productos', [ProductController::class, 'all']);
-    Route::get('producto/{product:name}', [ProductController::class, 'product']);
+    Route::get('producto/{product}', [ProductController::class, 'product']);
     Route::get('/complementos-producto', [ProductController::class, 'complements']);
-    Route::get('complemento/{productComplement:name}', [ProductController::class, 'productComplement']);
+    Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement']);
     Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts']);
-    Route::get('pieza-de-repuesto/{productSparePart:name}', [ProductController::class, 'productSparePart']);
+    Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart']);
 
     /** Seo URL's */
     Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas']);
 
     /** Categories */
     Route::get('categorias', [CategoryController::class, 'index']);
-    Route::get('{category:name}', [CategoryController::class, 'category']);
+    Route::get('{category}', [CategoryController::class, 'category']);
 });

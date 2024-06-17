@@ -19,7 +19,7 @@
                 };
             @endphp
 
-            <a href="{{$path}}/{{$product->name}}">
+            <a href="{{$path}}/{{$product->slug}}">
                 <img src="{{@asset('/storage/' . $product->main_image)}}" style="max-height: 200px" />
                 <h2 class="text-2xl font-bold"> {{$product->name}} </h2>
             </a>

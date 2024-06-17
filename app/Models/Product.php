@@ -22,6 +22,7 @@ class Product extends BaseProduct
 
     protected $fillable = [
         'name',
+        'slug',
         'price',
         'price_with_discount',
         'published',

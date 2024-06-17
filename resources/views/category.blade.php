@@ -14,7 +14,7 @@
     <div class="mt-10 columns-3">
         @foreach ( $products as $product )
         <div class="w-full max-w-xs" style="border: 4px solid black">
-            <a href="/producto/{{$product->name}}">
+            <a href="/producto/{{$product->slug}}">
                 <img src="{{@asset('/storage/' . $product->main_image)}}" style="max-height: 200px" />
                 <h2 class="text-2xl font-bold"> {{$product->name}} </h2>
             </a>
