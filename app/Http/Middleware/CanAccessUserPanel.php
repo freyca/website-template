@@ -24,7 +24,7 @@ class CanAccessUserPanel
 
         return match (true) {
             $user === null => $next($request),
-            $user->role === Roles::admin => redirect('/admin'),
+            $user->role === Roles::Admin => redirect('/admin'),
             default => $next($request),
         };
     }

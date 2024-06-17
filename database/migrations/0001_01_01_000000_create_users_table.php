@@ -15,7 +15,7 @@ return new class extends Migration
         $roles = [];
 
         foreach (Roles::cases() as $case) {
-            array_push($roles, $case->name);
+            array_push($roles, $case->value);
         }
 
         Schema::create('users', function (Blueprint $table) use ($roles) {
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', $roles)->default(Roles::customer->name);
+            $table->enum('role', $roles)->default(Roles::Customer->value);
             $table->rememberToken();
             $table->timestamps();
         });

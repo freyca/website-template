@@ -63,10 +63,11 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('surname'),
                 Tables\Columns\TextColumn::make('email'),
-                //Tables\Columns\TextColumn::make('role')
-                //    ->sortable()
-                //    ->badge(),
+                Tables\Columns\TextColumn::make('role')
+                    ->sortable()
+                    ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->date()

@@ -24,7 +24,7 @@ class AuthorizedToAdminPanel
 
         return match (true) {
             $user === null => $next($request),
-            $user->role !== Roles::admin => redirect('/user'),
+            $user->role !== Roles::Admin => redirect('/user'),
             default => $next($request),
         };
     }

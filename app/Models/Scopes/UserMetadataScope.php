@@ -24,7 +24,7 @@ class UserMetadataScope implements Scope
 
         match (true) {
             $user === null => true,
-            $user->role === Roles::admin => true,
+            $user->role === Roles::Admin => true,
             default => $builder->where('user_id', $user->id),
         };
     }
