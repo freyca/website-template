@@ -43,7 +43,11 @@ class ProductResource extends Resource
                         ->columnSpan('full'),
                     Forms\Components\MarkdownEditor::make('description')
                         ->required()
-                        ->columnSpan('full'),
+                        ->columnSpan('full')
+                        ->disableToolbarButtons([
+                            'attachFiles',
+                            'table',
+                        ]),
                 ])->columns(2),
 
                 Forms\Components\Section::make('Pricing')
@@ -62,7 +66,7 @@ class ProductResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('category_id')
                             ->required()
-                            ->relationship('category', 'name'),
+                            ->relationship('productCategory', 'name'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Images')
