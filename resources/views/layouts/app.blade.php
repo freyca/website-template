@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    @include('layouts.navbar')
+    @include('partials.navbar')
 
     <div>
         @yield('main-content')

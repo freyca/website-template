@@ -22,9 +22,9 @@ return [
      * Categories to show in the main page after banner
      */
     'featured-categories' => [
-        'cortacésped',
-        'motosierras',
-        'desbrozadoras',
+        1,
+        5,
+        2,
     ],
 
     /**
@@ -32,7 +32,13 @@ return [
      * If the array is empty, it will 15 products Products table
      * TODO: criteria to show products
      */
-    'featured-products' => [],
+    'featured-products' => [
+        3,
+        4,
+        5,
+        6,
+        7,
+    ],
 
     /**
      * Directory to save product images
