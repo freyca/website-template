@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum PaymentMethods
+enum PaymentMethods: string
 {
-    case bank_transfer;
-    case card;
+    case Bank_transfer = 'Bank transfer';
+    case Card = 'Card';
 }
