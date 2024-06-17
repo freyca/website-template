@@ -11,11 +11,11 @@ return [
      */
     'nav-sections' => [
         'categorías' => '/categorias',
-        'contacto' => '/contacto',
-        'sobre Nosotros' => '/sobre-nosotros',
         'productos' => '/productos',
         'complementos de producto' => '/complementos-producto',
         'piezas de repuesto' => '/piezas-de-repuesto',
+        'contacto' => '/contacto',
+        'sobre Nosotros' => '/sobre-nosotros',
     ],
 
     /**
