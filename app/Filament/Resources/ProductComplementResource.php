@@ -6,6 +6,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductComplementResource\Pages;
 use App\Models\ProductComplement;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -21,7 +22,64 @@ class ProductComplementResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Toggle::make('published')
+                        ->label('Visible on shop')
+                        ->helperText('If off, this product will be hidden from the shop.')
+                        ->columnSpan('full')
+                        ->default(false),
+                    Forms\Components\TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('slogan')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('meta_description')
+                        ->required()
+                        ->columnSpan('full')
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('short_description')
+                        ->required()
+                        ->columnSpan('full'),
+                    Forms\Components\MarkdownEditor::make('description')
+                        ->required()
+                        ->columnSpan('full')
+                        ->disableToolbarButtons([
+                            'attachFiles',
+                            'table',
+                        ]),
+                ])->columns(2),
+
+                Forms\Components\Section::make('Pricing')
+                    ->schema([
+                        Forms\Components\TextInput::make('price')
+                            ->numeric()
+                            ->required(),
+                        Forms\Components\TextInput::make('price_with_discount')
+                            ->numeric(),
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric(),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Images')
+                    ->schema([
+                        Forms\Components\FileUpload::make('main_image')
+                            ->required()
+                            ->reorderable()
+                            ->moveFiles()
+                            ->orientImagesFromExif(false)
+                            ->directory('product-images')
+                            ->helperText('Product main image'),
+                        Forms\Components\FileUpload::make('images')
+                            ->multiple()
+                            ->required()
+                            ->reorderable()
+                            ->moveFiles()
+                            ->orientImagesFromExif(false)
+                            ->directory('product-images')
+                            ->helperText('Product additional images'),
+                    ])->columns(2),
             ]);
     }
 
@@ -29,7 +87,11 @@ class ProductComplementResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('price')->badge(),
+                Tables\Columns\TextColumn::make('price_with_discount')->badge(),
+                Tables\Columns\IconColumn::make('published')->boolean(),
+                Tables\Columns\TextColumn::make('stock'),
             ])
             ->filters([
                 //

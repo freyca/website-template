@@ -66,12 +66,12 @@ class ProductResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('category_id')
                             ->required()
-                            ->relationship('productCategory', 'name'),
+                            ->relationship('category', 'name'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Images')
                     ->schema([
-                        Forms\Components\FileUpload::make('main-image')
+                        Forms\Components\FileUpload::make('main_image')
                             ->required()
                             ->reorderable()
                             ->moveFiles()

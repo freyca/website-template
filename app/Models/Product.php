@@ -38,7 +38,7 @@ class Product extends BaseProduct
     /**
      * @return BelongsTo<Category, Product>
      */
-    public function productCategory(): BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
