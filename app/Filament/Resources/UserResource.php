@@ -26,11 +26,12 @@ class UserResource extends Resource
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('id')
                         ->disabled()
-                        ->label('ID'),
-                    Forms\Components\ToggleButtons::make('role')
-                        ->inline()
-                        ->required()
-                        ->options(Roles::class),
+                        ->label('ID')
+                        ->columnSpanFull(),
+                    //Forms\Components\ToggleButtons::make('role')
+                    //    ->inline()
+                    //    ->required()
+                    //    ->options(Roles::class),
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->label('Name'),
@@ -48,10 +49,13 @@ class UserResource extends Resource
                     Forms\Components\Fieldset::make('userMetadata')
                         ->relationship('userMetadata')
                         ->schema([
-                            Forms\Components\TextInput::make('address'),
-                            Forms\Components\TextInput::make('city'),
+                            Forms\Components\TextInput::make('address')
+                                ->required(),
+                            Forms\Components\TextInput::make('city')
+                                ->required(),
                             Forms\Components\TextInput::make('postal_code')
-                                ->numeric(),
+                                ->numeric()
+                                ->required(),
                         ]),
                 ]),
 

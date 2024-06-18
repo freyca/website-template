@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\User\Pages\Auth\Register;
 use App\Http\Middleware\CanAccessUserPanel;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,7 +30,7 @@ class UserPanelProvider extends PanelProvider
             ->id('user')
             ->path('user')
             ->login()
-            ->registration()
+            ->registration(Register::class)
             ->colors([
                 'primary' => Color::Stone,
             ])
