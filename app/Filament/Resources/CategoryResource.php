@@ -31,7 +31,7 @@ class CategoryResource extends Resource
                     Forms\Components\TextInput::make('slogan')
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\MarkdownEditor::make('description')
+                    Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpanFull()
                         ->disableToolbarButtons([

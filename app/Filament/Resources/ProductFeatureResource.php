@@ -26,7 +26,7 @@ class ProductFeatureResource extends Resource
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\MarkdownEditor::make('description')
+                    Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([

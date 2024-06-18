@@ -2,7 +2,7 @@
 @inject(cart, '\App\Services\Cart')
 
 @section('title', config('custom.title'))
-@section('description', $product->short_description)
+@section('meta-description', $product->meta_description)
 
 @section('main-content')
     <div class="container mx-auto">
@@ -24,7 +24,7 @@
 
         <p class="py-2">{{$product->slogan}}</p>
         <br/>
-        <p>{{$product->description}}</p>
+        <p>{!! $product->description !!}</p>
         <br/>
 
         @if (count($features) > 0)
@@ -32,7 +32,7 @@
             <br/>
             @foreach ( $features as $feature )
                 <p class="font-bold">{{$feature->name}}</p>
-                <p>{{$feature->description}}</p>
+                <p>{!! $feature->description !!}</p>
                 <br/>
             @endforeach
         @endif

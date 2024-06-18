@@ -40,10 +40,14 @@ class ProductResource extends Resource
                         ->required()
                         ->columnSpan('full')
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('short_description')
+                    Forms\Components\RichEditor::make('short_description')
                         ->required()
-                        ->columnSpan('full'),
-                    Forms\Components\MarkdownEditor::make('description')
+                        ->columnSpan('full')
+                        ->disableToolbarButtons([
+                            'attachFiles',
+                            'table',
+                        ]),
+                    Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([

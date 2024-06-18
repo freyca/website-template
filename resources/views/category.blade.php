@@ -7,9 +7,7 @@
     <img src="{{@asset('/storage/' . $category->big_image)}}">
     <p class="text-3xl font-bold">{{$category->name}}</p>
 
-    <x-markdown>
-        {{ $category->description }}
-    </x-markdown>
+    {!! $category->description !!}
 
     <div class="mt-10 columns-3">
         @foreach ( $products as $product )
