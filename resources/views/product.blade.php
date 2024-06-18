@@ -22,6 +22,9 @@
             <span {{$product->price}}</span>
         @endif
 
+        @livewire('add-to-cart', ['product' => $product])
+        @livewire('remove-from-cart', ['product' => $product])
+
         <p class="py-2">{{$product->slogan}}</p>
         <br/>
         <p>{!! $product->description !!}</p>
