@@ -19,7 +19,7 @@
             <span class="line-through">{{$product->price}} €</span>
             <span>{{$product->price_with_discount}} €</span>
         @else
-            <span {{$product->price}}</span>
+            <span> {{$product->price}} €</span>
         @endif
 
         @livewire('add-to-cart', ['product' => $product])

@@ -93,8 +93,10 @@ class SessionCartRepository implements CartRepositoryInterface
         $cart = $this->getCart();
 
         if ($cart->has($product->name)) {
+            $productInCart = $cart->get($product->name);
+
             /** @var int */
-            return data_get($product->name, 'quantity');
+            return data_get($productInCart, 'quantity');
         }
 
         return 0;
@@ -107,7 +109,8 @@ class SessionCartRepository implements CartRepositoryInterface
         $total = 0;
 
         if ($cart->has($product->name)) {
-            $total = data_get($cart->get($product->name), 'quantity') * $product->price;
+            $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
+            $total = data_get($cart->get($product->name), 'quantity') * $price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -127,7 +130,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         /** @var float */
         $total = $cart->sum(function ($item) {
-            return data_get($item, 'quantity') * data_get($item, 'product.price');
+            $price = ! is_null(data_get($item, 'product.price_with_discount')) ? data_get($item, 'price_with_discount') : data_get($item, 'price');
+
+            return data_get($item, 'quantity') * $price;
         });
 
         return $formatted ? $this->formatCurrency($total) : $total;

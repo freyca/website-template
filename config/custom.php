@@ -15,7 +15,8 @@ return [
         'complementos de producto' => '/complementos-producto',
         'piezas de repuesto' => '/piezas-de-repuesto',
         'contacto' => '/contacto',
-        'sobre Nosotros' => '/sobre-nosotros',
+        'sobre nosotros' => '/sobre-nosotros',
+        'carrito' => '/carrito',
     ],
 
     /**
