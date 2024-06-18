@@ -10,11 +10,11 @@ use Livewire\Component;
 
 class ContactForm extends Component
 {
-    public string $name;
+    public string $name = '';
 
-    public string $email;
+    public string $email = '';
 
-    public string $message;
+    public string $message = '';
 
     /**
      * @var array<string, string>
@@ -39,5 +39,7 @@ class ContactForm extends Component
         $this->reset();
 
         session()->flash('message', 'Your message will be replied soon.');
+
+        $this->redirect('/contacto');
     }
 }

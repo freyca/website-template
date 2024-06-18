@@ -12,10 +12,6 @@
         @yield('main-content')
     </div>
 
-    @isset($slot)
-        {{ $slot }}
-    @endisset
-
     @include('partials.footer')
 </body>
 

@@ -20,8 +20,8 @@ class SendContactFormEmail implements ShouldQueue
     public function __construct(array $form_params)
     {
         foreach ($form_params as $key => $value) {
-            echo $key;
-            echo $value;
+            // echo $key;
+            // echo $value;
         }
     }
 
