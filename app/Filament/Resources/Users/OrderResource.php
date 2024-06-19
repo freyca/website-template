@@ -25,7 +25,9 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
+
+    protected static ?string $navigationGroup = 'Users';
 
     public static function form(Form $form): Form
     {
@@ -306,5 +308,13 @@ class OrderResource extends Resource
             ->columns([
                 'md' => 10,
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        /** @var Order */
+        $modelClass = static::$model;
+
+        return (string) $modelClass::where('status', OrderStatus::New)->count();
     }
 }

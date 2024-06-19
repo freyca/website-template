@@ -25,15 +25,15 @@ enum PaymentMethods: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::BankTransfer => 'info',
-            self::Card => 'warning',
+            self::Card => 'success',
         };
     }
 
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::BankTransfer => 'heroicon-m-sparkles',
-            self::Card => 'heroicon-m-arrow-path',
+            self::BankTransfer => 'heroicon-c-building-office-2',
+            self::Card => 'heroicon-s-credit-card',
         };
     }
 }

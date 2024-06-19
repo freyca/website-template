@@ -18,6 +18,10 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Products';
+
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -159,12 +163,18 @@ class ProductResource extends Resource
 
                 Tables\Columns\TextColumn::make('price')
                     ->badge()
-                    ->money('eur')
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price_with_discount')
                     ->badge()
-                    ->money('eur')
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('published')

@@ -16,7 +16,9 @@ class ProductFeatureResource extends Resource
 {
     protected static ?string $model = ProductFeature::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-tag';
+
+    protected static ?string $navigationGroup = 'Features';
 
     public static function form(Form $form): Form
     {

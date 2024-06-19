@@ -32,8 +32,8 @@ enum Roles: string implements HasColor, HasIcon, HasLabel
     public function getIcon(): ?string
     {
         return match ($this) {
-            self::Customer => 'heroicon-m-sparkles',
-            self::Admin => 'heroicon-m-arrow-path',
+            self::Customer => 'heroicon-o-user-circle',
+            self::Admin => 'heroicon-s-lock-open',
         };
     }
 }

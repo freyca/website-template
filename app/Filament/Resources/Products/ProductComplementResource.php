@@ -16,7 +16,11 @@ class ProductComplementResource extends Resource
 {
     protected static ?string $model = ProductComplement::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
+
+    protected static ?string $navigationGroup = 'Products';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -108,12 +112,18 @@ class ProductComplementResource extends Resource
 
                 Tables\Columns\TextColumn::make('price')
                     ->badge()
-                    ->money('eur')
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price_with_discount')
                     ->badge()
-                    ->money('eur')
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('published')
