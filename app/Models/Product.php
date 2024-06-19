@@ -59,4 +59,12 @@ class Product extends BaseProduct
     {
         return $this->belongsToMany(ProductSparePart::class);
     }
+
+    /**
+     * @return BelongsToMany<ProductFeature>
+     */
+    public function features(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductFeature::class);
+    }
 }

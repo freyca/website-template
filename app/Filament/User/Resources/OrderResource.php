@@ -30,21 +30,15 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make([
-                    Forms\Components\Select::make('user_id')
-                        ->required()
-                        ->relationship('user', 'name')
-                        ->label('Customer'),
                     Forms\Components\Select::make('payment_method')
-                        ->required()
                         ->options(PaymentMethods::class),
                     Forms\Components\TextInput::make('purchase_cost')
                         ->label('Price')
-                        ->required()
+                        ->suffix('€')
                         ->numeric(),
                     Forms\Components\ToggleButtons::make('status')
                         ->inline()
                         ->options(OrderStatus::class)
-                        ->required()
                         ->columnSpan('full'),
                 ])->columns(2),
 
@@ -67,8 +61,23 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('purchase_cost')->badge(),
-                Tables\Columns\TextColumn::make('status')->badge(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Identifier'),
+                Tables\Columns\TextColumn::make('purchase_cost')
+                    ->badge()
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    ),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->date()
+                    ->label('Order Date'),
+
             ])
             ->filters([
                 //

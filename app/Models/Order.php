@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 #[ScopedBy([OrderScope::class])]
 class Order extends Model
@@ -29,6 +30,17 @@ class Order extends Model
         'payment_method' => PaymentMethods::class,
         'status' => OrderStatus::class,
     ];
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
+    public static function booted()
+    {
+        static::creating(function ($model) {
+            $model->id = Str::ulid();
+        });
+    }
 
     /**
      * @return BelongsTo<User, Order>

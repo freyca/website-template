@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_metadata', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->string('address');
             $table->string('city');
             $table->integer('postal_code');

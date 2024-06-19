@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_feature_product_spare_part', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_spare_part_id');
-            $table->integer('product_feature_id');
+            $table->foreignId('product_spare_part_id')->constrained();
+            $table->foreignId('product_feature_id')->constrained();
             $table->timestamps();
         });
     }

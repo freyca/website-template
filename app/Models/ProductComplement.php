@@ -40,4 +40,12 @@ class ProductComplement extends BaseProduct
     {
         return Category::whereIn('id', $this->products->pluck('category_id')->unique())->get();
     }
+
+    /**
+     * @return BelongsToMany<ProductFeature>
+     */
+    public function features(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductFeature::class);
+    }
 }

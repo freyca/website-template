@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_product_complement', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->integer('product_complement_id');
+            $table->foreignUlid('order_id')->constrained();
+            $table->foreignId('product_complement_id')->constrained();
             $table->float('unit_price');
             $table->integer('quantity');
             $table->timestamps();

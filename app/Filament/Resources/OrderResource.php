@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -30,18 +31,31 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make([
-                    Forms\Components\Select::make('user_id')
-                        ->required()
-                        ->relationship('user', 'name')
-                        ->label('Customer'),
-                    Forms\Components\ToggleButtons::make('payment_method')
-                        ->inline()
-                        ->options(PaymentMethods::class)
-                        ->required(),
+                    Forms\Components\TextInput::make('id')
+                        ->disabled(),
                     Forms\Components\TextInput::make('purchase_cost')
                         ->label('Price')
                         ->required()
                         ->numeric(),
+                    Forms\Components\Select::make('user_id')
+                        ->relationship('user', 'email')
+                        ->label('Customer email')
+                        ->searchable()
+                        ->preload()
+                        ->required(),
+                    Forms\Components\Select::make('user_id')
+                        ->relationship('user', 'name')
+                        ->getOptionLabelFromRecordUsing(
+                            function (User $record) {
+                                return $record->name.' '.$record->surname;
+                            }
+                        )
+                        ->label('Customer name')
+                        ->required(),
+                    Forms\Components\ToggleButtons::make('payment_method')
+                        ->inline()
+                        ->options(PaymentMethods::class)
+                        ->required(),
                     Forms\Components\ToggleButtons::make('status')
                         ->inline()
                         ->options(OrderStatus::class)
@@ -67,7 +81,9 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.email')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('purchase_cost')
                     ->badge()

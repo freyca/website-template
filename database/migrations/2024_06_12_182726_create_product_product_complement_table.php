@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_product_complement', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
-            $table->integer('product_complement_id');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_complement_id')->constrained();
             $table->timestamps();
         });
     }

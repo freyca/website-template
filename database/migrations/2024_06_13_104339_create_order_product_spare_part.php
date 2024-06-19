@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_product_spare_part', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->integer('product_spare_part_id');
+            $table->foreignUlid('order_id')->constrained();
+            $table->foreignId('product_spare_part_id')->constrained();
             $table->float('unit_price');
             $table->integer('quantity');
             $table->timestamps();

@@ -26,11 +26,11 @@ return new class extends Migration
         }
 
         Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
-            $table->id();
+            $table->ulid('id')->primary();
             $table->float('purchase_cost');
             $table->enum('payment_method', $payment_methods)->default(PaymentMethods::BankTransfer->value);
             $table->enum('status', $order_status)->default(OrderStatus::New->value);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
