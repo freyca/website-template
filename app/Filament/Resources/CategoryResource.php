@@ -57,7 +57,12 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\ImageColumn::make('small_image')
+                    ->circular()
+                    ->label('Image'),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable(),
             ])
             ->filters([
                 //
