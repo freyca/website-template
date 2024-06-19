@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\BaseProduct;
-use App\Repositories\Cart\SessionCartRepository;
 use App\Services\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -18,7 +17,7 @@ class RemoveFromCart extends Component
 
     public function remove(): RedirectResponse|Redirector|null
     {
-        $cart = new Cart(new SessionCartRepository);
+        $cart = app(Cart::class);
         $cart->remove($this->product);
 
         session()->flash('message', 'Product deleted from cart');

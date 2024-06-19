@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\BaseProduct;
-use App\Repositories\Cart\SessionCartRepository;
 use App\Services\Cart;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -16,7 +15,7 @@ class AddToCart extends Component
 
     public function add(): void
     {
-        $cart = new Cart(new SessionCartRepository);
+        $cart = app(Cart::class);
         $cart->add($this->product, 1);
     }
 
