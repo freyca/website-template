@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Products;
 use App\Filament\Resources\Products\ProductResource\Pages;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -71,7 +72,8 @@ class ProductResource extends Resource
                                             'attachFiles',
                                             'table',
                                         ]),
-                                ])->columns(2),
+                                ])
+                                    ->columns(2),
 
                                 Forms\Components\FileUpload::make('big_image')
                                     ->label(__('Big image'))
@@ -86,7 +88,12 @@ class ProductResource extends Resource
                                     ->orientImagesFromExif(false)
                                     ->directory('category-images'),
                             ]
-                        )->columnSpan(1),
+                        )
+                        ->createOptionAction(function (Action $action) {
+                            return $action
+                                ->modalHeading(__('Create category'))
+                                ->modalSubmitActionLabel('Create category');
+                        })->columnSpan(1),
 
                     Forms\Components\TextInput::make('meta_description')
                         ->label(__('Meta description'))
