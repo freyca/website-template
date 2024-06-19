@@ -54,3 +54,5 @@
 
   # Personalizacion de producto
    - product-features como tabla a traves de tabla pivote, porque se comparten caracteristicas
+
+ # Traducciones: https://github.com/filamentphp/spatie-laravel-translatable-plugin
