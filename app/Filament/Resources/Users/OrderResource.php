@@ -27,8 +27,6 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
 
-    protected static ?string $navigationGroup = 'Users';
-
     public static function form(Form $form): Form
     {
         return $form
@@ -316,5 +314,10 @@ class OrderResource extends Resource
         $modelClass = static::$model;
 
         return (string) $modelClass::where('status', OrderStatus::New)->count();
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Users');
     }
 }

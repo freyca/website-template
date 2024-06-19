@@ -18,8 +18,6 @@ class ProductFeatureResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-c-tag';
 
-    protected static ?string $navigationGroup = 'Features';
-
     public static function form(Form $form): Form
     {
         return $form
@@ -73,5 +71,10 @@ class ProductFeatureResource extends Resource
             'create' => Pages\CreateProductFeature::route('/create'),
             'edit' => Pages\EditProductFeature::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Features');
     }
 }

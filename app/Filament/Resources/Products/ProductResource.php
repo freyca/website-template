@@ -18,8 +18,6 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Products';
-
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -28,12 +26,13 @@ class ProductResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Toggle::make('published')
-                        ->label('Visible on shop')
-                        ->helperText('If off, this product will be hidden from the shop.')
+                        ->label(__('Visible on shop'))
+                        ->helperText(__('If off, this product will be hidden from the shop.'))
                         ->columnSpan('full')
                         ->default(false),
 
                     Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
 
@@ -46,6 +45,7 @@ class ProductResource extends Resource
 
                     Forms\Components\Select::make('category_id')
                         ->required()
+                        ->label(__('Category'))
                         ->relationship(name: 'category', titleAttribute: 'name')
                         ->columnSpanFull()
                         ->searchable()
@@ -54,6 +54,7 @@ class ProductResource extends Resource
                             [
                                 Forms\Components\Section::make([
                                     Forms\Components\TextInput::make('name')
+                                        ->label(__('Name'))
                                         ->required()
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('slug')
@@ -63,6 +64,7 @@ class ProductResource extends Resource
                                         ->maxLength(255)
                                         ->columnSpanFull(),
                                     Forms\Components\RichEditor::make('description')
+                                        ->label(__('Description'))
                                         ->required()
                                         ->columnSpanFull()
                                         ->disableToolbarButtons([
@@ -72,11 +74,13 @@ class ProductResource extends Resource
                                 ])->columns(2),
 
                                 Forms\Components\FileUpload::make('big_image')
+                                    ->label(__('Big image'))
                                     ->required()
                                     ->moveFiles()
                                     ->orientImagesFromExif(false)
                                     ->directory('category-images'),
                                 Forms\Components\FileUpload::make('small_image')
+                                    ->label(__('Small image'))
                                     ->required()
                                     ->moveFiles()
                                     ->orientImagesFromExif(false)
@@ -85,20 +89,23 @@ class ProductResource extends Resource
                         )->columnSpan(1),
 
                     Forms\Components\TextInput::make('meta_description')
+                        ->label(__('Meta description'))
                         ->required()
                         ->columnSpan('full')
                         ->maxLength(255),
 
                 ])->columns(2),
 
-                Forms\Components\Section::make('Pricing')
+                Forms\Components\Section::make(__('Pricing'))
                     ->schema([
                         Forms\Components\TextInput::make('price')
+                            ->label(__('Precio'))
                             ->numeric()
                             ->suffix('€')
                             ->required(),
 
                         Forms\Components\TextInput::make('price_with_discount')
+                            ->label(__('Price with discount'))
                             ->suffix('€')
                             ->numeric(),
 
@@ -111,6 +118,7 @@ class ProductResource extends Resource
 
                 Forms\Components\Section::make()->schema([
                     Forms\Components\RichEditor::make('short_description')
+                        ->label(__('Short description'))
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([
@@ -119,6 +127,7 @@ class ProductResource extends Resource
                         ]),
 
                     Forms\Components\RichEditor::make('description')
+                        ->label(__('Full Description'))
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([
@@ -127,24 +136,24 @@ class ProductResource extends Resource
                         ]),
                 ]),
 
-                Forms\Components\Section::make('Images')
+                Forms\Components\Section::make(__('Images'))
                     ->schema([
                         Forms\Components\FileUpload::make('main_image')
+                            ->label(__('Main image'))
                             ->required()
                             ->reorderable()
                             ->moveFiles()
                             ->orientImagesFromExif(false)
-                            ->directory('product-images')
-                            ->helperText('Product main image'),
+                            ->directory('product-images'),
 
                         Forms\Components\FileUpload::make('images')
+                            ->label(__('Additional images'))
                             ->multiple()
                             ->required()
                             ->reorderable()
                             ->moveFiles()
                             ->orientImagesFromExif(false)
-                            ->directory('product-images')
-                            ->helperText('Product additional images'),
+                            ->directory('product-images'),
 
                     ])->columns(2),
             ]);
@@ -156,12 +165,14 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('main_image')
                     ->circular()
-                    ->label('Image'),
+                    ->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
+                    ->label(__('Price'))
                     ->badge()
                     ->money(
                         currency: 'eur',
@@ -170,6 +181,7 @@ class ProductResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price_with_discount')
+                    ->label(__('Price with discount'))
                     ->badge()
                     ->money(
                         currency: 'eur',
@@ -178,6 +190,7 @@ class ProductResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('published')
+                    ->label(__('Published'))
                     ->boolean()
                     ->sortable(),
 
@@ -211,5 +224,15 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Product');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Products');
     }
 }

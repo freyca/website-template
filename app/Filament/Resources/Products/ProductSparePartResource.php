@@ -18,8 +18,6 @@ class ProductSparePartResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-wrench';
 
-    protected static ?string $navigationGroup = 'Products';
-
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -160,5 +158,10 @@ class ProductSparePartResource extends Resource
             'create' => Pages\CreateProductSparePart::route('/create'),
             'edit' => Pages\EditProductSparePart::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Products');
     }
 }

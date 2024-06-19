@@ -18,8 +18,6 @@ class ProductComplementResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
-    protected static ?string $navigationGroup = 'Products';
-
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -160,5 +158,10 @@ class ProductComplementResource extends Resource
             'create' => Pages\CreateProductComplement::route('/create'),
             'edit' => Pages\EditProductComplement::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Products');
     }
 }

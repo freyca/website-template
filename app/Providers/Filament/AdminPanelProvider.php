@@ -44,9 +44,9 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->navigationGroups([
-                'Users',
-                'Products',
-                'Features',
+                __('Users'),
+                __('Products'),
+                __('Features'),
             ])
             ->middleware([
                 EncryptCookies::class,
