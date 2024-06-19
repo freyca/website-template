@@ -1,5 +1,5 @@
 <div>
-    @inject('cart', 'App\Services\Cart');
+    @inject('cart', 'App\Services\Cart')
 
     @if($cart->isEmpty())
         <p class="container mx-auto">No products in cart</p>

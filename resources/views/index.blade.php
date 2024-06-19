@@ -39,7 +39,7 @@
                                 get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
                                 get_class($product) === 'App\Models\ProductComplement' => '/complemento',
                                 default =>'/producto',
-                            };
+                            }
                         @endphp
 
                         <a href="{{$path}}/{{$product->slug}}">

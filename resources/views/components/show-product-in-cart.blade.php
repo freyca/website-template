@@ -1,4 +1,4 @@
-@inject('cart', 'App\Services\Cart');
+@inject('cart', 'App\Services\Cart')
 
 <div class="container mx-auto my-auto columns-4">
     {{ $product->name }}
@@ -14,5 +14,6 @@
 
     {{ $cart->getTotalCostforProduct($product, true) }}
 
-    @livewire('remove-from-cart', ['product' => $product])
+    @php($delete_key = $product->name . '_delete')
+    @livewire('remove-from-cart', ['product' => $product], key($delete_key))
 </div>
