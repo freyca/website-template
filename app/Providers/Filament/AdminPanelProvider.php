@@ -44,6 +44,11 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->navigationGroups([
+                'Features',
+                'Products',
+                'Users',
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -61,6 +66,6 @@ class AdminPanelProvider extends PanelProvider
             ])->plugin(
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['es', 'en']),
-            );;
+            );
     }
 }
