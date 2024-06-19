@@ -1,3 +1,5 @@
+@inject('cart', 'App\Services\Cart');
+
 <div class="container mx-auto my-auto columns-4">
     {{ $product->name }}
     {{ $cart->getTotalQuantityForProduct($product) }}
@@ -11,5 +13,6 @@
     @endif
 
     {{ $cart->getTotalCostforProduct($product, true) }}
+
     @livewire('remove-from-cart', ['product' => $product])
 </div>

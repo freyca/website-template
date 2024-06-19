@@ -38,7 +38,7 @@ class ContactForm extends Component
 
         $this->reset();
 
-        session()->flash('message', 'Your message will be replied soon.');
+        session()->flash('message', __('Your message will be replied soon.'));
 
         $this->redirect('/contacto');
     }

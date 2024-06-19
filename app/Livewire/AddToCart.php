@@ -16,7 +16,12 @@ class AddToCart extends Component
     public function add(): void
     {
         $cart = app(Cart::class);
+
         $cart->add($this->product, 1);
+
+        session()->flash('message', __('Product added to cart'));
+
+        $this->dispatch('refresh-cart');
     }
 
     public function render(): View

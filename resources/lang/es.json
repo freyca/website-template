@@ -4,12 +4,14 @@
     "Category": "Categoria",
     "Create category": "Crear categoría",
     "Description": "Descripción",
+    "Enviar": "Enviar",
     "Full Description": "Descripción larga",
     "If off, this product will be hidden from the shop.": "Desactivado, este producto no estará visible en la tienda.",
     "Image": "Imagen",
     "Images": "Imágenes",
     "Name": "Nombre",
     "Main image": "Imagen principal",
+    "Message": "Mensaje",
     "Meta description": "Metadescripción",
     "Features": "Características",
     "Pricing": "Precios",
@@ -17,9 +19,12 @@
     "Price with discount": "Precio con descuento",
     "Product": "Producto",
     "Products": "Productos",
+    "Product name": "Nombre del producto",
     "Published": "Publicado",
+    "Quantity": "Cantidad",
     "Short description": "Descripción corta",
     "Small image": "Imagen pequeña",
     "Users": "Usuarios",
-    "Visible on shop": "Visible en la tienda"
+    "Visible on shop": "Visible en la tienda",
+    "Your message will be replied soon.": "En poco tiempo recibirás respuesta a tu mensaje."
 }

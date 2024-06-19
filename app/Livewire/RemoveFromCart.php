@@ -6,8 +6,6 @@ namespace App\Livewire;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -15,19 +13,15 @@ class RemoveFromCart extends Component
 {
     public BaseProduct $product;
 
-    public function remove(): RedirectResponse|Redirector|null
+    public function remove(): void
     {
         $cart = app(Cart::class);
+
         $cart->remove($this->product);
 
-        session()->flash('message', 'Product deleted from cart');
+        session()->flash('message', __('Product deleted from cart'));
 
-        $referer = strval(request()->header('Referer'));
-        if (str_ends_with($referer, 'carrito')) {
-            return redirect($referer);
-        }
-
-        return null;
+        $this->dispatch('refresh-cart');
     }
 
     public function render(): View

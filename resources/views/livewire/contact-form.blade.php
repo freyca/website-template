@@ -7,7 +7,7 @@
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label for="grid-first-name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Name
+                    {{ __('Name') }}
                 </label>
                 <input wire:model="name" type="text" id="grid-first-name" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" >
                 <div>
@@ -19,7 +19,7 @@
 
             <div class="w-full md:w-1/2 px-3">
                 <label for="grid-last-name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Email
+                    {{ __('Email') }}
                 </label>
                 <input wire:model="email" type="text" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" id="grid-last-name">
                 <div>
@@ -31,7 +31,7 @@
 
             <div class="w-full md:w-1/2 px-3">
                 <label for="grid-last-name" class="block uppercase tracking-wide text-gray-700 border-gray text-xs font-bold mb-2">
-                    Message
+                    {{ __('Message') }}
                 </label>
                 <textarea wire:model="message" type="textarea" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" id="grid-last-name">
                 </textarea>
@@ -44,7 +44,7 @@
         </div>
 
         <button type="submit" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
-            Save
+            {{ __('Enviar') }}
         </button>
 
         @if (session()->has('message'))
