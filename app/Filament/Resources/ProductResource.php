@@ -56,7 +56,8 @@ class ProductResource extends Resource
                                         ->disabled(),
                                     Forms\Components\TextInput::make('slogan')
                                         ->required()
-                                        ->maxLength(255),
+                                        ->maxLength(255)
+                                        ->columnSpanFull(),
                                     Forms\Components\RichEditor::make('description')
                                         ->required()
                                         ->columnSpanFull()
@@ -64,7 +65,7 @@ class ProductResource extends Resource
                                             'attachFiles',
                                             'table',
                                         ]),
-                                ]),
+                                ])->columns(2),
 
                                 Forms\Components\FileUpload::make('big_image')
                                     ->required()

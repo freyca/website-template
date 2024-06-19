@@ -44,21 +44,6 @@ class UserResource extends Resource
                     Forms\Components\TextInput::make('password')
                         ->password(),
                 ])->columns(2),
-
-                Forms\Components\Section::make([
-                    Forms\Components\Fieldset::make('userMetadata')
-                        ->relationship('userMetadata')
-                        ->schema([
-                            Forms\Components\TextInput::make('address')
-                                ->required(),
-                            Forms\Components\TextInput::make('city')
-                                ->required(),
-                            Forms\Components\TextInput::make('postal_code')
-                                ->numeric()
-                                ->required(),
-                        ]),
-                ]),
-
             ]);
     }
 
@@ -93,7 +78,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            UserResource\RelationManagers\UserMetadataRelationManager::class,
         ];
     }
 

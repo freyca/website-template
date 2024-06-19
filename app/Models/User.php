@@ -9,7 +9,6 @@ namespace App\Models;
 use App\Enums\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -52,11 +51,11 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasOne<UserMetadata>
+     * @return HasMany<UserMetadata>
      */
-    public function userMetadata(): HasOne
+    public function userMetadata(): HasMany
     {
-        return $this->hasOne(UserMetadata::class);
+        return $this->hasMany(UserMetadata::class);
     }
 
     /**
