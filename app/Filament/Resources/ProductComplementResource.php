@@ -40,6 +40,24 @@ class ProductComplementResource extends Resource
                         ->required()
                         ->columnSpan('full')
                         ->maxLength(255),
+                ])->columns(2),
+
+                Forms\Components\Section::make('Pricing')
+                    ->schema([
+                        Forms\Components\TextInput::make('price')
+                            ->numeric()
+                            ->suffix('€')
+                            ->required(),
+                        Forms\Components\TextInput::make('price_with_discount')
+                            ->suffix('€')
+                            ->numeric(),
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric()
+                            ->integer(),
+                    ])->columns(3),
+
+                Forms\Components\Section::make('Texts')->schema([
                     Forms\Components\RichEditor::make('short_description')
                         ->required()
                         ->columnSpan('full')
@@ -54,29 +72,7 @@ class ProductComplementResource extends Resource
                             'attachFiles',
                             'table',
                         ]),
-                ])->columns(2),
-
-                Forms\Components\Section::make('Pricing')
-                    ->schema([
-                        Forms\Components\TextInput::make('price')
-                            ->numeric()
-                            ->required(),
-                        Forms\Components\TextInput::make('price_with_discount')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('stock')
-                            ->required()
-                            ->numeric(),
-                    ])->columns(3),
-
-                Forms\Components\Section::make('Features')
-                    ->schema([
-                        Forms\Components\Select::make('features')
-                            ->multiple()
-                            ->relationship('productFeatures', 'name')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2)
-                    ->columnSpan(1),
+                ]),
 
                 Forms\Components\Section::make('Images')
                     ->schema([
@@ -103,11 +99,29 @@ class ProductComplementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price')->badge(),
-                Tables\Columns\TextColumn::make('price_with_discount')->badge(),
-                Tables\Columns\IconColumn::make('published')->boolean(),
-                Tables\Columns\TextColumn::make('stock'),
+                Tables\Columns\ImageColumn::make('main_image')
+                    ->circular()
+                    ->label('Image'),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('price')
+                    ->badge()
+                    ->money('eur')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('price_with_discount')
+                    ->badge()
+                    ->money('eur')
+                    ->sortable(),
+
+                Tables\Columns\IconColumn::make('published')
+                    ->boolean()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('stock')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -125,7 +139,7 @@ class ProductComplementResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductResource\RelationManagers\ProductFeaturesRelationManager::class,
         ];
     }
 

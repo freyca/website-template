@@ -28,18 +28,83 @@ class ProductResource extends Resource
                         ->helperText('If off, this product will be hidden from the shop.')
                         ->columnSpan('full')
                         ->default(false),
+
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
+
                     Forms\Components\TextInput::make('slug')
                         ->disabled(),
+
                     Forms\Components\TextInput::make('slogan')
                         ->required()
                         ->maxLength(255),
+
+                    Forms\Components\Select::make('category_id')
+                        ->required()
+                        ->relationship(name: 'category', titleAttribute: 'name')
+                        ->columnSpanFull()
+                        ->searchable()
+                        ->preload()
+                        ->createOptionForm(
+                            [
+                                Forms\Components\Section::make([
+                                    Forms\Components\TextInput::make('name')
+                                        ->required()
+                                        ->maxLength(255),
+                                    Forms\Components\TextInput::make('slug')
+                                        ->disabled(),
+                                    Forms\Components\TextInput::make('slogan')
+                                        ->required()
+                                        ->maxLength(255),
+                                    Forms\Components\RichEditor::make('description')
+                                        ->required()
+                                        ->columnSpanFull()
+                                        ->disableToolbarButtons([
+                                            'attachFiles',
+                                            'table',
+                                        ]),
+                                ]),
+
+                                Forms\Components\FileUpload::make('big_image')
+                                    ->required()
+                                    ->moveFiles()
+                                    ->orientImagesFromExif(false)
+                                    ->directory('category-images'),
+                                Forms\Components\FileUpload::make('small_image')
+                                    ->required()
+                                    ->moveFiles()
+                                    ->orientImagesFromExif(false)
+                                    ->directory('category-images'),
+                            ]
+                        )->columnSpan(1),
+
                     Forms\Components\TextInput::make('meta_description')
                         ->required()
                         ->columnSpan('full')
                         ->maxLength(255),
+
+                ])->columns(2),
+
+                Forms\Components\Section::make('Pricing')
+                    ->schema([
+                        Forms\Components\TextInput::make('price')
+                            ->numeric()
+                            ->suffix('€')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('price_with_discount')
+                            ->suffix('€')
+                            ->numeric(),
+
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric()
+                            ->integer(),
+
+                    ])->columns(3),
+
+                Forms\Components\Section::make()->schema([
                     Forms\Components\RichEditor::make('short_description')
                         ->required()
                         ->columnSpan('full')
@@ -47,6 +112,7 @@ class ProductResource extends Resource
                             'attachFiles',
                             'table',
                         ]),
+
                     Forms\Components\RichEditor::make('description')
                         ->required()
                         ->columnSpan('full')
@@ -54,38 +120,7 @@ class ProductResource extends Resource
                             'attachFiles',
                             'table',
                         ]),
-                ])->columns(2),
-
-                Forms\Components\Section::make('Pricing')
-                    ->schema([
-                        Forms\Components\TextInput::make('price')
-                            ->numeric()
-                            ->required(),
-                        Forms\Components\TextInput::make('price_with_discount')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('stock')
-                            ->required()
-                            ->numeric(),
-                    ])->columns(3),
-
-                Forms\Components\Section::make('Category')
-                    ->schema([
-                        Forms\Components\Select::make('category_id')
-                            ->required()
-                            ->relationship('category', 'name'),
-                    ])
-                    ->columns(2)
-                    ->columnSpan(1),
-
-                Forms\Components\Section::make('Features')
-                    ->schema([
-                        Forms\Components\Select::make('features')
-                            ->multiple()
-                            ->relationship('productFeatures', 'name')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2)
-                    ->columnSpan(1),
+                ]),
 
                 Forms\Components\Section::make('Images')
                     ->schema([
@@ -96,6 +131,7 @@ class ProductResource extends Resource
                             ->orientImagesFromExif(false)
                             ->directory('product-images')
                             ->helperText('Product main image'),
+
                         Forms\Components\FileUpload::make('images')
                             ->multiple()
                             ->required()
@@ -104,6 +140,7 @@ class ProductResource extends Resource
                             ->orientImagesFromExif(false)
                             ->directory('product-images')
                             ->helperText('Product additional images'),
+
                     ])->columns(2),
             ]);
     }
@@ -112,12 +149,29 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('price')->badge(),
-                Tables\Columns\TextColumn::make('price_with_discount')->badge(),
-                Tables\Columns\TextColumn::make('category_id'),
-                Tables\Columns\IconColumn::make('published')->boolean(),
-                Tables\Columns\TextColumn::make('stock'),
+                Tables\Columns\ImageColumn::make('main_image')
+                    ->circular()
+                    ->label('Image'),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('price')
+                    ->badge()
+                    ->money('eur')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('price_with_discount')
+                    ->badge()
+                    ->money('eur')
+                    ->sortable(),
+
+                Tables\Columns\IconColumn::make('published')
+                    ->boolean()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('stock')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -135,7 +189,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductResource\RelationManagers\ProductFeaturesRelationManager::class,
         ];
     }
 
