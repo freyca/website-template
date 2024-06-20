@@ -73,13 +73,13 @@ class DatabaseSeeder extends Seeder
     {
         $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-        if (Storage::disk('public')->exists($relativePath . '/' . $imageName)) {
+        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
             return;
         }
 
         $newImage = fake()->image($path);
         $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
 
-        Storage::disk('public')->move($imageRelativePath, $relativePath . '/' . $imageName);
+        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
     }
 }
