@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\Roles;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Repositories\Product\Product\ProductRepositoryInterface;
 use App\Repositories\Product\ProductComplement\ProductComplementRepositoryInterface;
 use App\Repositories\Product\ProductSparePart\ProductSparePartRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -36,6 +38,10 @@ class ProductController extends Controller
 
     public function product(Product $product): View
     {
+        if (!$product->published && !$this->canAccessPrivateProducts()) {
+            abort(403);
+        }
+
         $features = $product->productFeatures;
 
         return view(
@@ -62,6 +68,10 @@ class ProductController extends Controller
 
     public function productComplement(ProductComplement $productComplement): View
     {
+        if (!$productComplement->published && !$this->canAccessPrivateProducts()) {
+            abort(403);
+        }
+
         $features = $productComplement->productFeatures;
 
         return view(
@@ -88,6 +98,10 @@ class ProductController extends Controller
 
     public function ProductSparePart(ProductSparePart $productSparePart): View
     {
+        if (!$productSparePart->published && !$this->canAccessPrivateProducts()) {
+            abort(403);
+        }
+
         $features = $productSparePart->productFeatures;
 
         return view(
@@ -97,5 +111,16 @@ class ProductController extends Controller
                 'features' => $features,
             ]
         );
+    }
+
+    private function canAccessPrivateProducts(): bool
+    {
+        $user = Auth::getUser();
+
+        return match (true) {
+            $user === null => false,
+            $user->role !== Roles::Admin => false,
+            default => true
+        };
     }
 }
