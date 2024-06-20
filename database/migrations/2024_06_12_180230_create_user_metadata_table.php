@@ -19,6 +19,10 @@ return new class extends Migration
             $table->integer('postal_code');
             $table->timestamps();
         });
+
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreignId('user_metadata_id')->constrained('user_metadata');
+        });
     }
 
     /**
@@ -27,5 +31,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('user_metadata');
+
+        Schema::table('orders', function ($table) {
+            $table->dropColumn('user_metadata_id');
+        });
     }
 };

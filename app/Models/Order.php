@@ -43,6 +43,14 @@ class Order extends Model
     }
 
     /**
+     * @return BelongsTo<UserMetadata, Order>
+     */
+    public function userMetadata(): BelongsTo
+    {
+        return $this->belongsTo(UserMetadata::class);
+    }
+
+    /**
      * @return BelongsTo<User, Order>
      */
     public function user(): BelongsTo

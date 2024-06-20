@@ -19,11 +19,14 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::inRandomOrder()->first();
+
         return [
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $user->id,
+            'user_metadata_id' => $user->userMetadata->random()->id,
         ];
     }
 
