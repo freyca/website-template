@@ -62,12 +62,12 @@ class UserPanelProvider extends PanelProvider
                 NavigationItem::make(__('Profile'))
                     ->url('/user/profile', shouldOpenInNewTab: false)
                     ->icon('heroicon-s-user-circle')
-                    ->group('User')
-                    ->sort(3),
+                    ->group(__('User'))
+                    ->sort(1),
 
-                NavigationItem::make(__('Roteco'))
-                    ->url('/productos', shouldOpenInNewTab: true)
-                    ->icon('heroicon-s-home'),
+                //NavigationItem::make(__('Roteco'))
+                //    ->url('/productos', shouldOpenInNewTab: true)
+                //    ->icon('heroicon-s-home'),
             ])
             ->middleware([
                 EncryptCookies::class,
