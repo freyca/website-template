@@ -11,10 +11,11 @@
         </div>
 
         @foreach ( $cartItems as $cartItem )
-            <x-show-product-in-cart
-                :product="data_get($cartItem, 'product')"
-                :quantity="data_get($cartItem, 'quantity')"
-            />
+            @livewire('product-in-cart', [
+                    'product' => data_get($cartItem, 'product')
+                ],
+                key('product-'.data_get($cartItem, 'product.name'))
+            )
         @endforeach
     @endif
 </div>
