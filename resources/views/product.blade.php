@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app', ['title' => config('custom.title')])
+
 @inject(cart, '\App\Services\Cart')
 
-@section('title', config('custom.title'))
 @section('meta-description', $product->meta_description)
 
 @section('main-content')

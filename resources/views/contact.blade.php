@@ -1,7 +1,5 @@
-@extends('layouts.app')
-
-@section('title', config('Página de contacto'))
+@extends('layouts.app', ['title' => config('custom.title')])
 
 @section('main-content')
-     <livewire:contact-form>
+    <livewire:contact-form>
 @endsection

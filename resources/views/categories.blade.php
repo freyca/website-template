@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('title', config('custom.title'))
+@extends('layouts.app', ['title' => config('custom.title')])
 
 @section('main-content')
 <div class="container mx-auto">

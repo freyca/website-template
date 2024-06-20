@@ -15,6 +15,7 @@ parameters:
             messages:
                 - '#Undefined variable: \$this#'
                 - '#Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::group\(\).#'
+                - 'Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::with\(\).'
             path: tests/*
         -
             message: '#Method App\\Repositories\\Product\\BaseProductRepositoryInterface#'
