@@ -2,7 +2,7 @@
     @inject('cart', 'App\Services\Cart')
 
     @if($cart->isEmpty())
-        <p class="container mx-auto">No products in cart</p>
+        <p class="container mx-auto">{{__('No products in cart')}}</p>
     @else
         <div class="container mx-auto my-auto columns-3">
             <span>{{ __('Product name') }}</span>
