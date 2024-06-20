@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function product(Product $product): View
     {
-        if (!$product->published && !$this->canAccessPrivateProducts()) {
+        if (! $product->published && ! $this->canAccessPrivateProducts()) {
             abort(403);
         }
 
@@ -68,7 +68,7 @@ class ProductController extends Controller
 
     public function productComplement(ProductComplement $productComplement): View
     {
-        if (!$productComplement->published && !$this->canAccessPrivateProducts()) {
+        if (! $productComplement->published && ! $this->canAccessPrivateProducts()) {
             abort(403);
         }
 
@@ -98,7 +98,7 @@ class ProductController extends Controller
 
     public function ProductSparePart(ProductSparePart $productSparePart): View
     {
-        if (!$productSparePart->published && !$this->canAccessPrivateProducts()) {
+        if (! $productSparePart->published && ! $this->canAccessPrivateProducts()) {
             abort(403);
         }
 
@@ -115,6 +115,7 @@ class ProductController extends Controller
 
     private function canAccessPrivateProducts(): bool
     {
+        /** @var ?\App\Models\User */
         $user = Auth::getUser();
 
         return match (true) {

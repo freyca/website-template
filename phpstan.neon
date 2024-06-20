@@ -12,7 +12,9 @@ parameters:
 
     ignoreErrors:
         -
-            message: '#Undefined variable: \$this#'
+            messages:
+                - '#Undefined variable: \$this#'
+                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::group\(\).#'
             path: tests/*
         -
             message: '#Method App\\Repositories\\Product\\BaseProductRepositoryInterface#'

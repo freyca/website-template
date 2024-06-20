@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\ProductFeature;
 use App\Models\ProductSparePart;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductSparePartSeeder extends Seeder

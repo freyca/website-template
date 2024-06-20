@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\ProductComplement;
 use App\Models\ProductFeature;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductComplementSeeder extends Seeder
