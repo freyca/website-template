@@ -16,6 +16,7 @@
 
  # TODO:
   - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation
+  - make meta-description a variable in head
 
  # Producto:
    - titulo
