@@ -8,6 +8,10 @@ return [
 
     /**
      * Sections which will be shown in the navigation bar
+     *
+     * This configuration is hardly coupled with tests/Datasets/ConfigUrls.php
+     * If any url is added, removed or modified here it should be in done in
+     * correspondant dataset
      */
     'nav-sections' => [
         'categorías' => '/categorias',
