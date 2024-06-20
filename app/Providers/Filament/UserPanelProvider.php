@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use App\Filament\User\Pages\Auth\EditProfile;
 use App\Filament\User\Pages\Auth\Register;
 use App\Http\Middleware\CanAccessUserPanel;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -30,18 +31,43 @@ class UserPanelProvider extends PanelProvider
             ->id('user')
             ->path('user')
             ->login()
+            ->passwordReset()
             ->registration(Register::class)
+            ->emailVerification()
+            ->profile(
+                page: EditProfile::class,
+                isSimple: false
+            )
+            ->topbar()
             ->colors([
-                'primary' => Color::Stone,
+                'primary' => Color::Zinc,
             ])
-            ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
-            ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/User/Widgets'), for: 'App\\Filament\\User\\Widgets')
+            ->discoverResources(
+                in: app_path('Filament/User/Resources'),
+                for: 'App\\Filament\\User\\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/User/Pages'),
+                for: 'App\\Filament\\User\\Pages'
+            )
+            ->pages([])
+            ->discoverWidgets(
+                in: app_path('Filament/User/Widgets'),
+                for: 'App\\Filament\\User\\Widgets'
+            )
             ->widgets([
                 Widgets\AccountWidget::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make(__('Profile'))
+                    ->url('/user/profile', shouldOpenInNewTab: false)
+                    ->icon('heroicon-s-user-circle')
+                    ->group('User')
+                    ->sort(3),
+
+                NavigationItem::make(__('Roteco'))
+                    ->url('/productos', shouldOpenInNewTab: true)
+                    ->icon('heroicon-s-home'),
             ])
             ->middleware([
                 EncryptCookies::class,

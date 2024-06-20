@@ -23,7 +23,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-shopping-bag';
 
     public static function form(Form $form): Form
     {
@@ -31,12 +31,14 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\Select::make('payment_method')
+                        ->label(__('Payment method'))
                         ->options(PaymentMethods::class),
                     Forms\Components\TextInput::make('purchase_cost')
-                        ->label('Price')
+                        ->label(__('Price'))
                         ->suffix('€')
                         ->numeric(),
                     Forms\Components\ToggleButtons::make('status')
+                        ->label(__('Status'))
                         ->inline()
                         ->options(OrderStatus::class)
                         ->columnSpan('full'),
@@ -62,22 +64,24 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('Identifier'),
+                    ->label(__('Identifier')),
                 Tables\Columns\TextColumn::make('purchase_cost')
+                    ->label(__('Price'))
                     ->badge()
                     ->money(
                         currency: 'eur',
                         locale: 'es'
                     ),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_method')
+                    ->label(__('Payment method'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Order date'))
                     ->sortable()
-                    ->date()
-                    ->label('Order Date'),
-
+                    ->date(),
             ])
             ->filters([
                 //
@@ -121,10 +125,11 @@ class OrderResource extends Resource
     public static function getProductsRepeater(): Repeater
     {
         return Repeater::make('orderProducts')
+            ->label(__('Products'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_id')
-                    ->label('Products')
+                    ->label(__('Product'))
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -137,7 +142,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -146,7 +151,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -164,10 +169,11 @@ class OrderResource extends Resource
     public static function getProductComplementsRepeater(): Repeater
     {
         return Repeater::make('orderProductComplements')
+            ->label(__('Product complements'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_complement_id')
-                    ->label('Product Complements')
+                    ->label(__('Product complement'))
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -180,7 +186,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -189,7 +195,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -207,10 +213,11 @@ class OrderResource extends Resource
     public static function getProductSparePartsRepeater(): Repeater
     {
         return Repeater::make('orderProductSpareParts')
+            ->label(__('Product spare parts'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_spare_part_id')
-                    ->label('Product Spare Parts')
+                    ->label('Product spare part')
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -223,7 +230,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -232,7 +239,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -245,5 +252,10 @@ class OrderResource extends Resource
             ->columns([
                 'md' => 10,
             ]);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Orders');
     }
 }

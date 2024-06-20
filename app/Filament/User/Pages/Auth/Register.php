@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Pages\Auth;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\TextInput;
+use App\Filament\User\Pages\Auth\Traits\HasSurname;
 use Filament\Pages\Auth\Register as BaseRegister;
 
 class Register extends BaseRegister
 {
+    use HasSurname;
+
     protected function getForms(): array
     {
         return [
@@ -25,13 +26,5 @@ class Register extends BaseRegister
                     ->statePath('data'),
             ),
         ];
-    }
-
-    protected function getSurNameFormComponent(): Component
-    {
-        return TextInput::make('surname')
-            ->label(__('Surname'))
-            ->required()
-            ->maxLength(255);
     }
 }

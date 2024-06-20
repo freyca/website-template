@@ -17,6 +17,7 @@
  # TODO:
   - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation
   - make meta-description a variable in head
+  - Modals with: https://github.com/wire-elements/modal
 
  # Producto:
    - titulo
