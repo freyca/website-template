@@ -30,33 +30,20 @@ class DatabaseSeeder extends Seeder
         $this->generateImage(config('custom.product-image-storage'), $imageName);
         $this->generateImage(config('custom.category-image-storage'), $imageName);
 
+        ProductFeature::factory(10)->create();
+
         Category::factory(5)
             ->has(
                 Product::factory(10)
-                    ->has(ProductSparePart::factory(1))
-                    ->has(ProductComplement::factory(1))
+                    ->has(
+                        ProductSparePart::factory(1)
+                            ->hasAttached(ProductFeature::find(rand(1, 10)))
+                    )->has(
+                        ProductComplement::factory(1)
+                            ->hasAttached(ProductFeature::find(rand(1, 10)))
+                    )->hasAttached(ProductFeature::find(rand(1, 10)))
             )
             ->create();
-
-        ProductFeature::factory(10)->create();
-
-        Product::all()->each(function (Product $product) {
-            $product->productFeatures()->attach(
-                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
-            );
-        });
-
-        ProductSparePart::all()->each(function (ProductSparePart $product) {
-            $product->productFeatures()->attach(
-                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
-            );
-        });
-
-        ProductComplement::all()->each(function (ProductComplement $product) {
-            $product->productFeatures()->attach(
-                ProductFeature::inRandomOrder()->limit(2)->pluck('id')->toArray()
-            );
-        });
 
         User::factory(10)
             ->has(UserMetadata::factory(1))
@@ -86,13 +73,13 @@ class DatabaseSeeder extends Seeder
     {
         $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
+        if (Storage::disk('public')->exists($relativePath . '/' . $imageName)) {
             return;
         }
 
         $newImage = fake()->image($path);
         $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
 
-        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
+        Storage::disk('public')->move($imageRelativePath, $relativePath . '/' . $imageName);
     }
 }
