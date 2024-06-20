@@ -1,7 +1,7 @@
-<footer class="container-fluid">
-    <div class="mx-auto py-4 text-lg bg-stone-800">
-        <div class="container navbar mx-auto">
-            <span class="text-red-50">I'm a footer</span>
-        </div>
-    </div>
+<!-- resources/views/partials/footer.blade.php -->
+
+<footer class="footer mt-auto py-3 bg-body-tertiary bg-dark text-white mt-5 p-4 text-center">
+  <div class="container">
+    <span class="text-body-secondary">Place &copy;footi. here.</span>
+  </div>
 </footer>
