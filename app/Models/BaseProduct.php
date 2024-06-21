@@ -17,6 +17,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property float $price_with_discount
  * @property bool $published
  * @property int $stock
+ * @property float $dimension_length
+ * @property float $dimension_width
+ * @property float $dimension_height
+ * @property float $dimension_weight
  * @property string $slogan
  * @property string $meta_description
  * @property string $short_description

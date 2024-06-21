@@ -123,6 +123,34 @@ class ProductResource extends Resource
 
                     ])->columns(3),
 
+                Forms\Components\Section::make(__('Dimensions'))
+                    ->schema([
+                        Forms\Components\TextInput::make('dimension_length')
+                            ->label(__('Length'))
+                            ->numeric()
+                            ->suffix('cm')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('dimension_width')
+                            ->label(__('Width'))
+                            ->suffix('cm')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('dimension_height')
+                            ->label(__('Height'))
+                            ->suffix('cm')
+                            ->numeric()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('dimension_weight')
+                            ->label(__('Weight'))
+                            ->suffix('kg')
+                            ->numeric()
+                            ->required(),
+
+                    ])->columns(4),
+
                 Forms\Components\Section::make()->schema([
                     Forms\Components\RichEditor::make('short_description')
                         ->label(__('Short description'))

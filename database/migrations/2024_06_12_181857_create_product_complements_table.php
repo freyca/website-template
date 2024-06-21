@@ -20,6 +20,10 @@ return new class extends Migration
             $table->float('price_when_user_owns_product');
             $table->boolean('published')->default(false)->index();
             $table->unsignedInteger('stock');
+            $table->float('dimension_length');
+            $table->float('dimension_width');
+            $table->float('dimension_height');
+            $table->float('dimension_weight');
             $table->string('slogan');
             $table->string('meta_description');
             $table->text('short_description');
