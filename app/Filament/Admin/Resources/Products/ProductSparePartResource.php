@@ -34,6 +34,8 @@ class ProductSparePartResource extends Resource
 
                 self::featuresSection(),
 
+                self::relatedProductsSection(),
+
                 self::textsSection(),
 
                 self::imagesSection(),

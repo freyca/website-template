@@ -131,7 +131,7 @@ trait FormBuilderTrait
             ->schema([
                 Forms\Components\Select::make('product_features')
                     ->required()
-                    ->label(__('Feature'))
+                    ->label(__('Select features'))
                     ->relationship(name: 'productFeatures', titleAttribute: 'name')
                     ->columnSpanFull()
                     ->searchable()
@@ -200,5 +200,20 @@ trait FormBuilderTrait
                     ->directory('product-images'),
 
             ])->columns(2);
+    }
+
+    private static function relatedProductsSection(): Forms\Components\Section
+    {
+        return Forms\Components\Section::make(__('Related products'))
+            ->schema([
+                Forms\Components\Select::make('related_products')
+                    ->label(__('Select products'))
+                    ->required()
+                    ->multiple()
+                    ->relationship(name: 'products', titleAttribute: 'name')
+                    ->columnSpanFull()
+                    ->searchable()
+                    ->preload(),
+            ]);
     }
 }
