@@ -198,6 +198,9 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->sortable(),
+
                 Tables\Columns\ImageColumn::make('main_image')
                     ->circular()
                     ->label(__('Image')),
@@ -229,8 +232,10 @@ class ProductResource extends Resource
                     ->boolean()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('stock')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->date()
+                    ->label(__('Creation date')),
             ])
             ->filters([
                 //
