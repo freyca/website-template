@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product\ProductSparePart;
+namespace App\Repositories\Database\Product\ProductSparePart;
 
 use App\Models\ProductSparePart;
-use App\Repositories\Product\BaseProductRepositoryInterface;
+use App\Repositories\Database\Product\BaseProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ProductSparePartRepositoryInterface extends BaseProductRepositoryInterface

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Repositories\Shop\ShopRepositoryInterface;
+use App\Repositories\Database\Shop\ShopRepositoryInterface;
 use App\Services\Cart;
 use App\Traits\CartActions;
 

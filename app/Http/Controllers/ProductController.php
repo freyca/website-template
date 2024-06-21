@@ -8,9 +8,9 @@ use App\Enums\Roles;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
-use App\Repositories\Product\Product\ProductRepositoryInterface;
-use App\Repositories\Product\ProductComplement\ProductComplementRepositoryInterface;
-use App\Repositories\Product\ProductSparePart\ProductSparePartRepositoryInterface;
+use App\Repositories\Database\Product\Product\ProductRepositoryInterface;
+use App\Repositories\Database\Product\ProductComplement\ProductComplementRepositoryInterface;
+use App\Repositories\Database\Product\ProductSparePart\ProductSparePartRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

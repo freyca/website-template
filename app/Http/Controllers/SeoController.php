@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
 
 class SeoController extends Controller

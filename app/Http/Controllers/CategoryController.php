@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
 
 class CategoryController extends Controller

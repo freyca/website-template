@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product\ProductComplement;
+namespace App\Repositories\Database\Product\ProductComplement;
 
 use App\Models\ProductComplement;
-use App\Repositories\Product\BaseProductRepositoryInterface;
+use App\Repositories\Database\Product\BaseProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ProductComplementRepositoryInterface extends BaseProductRepositoryInterface

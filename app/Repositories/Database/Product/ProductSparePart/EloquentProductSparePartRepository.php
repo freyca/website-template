@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product\ProductSparePart;
+namespace App\Repositories\Database\Product\ProductSparePart;
 
 use App\Models\ProductSparePart;
 use Illuminate\Database\Eloquent\Collection;

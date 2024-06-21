@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Shop;
+namespace App\Repositories\Database\Shop;
 
 use App\Models\BaseProduct;
 

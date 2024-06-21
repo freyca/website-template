@@ -18,8 +18,8 @@ parameters:
                 - '#Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::with\(\).#'
             path: tests/*
         -
-            message: '#Method App\\Repositories\\Product\\BaseProductRepositoryInterface#'
-            path: app/Repositories/Product/BaseProductRepositoryInterface.php
+            message: '#Method App\\Repositories\\Database\\Product\\BaseProductRepositoryInterface#'
+            path: app/Repositories/Database/Product/BaseProductRepositoryInterface.php
 #
 #    excludePaths:
 #       -

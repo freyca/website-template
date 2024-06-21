@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product\Product;
+namespace App\Repositories\Database\Product\Product;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;

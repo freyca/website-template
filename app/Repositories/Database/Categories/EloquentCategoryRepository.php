@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Categories;
+namespace App\Repositories\Database\Categories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;

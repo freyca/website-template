@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product;
+namespace App\Repositories\Database\Product;
 
 use Illuminate\Database\Eloquent\Collection;
 

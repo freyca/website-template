@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Product\ProductComplement;
+namespace App\Repositories\Database\Product\ProductComplement;
 
 use App\Models\ProductComplement;
 use Illuminate\Database\Eloquent\Collection;

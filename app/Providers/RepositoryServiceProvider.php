@@ -6,14 +6,14 @@ namespace App\Providers;
 
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\Cart\SessionCartRepository;
-use App\Repositories\Categories\CategoryRepositoryInterface;
-use App\Repositories\Categories\EloquentCategoryRepository;
-use App\Repositories\Product\Product\EloquentProductRepository;
-use App\Repositories\Product\Product\ProductRepositoryInterface;
-use App\Repositories\Product\ProductComplement\EloquentProductComplementRepository;
-use App\Repositories\Product\ProductComplement\ProductComplementRepositoryInterface;
-use App\Repositories\Product\ProductSparePart\EloquentProductSparePartRepository;
-use App\Repositories\Product\ProductSparePart\ProductSparePartRepositoryInterface;
+use App\Repositories\Database\Categories\CategoryRepositoryInterface;
+use App\Repositories\Database\Categories\EloquentCategoryRepository;
+use App\Repositories\Database\Product\Product\EloquentProductRepository;
+use App\Repositories\Database\Product\Product\ProductRepositoryInterface;
+use App\Repositories\Database\Product\ProductComplement\EloquentProductComplementRepository;
+use App\Repositories\Database\Product\ProductComplement\ProductComplementRepositoryInterface;
+use App\Repositories\Database\Product\ProductSparePart\EloquentProductSparePartRepository;
+use App\Repositories\Database\Product\ProductSparePart\ProductSparePartRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
