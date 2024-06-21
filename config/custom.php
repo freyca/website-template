@@ -21,6 +21,7 @@ return [
         'contacto' => '/contacto',
         'sobre nosotros' => '/sobre-nosotros',
         'carrito' => '/carrito',
+        'Login' => '/user',
     ],
 
     /**
