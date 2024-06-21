@@ -5,16 +5,24 @@ declare(strict_types=1);
 namespace App\Repositories\Database\Product\ProductSparePart;
 
 use App\Models\ProductSparePart;
+use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class EloquentProductSparePartRepository implements ProductSparePartRepositoryInterface
 {
+    use CacheKeys;
+
     /**
      * @return Collection<int, ProductSparePart>
      */
     public function getAll(): Collection
     {
-        return ProductSparePart::where('published', true)->get();
+        $cacheKey = $this->generateCacheKey(__FUNCTION__);
+
+        return Cache::remember($cacheKey, 3600, function () {
+            return ProductSparePart::where('published', true)->get();
+        });
     }
 
     /**
@@ -22,8 +30,12 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
      */
     public function featured(): Collection
     {
-        $featured_products = config('custom.featured-product-spare-parts');
+        $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        return ProductSparePart::whereIn('id', $featured_products)->get();
+        return Cache::remember($cacheKey, 3600, function () {
+            $featured_products = config('custom.featured-product-spare-parts');
+
+            return ProductSparePart::whereIn('id', $featured_products)->get();
+        });
     }
 }

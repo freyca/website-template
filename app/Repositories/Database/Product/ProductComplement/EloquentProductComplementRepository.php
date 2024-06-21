@@ -5,16 +5,24 @@ declare(strict_types=1);
 namespace App\Repositories\Database\Product\ProductComplement;
 
 use App\Models\ProductComplement;
+use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class EloquentProductComplementRepository implements ProductComplementRepositoryInterface
 {
+    use CacheKeys;
+
     /**
      * @return Collection<int, ProductComplement>
      */
     public function getAll(): Collection
     {
-        return ProductComplement::where('published', true)->get();
+        $cacheKey = $this->generateCacheKey(__FUNCTION__);
+
+        return Cache::remember($cacheKey, 3600, function () {
+            return ProductComplement::where('published', true)->get();
+        });
     }
 
     /**
@@ -22,8 +30,12 @@ class EloquentProductComplementRepository implements ProductComplementRepository
      */
     public function featured(): Collection
     {
-        $featured_products = config('custom.featured-product-complements');
+        $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        return ProductComplement::whereIn('id', $featured_products)->get();
+        return Cache::remember($cacheKey, 3600, function () {
+            $featured_products = config('custom.featured-product-complements');
+
+            return ProductComplement::whereIn('id', $featured_products)->get();
+        });
     }
 }
