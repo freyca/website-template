@@ -9,26 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductComplement extends BaseProduct
 {
-    protected $fillable = [
-        'name',
-        'ean13',
-        'slug',
-        'price',
-        'price_with_discount',
-        'price_when_user_owns_product',
-        'published',
-        'stock',
-        'dimension_length',
-        'dimension_width',
-        'dimension_height',
-        'dimension_weight',
-        'slogan',
-        'meta_description',
-        'short_description',
-        'description',
-        'main_image',
-        'images',
-    ];
+    /**
+     * Create a new Eloquent model instance.
+     *
+     * @param  array<string>  $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->mergeFillable(['price_when_user_owns_product']);
+    }
 
     /**
      * @return BelongsToMany<Product>

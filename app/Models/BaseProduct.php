@@ -34,6 +34,26 @@ abstract class BaseProduct extends Model
     use HasFactory;
     use HasSlug;
 
+    protected $fillable = [
+        'name',
+        'ean13',
+        'slug',
+        'price',
+        'price_with_discount',
+        'published',
+        'stock',
+        'dimension_length',
+        'dimension_width',
+        'dimension_height',
+        'dimension_weight',
+        'slogan',
+        'meta_description',
+        'short_description',
+        'description',
+        'main_image',
+        'images',
+    ];
+
     protected $casts = [
         'images' => 'array',
     ];

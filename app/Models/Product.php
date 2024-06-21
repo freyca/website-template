@@ -12,33 +12,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Product extends BaseProduct
 {
     /**
+     * Create a new Eloquent model instance.
+     *
+     * @param  array<string>  $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->mergeFillable(['category_id']);
+    }
+
+    /**
      * The event map for the model.
      *
      * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'deleting' => ProductDeleted::class,
-    ];
-
-    protected $fillable = [
-        'name',
-        'ean13',
-        'slug',
-        'price',
-        'price_with_discount',
-        'published',
-        'stock',
-        'dimension_length',
-        'dimension_width',
-        'dimension_height',
-        'dimension_weight',
-        'slogan',
-        'meta_description',
-        'short_description',
-        'description',
-        'main_image',
-        'images',
-        'category_id',
     ];
 
     /**
