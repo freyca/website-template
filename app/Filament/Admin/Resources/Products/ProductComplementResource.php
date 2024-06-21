@@ -87,6 +87,33 @@ class ProductComplementResource extends Resource
 
                     ])->columns(4),
 
+                Forms\Components\Section::make(__('Features'))
+                    ->schema([
+                        Forms\Components\Select::make('product_features')
+                            ->required()
+                            ->label(__('Feature'))
+                            ->relationship(name: 'productFeatures', titleAttribute: 'name')
+                            ->columnSpanFull()
+                            ->searchable()
+                            ->preload()
+                            ->multiple()
+                            ->createOptionForm([
+                                Forms\Components\Section::make()->schema([
+                                    Forms\Components\TextInput::make('name')
+                                        ->required()
+                                        ->maxLength(255),
+                                    Forms\Components\RichEditor::make('description')
+                                        ->required()
+                                        ->columnSpan('full')
+                                        ->disableToolbarButtons([
+                                            'attachFiles',
+                                            'table',
+                                        ]),
+                                ]),
+
+                            ]),
+                    ])->columns(1),
+
                 Forms\Components\Section::make('Texts')->schema([
                     Forms\Components\RichEditor::make('short_description')
                         ->required()
@@ -179,9 +206,7 @@ class ProductComplementResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            ProductResource\RelationManagers\ProductFeaturesRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array
