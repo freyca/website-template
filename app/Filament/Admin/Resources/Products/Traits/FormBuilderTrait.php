@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Admin\Resources\Products\Traits;
 
 use Filament\Forms;
@@ -62,6 +64,34 @@ trait FormBuilderTrait
                     ->integer(),
 
             ])->columns(3);
+    }
+
+    private static function priceSectionWithParentProduct(): Forms\Components\Section
+    {
+        return Forms\Components\Section::make(__('Pricing'))
+            ->schema([
+                Forms\Components\TextInput::make('price')
+                    ->label(__('Precio'))
+                    ->numeric()
+                    ->suffix('€')
+                    ->required(),
+
+                Forms\Components\TextInput::make('price_with_discount')
+                    ->label(__('Price with discount'))
+                    ->suffix('€')
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('price_when_user_owns_product')
+                    ->label(__('Price when user owns parent product'))
+                    ->suffix('€')
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('stock')
+                    ->required()
+                    ->numeric()
+                    ->integer(),
+
+            ])->columns(2);
     }
 
     private static function dimensionsSection(): Forms\Components\Section

@@ -18,9 +18,9 @@ class Product extends BaseProduct
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->mergeFillable(['category_id']);
+
+        parent::__construct($attributes);
     }
 
     /**

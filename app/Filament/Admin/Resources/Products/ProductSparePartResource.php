@@ -28,7 +28,7 @@ class ProductSparePartResource extends Resource
             ->schema([
                 self::mainSection(),
 
-                self::priceSection(),
+                self::priceSectionWithParentProduct(),
 
                 self::dimensionsSection(),
 
