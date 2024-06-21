@@ -26,33 +26,48 @@ class ProductSparePartResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Toggle::make('published')
-                        ->label('Visible on shop')
-                        ->helperText('If off, this product will be hidden from the shop.')
+                        ->label(__('Visible on shop'))
+                        ->helperText(__('If off, this product will be hidden from the shop.'))
                         ->columnSpan('full')
                         ->default(false),
+
+                    Forms\Components\TextInput::make('ean13')
+                        ->label(__('Ean13'))
+                        ->required()
+                        ->numeric(),
+
                     Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
+
                     Forms\Components\TextInput::make('slug')
                         ->disabled(),
+
                     Forms\Components\TextInput::make('slogan')
                         ->required()
                         ->maxLength(255),
+
                     Forms\Components\TextInput::make('meta_description')
+                        ->label(__('Meta description'))
                         ->required()
                         ->columnSpan('full')
                         ->maxLength(255),
                 ])->columns(2),
 
-                Forms\Components\Section::make('Pricing')
+                Forms\Components\Section::make(__('Pricing'))
                     ->schema([
                         Forms\Components\TextInput::make('price')
+                            ->label(__('Price'))
                             ->numeric()
                             ->suffix('€')
                             ->required(),
+
                         Forms\Components\TextInput::make('price_with_discount')
+                            ->label(__('Price with discount'))
                             ->suffix('€')
                             ->numeric(),
+
                         Forms\Components\TextInput::make('stock')
                             ->required()
                             ->numeric()
@@ -100,9 +115,11 @@ class ProductSparePartResource extends Resource
                             ->createOptionForm([
                                 Forms\Components\Section::make()->schema([
                                     Forms\Components\TextInput::make('name')
+                                        ->label(__('Name'))
                                         ->required()
                                         ->maxLength(255),
                                     Forms\Components\RichEditor::make('description')
+                                        ->label(__('Description'))
                                         ->required()
                                         ->columnSpan('full')
                                         ->disableToolbarButtons([
@@ -114,8 +131,9 @@ class ProductSparePartResource extends Resource
                             ]),
                     ])->columns(1),
 
-                Forms\Components\Section::make('Texts')->schema([
+                Forms\Components\Section::make(__('Texts'))->schema([
                     Forms\Components\RichEditor::make('short_description')
+                        ->label(__('Short description'))
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([
@@ -123,6 +141,7 @@ class ProductSparePartResource extends Resource
                             'table',
                         ]),
                     Forms\Components\MarkdownEditor::make('description')
+                        ->label(__('Description'))
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([
@@ -131,23 +150,24 @@ class ProductSparePartResource extends Resource
                         ]),
                 ]),
 
-                Forms\Components\Section::make('Images')
+                Forms\Components\Section::make(__('Images'))
                     ->schema([
                         Forms\Components\FileUpload::make('main_image')
+                            ->label(__('Main image'))
                             ->required()
                             ->reorderable()
                             ->moveFiles()
                             ->orientImagesFromExif(false)
-                            ->directory('product-images')
-                            ->helperText('Product main image'),
+                            ->directory('product-images'),
+
                         Forms\Components\FileUpload::make('images')
+                            ->label(__('Additional images'))
                             ->multiple()
                             ->required()
                             ->reorderable()
                             ->moveFiles()
                             ->orientImagesFromExif(false)
-                            ->directory('product-images')
-                            ->helperText('Product additional images'),
+                            ->directory('product-images'),
                     ])->columns(2),
             ]);
     }
@@ -161,12 +181,14 @@ class ProductSparePartResource extends Resource
 
                 Tables\Columns\ImageColumn::make('main_image')
                     ->circular()
-                    ->label('Image'),
+                    ->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
+                    ->label(__('Price'))
                     ->badge()
                     ->money(
                         currency: 'eur',
@@ -175,6 +197,7 @@ class ProductSparePartResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price_with_discount')
+                    ->label(__('Price with discount'))
                     ->badge()
                     ->money(
                         currency: 'eur',
@@ -183,6 +206,7 @@ class ProductSparePartResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('published')
+                    ->label(__('Published'))
                     ->boolean()
                     ->sortable(),
 
@@ -221,5 +245,10 @@ class ProductSparePartResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Products');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Spare parts');
     }
 }

@@ -11,6 +11,7 @@ class ProductSparePart extends BaseProduct
 {
     protected $fillable = [
         'name',
+        'ean13',
         'slug',
         'price',
         'price_with_discount',

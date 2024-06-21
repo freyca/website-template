@@ -23,6 +23,7 @@ class ProductComplementFactory extends Factory
 
         return [
             'name' => fake()->unique()->catchPhrase(),
+            'ean13' => fake()->unique()->ean13(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),
             'price_when_user_owns_product' => $price * 0.8,

@@ -32,6 +32,11 @@ class ProductResource extends Resource
                         ->columnSpan('full')
                         ->default(false),
 
+                    Forms\Components\TextInput::make('ean13')
+                        ->label(__('Ean13'))
+                        ->required()
+                        ->numeric(),
+
                     Forms\Components\TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
@@ -178,7 +183,7 @@ class ProductResource extends Resource
                             ]),
                     ])->columns(1),
 
-                Forms\Components\Section::make()->schema([
+                Forms\Components\Section::make(__('Texts'))->schema([
                     Forms\Components\RichEditor::make('short_description')
                         ->label(__('Short description'))
                         ->required()

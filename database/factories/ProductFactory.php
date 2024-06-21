@@ -24,6 +24,7 @@ class ProductFactory extends Factory
 
         return [
             'name' => fake()->unique()->catchPhrase(),
+            'ean13' => fake()->unique()->ean13(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),
             'published' => fake()->boolean(75),

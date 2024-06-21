@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
+ * @property int $ean13
  * @property string $slug
  * @property string $name
  * @property float $price

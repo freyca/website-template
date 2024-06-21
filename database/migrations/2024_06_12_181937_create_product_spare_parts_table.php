@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_spare_parts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('ean13')->unique();
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->float('price');
