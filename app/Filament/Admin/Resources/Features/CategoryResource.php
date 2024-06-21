@@ -62,7 +62,8 @@ class CategoryResource extends Resource
                     ->label('Image'),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

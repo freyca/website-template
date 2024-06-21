@@ -239,6 +239,7 @@ class ProductResource extends Resource
 
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
+                    ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')

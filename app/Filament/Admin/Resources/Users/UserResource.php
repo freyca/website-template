@@ -52,12 +52,16 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('surname')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('role')
+                    ->searchable()
                     ->sortable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')

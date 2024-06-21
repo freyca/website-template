@@ -83,8 +83,10 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.email')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('purchase_cost')
                     ->badge()
