@@ -132,7 +132,7 @@ trait FormBuilderTrait
                 Forms\Components\Select::make('product_features')
                     ->required()
                     ->label(__('Select features'))
-                    ->relationship(name: 'productFeatures', titleAttribute: 'name')
+                    ->relationship(name: 'productFeatureValues', titleAttribute: 'name')
                     ->columnSpanFull()
                     ->searchable()
                     ->preload()

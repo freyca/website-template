@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ProductComplement;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('order_product_complement', function (Blueprint $table) {
             $table->id();
             $table->foreignUlid('order_id')->constrained();
-            $table->foreignId('product_complement_id')->constrained();
+            $table->foreignIdFor(ProductComplement::class)->constrained();
             $table->float('unit_price');
             $table->integer('quantity');
             $table->timestamps();

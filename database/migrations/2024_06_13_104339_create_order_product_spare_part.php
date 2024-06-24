@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ProductSparePart;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('order_product_spare_part', function (Blueprint $table) {
             $table->id();
             $table->foreignUlid('order_id')->constrained();
-            $table->foreignId('product_spare_part_id')->constrained();
+            $table->foreignIdFor(ProductSparePart::class)->constrained();
             $table->float('unit_price');
             $table->integer('quantity');
             $table->timestamps();

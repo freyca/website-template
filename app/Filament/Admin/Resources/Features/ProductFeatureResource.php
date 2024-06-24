@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Admin\Resources\Features;
 
 use App\Filament\Admin\Resources\Features\ProductFeatureResource\Pages;
+use App\Filament\Admin\Resources\ProductFeatureResource\RelationManagers\ProductFeatureValuesRelationManager;
 use App\Models\ProductFeature;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -61,7 +62,7 @@ class ProductFeatureResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductFeatureValuesRelationManager::class,
         ];
     }
 

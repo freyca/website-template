@@ -42,13 +42,13 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $product->productFeatures;
+        $featureValues = $product->productFeatureValues;
 
         return view(
             'product',
             [
                 'product' => $product,
-                'features' => $features,
+                'features' => $featureValues,
             ]
         );
     }
@@ -72,7 +72,7 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productComplement->productFeatures;
+        $features = $productComplement->productFeatureValues;
 
         return view(
             'product',
@@ -102,7 +102,7 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productSparePart->productFeatures;
+        $features = $productSparePart->productFeatureValues;
 
         return view(
             'product',

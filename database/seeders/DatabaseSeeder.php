@@ -11,6 +11,7 @@ use App\Models\OrderProductSparePart;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductFeature;
+use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
 use App\Models\User;
 use App\Models\UserMetadata;
@@ -30,18 +31,21 @@ class DatabaseSeeder extends Seeder
         $this->generateImage(config('custom.product-image-storage'), $imageName);
         $this->generateImage(config('custom.category-image-storage'), $imageName);
 
-        ProductFeature::factory(10)->create();
+        ProductFeature::factory(10)
+            ->has(
+                ProductFeatureValue::factory(2)
+            )->create();
 
         Category::factory(5)
             ->has(
                 Product::factory(10)
                     ->has(
                         ProductSparePart::factory(1)
-                            ->hasAttached(ProductFeature::find(rand(1, 10)))
+                            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
                     )->has(
                         ProductComplement::factory(1)
-                            ->hasAttached(ProductFeature::find(rand(1, 10)))
-                    )->hasAttached(ProductFeature::find(rand(1, 10)))
+                            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+                    )->hasAttached(ProductFeatureValue::find(rand(1, 10)))
             )
             ->create();
 

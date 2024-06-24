@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductFeature extends Model
 {
@@ -18,37 +18,10 @@ class ProductFeature extends Model
     ];
 
     /**
-     * @return BelongsToMany<Product>
+     * @return HasMany<ProductFeatureValue>
      */
-    public function products(): BelongsToMany
+    public function productFeatureValues(): HasMany
     {
-        return $this->belongsToMany(Product::class);
-    }
-
-    /**
-     * @return BelongsToMany<ProductComplement>
-     */
-    public function productComplements(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductComplement::class);
-    }
-
-    /**
-     * @return BelongsToMany<ProductSparePart>
-     */
-    public function productSpareParts(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductSparePart::class);
-    }
-
-    public static function allProducts(int $id): ?self
-    {
-        return self::with(
-            [
-                'products',
-                'productSpareParts',
-                'productComplements',
-            ]
-        )->find($id);
+        return $this->hasMany(ProductFeatureValue::class);
     }
 }

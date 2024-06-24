@@ -57,10 +57,10 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeature>
+     * @return BelongsToMany<ProductFeatureValue>
      */
-    public function features(): BelongsToMany
+    public function productFeatureValues(): BelongsToMany
     {
-        return $this->belongsToMany(ProductFeature::class);
+        return $this->belongsToMany(ProductFeatureValue::class);
     }
 }
