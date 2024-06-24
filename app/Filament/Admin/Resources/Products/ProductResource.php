@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products;
 
+use App\Filament\Admin\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Admin\Resources\Products\ProductResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\Product;
@@ -155,7 +156,9 @@ class ProductResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ProductVariantsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

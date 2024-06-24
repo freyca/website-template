@@ -13,6 +13,7 @@ use App\Models\ProductComplement;
 use App\Models\ProductFeature;
 use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
+use App\Models\ProductVariant;
 use App\Models\User;
 use App\Models\UserMetadata;
 use Illuminate\Database\Seeder;
@@ -46,6 +47,14 @@ class DatabaseSeeder extends Seeder
                         ProductComplement::factory(1)
                             ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
                     )->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+            )
+            ->create();
+
+        // Products with variations
+        Product::factory(5)
+            ->has(
+                ProductVariant::factory(2)
+                    ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
             )
             ->create();
 

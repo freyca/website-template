@@ -8,6 +8,7 @@ use App\Events\ProductDeleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends BaseProduct
 {
@@ -62,5 +63,13 @@ class Product extends BaseProduct
     public function productFeatureValues(): BelongsToMany
     {
         return $this->belongsToMany(ProductFeatureValue::class);
+    }
+
+    /**
+     * @return HasMany<ProductVariant>
+     */
+    public function productVariants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 }
