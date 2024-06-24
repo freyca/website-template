@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Filament\Admin\Resources\Features;
 
 use App\Filament\Admin\Resources\Features\ProductFeatureResource\Pages;
-use App\Filament\Admin\Resources\ProductFeatureResource\RelationManagers\ProductFeatureValuesRelationManager;
 use App\Models\ProductFeature;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -25,9 +24,11 @@ class ProductFeatureResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->schema([
                     Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\RichEditor::make('description')
+                        ->label(__('Description'))
                         ->required()
                         ->columnSpan('full')
                         ->disableToolbarButtons([
@@ -43,6 +44,7 @@ class ProductFeatureResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->sortable()
                     ->searchable(),
             ])
@@ -62,7 +64,7 @@ class ProductFeatureResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ProductFeatureValuesRelationManager::class,
+            ProductFeatureResource\RelationManagers\ProductFeatureValuesRelationManager::class,
         ];
     }
 
@@ -78,5 +80,10 @@ class ProductFeatureResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Features');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Product features');
     }
 }

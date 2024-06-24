@@ -35,12 +35,12 @@ class OrderResource extends Resource
                     Forms\Components\TextInput::make('id')
                         ->disabled(),
                     Forms\Components\TextInput::make('purchase_cost')
-                        ->label('Price')
+                        ->label(__('Price'))
                         ->required()
                         ->numeric(),
                     Forms\Components\Select::make('user_id')
                         ->relationship('user', 'email')
-                        ->label('Customer email')
+                        ->label(__('Customer email'))
                         ->searchable()
                         ->preload()
                         ->required(),
@@ -51,13 +51,15 @@ class OrderResource extends Resource
                                 return $record->name.' '.$record->surname;
                             }
                         )
-                        ->label('Customer name')
+                        ->label(__('Customer name'))
                         ->required(),
                     Forms\Components\ToggleButtons::make('payment_method')
+                        ->label(__('Payment method'))
                         ->inline()
                         ->options(PaymentMethods::class)
                         ->required(),
                     Forms\Components\ToggleButtons::make('status')
+                        ->label(__('Status'))
                         ->inline()
                         ->options(OrderStatus::class)
                         ->required()
@@ -86,20 +88,24 @@ class OrderResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.email')
+                    ->label(__('User'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('purchase_cost')
+                    ->label(__('Purchase cost'))
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
                     ->sortable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_method')
+                    ->label(__('Payment method'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->date()
-                    ->label('Order Date'),
+                    ->label(__('Order date')),
             ])
             ->filters([
                 //
@@ -133,10 +139,11 @@ class OrderResource extends Resource
     public static function getProductsRepeater(): Repeater
     {
         return Repeater::make('orderProducts')
+            ->label(__('Order products'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_id')
-                    ->label('Products')
+                    ->label(__('Product'))
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -149,7 +156,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -158,7 +165,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -193,10 +200,11 @@ class OrderResource extends Resource
     public static function getProductComplementsRepeater(): Repeater
     {
         return Repeater::make('orderProductComplements')
+            ->label(__('Order product complements'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_complement_id')
-                    ->label('Product Complements')
+                    ->label(__('Product complement'))
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -209,7 +217,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -218,7 +226,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -253,10 +261,11 @@ class OrderResource extends Resource
     public static function getProductSparePartsRepeater(): Repeater
     {
         return Repeater::make('orderProductSpareParts')
+            ->label(__('Order product spare parts'))
             ->relationship()
             ->schema([
                 Forms\Components\Select::make('product_spare_part_id')
-                    ->label('Product Spare Parts')
+                    ->label(__('Product spare part'))
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
@@ -269,7 +278,7 @@ class OrderResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('quantity')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
                     ->columnSpan([
@@ -278,7 +287,7 @@ class OrderResource extends Resource
                     ->required(),
 
                 Forms\Components\TextInput::make('unit_price')
-                    ->label('Unit Price')
+                    ->label(__('Unit Price'))
                     ->disabled()
                     ->dehydrated()
                     ->numeric()
@@ -321,5 +330,10 @@ class OrderResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Orders');
     }
 }

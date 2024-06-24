@@ -24,6 +24,7 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('slug')
@@ -32,6 +33,7 @@ class CategoryResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\RichEditor::make('description')
+                        ->label(__('Description'))
                         ->required()
                         ->columnSpanFull()
                         ->disableToolbarButtons([
@@ -41,11 +43,13 @@ class CategoryResource extends Resource
                 ])->columns(2),
 
                 Forms\Components\FileUpload::make('big_image')
+                    ->label(__('Big image'))
                     ->required()
                     ->moveFiles()
                     ->orientImagesFromExif(false)
                     ->directory('category-images'),
                 Forms\Components\FileUpload::make('small_image')
+                    ->label(__('Small image'))
                     ->required()
                     ->moveFiles()
                     ->orientImagesFromExif(false)
@@ -59,9 +63,10 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('small_image')
                     ->circular()
-                    ->label('Image'),
+                    ->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->sortable()
                     ->searchable(),
             ])
@@ -97,5 +102,10 @@ class CategoryResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Features');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Categories');
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Admin\Resources\ProductResource\RelationManagers;
+namespace App\Filament\Admin\Resources\Products\ProductResource\RelationManagers;
 
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use Filament\Forms;

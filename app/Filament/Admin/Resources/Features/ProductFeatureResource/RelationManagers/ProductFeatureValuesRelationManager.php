@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Admin\Resources\ProductFeatureResource\RelationManagers;
+namespace App\Filament\Admin\Resources\Features\ProductFeatureResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductFeatureValuesRelationManager extends RelationManager
 {
@@ -52,5 +53,15 @@ class ProductFeatureValuesRelationManager extends RelationManager
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('Product feature values');
+    }
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('Product feature values');
     }
 }

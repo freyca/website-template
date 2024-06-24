@@ -19,13 +19,16 @@ class UserMetadataRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('address')
+                    ->label(__('Address'))
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('city')
+                    ->label(__('City'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('postal_code')
+                    ->label(__('Postal code'))
                     ->required()
                     ->numeric()
                     ->integer()
@@ -39,9 +42,9 @@ class UserMetadataRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('address')
             ->columns([
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('city'),
-                Tables\Columns\TextColumn::make('postal_code'),
+                Tables\Columns\TextColumn::make('address')->label(__('Address')),
+                Tables\Columns\TextColumn::make('city')->label(__('City')),
+                Tables\Columns\TextColumn::make('postal_code')->label(__('Postal code')),
             ])
             ->filters([
                 //

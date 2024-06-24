@@ -34,14 +34,15 @@ class UserResource extends Resource
                     //    ->options(Roles::class),
                     Forms\Components\TextInput::make('name')
                         ->required()
-                        ->label('Name'),
+                        ->label(__('Name')),
                     Forms\Components\TextInput::make('surname')
                         ->required()
-                        ->label('Surname'),
+                        ->label(__('Surname')),
                     Forms\Components\TextInput::make('email')
                         ->required()
                         ->email(),
                     Forms\Components\TextInput::make('password')
+                        ->label(__('Password'))
                         ->password(),
                 ])->columns(2),
             ]);
@@ -52,22 +53,25 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('surname')
+                    ->label(__('Surname'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('role')
+                    ->label(__('Role'))
                     ->searchable()
                     ->sortable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->date()
-                    ->label('Registered at'),
+                    ->label(__('Registered date')),
             ])
             ->filters([
                 //
@@ -101,5 +105,10 @@ class UserResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('User');
     }
 }
