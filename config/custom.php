@@ -20,8 +20,14 @@ return [
         'piezas de repuesto' => '/piezas-de-repuesto',
         'contacto' => '/contacto',
         'sobre nosotros' => '/sobre-nosotros',
+    ],
+
+    /**
+     * This sections will be shown on navbar, floating to the right
+     */
+    'customer-sections' => [
         'carrito' => '/carrito',
-        'Login' => '/user',
+        'login' => '/user',
     ],
 
     /**

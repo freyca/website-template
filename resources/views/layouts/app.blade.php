@@ -9,8 +9,6 @@
 
     <x-navbar />
 
-    <x-brand-bar />
-
     <x-main-content-area />
 
     <x-footer />

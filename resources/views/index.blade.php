@@ -50,9 +50,4 @@
             </div>
         </div>
     </div>
-
-
-    <div class="container mx-auto text-3xl font-bold underline">
-        Hello world!
-        </h1>
-    @endsection
+@endsection
