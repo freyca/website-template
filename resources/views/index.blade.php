@@ -5,7 +5,7 @@
 
     <div class="container mx-auto">
         <h2 class="text-3xl font-bold m-10">
-            Categories
+            {{ __('Categories') }}
         </h2>
 
         <div class="mt-10 columns-3 inline-flex">
