@@ -18,11 +18,12 @@ return [
         'productos' => '/productos',
         'complementos de producto' => '/complementos-producto',
         'piezas de repuesto' => '/piezas-de-repuesto',
-        'contacto' => '/contacto',
     ],
 
     'footer-sections' => [
+        'contacto' => '/contacto',
         'sobre nosotros' => '/sobre-nosotros',
+        'politica de privacidad' => '/politica-de-privacidad',
     ],
 
     /**

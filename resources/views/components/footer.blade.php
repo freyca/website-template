@@ -1,9 +1,18 @@
-<footer class="footer mt-auto py-3 bg-body-tertiary bg-dark text-white p-4 text-center">
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="p-5 bg-primary text-center">
-                <h1>Footer</h1>
-            </div>
+<footer class="bg-white rounded-lg shadow dark:bg-gray-900 mt-12">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                <img src="https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png" class="h-8"
+                    alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Roteco</span>
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                @foreach (config('custom.footer-sections') as $section => $url)
+                    <li>
+                        <a href="{{ $url }}" class="hover:underline me-4 md:me-6"> {{ ucfirst($section) }}</a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
     </div>
 </footer>
