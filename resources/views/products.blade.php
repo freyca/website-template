@@ -1,29 +1,15 @@
 @extends('layouts.app', ['title' => config('custom.title')])
 
 @section('main-content')
-<div class="container mx-auto">
-    <h1 class="text-3xl font-bold m-10">
-        Products
-    </h1>
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold m-10">
+            Products
+        </h1>
 
-    <div class="columns-3">
-        @foreach ( $products as $product )
-        <div class="md:container md:mx-auto" style="border: 4px solid black">
-            @php
-                $path = match (true) {
-                    get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
-                    get_class($product) === 'App\Models\ProductComplement' => '/complemento',
-                    default =>'/producto',
-                }
-            @endphp
-
-            <a href="{{$path}}/{{$product->slug}}">
-                <img src="{{@asset('/storage/' . $product->main_image)}}" style="max-height: 200px" />
-                <h2 class="text-2xl font-bold"> {{$product->name}} </h2>
-            </a>
-            <p>{{$product->slogan}}</p>
+        <div class="columns-3 inline-flex">
+            @foreach ($products as $product)
+                <x-product-container :product="$product" />
+            @endforeach
         </div>
-        @endforeach
     </div>
-</div>
 @endsection
