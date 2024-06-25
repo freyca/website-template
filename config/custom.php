@@ -19,6 +19,9 @@ return [
         'complementos de producto' => '/complementos-producto',
         'piezas de repuesto' => '/piezas-de-repuesto',
         'contacto' => '/contacto',
+    ],
+
+    'footer-sections' => [
         'sobre nosotros' => '/sobre-nosotros',
     ],
 
