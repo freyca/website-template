@@ -1,7 +1,7 @@
-<div class="w-full max-w-xs" style="border: 4px solid black">
+<div class="basis-1/3 my-10">
     <a href="{{ $category->slug }}">
-        <img src="{{ @asset('/storage/' . $category->big_image) }}" style="max-height: 200px" />
-        <h2 class="text-2xl font-bold"> {{ $category->name }} </h2>
+        <img class="mx-auto justify-center h-52" src="{{ @asset('/storage/' . $category->big_image) }}" />
+        <h2 class="mx-auto mt-2 text-center text-2xl font-bold"> {{ $category->name }} </h2>
     </a>
-    <p>{{ $category->slogan }}</p>
+    <p class="mx-auto mt-2 text-center">{{ $category->slogan }}</p>
 </div>

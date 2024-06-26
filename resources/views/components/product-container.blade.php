@@ -1,4 +1,4 @@
-<div class="w-full max-w-xs" style="border: 4px solid black">
+<div class="basis-1/3 my-10">
     @php
         $path = match (true) {
             get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
@@ -8,8 +8,8 @@
     @endphp
 
     <a href="{{ $path }}/{{ $product->slug }}">
-        <img src="{{ @asset('/storage/' . $product->main_image) }}" style="max-height: 200px" />
-        <h2 class="text-2xl font-bold"> {{ $product->name }} </h2>
+        <img class="mx-auto justify-center h-52" src="{{ @asset('/storage/' . $product->main_image) }}" />
+        <h2 class="mx-auto mt-2 text-center text-2xl font-bold"> {{ $product->name }} </h2>
     </a>
-    <p>{{ $product->slogan }}</p>
+    <p class="mx-auto mt-2 text-center">{{ $product->slogan }}</p>
 </div>
