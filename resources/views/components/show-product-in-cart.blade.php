@@ -6,10 +6,10 @@
 
     @if ($product->price_with_discount)
         {{-- Tachamos el precio anterior y lo mostramos con descuento --}}
-        <span class="line-through">{{$product->price}}€</span>
-        <span>{{$product->price_with_discount}}€</span>
+        <span class="line-through">{{ $product->price }}€</span>
+        <span>{{ $product->price_with_discount }}€</span>
     @else
-        <span> {{$product->price}}€</span>
+        <span> {{ $product->price }}€</span>
     @endif
 
     {{ $cart->getTotalCostforProduct($product, true) }}
