@@ -8,7 +8,7 @@ use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('frontend')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::get('quienes-somos', function () {
         return view('who-we-are');

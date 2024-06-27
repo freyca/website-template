@@ -14,7 +14,9 @@ use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
+use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -39,6 +41,7 @@ class UserPanelProvider extends PanelProvider
                 isSimple: false
             )
             ->topbar()
+            ->brandLogo('https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png')
             ->navigationItems([
                 NavigationItem::make(__('Home'))
                     ->url('/')
@@ -65,6 +68,12 @@ class UserPanelProvider extends PanelProvider
                     ->icon('heroicon-s-wrench')
                     ->group(__('Website urls'))
                     ->sort(5),
+                NavigationItem::make(__('Profile'))
+                    ->url('/user/profile', shouldOpenInNewTab: false)
+                    ->icon('heroicon-s-user-circle')
+                    ->group(__('User'))
+                    ->sort(1),
+
             ])
             ->colors([
                 'primary' => Color::Zinc,
@@ -85,17 +94,6 @@ class UserPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
             ])
-            ->navigationItems([
-                NavigationItem::make(__('Profile'))
-                    ->url('/user/profile', shouldOpenInNewTab: false)
-                    ->icon('heroicon-s-user-circle')
-                    ->group(__('User'))
-                    ->sort(1),
-
-                //NavigationItem::make(__('Roteco'))
-                //    ->url('/productos', shouldOpenInNewTab: true)
-                //    ->icon('heroicon-s-home'),
-            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -110,6 +108,10 @@ class UserPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn (): View => view('components.navbar.admin-navbar')
+            );
     }
 }
