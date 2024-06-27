@@ -16,6 +16,7 @@ trait PaymentActions
 
     public function cancelPurchase(Order $order): void
     {
-        $order->delete();
+        $order->status = OrderStatus::Cancelled;
+        $order->save();
     }
 }

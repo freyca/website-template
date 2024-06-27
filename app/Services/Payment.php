@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\PaymentMethods;
+use App\Enums\PaymentMethod;
 use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;

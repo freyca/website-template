@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\User\Resources;
 
 use App\Enums\OrderStatus;
-use App\Enums\PaymentMethods;
+use App\Enums\PaymentMethod;
 use App\Filament\User\Resources\OrderResource\Pages;
 use App\Models\Order;
 use App\Models\Product;
@@ -32,7 +32,7 @@ class OrderResource extends Resource
                 Forms\Components\Section::make([
                     Forms\Components\Select::make('payment_method')
                         ->label(__('Payment method'))
-                        ->options(PaymentMethods::class),
+                        ->options(PaymentMethod::class),
                     Forms\Components\TextInput::make('purchase_cost')
                         ->label(__('Price'))
                         ->suffix('€')

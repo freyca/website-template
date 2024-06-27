@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Admin\Resources\Users;
 
 use App\Enums\OrderStatus;
-use App\Enums\PaymentMethods;
+use App\Enums\PaymentMethod;
 use App\Filament\Admin\Resources\Products\ProductResource;
 use App\Filament\Admin\Resources\Users\OrderResource\Pages;
 use App\Models\Order;
@@ -56,7 +56,7 @@ class OrderResource extends Resource
                     Forms\Components\ToggleButtons::make('payment_method')
                         ->label(__('Payment method'))
                         ->inline()
-                        ->options(PaymentMethods::class)
+                        ->options(PaymentMethod::class)
                         ->required(),
                     Forms\Components\ToggleButtons::make('status')
                         ->label(__('Status'))

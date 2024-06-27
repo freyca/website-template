@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\OrderStatus;
-use App\Enums\PaymentMethods;
+use App\Enums\PaymentMethod;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -34,7 +34,7 @@ class OrderFactory extends Factory
     {
         $payment_methods = [];
 
-        foreach (PaymentMethods::cases() as $case) {
+        foreach (PaymentMethod::cases() as $case) {
             array_push($payment_methods, $case->value);
         }
 

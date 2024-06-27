@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Enums\PaymentMethods;
+use App\Enums\PaymentMethod;
 use App\Models\Scopes\OrderScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +27,7 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'payment_method' => PaymentMethods::class,
+        'payment_method' => PaymentMethod::class,
         'status' => OrderStatus::class,
     ];
 
