@@ -4,6 +4,7 @@
     "Address": "Dirección",
     "Big image": "Imagen grande",
     "Cancelled": "Cancelado",
+    "Cart": "Carrito",
     "Categories": "Categorías",
     "Category": "Categoria",
     "City": "Ciudad",
@@ -18,6 +19,7 @@
     "Enviar": "Enviar",
     "Full Description": "Descripción larga",
     "Height": "Alto",
+    "Home": "Inicio",
     "If off, this product will be hidden from the shop.": "Desactivado, este producto no estará visible en la tienda.",
     "Identifier": "Identificador",
     "Image": "Imagen",
@@ -76,6 +78,7 @@
     "User": "Usuario",
     "Users": "Usuarios",
     "Visible on shop": "Visible en la tienda",
+    "Website urls": "Enlaces de la página",
     "Weight": "Peso",
     "Width": "Ancho",
     "Your message will be replied soon.": "En poco tiempo recibirás respuesta a tu mensaje."

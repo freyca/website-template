@@ -39,6 +39,33 @@ class UserPanelProvider extends PanelProvider
                 isSimple: false
             )
             ->topbar()
+            ->navigationItems([
+                NavigationItem::make(__('Home'))
+                    ->url('/')
+                    ->icon('heroicon-o-home')
+                    ->group(__('Website urls'))
+                    ->sort(5),
+                NavigationItem::make(__('Cart'))
+                    ->url('/carrito')
+                    ->icon('heroicon-o-shopping-bag')
+                    ->group(__('Website urls'))
+                    ->sort(5),
+                NavigationItem::make(__('Products'))
+                    ->url('/products')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->group(__('Website urls'))
+                    ->sort(5),
+                NavigationItem::make(__('Product complements'))
+                    ->url('/complementos-producto')
+                    ->icon('heroicon-o-puzzle-piece')
+                    ->group(__('Website urls'))
+                    ->sort(5),
+                NavigationItem::make(__('Product spare parts'))
+                    ->url('/piezas-de-repuesto')
+                    ->icon('heroicon-s-wrench')
+                    ->group(__('Website urls'))
+                    ->sort(5),
+            ])
             ->colors([
                 'primary' => Color::Zinc,
             ])
