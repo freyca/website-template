@@ -8,23 +8,26 @@ use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('frontend')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get(
+        '/',
+        [HomeController::class, 'index']
+    )->name('home');
 
     Route::get('quienes-somos', function () {
         return view('who-we-are');
-    });
+    })->name('who-we-are');
 
     Route::get('como-comprar', function () {
         return view('how-to-buy');
-    });
+    })->name('how-to-buy');
 
     Route::get('sobre-nosotros', function () {
         return view('about-us');
-    });
+    })->name('about-us');
 
     Route::get('contacto', function () {
         return view('contact');
-    });
+    })->name('contact');
 
     /** Cart */
     Route::prefix('carrito')->name('cart.')->group(function () {
@@ -39,17 +42,17 @@ Route::middleware('frontend')->group(function () {
     });
 
     /** Products */
-    Route::get('/productos', [ProductController::class, 'all']);
-    Route::get('producto/{product}', [ProductController::class, 'product']);
-    Route::get('/complementos-producto', [ProductController::class, 'complements']);
-    Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement']);
-    Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts']);
-    Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart']);
+    Route::get('/productos', [ProductController::class, 'all'])->name('product-list');
+    Route::get('producto/{product}', [ProductController::class, 'product'])->name('product');
+    Route::get('/complementos-producto', [ProductController::class, 'complements'])->name('complement-list');
+    Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement'])->name('complement');
+    Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts'])->name('spare-part-list');
+    Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])->name('spare-part');
 
     /** Seo URL's */
     Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas']);
 
     /** Categories */
-    Route::get('categorias', [CategoryController::class, 'index']);
-    Route::get('{category}', [CategoryController::class, 'category']);
+    Route::get('categorias', [CategoryController::class, 'index'])->name('category-list');
+    Route::get('{category}', [CategoryController::class, 'category'])->name('category');
 });

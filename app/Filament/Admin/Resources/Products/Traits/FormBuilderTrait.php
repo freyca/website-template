@@ -39,14 +39,12 @@ trait FormBuilderTrait
                                 /** @phpstan-ignore-next-line */
                                 $record = $livewire->record;
 
-                                $prefix = match (true) {
-                                    is_a($record, Product::class) => '/producto/',
-                                    is_a($record, ProductComplement::class) => '/complementos-producto/',
-                                    is_a($record, ProductSparePart::class) => '/pieza-de-repuesto/',
-                                    default => '/'
+                                return match (true) {
+                                    is_a($record, Product::class) => route('product', ['product' => $record->slug]),
+                                    is_a($record, ProductComplement::class) => route('complement', ['productComplement' => $record->slug]),
+                                    is_a($record, ProductSparePart::class) => route('spare-part', ['productSparePart' => $record->slug]),
+                                    default => route('home')
                                 };
-
-                                return $prefix.$record->slug;
                             },
                             shouldOpenInNewTab: true
                         )
