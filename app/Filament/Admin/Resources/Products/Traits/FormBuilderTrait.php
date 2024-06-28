@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\Traits;
 
+use App\Models\Product;
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Livewire\Component;
 
 trait FormBuilderTrait
 {
@@ -25,7 +30,27 @@ trait FormBuilderTrait
             Forms\Components\TextInput::make('name')
                 ->label(__('Name'))
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->hintAction(
+                    Action::make(__('OpenProductUrl'))
+                        ->icon('heroicon-o-link')
+                        ->url(
+                            function (Component $livewire): string {
+                                /** @phpstan-ignore-next-line */
+                                $record = $livewire->record;
+
+                                $prefix = match (true) {
+                                    is_a($record, Product::class) => '/producto/',
+                                    is_a($record, ProductComplement::class) => '/complementos-producto/',
+                                    is_a($record, ProductSparePart::class) => '/pieza-de-repuesto/',
+                                    default => '/'
+                                };
+
+                                return $prefix.$record->slug;
+                            },
+                            shouldOpenInNewTab: true
+                        )
+                ),
 
             Forms\Components\TextInput::make('slug')
                 ->disabled(),
