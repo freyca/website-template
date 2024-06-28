@@ -50,7 +50,9 @@ Route::middleware('frontend')->group(function () {
     Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])->name('spare-part');
 
     /** Seo URL's */
-    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas']);
+    Route::name('seo.')->group(function () {
+        Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas'])->name('desbrozadoras-baratas');
+    });
 
     /** Categories */
     Route::get('categorias', [CategoryController::class, 'index'])->name('category-list');
