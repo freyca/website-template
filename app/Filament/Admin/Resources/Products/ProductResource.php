@@ -90,6 +90,26 @@ class ProductResource extends Resource
 
                 self::featuresSection(),
 
+                Forms\Components\Section::make(__('Related products'))
+                    ->schema([
+                        Forms\Components\Select::make('product_complements')
+                            ->required()
+                            ->label(__('Product complements'))
+                            ->relationship(name: 'productComplements', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->multiple(),
+
+                        Forms\Components\Select::make('product_spare_parts')
+                            ->required()
+                            ->label(__('Product spare parts'))
+                            ->relationship(name: 'productSpareParts', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->multiple(),
+
+                    ])->columns(2),
+
                 self::textsSection(),
 
                 self::imagesSection(),
