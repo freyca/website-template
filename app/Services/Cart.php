@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
 use App\Models\BaseProduct;
+use App\Models\Order;
+use App\Models\User;
 use App\Repositories\Cart\CartRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -78,5 +82,30 @@ final readonly class Cart
     public function clear(): void
     {
         $this->repository->clear();
+    }
+
+    public function buildOrder(PaymentMethod $paymentMethod, User $user): Order
+    {
+        $order = new Order();
+        $order->purchase_cost = (float) $this->getTotalCost();
+        $order->payment_method = $paymentMethod;
+        $order->status = OrderStatus::New;
+        $order->user_id = $user->id;
+
+        $cartProducts = $this->getCart();
+
+        foreach ($cartProducts as $index => $cartProduct) {
+            $this->associateProductToOrder($cartProduct);
+        }
+
+        $order->save();
+
+        /** @var Order */
+        return $order->fresh();
+    }
+
+    private function associateProductToOrder(mixed $product): void
+    {
+        //
     }
 }

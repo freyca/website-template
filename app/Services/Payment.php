@@ -14,26 +14,31 @@ final readonly class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 
-    public function __construct(Order $order)
+    public function __construct(private Order $order)
     {
         $this->repository = match ($order->payment_method) {
-            PaymentMethods::Card => new RedsysPaymentRepository(),
+            PaymentMethod::Card => new RedsysPaymentRepository(),
             default => new BankTransferPaymentRepository(),
         };
     }
 
-    public function isPurchasePayed(Order $order): bool
+    public function isPurchasePayed(): bool
     {
-        return $this->repository->isPurchasePayed($order);
+        return $this->repository->isPurchasePayed($this->order);
     }
 
-    public function payPurchase(Order $order): bool
+    public function payPurchase(): bool
     {
-        return $this->repository->payPurchase($order);
+        return $this->repository->payPurchase($this->order);
     }
 
-    public function cancelPurchase(Order $order): void
+    public function cancelPurchase(): void
     {
-        $this->repository->cancelPurchase($order);
+        $this->repository->cancelPurchase($this->order);
+    }
+
+    public function isGatewayOkWithPayment(): bool
+    {
+        return $this->repository->isGatewayOkWithPayment($this->order);
     }
 }

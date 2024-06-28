@@ -13,4 +13,6 @@ interface PaymentRepositoryInterface
     public function payPurchase(Order $order): bool;
 
     public function cancelPurchase(Order $order): void;
+
+    public function isGatewayOkWithPayment(Order $order): bool;
 }
