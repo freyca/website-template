@@ -93,7 +93,6 @@ class ProductResource extends Resource
                 Forms\Components\Section::make(__('Related products'))
                     ->schema([
                         Forms\Components\Select::make('product_complements')
-                            ->required()
                             ->label(__('Product complements'))
                             ->relationship(name: 'productComplements', titleAttribute: 'name')
                             ->searchable()
@@ -101,7 +100,6 @@ class ProductResource extends Resource
                             ->multiple(),
 
                         Forms\Components\Select::make('product_spare_parts')
-                            ->required()
                             ->label(__('Product spare parts'))
                             ->relationship(name: 'productSpareParts', titleAttribute: 'name')
                             ->searchable()
