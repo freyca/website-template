@@ -116,7 +116,7 @@ class ProductController extends Controller
     private function canAccessPrivateProducts(): bool
     {
         /** @var ?\App\Models\User */
-        $user = Auth::getUser();
+        $user = Auth::user();
 
         return match (true) {
             $user === null => false,
