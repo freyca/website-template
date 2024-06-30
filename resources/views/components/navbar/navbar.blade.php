@@ -46,3 +46,10 @@
 
     @livewire('search-bar')
 </nav>
+
+
+<script>
+    document.getElementById('menu-button').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+</script>
