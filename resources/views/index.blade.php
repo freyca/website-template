@@ -26,7 +26,7 @@
 
         <div class="flex flex-row flex-wrap mt-10 mx-auto">
             @foreach ($products as $product)
-                <x-product-container :product="$product" />
+                <x-product.product-card :product="$product" />
             @endforeach
         </div>
     </div>

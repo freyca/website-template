@@ -66,21 +66,3 @@
     </button>
 </div>
 
-<div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Galería de Productos</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Producto 1 -->
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <img src="ruta_de_imagen_producto_1.jpg" alt="Producto 1" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h2 class="text-xl font-bold mb-2">Nombre del Producto 1</h2>
-                    <p class="text-gray-700">Descripción breve del producto 1.</p>
-                    <div class="mt-4 flex justify-between items-center">
-                        <span class="text-xl font-bold text-green-500">$99.99</span>
-                        <button class="bg-blue-500 text-white px-3 py-1 rounded">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-            <!-- Repetir para más productos -->
-        </div>
-    </div>
