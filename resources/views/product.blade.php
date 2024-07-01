@@ -6,11 +6,8 @@
 
 @section('main-content')
     <div class="container mx-auto">
-        {{-- Aqui necesitamos hacer una galeria de imagenes --}}
-        <img src="{{@asset('/storage/' . $product->main_image)}}">
-        @foreach ( $product->images as $productImage )
-            <img src="{{@asset('/storage/' . $productImage)}}">
-        @endforeach
+
+        <x-product.product-image-gallery :product="$product" />
 
         <h1 class="font-bold">{{$product->name}}</h1>
 
