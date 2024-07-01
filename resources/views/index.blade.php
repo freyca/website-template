@@ -24,10 +24,12 @@
             {{ __('Products') }}
         </h2>
 
-        <div class="flex flex-row flex-wrap mt-10 mx-auto">
-            @foreach ($products as $product)
-                <x-product.product-card :product="$product" />
-            @endforeach
+        <div class="container mx-auto py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($products as $product)
+                    <x-product.product-card :product="$product" />
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection
