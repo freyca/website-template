@@ -21,9 +21,25 @@
                 {{ $product->slogan }}
             </p>
             <div class="mt-4 flex justify-between items-center">
+                @if($product->price_with_discount)
+                <div>
+                    <span class="text-xl font-bold text-red-500 pr-2">
+                        <span class="line-through">
+                            {{ $product->price }}
+                        </span>
+                        <span>
+                            €
+                        </span>
+                    </span>
+                    <span class="text-xl font-bold text-green-500">
+                        {{ $product->price_with_discount }} €
+                    </span>
+                </div>
+                @else
                 <span class="text-xl font-bold text-green-500">
-                    {{ $product->price }}
+                    {{ $product->price }} €
                 </span>
+                @endif
                 @livewire('add-to-cart', ['product' => $product])
             </div>
         </div>
