@@ -12,38 +12,33 @@
             @endforeach
         </div>
 
-        <div class=" md:flex space-x-4">
-            <button id="menu-button" class="text-white md:hidden">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
-                </svg>
-            </button>
-
-            <a href="/user" class="mx-3" style="float: left;">
+        <div class="flex space-x-4">
+            <a href="/user" class="mx-3">
                 <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button"
                     aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Login</span>
-                    <svg style="color: white" class="w-8 h-8  rounded-full" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd"
-                            d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                            clip-rule="evenodd"></path>
-                    </svg>
+                    @svg('heroicon-s-user', 'w-8 h-8 text-white')
                 </button>
             </a>
 
             @livewire('buttons.cart-icon')
+
+            <button id="menu-button" class="mx-3 text-white md:hidden">
+                @svg('heroicon-o-bars-3-bottom-right', 'w-8 h-8 text-white')
+            </button>
         </div>
     </div>
 
-    <div id="mobile-menu" class="flex md:hidden hidden">
-        @foreach (config('custom.nav-sections') as $section => $url)
-            <a class="text-white px-4 py-2" href="{{ $url }}">
-                {{ ucfirst($section) }}
-            </a>
-        @endforeach
+    <div id="mobile-menu" class="md:hidden hidden mx-5">
+        <ul class="mt-5">
+            @foreach (config('custom.nav-sections') as $section => $url)
+                <li class="m-3">
+                    <a class="text-white px-4 py-2" href="{{ $url }}">
+                        {{ ucfirst($section) }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
     </div>
 
     @livewire('search-bar')
