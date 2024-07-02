@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $slug
  * @property string $name
  * @property float $price
- * @property float $price_with_discount
+ * @property ?float $price_with_discount
  * @property bool $published
  * @property int $stock
  * @property float $dimension_length
