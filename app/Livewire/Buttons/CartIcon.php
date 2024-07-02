@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire;
+namespace App\Livewire\Buttons;
 
 use App\Services\Cart;
 use Illuminate\View\View;
@@ -21,6 +21,6 @@ class CartIcon extends Component
 
         $this->cartItems = $cart->getTotalQuantity();
 
-        return view('livewire.cart-icon');
+        return view('livewire.buttons.cart-icon');
     }
 }

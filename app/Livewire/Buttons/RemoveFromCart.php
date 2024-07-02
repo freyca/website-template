@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire;
+namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
@@ -26,6 +26,6 @@ class RemoveFromCart extends Component
 
     public function render(): View
     {
-        return view('livewire.remove-from-cart');
+        return view('livewire.buttons.remove-from-cart');
     }
 }

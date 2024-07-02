@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire;
+namespace App\Livewire\Forms;
 
 use App\Jobs\SendContactFormEmail;
 use Illuminate\View\View;
@@ -27,7 +27,7 @@ class ContactForm extends Component
 
     public function render(): View
     {
-        return view('livewire.contact-form');
+        return view('livewire.forms.contact-form');
     }
 
     public function save(): void
