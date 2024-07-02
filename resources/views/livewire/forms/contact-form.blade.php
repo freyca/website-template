@@ -9,7 +9,8 @@
                 <label for="grid-first-name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     {{ __('Name') }}
                 </label>
-                <input wire:model="name" type="text" id="grid-first-name" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" >
+                <input wire:model="name" type="text" id="grid-first-name"
+                    class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight">
                 <div>
                     @error('name')
                         {{ $message }}
@@ -21,7 +22,9 @@
                 <label for="grid-last-name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     {{ __('Email') }}
                 </label>
-                <input wire:model="email" type="text" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" id="grid-last-name">
+                <input wire:model="email" type="text"
+                    class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight"
+                    id="grid-last-name">
                 <div>
                     @error('email')
                         {{ $message }}
@@ -30,10 +33,13 @@
             </div>
 
             <div class="w-full md:w-1/2 px-3">
-                <label for="grid-last-name" class="block uppercase tracking-wide text-gray-700 border-gray text-xs font-bold mb-2">
+                <label for="grid-last-name"
+                    class="block uppercase tracking-wide text-gray-700 border-gray text-xs font-bold mb-2">
                     {{ __('Message') }}
                 </label>
-                <textarea wire:model="message" type="textarea" class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight" id="grid-last-name">
+                <textarea wire:model="message" type="textarea"
+                    class="appearance-none block w-full border border-gray-500 rounded py-3 px-4 mb-3 leading-tight"
+                    id="grid-last-name">
                 </textarea>
                 <div>
                     @error('message')
@@ -43,7 +49,8 @@
             </div>
         </div>
 
-        <button type="submit" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+        <button type="submit"
+            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             {{ __('Enviar') }}
         </button>
 

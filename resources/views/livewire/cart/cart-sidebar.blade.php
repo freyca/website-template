@@ -56,16 +56,20 @@
             </dl>
         </div>
 
-        <a href="/checkout" class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
+        <a href="/checkout"
+            class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
             Proceed to Checkout
         </a>
 
         <div class="flex items-center justify-center gap-2">
             <span class="text-sm font-normal text-gray-500"> or </span>
-            <a href="/" title="" class="inline-flex items-center gap-2 text-sm font-medium text-tertiary-700 underline hover:no-underline">
+            <a href="/" title=""
+                class="inline-flex items-center gap-2 text-sm font-medium text-tertiary-700 underline hover:no-underline">
                 Continue Shopping
-                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 12H5m14 0-4 4m4-4-4-4" />
                 </svg>
             </a>
         </div>
@@ -77,10 +81,13 @@
                 <label for="voucher" class="mb-2 block text-sm font-medium text-gray-900">
                     Do you have a voucher or gift card?
                 </label>
-                <input type="text" id="voucher" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-tertiary-500 focus:ring-tertiary-500" placeholder="" required />
+                <input type="text" id="voucher"
+                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-tertiary-500 focus:ring-tertiary-500"
+                    placeholder="" required />
             </div>
 
-            <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
+            <button type="submit"
+                class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
                 Apply Code
             </button>
         </form>
