@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Scopes;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -24,7 +24,7 @@ class UserMetadataScope implements Scope
 
         match (true) {
             $user === null => true,
-            $user->role === Roles::Admin => true,
+            $user->role === Role::Admin => true,
             default => $builder->where('user_id', $user->id),
         };
     }

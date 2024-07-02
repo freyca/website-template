@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use App\Filament\Admin\Resources\Users\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
@@ -31,7 +31,7 @@ class UserResource extends Resource
                     //Forms\Components\ToggleButtons::make('role')
                     //    ->inline()
                     //    ->required()
-                    //    ->options(Roles::class),
+                    //    ->options(Role::class),
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->label(__('Name')),

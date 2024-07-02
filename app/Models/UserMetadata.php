@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use App\Models\Scopes\UserMetadataScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,7 +40,7 @@ class UserMetadata extends Model
 
             match (true) {
                 $user === null => true,
-                $user->role === Roles::Admin => true,
+                $user->role === Role::Admin => true,
                 default => $userMetadata->user_id = $user->id,
             };
         });

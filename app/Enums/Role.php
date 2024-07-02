@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum Roles: string implements HasColor, HasIcon, HasLabel
+enum Role: string implements HasColor, HasIcon, HasLabel
 {
     case Customer = 'customer';
     case Admin = 'admin';

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ class AuthorizedToAdminPanel
 
         return match (true) {
             $user === null => $next($request),
-            $user->role !== Roles::Admin => redirect('/user'),
+            $user->role !== Role::Admin => redirect('/user'),
             default => $next($request),
         };
     }

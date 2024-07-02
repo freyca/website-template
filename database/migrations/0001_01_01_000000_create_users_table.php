@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,20 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $roles = [];
+        $Role = [];
 
-        foreach (Roles::cases() as $case) {
-            array_push($roles, $case->value);
+        foreach (Role::cases() as $case) {
+            array_push($Role, $case->value);
         }
 
-        Schema::create('users', function (Blueprint $table) use ($roles) {
+        Schema::create('users', function (Blueprint $table) use ($Role) {
             $table->id();
             $table->string('name');
             $table->string('surname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', $roles)->default(Roles::Customer->value);
+            $table->enum('role', $Role)->default(Role::Customer->value);
             $table->rememberToken();
             $table->timestamps();
         });

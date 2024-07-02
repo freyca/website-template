@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +16,7 @@ class UserAdminSeeder extends Seeder
         User::factory(1)->create();
 
         $user = User::first();
-        $user->role = Roles::Admin;
+        $user->role = Role::Admin;
         $user->save();
     }
 }

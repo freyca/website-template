@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\Roles;
+use App\Enums\Role;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
@@ -120,7 +120,7 @@ class ProductController extends Controller
 
         return match (true) {
             $user === null => false,
-            $user->role !== Roles::Admin => false,
+            $user->role !== Role::Admin => false,
             default => true
         };
     }
