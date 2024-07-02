@@ -12,20 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $Role = [];
+        $role = [];
 
         foreach (Role::cases() as $case) {
-            array_push($Role, $case->value);
+            array_push($role, $case->value);
         }
 
-        Schema::create('users', function (Blueprint $table) use ($Role) {
+        Schema::create('users', function (Blueprint $table) use ($role) {
             $table->id();
             $table->string('name');
             $table->string('surname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', $Role)->default(Role::Customer->value);
+            $table->enum('role', $role)->default(Role::Customer->value);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Features;
 
+use App\Enums\ProductFeatureFamily;
 use App\Filament\Admin\Resources\Features\ProductFeatureResource\Pages;
 use App\Models\ProductFeature;
 use Filament\Forms;
@@ -27,6 +28,12 @@ class ProductFeatureResource extends Resource
                         ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
+                    Forms\Components\ToggleButtons::make('family')
+                        ->label(__('Family'))
+                        ->inline()
+                        ->options(ProductFeatureFamily::class)
+                        ->required()
+                        ->columnSpan('full'),
                     Forms\Components\RichEditor::make('description')
                         ->label(__('Description'))
                         ->required()
@@ -47,6 +54,10 @@ class ProductFeatureResource extends Resource
                     ->label(__('Name'))
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('family')
+                    ->label(__('Payment method'))
+                    ->badge()
+                    ->sortable(),
             ])
             ->filters([
                 //

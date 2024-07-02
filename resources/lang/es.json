@@ -16,8 +16,11 @@
     "Delivered": "Entregado",
     "Description": "Descripción",
     "Dimensions": "Dimensiones",
+    "Engine details": "Detalles del motor",
     "Enviar": "Enviar",
+    "Family": "Familia",
     "Full Description": "Descripción larga",
+    "General details": "Detalles generales",
     "Height": "Alto",
     "Home": "Inicio",
     "If off, this product will be hidden from the shop.": "Desactivado, este producto no estará visible en la tienda.",
@@ -76,6 +79,7 @@
     "Status": "Estado",
     "Surname": "Apellidos",
     "Texts": "Textos",
+    "Transmission": "Transmisión",
     "Unit price": "Precio por unidad",
     "User": "Usuario",
     "Users": "Usuarios",
@@ -83,5 +87,6 @@
     "Website urls": "Enlaces de la página",
     "Weight": "Peso",
     "Width": "Ancho",
+    "Work system": "Sistema de trabajo",
     "Your message will be replied soon.": "En poco tiempo recibirás respuesta a tu mensaje."
 }
