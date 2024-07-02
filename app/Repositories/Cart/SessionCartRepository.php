@@ -130,7 +130,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         /** @var float */
         $total = $cart->sum(function ($item) {
-            $price = ! is_null(data_get($item, 'product.price_with_discount')) ? data_get($item, 'price_with_discount') : data_get($item, 'price');
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
 
             return data_get($item, 'quantity') * $price;
         });

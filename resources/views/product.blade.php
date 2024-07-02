@@ -19,8 +19,8 @@
     <span> {{$product->price}} €</span>
     @endif
 
-    @livewire('add-to-cart', ['product' => $product])
-    @livewire('remove-from-cart', ['product' => $product])
+    @livewire('buttons.add-to-cart', ['product' => $product])
+    @livewire('buttons.remove-from-cart', ['product' => $product])
 
     <p class="py-2">{{$product->slogan}}</p>
     <br />

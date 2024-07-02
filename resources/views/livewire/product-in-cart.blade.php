@@ -1,23 +1,45 @@
 @inject('cart', 'App\Services\Cart')
 
-<div class="container mx-auto my-auto columns-4">
-    {{ $product->name }}
-    {{ $cart->getTotalQuantityForProduct($product) }}
+<div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+    <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+        <a href="{{ $product->slug }}" class="shrink-0 md:order-1">
+            <img class="h-20 w-20 dark:hidden rounded" src="{{@asset('/storage/' . $product->main_image)}}" alt="imac image" />
+            <img class="hidden h-20 w-20 dark:block rounded" src="{{@asset('/storage/' . $product->main_image)}} alt="imac image" />
+        </a>
 
-    @if ($product->price_with_discount)
-        {{-- Tachamos el precio anterior y lo mostramos con descuento --}}
-        <span class="line-through">{{ $product->price }}€</span>
-        <span>{{ $product->price_with_discount }}€</span>
-    @else
-        <span> {{ $product->price }}€</span>
-    @endif
+        <label for="counter-input" class="sr-only">
+            Choose quantity:
+        </label>
 
-    {{ $cart->getTotalCostforProduct($product, true) }}
+        <div class="flex items-center justify-between md:order-3 md:justify-end">
+            <div class="flex items-center">
+                <button type="button" id="decrement-button" data-input-counter-decrement="counter-input" class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-700">
+                    @svg('heroicon-s-minus-circle')
+                </button>
 
-    <form wire:submit="remove" class="inline">
-        <button type="submit"
-            class="shadow bg-red-500 hover:bg-red-400 active:translate-x-1 active:translate-y-1 text-white font-bold py-2 px-4 rounded">
-            {{ __('Remove from cart') }}
-        </button>
-    </form>
+                <input type="text" id="counter-input" data-input-counter class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white" placeholder="" value="2" required />
+
+                <button type="button" id="increment-button" data-input-counter-increment="counter-input" class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-gray-700">
+                    @svg('heroicon-s-plus-circle')
+                </button>
+            </div>
+
+            <div class="text-end md:order-4 md:w-32">
+                <p class="text-base font-bold text-gray-900 dark:text-white">{{$cart->getTotalCostforProduct($product), true}} €</p>
+            </div>
+        </div>
+
+        <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+            <a href="{{$product->slug}}" class="text-base font-medium text-gray-900 hover:underline dark:text-white">
+                {{$product->name}}
+            </a>
+            <p class="text-base text-gray-900 dark:text-white">
+                {{$product->slogan}}
+            </p>
+
+            <div class="flex items-center gap-4">
+                @livewire('buttons.remove-from-cart', ['product' => $product])
+            </div>
+        </div>
+    </div>
 </div>

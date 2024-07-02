@@ -9,14 +9,14 @@ export default {
     ],
     theme: {
         extend: {
-          colors: {
-            primary: '#1a202c',
-            secondary: '#2d3748',
-            accent: '#4a5568',
-            // Agrega más colores según la paleta deseada
-          },
+            colors: {
+                primary: '#1a202c',
+                secondary: '#2d3748',
+                accent: '#4a5568',
+                // Agrega más colores según la paleta deseada
+            },
         },
-      },
+    },
     plugins: [
         require('flowbite/plugin')
     ],

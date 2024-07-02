@@ -28,7 +28,7 @@
                 </button>
             </a>
 
-            @livewire('cart-icon')
+            @livewire('buttons.cart-icon')
         </div>
     </div>
 

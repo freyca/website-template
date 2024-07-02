@@ -40,7 +40,7 @@
                     {{ $product->price }} €
                 </span>
                 @endif
-                @livewire('add-to-cart', ['product' => $product])
+                @livewire('buttons.add-to-cart', ['product' => $product])
             </div>
         </div>
 </div>
