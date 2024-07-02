@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get(
-    '/',
-    [HomeController::class, 'index']
-)->name('home');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 Route::get('quienes-somos', function () {
     return view('who-we-are');
@@ -28,17 +25,14 @@ Route::get('contacto', function () {
     return view('contact');
 })->name('contact');
 
-/** Cart */
-Route::prefix('carrito')->name('cart.')->group(function () {
-    Route::get('/', function () {
-        return view('cart');
-    });
+Route::get('checkout', function () {
+    return view('checkout');
+})->name('checkout');
 
-    Route::get('products', [CartController::class, 'index'])->name('index');
-    Route::put('{product}', [CartController::class, 'store'])->name('add');
-    Route::post('clear', [CartController::class, 'clear'])->name('clear');
-    Route::delete('{product}', [CartController::class, 'delete'])->name('delete-product');
-});
+/** Cart */
+Route::get('carrito', function () {
+    return view('cart');
+})->name('cart');
 
 /** Products */
 Route::get('/productos', [ProductController::class, 'all'])->name('product-list');

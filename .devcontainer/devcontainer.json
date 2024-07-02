@@ -13,7 +13,8 @@
 				"bmewburn.vscode-intelephense-client",
 				"xdebug.php-debug",
 				"amiralizadeh9480.laravel-extra-intellisense",
-				"swordev.phpstan"
+				"swordev.phpstan",
+				"wilsonsio.color-vision"
 			],
 			"settings": {}
 		}
