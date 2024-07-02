@@ -39,10 +39,6 @@
     </div>
 
     <div id="mobile-menu" class="flex md:hidden hidden">
-        <a href="/" class=" text-white px-4 py-2">
-            Inicio
-        </a>
-
         @foreach (config('custom.nav-sections') as $section => $url)
             <a class="text-white px-4 py-2" href="{{ $url }}">
                 {{ ucfirst($section) }}

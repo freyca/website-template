@@ -14,6 +14,7 @@ return [
      * correspondant dataset
      */
     'nav-sections' => [
+        'inicio' => '/',
         'categorías' => '/categorias',
         'productos' => '/productos',
         'complementos de producto' => '/complementos-producto',
