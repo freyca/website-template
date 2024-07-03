@@ -7,14 +7,12 @@ namespace App\View\Components\Searchbar;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use stdClass;
 
 class SearchResult extends Component
 {
-    /**
-     * @param  array<int, string>  $product
-     */
     public function __construct(
-        public array $product,
+        public stdClass $product,
         public string $urlPrefix,
     ) {
     }

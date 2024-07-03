@@ -7,6 +7,7 @@ namespace App\Livewire;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Component;
+use stdClass;
 
 class SearchBar extends Component
 {
@@ -41,7 +42,7 @@ class SearchBar extends Component
     }
 
     /**
-     * @return array<int, string>
+     * @return array<stdClass>
      */
     private function query(string $table): array
     {
