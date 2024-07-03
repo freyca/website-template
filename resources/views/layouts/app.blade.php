@@ -10,7 +10,7 @@
     <x-navbar.navbar />
 
     <div class="container mx-auto mt-8">
-        <x-main-content-area />
+        @yield('main-content')
     </div>
 
     <x-footer.footer />
