@@ -17,11 +17,7 @@ class SearchBar extends Component
 
     public function render(): View
     {
-        $results = [
-            'products' => [],
-            'complements' => [],
-            'spare-parts' => [],
-        ];
+        $results = [];
 
         // Do not search until 3 characters
         if (strlen($this->searchTerm) < 3) {
@@ -32,13 +28,14 @@ class SearchBar extends Component
 
         $results['products'] = $this->query('products');
 
-        $resutls['complements'] = [];
         if (count($results['products']) < $this->limitResults) {
             $results['complements'] = $this->query('product_complements');
+        } else {
         }
 
         if (
-            count($results['products']) < $this->limitResults &&
+            count($results['products']) < $this->limitResults ||
+            isset($results['complements']) &&
             count($results['products']) + count($results['complements']) < $this->limitResults
         ) {
             $results['spare-parts'] = $this->query('product_spare_parts');
