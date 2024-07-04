@@ -10,28 +10,28 @@ Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
 Route::get('quienes-somos', function () {
-    return view('who-we-are');
+    return view('pages.who-we-are');
 })->name('who-we-are');
 
 Route::get('como-comprar', function () {
-    return view('how-to-buy');
+    return view('pages.how-to-buy');
 })->name('how-to-buy');
 
 Route::get('sobre-nosotros', function () {
-    return view('about-us');
+    return view('pages.about-us');
 })->name('about-us');
 
 Route::get('contacto', function () {
-    return view('contact');
+    return view('pages.contact');
 })->name('contact');
 
 Route::get('checkout', function () {
-    return view('checkout');
+    return view('pages.checkout');
 })->name('checkout');
 
 /** Cart */
 Route::get('carrito', function () {
-    return view('cart');
+    return view('pages.cart');
 })->name('cart');
 
 /** Products */

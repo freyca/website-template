@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function all(): View
     {
         return view(
-            'products',
+            'pages.products',
             [
                 'products' => $this->productRepository->getAll(),
             ]
@@ -45,7 +45,7 @@ class ProductController extends Controller
         $featureValues = $product->productFeatureValues;
 
         return view(
-            'product',
+            'pages.product',
             [
                 'product' => $product,
                 'features' => $featureValues,
@@ -59,7 +59,7 @@ class ProductController extends Controller
     public function complements(): View
     {
         return view(
-            'products',
+            'pages.products',
             [
                 'products' => $this->productComplementRepository->getAll(),
             ]
@@ -75,7 +75,7 @@ class ProductController extends Controller
         $features = $productComplement->productFeatureValues;
 
         return view(
-            'product',
+            'pages.product',
             [
                 'product' => $productComplement,
                 'features' => $features,
@@ -89,7 +89,7 @@ class ProductController extends Controller
     public function spareParts(): View
     {
         return view(
-            'products',
+            'pages.products',
             [
                 'products' => $this->productSparePartRepository->getAll(),
             ]
@@ -105,7 +105,7 @@ class ProductController extends Controller
         $features = $productSparePart->productFeatureValues;
 
         return view(
-            'product',
+            'pages.product',
             [
                 'product' => $productSparePart,
                 'features' => $features,

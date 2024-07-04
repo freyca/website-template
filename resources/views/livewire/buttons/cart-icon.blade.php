@@ -6,9 +6,11 @@
         </span>
         @svg('heroicon-o-shopping-bag', 'w-8 h-8 text-white')
         @if ($cartItems > 0)
-            <span id="cart-count"
-                class="relative bottom-3 right-3 bg-primary-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                {{ $cartItems }}
+            <span class="relative flex right-4 bottom-2 animate-pulse">
+                <span id="cart-count"
+                    class="absolute bg-primary-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                    {{ $cartItems }}
+                </span>
             </span>
         @endif
     </button>

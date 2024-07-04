@@ -19,14 +19,14 @@ class CategoryController extends Controller
     {
         $categories = $this->repository->getAll();
 
-        return view('categories', ['categories' => $categories]);
+        return view('pages.categories', ['categories' => $categories]);
     }
 
     public function category(Category $category): View
     {
         $products = $this->repository->getProducts($category);
 
-        return view('category', [
+        return view('pages.category', [
             'category' => $category,
             'products' => $products,
         ]);

@@ -22,7 +22,7 @@ class SeoController extends Controller
         $products = $this->categoryRepository->getProducts($category);
 
         return view(
-            'products',
+            'pages.products',
             [
                 'products' => $products,
             ]

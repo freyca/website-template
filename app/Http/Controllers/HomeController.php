@@ -22,7 +22,7 @@ class HomeController extends Controller
         $products = $this->productRepository->featured();
 
         return view(
-            'index',
+            'pages.index',
             [
                 'categories' => $categories,
                 'products' => $products,
