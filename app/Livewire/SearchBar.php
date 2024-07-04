@@ -43,6 +43,14 @@ class SearchBar extends Component
             );
         }
 
+        if (
+            count($results['products']) === 0 &&
+            (isset($results['complements']) && count($results['complements']) === 0) &&
+            (isset($results['spare-parts']) && count($results['spare-parts']) === 0)
+        ) {
+            $results = [];
+        }
+
         return view('livewire.search-bar', [
             'results' => $results,
         ]);
@@ -53,6 +61,6 @@ class SearchBar extends Component
      */
     private function query(string $table, int $limitResults): array
     {
-        return DB::select('SELECT name, slug FROM '.$table." WHERE name LIKE :searchTerm LIMIT $limitResults", ['searchTerm' => '%'.$this->searchTerm.'%']);
+        return DB::select('SELECT name, slug FROM ' . $table . " WHERE name LIKE :searchTerm LIMIT $limitResults", ['searchTerm' => '%' . $this->searchTerm . '%']);
     }
 }
