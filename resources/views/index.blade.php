@@ -10,11 +10,7 @@
             {{ __('Categories') }}
         </h2>
 
-        <div class="mt-10 mx-auto columns-3 flex flex-row justify-center">
-            @foreach ($categories as $category)
-                <x-category-container :category="$category" />
-            @endforeach
-        </div>
+        <x-category-grid :categories="$categories" />
     </div>
 
     <hr class="mt-10 w-100" />
