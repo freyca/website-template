@@ -15,7 +15,8 @@
                 "amiralizadeh9480.laravel-extra-intellisense",
                 "wilsonsio.color-vision",
                 "porifa.laraphense",
-                "shufo.vscode-blade-formatter"
+                "shufo.vscode-blade-formatter",
+                "bradlc.vscode-tailwindcss"
             ],
             "settings": {}
         }
