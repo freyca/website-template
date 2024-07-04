@@ -1,5 +1,7 @@
-@extends('layouts.app', ['title' => config('custom.title')])
-
+@extends('layouts.app', [
+    'title' => config('custom.title'),
+    'metaDescription' => 'Metadescripcion de la pagina de sobre-nosotros',
+])
 @section('main-content')
     <div class="container mx-auto p-4">
         <div class="grid gap-4">

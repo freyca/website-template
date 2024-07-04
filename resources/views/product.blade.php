@@ -1,8 +1,9 @@
-@extends('layouts.app', ['title' => config('custom.title')])
+@extends('layouts.app', [
+    'title' => config('custom.title'),
+    'metaDescription' => $product->meta_description,
+])
 
 @inject(cart, '\App\Services\Cart')
-
-@section('meta-description', $product->meta_description)
 
 @section('main-content')
     <div class="container mx-auto">

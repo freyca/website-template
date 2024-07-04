@@ -1,5 +1,7 @@
-@extends('layouts.app', ['title' => config('custom.title')])
-
+@extends('layouts.app', [
+    'title' => config('custom.title'),
+    'metaDescription' => $category->name,
+])
 @section('main-content')
     <div class="container mx-auto p-4">
         <h1 class="mt-20 text-3xl text-center font-bold mb-4">

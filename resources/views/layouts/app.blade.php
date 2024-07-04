@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    @include('partials.head')
-</head>
+<x-head.head :title="$title" :metaDescription="$metaDescription" />
 
 <body class="bg-gray-100 text-gray-900">
 

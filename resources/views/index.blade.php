@@ -1,4 +1,7 @@
-@extends('layouts.app', ['title' => config('custom.title')])
+@extends('layouts.app', [
+    'title' => config('custom.title'),
+    'metaDescription' => 'Metadescripcion de la pagina de inicio',
+])
 
 @section('main-content')
     <x-sliders.main-slider />
