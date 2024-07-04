@@ -26,10 +26,10 @@ class SearchBar extends Component
             ]);
         }
 
-        $results['products'] = $this->query('products');
+        $results['products'] = $this->query('products', $this->limitResults);
 
         if (count($results['products']) < $this->limitResults) {
-            $results['complements'] = $this->query('product_complements');
+            $results['complements'] = $this->query('product_complements', $this->limitResults - count($results['products']));
         }
 
         if (
@@ -37,7 +37,10 @@ class SearchBar extends Component
             isset($results['complements']) &&
             count($results['products']) + count($results['complements']) < $this->limitResults
         ) {
-            $results['spare-parts'] = $this->query('product_spare_parts');
+            $results['spare-parts'] = $this->query(
+                'product_spare_parts',
+                $this->limitResults - (count($results['products']) + count($results['complements'])) // @phpstan-ignore-line
+            );
         }
 
         return view('livewire.search-bar', [
@@ -48,8 +51,8 @@ class SearchBar extends Component
     /**
      * @return array<stdClass>
      */
-    private function query(string $table): array
+    private function query(string $table, int $limitResults): array
     {
-        return DB::select('SELECT name, slug FROM '.$table." WHERE name LIKE :searchTerm LIMIT $this->limitResults", ['searchTerm' => '%'.$this->searchTerm.'%']);
+        return DB::select('SELECT name, slug FROM '.$table." WHERE name LIKE :searchTerm LIMIT $limitResults", ['searchTerm' => '%'.$this->searchTerm.'%']);
     }
 }
