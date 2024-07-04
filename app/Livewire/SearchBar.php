@@ -30,7 +30,6 @@ class SearchBar extends Component
 
         if (count($results['products']) < $this->limitResults) {
             $results['complements'] = $this->query('product_complements');
-        } else {
         }
 
         if (
