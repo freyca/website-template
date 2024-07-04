@@ -8,7 +8,12 @@
 <link rel="apple-touch-icon" href="https://roteco.es/wp-content/uploads/2018/04/cropped-Favicon-castroteco-180x180.png">
 <link rel="icon" href="https://roteco.es/wp-content/uploads/2018/04/cropped-Favicon-castroteco-32x32.png"
     sizes="32x32">
+<link rel="icon" href="https://roteco.es/wp-content/uploads/2018/04/cropped-Favicon-castroteco-32x32.png"
+    sizes="32x32">
+
 <!-- Otras inclusiones -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
 @vite('resources/css/app.css')
+{{-- <link href="{{ asset('css/styles.css') }}" rel="stylesheet"> --}}

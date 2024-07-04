@@ -2,7 +2,7 @@
 
 <div class="grid grid-cols-5">
     <span></span>
-    <form wire:submit="save" class="col-span-3 py-10">
+    <form wire:submit="save" class="col-span-5 py-10">
         @csrf
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -50,7 +50,7 @@
         </div>
 
         <button type="submit"
-            class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+            class="shadow bg-tertiary-500 hover:bg-tertiary-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
             {{ __('Enviar') }}
         </button>
 

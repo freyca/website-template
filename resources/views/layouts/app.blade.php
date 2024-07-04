@@ -9,7 +9,7 @@
 
     <x-navbar.navbar />
 
-    <div class="container mx-auto mt-8">
+    <div class="container mx-auto mt-8 p-4">
         @yield('main-content')
     </div>
 
