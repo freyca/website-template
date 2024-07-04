@@ -17,8 +17,8 @@ return [
         'inicio' => '/',
         'categorías' => '/categorias',
         'productos' => '/productos',
-        'complementos de producto' => '/complementos-producto',
-        'piezas de repuesto' => '/piezas-de-repuesto',
+        'complementos' => '/complementos-producto',
+        'repuestos' => '/piezas-de-repuesto',
     ],
 
     'footer-sections' => [
