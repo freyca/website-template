@@ -1,8 +1,16 @@
 @inject('cart', 'App\Services\Cart')
 
+@php
+    $path = match (true) {
+        get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
+        get_class($product) === 'App\Models\ProductComplement' => '/complemento',
+        default => '/producto',
+    };
+@endphp
+
 <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
     <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-        <a href="{{ $product->slug }}" class="shrink-0 md:order-1">
+        <a href="{{ $path . '/' . $product->slug }}" class="shrink-0 md:order-1">
             <img class="h-20 w-20 rounded" src="{{ @asset('/storage/' . $product->main_image) }}" alt="imac image" />
         </a>
 
@@ -33,7 +41,7 @@
         </div>
 
         <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-            <a href="{{ $product->slug }}" class="text-base font-medium text-gray-900 hover:underline">
+            <a href="{{ $path . '/' . $product->slug }}" class="text-base font-medium text-gray-900 hover:underline">
                 {{ $product->name }}
             </a>
             <p class="text-base text-gray-900">
