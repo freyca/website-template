@@ -12,26 +12,27 @@
         </div>
 
         @if (count($results) > 0)
-            <ul
-                class="absolute mt-6 ml-5 p-4 z-50 bg-gray-100 border-solid border-2 border-gray-500 rounded divide-black">
-                @if (isset($results['products']) && $results['products'] > 0)
-                    @foreach ($results['products'] as $product)
-                        <x-searchbar.search-result :product="$product" urlPrefix='producto' />
-                    @endforeach
-                @endif
+            <div id="dropdownHover" class="absolute ml-10 mt-10 z-50 bg-gray-300 rounded">
+                <ul class="py-2 text-sm text-gray-700">
+                    @if (isset($results['products']) && $results['products'] > 0)
+                        @foreach ($results['products'] as $product)
+                            <x-searchbar.search-result :product="$product" urlPrefix='producto' />
+                        @endforeach
+                    @endif
 
-                @if (isset($results['complements']) && $results['complements'] > 0)
-                    @foreach ($results['complements'] as $product)
-                        <x-searchbar.search-result :product="$product" urlPrefix='complemento' />
-                    @endforeach
-                @endif
+                    @if (isset($results['complements']) && $results['complements'] > 0)
+                        @foreach ($results['complements'] as $product)
+                            <x-searchbar.search-result :product="$product" urlPrefix='complemento' />
+                        @endforeach
+                    @endif
 
-                @if (isset($results['spare-parts']) && $results['spare-parts'] > 0)
-                    @foreach ($results['spare-parts'] as $product)
-                        <x-searchbar.search-result :product="$product" urlPrefix='pieza-de-repuesto' />
-                    @endforeach
-                @endif
-            </ul>
+                    @if (isset($results['spare-parts']) && $results['spare-parts'] > 0)
+                        @foreach ($results['spare-parts'] as $product)
+                            <x-searchbar.search-result :product="$product" urlPrefix='pieza-de-repuesto' />
+                        @endforeach
+                    @endif
+                </ul>
+            </div>
         @endif
     </form>
 
