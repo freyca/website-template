@@ -9,7 +9,7 @@
     <hr class="mt-10 w-100" />
 
     <div class="container mx-auto">
-        <h2 class="flex text-3xl font-bold my-10 mx-auto justify-center">
+        <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-center">
             {{ __('Categories') }}
         </h2>
 
@@ -19,7 +19,7 @@
     <hr class="mt-10 w-100" />
 
     <div class="container mx-auto">
-        <h2 class="flex text-3xl font-bold my-10 mx-auto justify-center">
+        <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-center">
             {{ __('Products') }}
         </h2>
 
