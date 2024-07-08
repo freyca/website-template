@@ -43,14 +43,15 @@
 
     <div class="container mx-auto">
         @if (count($features) > 0)
-            <p class="mb-10 font-bold text-lg text-center">
-                Features
+            <p class="mb-10 font-bold text-lg text-center gap-10">
+                {{ __('Features') }}
             </p>
-            @foreach ($features as $feature)
-                <p class="font-bold">{{ $feature->name }}</p>
-                <p>{!! $feature->description !!}</p>
-                <br />
-            @endforeach
+
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                @foreach ($features as $feature)
+                    <x-product.product-feature :feature="$feature" />
+                @endforeach
+            </div>
         @endif
     </div>
 @endsection
