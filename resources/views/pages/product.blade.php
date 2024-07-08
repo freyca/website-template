@@ -6,7 +6,7 @@
 @inject(cart, '\App\Services\Cart')
 
 @section('main-content')
-    <div class="container mx-auto my-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div class="container mx-auto mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:mb-10">
         <div class="container">
             <x-product.product-image-gallery :product="$product" />
         </div>
@@ -43,7 +43,7 @@
 
     <div class="container mx-auto">
         @if (count($features) > 0)
-            <p class="py-2 mb-4 font-bold text-lg text-center">
+            <p class="mb-10 font-bold text-lg text-center">
                 Features
             </p>
             @foreach ($features as $feature)
