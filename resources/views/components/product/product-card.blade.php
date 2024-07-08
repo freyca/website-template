@@ -22,19 +22,12 @@
         </p>
         <div class="mt-4 flex justify-between items-center">
             @if ($product->price_with_discount)
-                <div>
-                    <span class="text-primary-700 pr-2">
-                        <span class="line-through">
-                            {{ $product->price }}
-                        </span>
-                        <span>
-                            €
-                        </span>
-                    </span>
-                    <span class="text-xl font-bold text-tertiary-600">
-                        {{ $product->price_with_discount }} €
-                    </span>
-                </div>
+                <span class="text-primary-700 pr-2 line-through">
+                    {{ $product->price }} €
+                </span>
+                <span class="text-xl font-bold text-tertiary-600">
+                    {{ $product->price_with_discount }} €
+                </span>
             @else
                 <span class="text-xl font-bold text-tertiary-600">
                     {{ $product->price }} €
