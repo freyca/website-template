@@ -47,10 +47,12 @@
                 {{ __('Features') }}
             </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2">
-                @foreach ($features as $feature)
-                    <x-product.product-feature :feature="$feature" />
-                @endforeach
+            <div class="grid grid-cols-1">
+                <div id="accordion-collapse" data-accordion="collapse">
+                    @foreach ($features as $feature)
+                        <x-product.product-feature :feature="$feature" />
+                    @endforeach
+                </div>
             </div>
         @endif
     </div>
