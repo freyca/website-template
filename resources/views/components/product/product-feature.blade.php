@@ -1,13 +1,13 @@
 @php
-    $id = str_replace(' ', '-', $feature->name);
+    $id = md5($feature->name);
 @endphp
 
 <h2 id="accordion-collapse-heading-{{ $id }}">
     <button type="button"
-        class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 hover:bg-gray-100 gap-3"
+        class="flex items-center justify-between w-full p-5 font-medium border border-gray-200 rounded hover:bg-gray-200 gap-3"
         data-accordion-target="#accordion-collapse-body-{{ $id }}" aria-expanded="true"
         aria-controls="accordion-collapse-body-{{ $id }}">
-        <span>
+        <span class="text-gray-500">
             {{ $feature->name }}
         </span>
         <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
