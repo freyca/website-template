@@ -35,7 +35,7 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-spare-parts');
 
-            return ProductSparePart::whereIn('id', $featured_products)->get();
+            return ProductSparePart::whereIn('id', $featured_products)->where('published', true)->get();
         });
     }
 }

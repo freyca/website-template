@@ -35,7 +35,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-products');
 
-            return Product::whereIn('id', $featured_products)->get();
+            return Product::whereIn('id', $featured_products)->where('published', true)->get();
         });
     }
 }

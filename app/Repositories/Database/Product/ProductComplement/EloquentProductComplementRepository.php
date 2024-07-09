@@ -35,7 +35,7 @@ class EloquentProductComplementRepository implements ProductComplementRepository
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-complements');
 
-            return ProductComplement::whereIn('id', $featured_products)->get();
+            return ProductComplement::whereIn('id', $featured_products)->where('published', true)->get();
         });
     }
 }
