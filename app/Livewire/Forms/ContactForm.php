@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Forms;
 
 use App\Jobs\SendContactFormEmail;
+use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -38,6 +39,7 @@ class ContactForm extends Component
 
         $this->reset();
 
+        Notification::make()->title(__('Product added correctly'))->success()->send();
         session()->flash('message', __('Your message will be replied soon.'));
 
         $this->redirect('/contacto');

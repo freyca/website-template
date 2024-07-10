@@ -6,6 +6,7 @@ namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
+use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -24,7 +25,7 @@ class AddToCart extends Component
             $cart->add($this->product, 1);
         }
 
-        session()->flash('message', __('Product added to cart'));
+        Notification::make()->title(__('Product added correctly'))->success()->send();
 
         $this->dispatch('refresh-cart');
     }

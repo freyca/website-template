@@ -6,6 +6,7 @@ namespace App\Livewire;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
+use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -20,7 +21,7 @@ class ProductInCart extends Component
 
         $cart->increment($this->product);
 
-        session()->flash('message', __('Product incremented'));
+        Notification::make()->title(__('Product incremented'))->success()->send();
 
         $this->dispatch('refresh-cart');
     }
@@ -32,7 +33,7 @@ class ProductInCart extends Component
 
         $cart->decrement($this->product);
 
-        session()->flash('message', __('Product decremented'));
+        Notification::make()->title(__('Product decremented'))->danger()->send();
 
         $this->dispatch('refresh-cart');
     }
@@ -44,7 +45,7 @@ class ProductInCart extends Component
 
         $cart->remove($this->product);
 
-        session()->flash('message', __('Product removed from cart'));
+        Notification::make()->title(__('Product removed from cart'))->danger()->send();
 
         $this->dispatch('refresh-cart');
     }

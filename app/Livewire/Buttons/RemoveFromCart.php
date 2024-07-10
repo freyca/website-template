@@ -6,6 +6,7 @@ namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
+use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -19,7 +20,7 @@ class RemoveFromCart extends Component
 
         $cart->remove($this->product);
 
-        session()->flash('message', __('Product deleted from cart'));
+        Notification::make()->title(__('Product deleted from cart'))->danger()->send();
 
         $this->dispatch('refresh-cart');
     }

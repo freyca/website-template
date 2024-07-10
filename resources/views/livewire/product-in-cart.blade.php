@@ -15,28 +15,30 @@
         </a>
 
         <label for="counter-input" class="sr-only">
-            Choose quantity:
+            {{ __('Choose quantity') . ':' }}
         </label>
 
         <div class="flex items-center justify-between md:order-3 md:justify-end">
             <div class="flex items-center">
-                <button type="button" id="decrement-button" data-input-counter-decrement="counter-input"
+                <button wire:click="decrement" type="button" id="decrement-button"
+                    data-input-counter-decrement="counter-input"
                     class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                     @svg('heroicon-s-minus-circle')
                 </button>
 
                 <input type="text" id="counter-input" data-input-counter
                     class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
-                    placeholder="" value="2" required />
+                    placeholder="" value="{{ $cart->getTotalQuantityForProduct($product) }}" required />
 
-                <button type="button" id="increment-button" data-input-counter-increment="counter-input"
+                <button wire:click="increment" type="button" id="increment-button"
+                    data-input-counter-increment="counter-input"
                     class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
                     @svg('heroicon-s-plus-circle')
                 </button>
             </div>
 
             <div class="text-end md:order-4 md:w-32">
-                <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product), true }} €</p>
+                <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
             </div>
         </div>
 

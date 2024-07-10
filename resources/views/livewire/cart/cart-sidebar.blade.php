@@ -4,17 +4,17 @@
 
     <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         <p class="text-xl font-semibold text-gray-900 ">
-            Order summary
+            {{ __('Order summary') }}
         </p>
 
         <div class="space-y-4">
             <div class="space-y-2">
                 <dl class="flex items-center justify-between gap-4">
                     <dt class="text-base font-normal text-gray-500">
-                        Original price
+                        {{ __('Original price') }}
                     </dt>
                     <dd class="text-base font-medium text-gray-900">
-                        $7,592.00
+                        {{ $cart->getTotalCost(true) }}
                     </dd>
                 </dl>
 
