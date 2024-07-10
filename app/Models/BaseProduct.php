@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\HasSlug;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $description
  * @property string $main_image
  * @property array<string> $images
+ * @property BelongsToMany<ProductFeatureValue> $productFeatureValues
  */
 abstract class BaseProduct extends Model
 {
@@ -67,10 +69,15 @@ abstract class BaseProduct extends Model
     }
 
     /**
-     * @return BelongsToMany<ProductFeature>
+     * @return Collection<int, ProductFeature>
      */
-    public function productFeatures(): BelongsToMany
+    public function productFeatures(): Collection
     {
-        return $this->belongsToMany(ProductFeature::class);
+        return ProductFeature::whereIn(
+            'id',
+            $this->productFeatureValues
+                ->pluck('product_feature_id')
+                ->unique()
+        )->get();
     }
 }
