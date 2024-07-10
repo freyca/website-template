@@ -1,4 +1,4 @@
-<nav class="bg-gray-800 p-4" style="border-bottom-left-radius: 3%; border-bottom-right-radius: 3%;">
+<nav class="bg-gray-800 p-4 rounded-b sticky top-0 z-50">
     <div class="container mx-auto flex justify-between items-center">
         <a href="/" class="text-white text-2xl font-bold">
             <img src="https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png" class="h-13" alt="Roteco Logo">
