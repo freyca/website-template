@@ -15,9 +15,14 @@ class AddToCart extends Component
 
     public function add(): void
     {
+        /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->add($this->product, 1);
+        if ($cart->hasProduct($this->product)) {
+            $cart->increment($this->product);
+        } else {
+            $cart->add($this->product, 1);
+        }
 
         session()->flash('message', __('Product added to cart'));
 

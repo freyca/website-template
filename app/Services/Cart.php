@@ -26,9 +26,15 @@ final readonly class Cart
     /**
      * @throws \Exception
      */
-    public function increment(BaseProduct $product): void
+    public function increment(BaseProduct $product): bool
     {
-        $this->repository->increment($product);
+        try {
+            $this->repository->increment($product);
+
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     public function decrement(BaseProduct $product): void

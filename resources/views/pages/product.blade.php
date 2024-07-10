@@ -33,7 +33,8 @@
                     </span>
                 @endif
             </div>
-            @livewire('buttons.add-to-cart', ['product' => $product])
+
+            @livewire('product.product-buttons', ['product' => $product])
 
             <br />
         </div>
