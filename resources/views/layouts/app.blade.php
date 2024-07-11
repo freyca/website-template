@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<x-head.head :title="$attributes['title']" :metaDescription="$attributes['metaDescription']" />
+<x-head.head :title="$title" :metaDescription="$metaDescription" />
 
 <body class="bg-gray-100 text-gray-900">
     <x-navbar.navbar />

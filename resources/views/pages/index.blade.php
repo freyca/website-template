@@ -1,4 +1,4 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de inicio">
+<x-layouts.app :title="config('custom.title')" :metaDescription="'Metadescripcion de la pagina de inicio'">
     <x-sliders.main-slider />
 
     <hr class="mt-10 w-100" />

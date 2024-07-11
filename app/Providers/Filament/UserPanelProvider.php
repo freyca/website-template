@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Filament\User\Pages\Auth\EditProfile;
+use App\Filament\User\Pages\Auth\Login;
 use App\Filament\User\Pages\Auth\Register;
 use App\Http\Middleware\CanAccessUserPanel;
 use Filament\Http\Middleware\Authenticate;
@@ -31,7 +32,7 @@ class UserPanelProvider extends PanelProvider
         return $panel
             ->id('user')
             ->path('user')
-            ->login()
+            ->login(Login::class)
             ->passwordReset()
             ->registration(Register::class)
             ->emailVerification()
