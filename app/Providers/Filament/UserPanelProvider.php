@@ -13,7 +13,6 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Contracts\View\View;
@@ -74,9 +73,6 @@ class UserPanelProvider extends PanelProvider
                     ->group(__('User'))
                     ->sort(1),
 
-            ])
-            ->colors([
-                'primary' => Color::Zinc,
             ])
             ->discoverResources(
                 in: app_path('Filament/User/Resources'),

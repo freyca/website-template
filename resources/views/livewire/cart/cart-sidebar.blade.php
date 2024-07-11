@@ -22,7 +22,7 @@
                     <dt class="text-base font-normal text-gray-500">
                         Savings
                     </dt>
-                    <dd class="text-base font-medium text-tertiary-600">
+                    <dd class="text-base font-medium text-gray-600">
                         -$299.00
                     </dd>
                 </dl>
@@ -57,14 +57,14 @@
         </div>
 
         <a href="/checkout"
-            class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
+            class="flex w-full items-center justify-center rounded-lg bg-gray-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300">
             Proceed to Checkout
         </a>
 
         <div class="flex items-center justify-center gap-2">
             <span class="text-sm font-normal text-gray-500"> or </span>
             <a href="/" title=""
-                class="inline-flex items-center gap-2 text-sm font-medium text-tertiary-700 underline hover:no-underline">
+                class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 underline hover:no-underline">
                 Continue Shopping
                 <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24">
@@ -82,12 +82,12 @@
                     Do you have a voucher or gift card?
                 </label>
                 <input type="text" id="voucher"
-                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-tertiary-500 focus:ring-tertiary-500"
+                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-gray-500 focus:ring-gray-500"
                     placeholder="" required />
             </div>
 
             <button type="submit"
-                class="flex w-full items-center justify-center rounded-lg bg-tertiary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-tertiary-800 focus:outline-none focus:ring-4 focus:ring-tertiary-300">
+                class="flex w-full items-center justify-center rounded-lg bg-gray-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300">
                 Apply Code
             </button>
         </form>

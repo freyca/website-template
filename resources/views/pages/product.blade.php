@@ -21,14 +21,14 @@
 
             <div class="my-2">
                 @if ($product->price_with_discount)
-                    <span class="text-xl font-bold text-tertiary-600 mr-2">
+                    <span class="text-xl font-bold text-gray-600 mr-2">
                         {{ $product->price_with_discount }} €
                     </span>
                     <span class="text-primary-700 pr-2 line-through">
                         {{ $product->price }} €
                     </span>
                 @else
-                    <span class="text-xl font-bold text-tertiary-600">
+                    <span class="text-xl font-bold text-gray-600">
                         {{ $product->price }} €
                     </span>
                 @endif

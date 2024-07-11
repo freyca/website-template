@@ -25,11 +25,11 @@
                 <span class="text-primary-700 pr-2 line-through">
                     {{ $product->price }} €
                 </span>
-                <span class="text-xl font-bold text-tertiary-600">
+                <span class="text-xl font-bold text-gray-600">
                     {{ $product->price_with_discount }} €
                 </span>
             @else
-                <span class="text-xl font-bold text-tertiary-600">
+                <span class="text-xl font-bold text-gray-600">
                     {{ $product->price }} €
                 </span>
             @endif
