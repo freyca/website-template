@@ -1,7 +1,3 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => 'Metadescripcion de la pagina de contacto',
-])
-@section('main-content')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de contacto">
     @livewire('forms.contact-form')
-@endsection
+</x-layouts.app>

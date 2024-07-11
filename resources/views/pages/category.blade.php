@@ -1,8 +1,5 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => $category->name,
-])
-@section('main-content')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->name }}">
+
     <div class="container mx-auto p-4">
         <h1 class="text-3xl text-center font-bold mt-6 mb-10">
             {{ __('Category') }}: {{ $category->name }}
@@ -23,4 +20,4 @@
         <x-product-grid :products="$products" />
 
     </div>
-@endsection
+</x-layouts.app>

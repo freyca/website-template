@@ -1,9 +1,4 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => 'Metadescripcion de la pagina de inicio',
-])
-
-@section('main-content')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de inicio">
     <x-sliders.main-slider />
 
     <hr class="mt-10 w-100" />
@@ -25,4 +20,4 @@
 
         <x-product-grid :products="$products" />
     </div>
-@endsection
+</x-layouts.app>

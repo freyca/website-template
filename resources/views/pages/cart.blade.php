@@ -1,10 +1,6 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => 'Metadescripcion de la pagina de carrito',
-])
-@inject('cart', 'App\Services\Cart')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de carrito">
+    @inject('cart', 'App\Services\Cart')
 
-@section('main-content')
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
             Shopping Cart
@@ -22,4 +18,4 @@
 
         </div>
     </div>
-@endsection
+</x-layouts.app>

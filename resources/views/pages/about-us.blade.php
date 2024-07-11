@@ -1,8 +1,5 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => 'Metadescripcion de la pagina de sobre-nosotros',
-])
-@section('main-content')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de sobre nosotros">
+
     <div class="container mx-auto p-4">
         <div class="grid gap-4">
             <div class="bg-white shadow-md rounded-lg overflow-hidden p-4">
@@ -11,7 +8,8 @@
                 </h2>
 
                 <p class="text-gray-700">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel urna quis urna fermentum bibendum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel urna quis urna fermentum
+                    bibendum.
                 </p>
             </div>
 
@@ -43,4 +41,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.app>

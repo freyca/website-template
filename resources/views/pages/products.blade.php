@@ -1,7 +1,3 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => 'Metadescripcion de la pagina de productos',
-])
-@section('main-content')
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de products">
     <x-product-grid :products="$products" />
-@endsection
+</x-layouts.app>

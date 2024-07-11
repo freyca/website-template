@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<x-head.head :title="$title" :metaDescription="$metaDescription" />
+<x-head.head :title="$attributes['title']" :metaDescription="$attributes['metaDescription']" />
 
 <body class="bg-gray-100 text-gray-900">
     <x-navbar.navbar />
 
     <div class="container mx-auto mt-4 p-4">
-        @yield('main-content')
+        {{ $slot }}
     </div>
 
     <x-footer.footer />

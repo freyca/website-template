@@ -1,11 +1,6 @@
-@extends('layouts.app', [
-    'title' => config('custom.title'),
-    'metaDescription' => $product->meta_description,
-])
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $product->meta_description }}">
+    @inject(cart, '\App\Services\Cart')
 
-@inject(cart, '\App\Services\Cart')
-
-@section('main-content')
     <div class="container mx-auto mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:mb-10">
         <div class="container">
             <x-product.product-image-gallery :product="$product" />
@@ -57,4 +52,4 @@
             </div>
         @endif
     </div>
-@endsection
+</x-layouts.app>
