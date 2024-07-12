@@ -6,7 +6,7 @@
     @else
         @foreach ($cart->getCart() as $cartItem)
             @livewire(
-                'product-in-cart',
+                'cart.product-card',
                 [
                     'product' => data_get($cartItem, 'product'),
                 ],

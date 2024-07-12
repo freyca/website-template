@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire;
+namespace App\Livewire\Cart;
 
 use App\Models\BaseProduct;
 use App\Services\Cart;
@@ -10,7 +10,7 @@ use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class ProductInCart extends Component
+class ProductCard extends Component
 {
     public BaseProduct $product;
 
@@ -52,6 +52,6 @@ class ProductInCart extends Component
 
     public function render(): View
     {
-        return view('livewire.product-in-cart');
+        return view('livewire.cart.product-card');
     }
 }
