@@ -6,10 +6,24 @@ namespace App\Filament\User\Pages\Auth;
 
 use App\Filament\User\Pages\Auth\Traits\HasSurname;
 use Filament\Pages\Auth\Register as BaseRegister;
+use Illuminate\View\View;
 
 class Register extends BaseRegister
 {
     use HasSurname;
+
+    public function render(): View
+    {
+        return view(
+            'filament.user.pages.auth.register',
+        )->layout(
+            'layouts.app',
+            [
+                'title' => config('custom.title'),
+                'metaDescription' => 'Descripción de la página de registro',
+            ]
+        );
+    }
 
     protected function getForms(): array
     {

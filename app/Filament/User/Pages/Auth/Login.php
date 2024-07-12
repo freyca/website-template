@@ -9,8 +9,6 @@ use Illuminate\View\View;
 
 class Login extends BaseLogin
 {
-    protected static string $view = 'filament.user.pages.auth.login';
-
     public function render(): View
     {
         return view(

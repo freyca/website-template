@@ -19,6 +19,6 @@
     <script>
         // Hide logo
         let logo = document.getElementsByClassName("fi-logo")[0];
-        logo.style.visibility = 'hidden';
+        logo.remove();
     </script>
 </div>
