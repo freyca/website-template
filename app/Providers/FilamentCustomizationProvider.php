@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Filament\Notifications\Livewire\Notifications;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Support\ServiceProvider;
 
-class ColorPaletteProvider extends ServiceProvider
+class FilamentCustomizationProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
+        // Filament colors
         FilamentColor::register([
             'primary' => Color::Red,
             'gray' => Color::Gray,
@@ -23,5 +23,8 @@ class ColorPaletteProvider extends ServiceProvider
             'success' => Color::Green,
             'danger' => Color::Pink,
         ]);
+
+        // Notifications on right so does not overlap cart icon
+        Notifications::alignment(Alignment::Start);
     }
 }

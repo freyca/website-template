@@ -55,21 +55,24 @@
                     <div class="mb-4">
                         <label for="address"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('Address') }}</label>
-                        <input disabled type="text" id="address" name="street"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="text"
+                            id="address" name="street"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>
 
                     <div class="mb-4">
                         <label for="city"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('City') }}</label>
-                        <input disabled type="text" id="city" name="city"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="text"
+                            id="city" name="city"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>
 
                     <div class="mb-4">
                         <label for="postalCode"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('Postal code') }}</label>
-                        <input disabled type="number" id="postalCode" name="postalCode"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="number"
+                            id="postalCode" name="postalCode"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>
                 </div>
