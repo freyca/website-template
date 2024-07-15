@@ -20,7 +20,7 @@ class RemoveFromCart extends Component
 
         $cart->remove($this->product);
 
-        Notification::make()->title(__('Product deleted from cart'))->danger()->send();
+        Notification::make()->title(__('Product removed from cart'))->danger()->send();
 
         $this->dispatch('refresh-cart');
     }

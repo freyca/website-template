@@ -47,7 +47,7 @@
 
         <button type="submit"
             class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
-            {{ __('Enviar') }}
+            {{ __('Send') }}
         </button>
 
         @if (session()->has('message'))
