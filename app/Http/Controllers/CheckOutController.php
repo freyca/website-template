@@ -37,7 +37,7 @@ class CheckOutController extends Controller
         // Validate address_id belongs to user
         if (
             $request->input('address') !== 'newAddress' &&
-            !$this->validateAddressBelongsToUser($request->integer('address'))
+            ! $this->validateAddressBelongsToUser($request->integer('address'))
         ) {
             Notification::make()->title(__('Invalid address'))->danger()->send();
 
