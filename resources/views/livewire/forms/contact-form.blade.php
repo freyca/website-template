@@ -1,9 +1,5 @@
-@section('title', 'Contacta con nosotros')
-
 <div class="grid grid-cols-5">
-    <span></span>
     <form wire:submit="save" class="col-span-5 py-10">
-        @csrf
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label for="grid-first-name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">

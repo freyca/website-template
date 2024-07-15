@@ -10,8 +10,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
 {
-    case BankTransfer = 'Bank transfer';
     case Card = 'Card';
+    case BankTransfer = 'Bank transfer';
 
     public function getLabel(): string
     {

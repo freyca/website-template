@@ -40,6 +40,7 @@ class UserPanelProvider extends PanelProvider
                 page: EditProfile::class,
                 isSimple: false
             )
+            ->darkMode(false)
             ->topbar()
             ->brandLogo('https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png')
             ->navigationItems([

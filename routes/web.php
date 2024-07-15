@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
@@ -25,9 +26,10 @@ Route::get('contacto', function () {
     return view('pages.contact');
 })->name('contact');
 
-Route::get('checkout', function () {
-    return view('pages.checkout');
-})->name('checkout');
+Route::group(['as' => 'checkout.'], function () {
+    Route::get('checkout', [CheckOutController::class, 'index'])->name('index');
+    Route::post('checkout', [CheckOutController::class, 'paymentAndShipping'])->name('validate');
+});
 
 /** Cart */
 Route::get('carrito', function () {

@@ -39,7 +39,7 @@ class ContactForm extends Component
 
         $this->reset();
 
-        Notification::make()->title(__('Product added correctly'))->success()->send();
+        Notification::make()->title(__('Your message will be replied soon.'))->success()->send();
         session()->flash('message', __('Your message will be replied soon.'));
 
         $this->redirect('/contacto');
