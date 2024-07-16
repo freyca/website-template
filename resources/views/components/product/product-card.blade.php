@@ -11,7 +11,7 @@
         <img src="{{ @asset('/storage/' . $product->main_image) }}" alt="Producto 1" class="w-full h-48 object-cover">
     </a>
 
-    <div class="p-4 flex flex-col h-full">
+    <div class="p-4 flex flex-col bg-info-200 h-full">
         <div class="mb-4">
             <a href="{{ $path }}/{{ $product->slug }}">
                 <h2 class="text-xl font-bold mb-2">

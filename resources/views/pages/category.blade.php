@@ -1,19 +1,24 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->meta_description }}">
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4 bg-gray-200 rounded-md">
 
-        <div class="grid grid-cols-1 my-4 gap-4 lg:grid-cols-2">
-            <img class="rounded-lg items-center" src="{{ @asset('/storage/' . $category->big_image) }}">
+        <div class="grid grid-cols-1 my-4 gap-4 lg:grid-cols-3">
+            <div class="grid place-content-center">
+                <img class="mx-auto rounded-lg items-center max-h-96"
+                    src="{{ @asset('/storage/' . $category->big_image) }}">
+            </div>
 
-            <div class="flex flex-col content-center">
-                <h1 class="text-3xl font-bold mb-4">
-                    {{ $category->name }}
-                </h1>
+            <div class="grid place-content-center col-span-2">
+                <div class="align-middle">
+                    <h1 class="text-3xl font-bold my-4">
+                        {{ $category->name }}
+                    </h1>
 
-                <hr />
+                    <hr />
 
-                <p class="text-justify mt-4">
-                    {!! $category->description !!}
-                </p>
+                    <p class="text-justify mt-4">
+                        {!! $category->description !!}
+                    </p>
+                </div>
             </div>
         </div>
 
