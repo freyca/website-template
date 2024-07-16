@@ -30,6 +30,7 @@ class CategoryResource extends Resource
                     Forms\Components\TextInput::make('slug')
                         ->disabled(),
                     Forms\Components\TextInput::make('meta_description')
+                        ->label(__('Meta description'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\RichEditor::make('description')
