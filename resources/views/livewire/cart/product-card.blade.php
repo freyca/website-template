@@ -1,7 +1,5 @@
 @inject('cart', 'App\Services\Cart')
 
-
-
 @php
     $path = match (true) {
         get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',

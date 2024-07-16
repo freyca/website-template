@@ -1,61 +1,77 @@
-<div id="default-carousel" class="relative w-full" data-carousel="slide">
-    <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-
-        <!-- Main image -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="{{ @asset('/storage/' . $product->main_image) }}"
-                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-        </div>
-
-        <!-- Iterate over all products images -->
+<div x-data="{
+    slides: [{
+            imgSrc: '{{ @asset('/storage/' . $product->main_image) }}',
+            imgAlt: '{{ $product->name . ' image 1' }}',
+        },
+        @php $imageCounter=2; @endphp
         @foreach ($product->images as $productImage)
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{{ @asset('/storage/' . $productImage) }}"
-                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        {
+            imgSrc: '{{ @asset('/storage/' . $productImage) }}',
+            imgAlt: '{{ $product->name . ' image ' . $imageCounter }}',
+            @php $imageCounter++; @endphp
+        }, @endforeach
+    ],
+    currentSlideIndex: 1,
+    previous() {
+        if (this.currentSlideIndex > 1) {
+            this.currentSlideIndex = this.currentSlideIndex - 1
+        } else {
+            // If it's the first slide, go to the last slide
+            this.currentSlideIndex = this.slides.length
+        }
+    },
+    next() {
+        if (this.currentSlideIndex < this.slides.length) {
+            this.currentSlideIndex = this.currentSlideIndex + 1
+        } else {
+            // If it's the last slide, go to the first slide
+            this.currentSlideIndex = 1
+        }
+    },
+}" class="relative w-full rounded-xl overflow-hidden">
+
+    <!-- previous button -->
+    <button type="button"
+        class="absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0"
+        aria-label="previous slide" x-on:click="previous()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="3"
+            class="size-5 md:size-6 pr-0.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+    </button>
+
+    <!-- next button -->
+    <button type="button"
+        class="absolute right-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center bg-white/40 p-2 text-slate-700 transition hover:bg-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700 active:outline-offset-0"
+        aria-label="next slide" x-on:click="next()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
+            stroke-width="3" class="size-5 md:size-6 pl-0.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+    </button>
+
+    <!-- slides -->
+    <!-- Change min-h-[50svh] to your preferred height size -->
+    <div class="relative min-h-[50svh] w-full">
+        <template x-for="(slide, index) in slides">
+            <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.1000ms>
+                <img class="absolute w-full h-full inset-0 object-cover text-slate-700" x-bind:src="slide.imgSrc"
+                    x-bind:alt="slide.imgAlt" />
             </div>
-        @endforeach
+        </template>
     </div>
 
-    <!-- Slider indicators -->
-    <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-            data-carousel-slide-to="0"></button>
-
-        @foreach ($product->images as $productImage)
-            @php $counter = 1; @endphp
-            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-                data-carousel-slide-to="{{ $counter }}"></button>
-            @php $counter++; @endphp
-        @endforeach
+    <!-- indicators -->
+    <div class="absolute rounded-xl bottom-3 md:bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-4 md:gap-3 bg-white/75 px-1.5 py-1 md:px-2"
+        role="group" aria-label="slides">
+        <template x-for="(slide, index) in slides">
+            <button class="size-2 cursor-pointer rounded-full transition bg-slate-700"
+                x-on:click="currentSlideIndex = index + 1"
+                x-bind:class="[currentSlideIndex === index + 1 ? 'bg-slate-700' :
+                    'bg-slate-700/50'
+                ]"
+                x-bind:aria-label="'slide ' + (index + 1)">
+            </button>
+        </template>
     </div>
-
-    <!-- Slider controls -->
-    <button type="button"
-        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-        data-carousel-prev>
-        <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M5 1 1 5l4 4" />
-            </svg>
-            <span class="sr-only">Previous</span>
-        </span>
-    </button>
-
-    <button type="button"
-        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-        data-carousel-next>
-        <span
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-            <svg class="w-4 h-4 text-white rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m1 9 4-4-4-4" />
-            </svg>
-            <span class="sr-only">Next</span>
-        </span>
-    </button>
 </div>
