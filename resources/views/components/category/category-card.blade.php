@@ -9,8 +9,5 @@
                 {{ $category->name }}
             </a>
         </h2>
-        <p class="mt-2 text-gray-600">
-            {{ $category->slogan }}
-        </p>
     </div>
 </div>
