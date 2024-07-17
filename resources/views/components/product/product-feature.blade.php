@@ -1,5 +1,5 @@
 @php
-    $id = md5($feature->name);
+    $id = md5($featureValue->name);
 @endphp
 
 <h2 id="accordion-collapse-heading-{{ $id }}">
@@ -8,7 +8,7 @@
         data-accordion-target="#accordion-collapse-body-{{ $id }}" aria-expanded="true"
         aria-controls="accordion-collapse-body-{{ $id }}">
         <span class="text-gray-500">
-            {{ $feature->name }}
+            {{ __($feature->name) . ': ' . $featureValue->name }}
         </span>
         <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 10 6">
@@ -22,7 +22,7 @@
     aria-labelledby="accordion-collapse-heading-{{ $id }}">
     <div class="p-5 border border-b-0 border-gray-200">
         <p class="mb-2 text-gray-500">
-            {!! $feature->description !!}
+            {!! $featureValue->description !!}
         </p>
     </div>
 </div>
