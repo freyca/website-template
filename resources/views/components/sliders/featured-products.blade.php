@@ -2,18 +2,18 @@
     <div class="carousel flex space-x-4 transition-transform duration-500">
         @foreach ($products as $product)
             <div class="product flex flex-col items-center justify-center rounded-lg">
-                <div class="rounded-lg bg-white p-6 shadow-lg">
-                    <img class="mb-4 h-32 w-full object-cover" src="{{ asset('images/' . rand(1, 75) . '.png') }}"
-                        alt="{{ $product->name }}">
+                <div class="rounded-lg bg-gray-300 p-6 shadow-lg">
+                    <img class="mb-4 h-32 w-full object-cover rounded"
+                        src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}">
                     <h3 class="text-lg font-semibold">
                         {{ $product->name }}
                     </h3>
                     <p class="text-gray-500">
                         {{ $product->price }} €
                     </p>
-                    <button class="mt-4 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                        {{ __('Add to cart') }}
-                    </button>
+
+                    @livewire('buttons.add-to-cart', ['product' => $product])
+
                     <button class="details-btn mt-2 text-blue-500">
                         <i class="fas fa-info-circle"></i>
                         {{ __('Details') }}
