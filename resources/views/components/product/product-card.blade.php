@@ -6,12 +6,13 @@
     };
 @endphp
 
-<div class="shadow-md rounded-lg overflow-hidden mx-5 hover:scale-105 transition-transform duration-300">
+<div class="shadow-md rounded-lg overflow-hidden mx-5 hover:scale-105 transition-transform duration-300 bg-gray-500">
     <a href="{{ $path }}/{{ $product->slug }}">
-        <img src="{{ @asset('/storage/' . $product->main_image) }}" alt="Producto 1" class="w-full h-48 object-cover">
+        <img src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}"
+            class="w-full pt-6 h-48 object-contain">
     </a>
 
-    <div class="p-4 flex flex-col bg-gray-500 h-full">
+    <div class="p-4 flex flex-col h-full">
         <div class="mb-4">
             <a href="{{ $path }}/{{ $product->slug }}">
                 <h2 class="text-xl font-bold mb-2">

@@ -67,6 +67,16 @@ final readonly class Cart
         return $this->repository->getTotalCost($formatted);
     }
 
+    public function getTotalDiscount(bool $formatted = false): float|string
+    {
+        return $this->repository->getTotalDiscount($formatted);
+    }
+
+    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
+    {
+        return $this->repository->getTotalCostWithoutDiscount($formatted);
+    }
+
     public function hasProduct(BaseProduct $product): bool
     {
         return $this->repository->hasProduct($product);

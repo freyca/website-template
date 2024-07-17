@@ -140,6 +140,38 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
+    public function getTotalDiscount(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = ! is_null($product->price_with_discount) ? ($product->price - $product->price_with_discount) : 0;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = $product->price;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
     public function hasProduct(BaseProduct $product): bool
     {
         $cart = $this->getCart();
