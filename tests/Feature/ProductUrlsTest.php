@@ -33,6 +33,7 @@ test('product urls returns 200 if published and 403 if not', function () {
 
 test('product complement urls returns 200 if published and 403 if not', function () {
     $this->seed(ProductComplementSeeder::class);
+    $this->seed(ProductSeeder::class);
 
     $publishedComplements = ProductComplement::where('published', true)->get();
 
@@ -51,6 +52,7 @@ test('product complement urls returns 200 if published and 403 if not', function
 
 test('product spare part urls returns 200 if published and 403 if not', function () {
     $this->seed(ProductSparePartSeeder::class);
+    $this->seed(ProductSeeder::class);
 
     $publishedSpareParts = ProductSparePart::where('published', true)->get();
 

@@ -40,4 +40,9 @@
     </div>
 
     </div>
+
+    @php
+        $products = \App\Models\Product::all()->take(10);
+    @endphp
+    <x-sliders.featured-products :products="$products" />
 </x-layouts.app>
