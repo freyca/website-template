@@ -2,7 +2,11 @@
     @if (!$inCart)
         @livewire('buttons.add-to-cart', ['product' => $product])
     @else
-        @livewire('buttons.increment-decrement-cart', ['product' => $product])
-        @livewire('buttons.remove-from-cart', ['product' => $product])
+        <div class="mr-4">
+            @livewire('buttons.increment-decrement-cart', ['product' => $product])
+        </div>
+        <div>
+            @livewire('buttons.remove-from-cart', ['product' => $product])
+        </div>
     @endif
 </div>
