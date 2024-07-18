@@ -15,12 +15,12 @@
     <div class="p-4 flex flex-col h-full">
         <div class="mb-4">
             <a href="{{ $path }}/{{ $product->slug }}">
-                <h2 class="text-xl font-bold mb-2">
+                <h2 class="text-xl font-bold mb-2 text-center">
                     {{ $product->name }}
                 </h2>
             </a>
 
-            <p class="text-gray-700">
+            <p class="text-gray-700 text-center text-ellipsis">
                 {{ $product->slogan }}
             </p>
         </div>
