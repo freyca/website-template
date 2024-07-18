@@ -25,7 +25,7 @@
             </p>
         </div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex justify-around items-center">
             <div>
                 @if ($product->price_with_discount)
                     <span class="text-primary-700 pr-2 line-through">

@@ -5,11 +5,11 @@
             <a href="{{ $product->slug }}">
                 <img class="h-32 sm:h-48 object-contain rounded-t-md mx-auto"
                     src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}">
-            </a>
 
-            <h5 class="text-lg text-gray-100 font-semibold text-center mt-5">
-                {{ $product->name }}
-            </h5>
+                <h5 class="text-lg text-gray-100 font-semibold text-center mt-5">
+                    {{ $product->name }}
+                </h5>
+            </a>
 
             <p class="text-center text-lg font-semibold text-green-500 my-2">
                 {{ $product->price }} €
