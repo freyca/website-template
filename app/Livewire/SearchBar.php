@@ -61,6 +61,6 @@ class SearchBar extends Component
      */
     private function query(string $table, int $limitResults): array
     {
-        return DB::select('SELECT name, slug, main_image FROM ' . $table . " WHERE name LIKE :searchTerm LIMIT $limitResults", ['searchTerm' => '%' . $this->searchTerm . '%']);
+        return DB::select('SELECT name, slug, main_image FROM '.$table." WHERE name LIKE :searchTerm LIMIT $limitResults", ['searchTerm' => '%'.$this->searchTerm.'%']);
     }
 }
