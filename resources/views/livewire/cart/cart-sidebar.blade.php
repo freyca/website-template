@@ -27,6 +27,7 @@
                             - {{ $cart->getTotalDiscount(true) }}
                         </dd>
                     </dl>
+                </div>
             @endif
 
             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">

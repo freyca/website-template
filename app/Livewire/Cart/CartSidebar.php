@@ -12,10 +12,6 @@ use Livewire\Component;
 class CartSidebar extends Component
 {
     #[On('refresh-cart')]
-    public function setCartItems(): void
-    {
-    }
-
     public function render(): string|View
     {
         /** @var Cart */

@@ -55,7 +55,7 @@
     <div class="relative min-h-[50svh] w-full">
         <template x-for="(slide, index) in slides">
             <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.1000ms>
-                <img class="absolute w-full h-full inset-0 object-cover text-slate-700" x-bind:src="slide.imgSrc"
+                <img class="absolute w-full h-full inset-0 object-contain text-slate-700" x-bind:src="slide.imgSrc"
                     x-bind:alt="slide.imgAlt" />
             </div>
         </template>
