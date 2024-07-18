@@ -1,6 +1,6 @@
 @inject('cart', 'App\Services\Cart')
 
-<div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mt-0 lg:w-full">
+<div class="my-6 sm:mt-8 max-w-4xl flex-1 space-y-6 xl:mt-6 lg:w-full">
 
     <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
         <p class="text-xl font-semibold text-gray-900 ">
@@ -50,11 +50,7 @@
             <a href="/" title=""
                 class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 underline hover:no-underline">
                 {{ __('Continue shopping') }}
-                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
-                </svg>
+                @svg('heroicon-s-arrow-right-circle', 'w-5 h-5')
             </a>
         </div>
     </div>

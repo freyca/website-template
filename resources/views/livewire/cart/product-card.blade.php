@@ -8,7 +8,7 @@
     };
 @endphp
 
-<div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mt-2 lg:w-full">
+<div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
     <div class="rounded-lg border border-gray-200 bg-gray-400 p-4 shadow-sm md:p-6 space-x-6">
         <div class="space-y-4 grid grid-cols-3 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 ">
 
