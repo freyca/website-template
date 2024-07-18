@@ -30,23 +30,7 @@
 
         <div class="flex col-span-2 justify-around md:order-4 md:grid">
             <div class="flex items-center justify-between md:justify-center ">
-                <div class="flex items-center justify-center">
-                    <button wire:click="decrement" type="button" id="decrement-button"
-                        data-input-counter-decrement="counter-input"
-                        class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
-                        @svg('heroicon-s-minus-circle')
-                    </button>
-
-                    <input type="text" id="counter-input" data-input-counter
-                        class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
-                        placeholder="" value="{{ $cart->getTotalQuantityForProduct($product) }}" required />
-
-                    <button wire:click="increment" type="button" id="increment-button"
-                        data-input-counter-increment="counter-input"
-                        class="inline-flex h-5 w-5 shrink-0 items-center justify-center hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100">
-                        @svg('heroicon-s-plus-circle')
-                    </button>
-                </div>
+                @livewire('buttons.increment-decrement-cart', ['product' => $product])
             </div>
 
             <div class="flex items-center gap-4">
@@ -55,6 +39,11 @@
         </div>
 
         <div class="text-center self-center md:order-3 md:w-32">
+            @if (!is_null($product->price_with_discount))
+                <p class="text-base font-bold text-primary-700 line-through">
+                    {{ $cart->getTotalCostforProductWithoutDiscount($product, true) }}
+                </p>
+            @endif
             <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
         </div>
 

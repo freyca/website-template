@@ -116,6 +116,20 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        $total = 0;
+
+        if ($cart->has($product->name)) {
+            $price = $product->price;
+            $total = data_get($cart->get($product->name), 'quantity') * $price;
+        }
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
     public function getTotalQuantity(): int
     {
         $cart = $this->getCart();
