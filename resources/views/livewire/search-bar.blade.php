@@ -12,8 +12,8 @@
         </div>
 
         @if (count($results) > 0)
-            <div id="dropdownHover" class="absolute ml-10 mt-10 z-50 bg-gray-300 rounded">
-                <ul class="py-2 text-sm text-gray-700">
+            <div id="dropdownHover" class="absolute ml-4 mt-12 z-50 bg-gray-300 rounded min-w-fit sm:min-w-96">
+                <ul class="py-2 text-sm text-gray-700 min-w-full">
                     @if (isset($results['products']) && $results['products'] > 0)
                         @foreach ($results['products'] as $product)
                             <x-searchbar.search-result :product="$product" urlPrefix='producto' />
