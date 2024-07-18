@@ -1,4 +1,4 @@
-<div id="gallery" class="relative w-full mt-16" data-carousel="slide">
+<div id="gallery" class="relative w-full" data-carousel="slide">
     <!-- Carousel wrapper -->
     <div class="relative h-64 overflow-hidden rounded-lg md:h-96">
         <!-- Item 1 -->

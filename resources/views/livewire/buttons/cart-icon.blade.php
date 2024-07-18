@@ -4,7 +4,7 @@
         <span class="sr-only">
             {{ __('Open cart') }}
         </span>
-        @svg('heroicon-o-shopping-bag', 'w-8 h-8 text-white')
+        @svg('heroicon-o-shopping-bag', 'w-8 h-8 text-white rounded hover:bg-gray-700')
         @if ($cartItems > 0)
             <span class="relative flex right-4 bottom-2 animate-pulse">
                 <span id="cart-count"

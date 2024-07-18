@@ -11,10 +11,6 @@ use Livewire\Component;
 class CartItems extends Component
 {
     #[On('refresh-cart')]
-    public function setCartItems(): void
-    {
-    }
-
     public function render(): View
     {
         return view('livewire.cart-items');

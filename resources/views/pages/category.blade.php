@@ -1,23 +1,24 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->name }}">
-    <div class="container mx-auto p-4">
+<x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->meta_description }}">
+    <div class="container mx-auto p-4 bg-gray-200 rounded-md">
 
-        <h1 class="text-3xl text-center font-bold mt-6 mb-10">
-            {{ __('Category') }}: {{ $category->name }}
-        </h1>
+        <div class="grid grid-cols-1 my-4 gap-4 lg:grid-cols-3">
+            <div class="grid place-content-center">
+                <img class="mx-auto rounded-lg items-center max-h-96"
+                    src="{{ @asset('/storage/' . $category->big_image) }}">
+            </div>
 
-        <div class="grid grid-cols-1 my-4 gap-4 lg:grid-cols-2">
-            <img class="rounded-lg" src="{{ @asset('/storage/' . $category->big_image) }}">
+            <div class="grid place-content-center col-span-2">
+                <div class="align-middle">
+                    <h1 class="text-3xl font-bold my-4">
+                        {{ $category->name }}
+                    </h1>
 
-            <div>
-                <h2 class="text-3xl font-bold mb-10">
-                    {{ $category->name }}
-                </h2>
+                    <hr />
 
-                <hr />
-
-                <p class="text-justify mt-4">
-                    {!! $category->description !!}
-                </p>
+                    <p class="text-justify mt-4">
+                        {!! $category->description !!}
+                    </p>
+                </div>
             </div>
         </div>
 

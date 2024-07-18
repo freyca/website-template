@@ -116,6 +116,20 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        $total = 0;
+
+        if ($cart->has($product->name)) {
+            $price = $product->price;
+            $total = data_get($cart->get($product->name), 'quantity') * $price;
+        }
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
     public function getTotalQuantity(): int
     {
         $cart = $this->getCart();
@@ -133,6 +147,38 @@ class SessionCartRepository implements CartRepositoryInterface
             /** @var BaseProduct */
             $product = data_get($item, 'product');
             $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalDiscount(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = ! is_null($product->price_with_discount) ? ($product->price - $product->price_with_discount) : 0;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = $product->price;
 
             return data_get($item, 'quantity') * $price;
         });

@@ -42,13 +42,15 @@ class ProductController extends Controller
             abort(403);
         }
 
+        $features = $product->productFeatures();
         $featureValues = $product->productFeatureValues;
 
         return view(
             'pages.product',
             [
                 'product' => $product,
-                'features' => $featureValues,
+                'features' => $features,
+                'featureValues' => $featureValues,
             ]
         );
     }

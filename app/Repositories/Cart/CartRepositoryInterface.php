@@ -21,9 +21,15 @@ interface CartRepositoryInterface
 
     public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string;
 
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string;
+
     public function getTotalQuantity(): int;
 
     public function getTotalCost(bool $formatted = false): float|string;
+
+    public function getTotalDiscount(bool $formatted = false): float|string;
+
+    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string;
 
     public function hasProduct(BaseProduct $product): bool;
 
