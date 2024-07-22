@@ -1,6 +1,6 @@
 <footer class="bg-gray-800 mt-auto rounded-t-lg">
     <div class="w-full max-w-screen-xl mx-auto py-4">
-        <div class="mx-10 flex items-center justify-between">
+        <div class="mx-4 sm:mx-10 flex items-center justify-between">
             <a href="/" class="text-sm font-medium text-gray-300 sm:mb-0 sm:flex">
                 <img src="https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png" class="h-8 mx-2"
                     alt="Roteco" />
