@@ -37,7 +37,7 @@
         class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
         data-carousel-prev>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full">
-            @svg('heroicon-o-arrow-left-circle', 'w-8 h-8')
+            @svg('heroicon-s-arrow-left-circle', 'w-8 h-8')
             <span class="sr-only">Previous</span>
         </span>
     </button>
@@ -46,7 +46,7 @@
         class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
         data-carousel-next>
         <span class="inline-flex items-center justify-center w-10 h-10 rounded-full">
-            @svg('heroicon-o-arrow-right-circle', 'w-8 h-8')
+            @svg('heroicon-s-arrow-right-circle', 'w-8 h-8')
             <span class="sr-only">Next</span>
         </span>
     </button>

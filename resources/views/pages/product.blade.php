@@ -37,10 +37,11 @@
                 <x-product.product-feature-container :features="$features" :featureValues="$featureValues" />
             @endif
         </div>
-    </div>
 
-    @php
-        $products = \App\Models\Product::all()->take(5);
-    @endphp
-    <x-sliders.featured-products :products="$products" />
+        @php
+            $products = \App\Models\Product::all()->take(5);
+        @endphp
+
+        <x-sliders.featured-products :products="$products" />
+    </div>
 </x-layouts.app>

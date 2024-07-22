@@ -1,4 +1,4 @@
-<div class="max-w-md mx-auto">
+<div class="max-w-md mx-10 md:mx-auto mb-10">
     <x-filament-panels::page.simple>
         @if (filament()->hasLogin())
             <x-slot name="subheading">

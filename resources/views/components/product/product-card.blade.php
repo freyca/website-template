@@ -12,7 +12,7 @@
             class="w-full pt-6 h-48 object-contain">
     </a>
 
-    <div class="p-4 flex flex-col h-full">
+    <div class="p-4 grid justify-center">
         <div class="mb-4">
             <a href="{{ $path }}/{{ $product->slug }}">
                 <h2 class="text-xl font-bold mb-2 text-center">
@@ -25,8 +25,8 @@
             </p>
         </div>
 
-        <div class="flex justify-around items-center">
-            <div>
+        <div class="grid justify-items-center">
+            <div class="mb-4">
                 @if ($product->price_with_discount)
                     <span class="text-primary-700 pr-2 line-through">
                         {{ $product->price }}€

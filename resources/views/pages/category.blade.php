@@ -1,10 +1,9 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->meta_description }}">
     <div class="container mx-auto p-4 bg-gray-200 rounded-md">
 
-        <div class="grid grid-cols-1 my-4 gap-4 lg:grid-cols-3">
+        <div class="grid grid-cols-1 my-4 lg:gap-4 lg:grid-cols-3">
             <div class="grid place-content-center">
-                <img class="mx-auto rounded-lg items-center max-h-96"
-                    src="{{ @asset('/storage/' . $category->big_image) }}">
+                <img class="rounded-lg items-center max-h-96" src="{{ @asset('/storage/' . $category->big_image) }}">
             </div>
 
             <div class="grid place-content-center col-span-2">

@@ -1,4 +1,4 @@
-<div class="mt-10 max-w-md mx-auto">
+<div class="mt-10 mx-10 max-w-md md:mx-auto">
     <x-filament-panels::page.simple>
         @if (filament()->hasRegistration())
             <x-slot name="subheading">
