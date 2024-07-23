@@ -40,7 +40,7 @@
                     </span>
                 @endif
             </div>
-            @livewire('buttons.add-to-cart', ['product' => $product])
+            {{-- @livewire('buttons.add-to-cart', ['product' => $product], key($product->id)) --}}
         </div>
     </div>
 </div>

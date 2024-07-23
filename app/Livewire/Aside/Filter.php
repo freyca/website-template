@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Livewire\Aside;
+
+use Illuminate\View\View;
+use Livewire\Attributes\On;
+use Livewire\Component;
+
+class Filter extends Component
+{
+    public int $filteredCategory = 0;
+
+    public int $minPrice = 0;
+
+    public int $maxPrice = 10000;
+
+    /**
+     * @var array<int>
+     */
+    public array $filteredFeatures = [];
+
+    public bool $hiddenFilterBar = true;
+
+    #[On('refreshProductGrid')]
+    public function keepFilterBar(): void
+    {
+        $this->hiddenFilterBar = false;
+    }
+
+    public function filterProducts(): void
+    {
+        $filters = [
+            'filteredCategory' => $this->filteredCategory,
+            'minPrice' => $this->minPrice,
+            'maxPrice' => $this->maxPrice,
+            'filteredFeatures' => $this->filteredFeatures,
+        ];
+
+        $this->dispatch('refreshProductGrid', $filters);
+    }
+
+    public function render(): View
+    {
+        return view('livewire.aside.filter');
+    }
+}
