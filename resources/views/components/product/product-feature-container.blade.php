@@ -1,18 +1,19 @@
-<div>
-    <p class="my-10 font-bold text-lg text-center gap-10">
+<div class="my-10">
+    <p class="font-bold text-lg text-center gap-10">
         {{ __('Features') }}
     </p>
 
-    <div id="accordion-collapse" data-accordion="collapse">
+    <div id="accordion-collapse" data-accordion="collapse" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
         @foreach ($features->pluck('family', 'id')->unique() as $featureFamilyId => $featureFamily)
             @foreach ($featureValues as $featureValue)
                 @if ($featureValue->product_feature_id === $featureFamilyId)
-                    <h3
-                        class="flex items-center justify-between w-full p-5 font-medium border bg-gray-300 border-gray-200 rounded-t mt-6">
-                        {{ __($featureFamily->value) }}
-                    </h3>
+                    <div class="">
+                        <h3 class="text-center p-5 font-md border bg-gray-200 border-gray-200 mt-6">
+                            {{ __($featureFamily->value) }}
+                        </h3>
 
-                    <x-product.product-feature :feature="$features->where('id', $featureFamilyId)->first()" :featureValue="$featureValue" />
+                        <x-product.product-feature :feature="$features->where('id', $featureFamilyId)->first()" :featureValue="$featureValue" />
+                    </div>
                 @endif
             @endforeach
         @endforeach

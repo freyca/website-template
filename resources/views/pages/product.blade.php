@@ -11,23 +11,25 @@
             <div class="text-gray-700 text-justify content-center">
                 {!! $product->description !!}
 
-                <div class="flex mx-auto items-center my-4">
-                    <div class="mr-10">
+                <div class="grid grid-cols-3 mx-auto justify-around items-center my-4">
+                    <div class="mx-auto">
                         @if ($product->price_with_discount)
-                            <span class="text-xl font-bold text-red-500 pr-2 line-through mx-4">
-                                {{ $product->price }} €
+                            <span class="text-gray-800 text-xs pr-2 line-through">
+                                {{ $product->price }}€
                             </span>
-                            <span class="text-xl font-bold text-green-500">
-                                {{ $product->price_with_discount }} €
+                            <span class="text-md font-bold text-primary-500">
+                                {{ $product->price_with_discount }}€
                             </span>
                         @else
-                            <span class="text-xl font-bold text-green-500">
-                                {{ $product->price }} €
+                            <span class="text-md font-bold text-primary-500">
+                                {{ $product->price }}€
                             </span>
                         @endif
                     </div>
 
-                    @livewire('product.product-buttons', ['product' => $product])
+                    <div class="col-span-2 justify-center items-center">
+                        @livewire('product.product-buttons', ['product' => $product])
+                    </div>
                 </div>
             </div>
         </div>

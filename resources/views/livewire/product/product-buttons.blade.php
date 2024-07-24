@@ -1,8 +1,8 @@
-<div class="flex">
+<div class="flex mx-auto">
     @if (!$inCart)
         @livewire('buttons.add-to-cart', ['product' => $product])
     @else
-        <div class="mr-4">
+        <div class="mx-auto">
             @livewire('buttons.increment-decrement-cart', ['product' => $product])
         </div>
         <div>

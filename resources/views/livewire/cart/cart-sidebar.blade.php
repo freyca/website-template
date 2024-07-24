@@ -41,7 +41,7 @@
         </div>
 
         <a href="/checkout"
-            class="flex w-full items-center justify-center rounded-lg bg-gray-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300">
+            class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500">
             {{ __('Proceed to Checkout') }}
         </a>
 

@@ -6,41 +6,38 @@
     };
 @endphp
 
-<div class="shadow-md rounded-lg overflow-hidden mx-5 hover:scale-105 transition-transform duration-300 bg-gray-500">
+<div class="shadow-sm overflow-hidden hover:scale-105 transition-transform bg-white">
     <a href="{{ $path }}/{{ $product->slug }}">
         <img src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}"
-            class="w-full pt-6 h-48 object-contain">
-    </a>
+            class="w-full object-scale-down bg-slate-900 border-4">
 
-    <div class="p-4 grid justify-center">
-        <div class="mb-4">
-            <a href="{{ $path }}/{{ $product->slug }}">
-                <h2 class="text-xl font-bold mb-2 text-center">
+        <div class="px-1 pb-2 grid mt-2 bottom-2 right-0 left-0 mx-auto">
+            <div class="mb-1">
+                <h2 class="text-lg mb-2 text-center text-gray-800">
                     {{ $product->name }}
                 </h2>
-            </a>
 
-            <p class="text-gray-700 text-center text-ellipsis">
-                {{ $product->slogan }}
-            </p>
-        </div>
-
-        <div class="grid justify-items-center">
-            <div class="mb-4">
-                @if ($product->price_with_discount)
-                    <span class="text-primary-700 pr-2 line-through">
-                        {{ $product->price }}€
-                    </span>
-                    <span class="text-xl font-bold text-green-800">
-                        {{ $product->price_with_discount }}€
-                    </span>
-                @else
-                    <span class="text-xl font-bold text-green-800">
-                        {{ $product->price }}€
-                    </span>
-                @endif
+                <p class="text-gray-700 text-center text-sm">
+                    {{ $product->slogan }}
+                </p>
             </div>
-            {{-- @livewire('buttons.add-to-cart', ['product' => $product], key($product->id)) --}}
+
+            <div class="grid justify-items-center mb-1">
+                <div class="mb-1 items-center">
+                    @if ($product->price_with_discount)
+                        <span class="text-gray-800 text-xs pr-2 line-through">
+                            {{ $product->price }}€
+                        </span>
+                        <span class="text-md font-bold text-primary-500">
+                            {{ $product->price_with_discount }}€
+                        </span>
+                    @else
+                        <span class="text-md font-bold text-primary-500">
+                            {{ $product->price }}€
+                        </span>
+                    @endif
+                </div>
+            </div>
         </div>
-    </div>
+    </a>
 </div>
