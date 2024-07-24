@@ -1,3 +1,167 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-primary {
+    @apply bg-blue-500;
+}
+
+.bg-primary-dark {
+    @apply bg-blue-700;
+}
+
+.text-primary {
+    @apply text-blue-500;
+}
+
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+
+.group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+}
+
+.group:hover .group-hover\:scale-110 {
+    transform: scale(1.1);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.carousel-container {
+    background: linear-gradient(90deg, rgba(237, 246, 249, 1) 0%, rgba(219, 235, 238, 1) 100%);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.product {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0.8;
+}
+
+.product:hover {
+    opacity: 1;
+    transform: translateY(-10px);
+}
+
+.feature-card:hover .feature-description {
+    opacity: 1;
+}
+
+.bg-white {
+    background-color: var(--color-light);
+}
+
+.shadow-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.transition-transform {
+    transition: transform var(--transition-speed);
+}
+
+.transform {
+    transform: scale(1);
+}
+
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+
+.group:hover .group-hover\:opacity-100 {
+    opacity: 1;
+}
+
+.group:hover .group-hover\:scale-110 {
+    transform: scale(1.1);
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.object-cover {
+    object-fit: cover;
+}
+
+.text-gray-700 {
+    color: #4a5568;
+}
+
+.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.grid {
+    display: grid;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.transition {
+    transition: all var(--transition-speed);
+}
+
+.duration-300 {
+    transition-duration: 0.3s;
+}
+
+.group-hover\:opacity-100 {
+    transition: opacity var(--transition-speed);
+}
+
+.bg-opacity-75 {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.text-gray-800 {
+    color: #2d3748;
+}

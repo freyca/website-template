@@ -10,6 +10,8 @@
         {{ $slot }}
     </div>
 
+    <!-- Botón volver al principio -->
+    
     <x-footer.footer />
 
     @vite('resources/js/app.js')
