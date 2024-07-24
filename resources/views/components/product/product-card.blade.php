@@ -6,38 +6,36 @@
     };
 @endphp
 
-<div class="shadow-sm overflow-hidden hover:scale-105 transition-transform bg-white">
-    <a href="{{ $path }}/{{ $product->slug }}">
-        <img src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}"
-            class="w-full object-scale-down bg-slate-900 border-4">
+<div class="bg-white shadow-lg rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-xl">
+    <div class="relative pb-48 overflow-hidden">
+        <img class="absolute inset-0 h-full w-full object-cover" src="{{ @asset('../images/' . rand(1,75) . '.png') }}" alt="{{ $product->name }}">
+        <div class="absolute inset-0 bg-blue-950 bg-opacity-60 grid items-center justify-center text-center opacity-0 group-hover:opacity-100 transition duration-300">
 
-        <div class="px-1 pb-2 grid mt-2 bottom-2 right-0 left-0 mx-auto">
-            <div class="mb-1">
-                <h2 class="text-lg mb-2 text-center text-gray-800">
-                    {{ $product->name }}
-                </h2>
+            <div class="mx-auto text-center">
+                <p class="text-white opacity-90 mx-4 mb-4 dark:text-white-400">{{ Str::limit($product->description, 60) }}</p>
+                 
+                <button 
+                class="inline details-btn hover:underline items-center  ">
+                <span class="flex items-center text-lg font-bold text-primary bg-opacity-85 ">
+                    @svg('heroicon-o-information-circle','w-7 h-7') 
+                    {{ __('Detalles') }} 
+                </span>
+                  </button>
 
-                <p class="text-gray-700 text-center text-sm">
-                    {{ $product->slogan }}
-                </p>
-            </div>
-
-            <div class="grid justify-items-center mb-1">
-                <div class="mb-1 items-center">
-                    @if ($product->price_with_discount)
-                        <span class="text-gray-800 text-xs pr-2 line-through">
-                            {{ $product->price }}€
-                        </span>
-                        <span class="text-md font-bold text-primary-500">
-                            {{ $product->price_with_discount }}€
-                        </span>
-                    @else
-                        <span class="text-md font-bold text-primary-500">
-                            {{ $product->price }}€
-                        </span>
-                    @endif
-                </div>
             </div>
         </div>
-    </a>
+    </div>
+    <div class="p-4 mb-1 items-center">
+        <h3 class="text-xl font-semibold mb-2">{{ $product->name }}</h3>
+        <div class="flex items-center justify-between">
+            <div class="mx-auto">
+                
+                <span class="text-md font-bold text-primary-500">
+                    {{ $product->price }} €
+                </span>
+            </div>
+            
+            @livewire('buttons.add-to-cart', ['product' => $product])
+        </div>
+    </div>
 </div>
