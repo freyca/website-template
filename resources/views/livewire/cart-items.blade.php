@@ -2,7 +2,9 @@
     @inject('cart', 'App\Services\Cart')
 
     @if ($cart->isEmpty())
-        <p class="container mx-auto">{{ __('No products in cart') }}</p>
+        @php
+            redirect()->route('cart');
+        @endphp
     @else
         @foreach ($cart->getCart() as $cartItem)
             @livewire(

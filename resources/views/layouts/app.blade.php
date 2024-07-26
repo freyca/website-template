@@ -3,15 +3,13 @@
 
 <x-head.head :title="$title" :metaDescription="$metaDescription" />
 
-<body class="bg-gray-100 text-gray-900 min-h-screen m-0 flex flex-col">
+<body id="app-container" class="bg-gray-100 text-gray-900 min-h-screen m-0 flex flex-col">
     <x-navbar.navbar />
 
     <div class="container mx-auto mt-4 sm:p-4">
         {{ $slot }}
     </div>
 
-    <!-- Botón volver al principio -->
-    
     <x-footer.footer />
 
     @vite('resources/js/app.js')
