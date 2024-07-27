@@ -15,7 +15,7 @@
         <div class="flex space-x-4">
             <a href="/user">
                 <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button"
-                    aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                    aria-expanded="false" >
                     <span class="sr-only">Login</span>
                     @svg('heroicon-s-user', 'w-8 h-8 text-white rounded hover:bg-gray-700')
                 </button>

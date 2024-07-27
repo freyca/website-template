@@ -9,6 +9,8 @@
     <div class="container mx-auto mt-4 sm:p-4">
         {{ $slot }}
     </div>
+    <x-buttons.filter-button />
+    @livewire('aside.filter', key(md5('aside.filter')))
 
     <x-footer.footer />
 

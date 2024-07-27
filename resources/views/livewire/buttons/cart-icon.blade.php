@@ -1,6 +1,5 @@
 <a href="/carrito">
-    <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button" aria-expanded="false"
-        data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+    <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button" aria-expanded="false">
         <span class="sr-only">
             {{ __('Open cart') }}
         </span>
