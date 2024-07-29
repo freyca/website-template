@@ -17,7 +17,9 @@ class ProductGrid extends Component
      * @var Collection<int, Product>
      */
     private Collection $products;
-    public int $filteredResultsCount = 0; 
+
+    public int $filteredResultsCount = 0;
+
     public function mount(): void
     {
         /**
@@ -67,7 +69,8 @@ class ProductGrid extends Component
                     ->where('price', '>', data_get($filters, 'minPrice'))
                     ->get();
         }
-        $this->filteredResultsCount = count( $this->products);
+
+        $this->filteredResultsCount = count($this->products);
     }
 
     public function render(): View

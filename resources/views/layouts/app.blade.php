@@ -9,8 +9,12 @@
     <div class="container mx-auto mt-4 sm:p-4">
         {{ $slot }}
     </div>
-    <x-buttons.filter-button />
-    @livewire('aside.filter', key(md5('aside.filter')))
+
+    {{-- Need a condition to check which pages will have filters --}}
+    @if (true)
+        <x-buttons.filter-button />
+        @livewire('aside.filter', key(md5('aside.filter')))
+    @endif
 
     <x-footer.footer />
 

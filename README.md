@@ -19,6 +19,8 @@
   - make meta-description a variable in head
   - Modals with: https://github.com/wire-elements/modal
   - show reduced prices 'price_when_user_owns_product' to users
+  - show filters only in selected pages
+  - keep filter sidebar if is open (must convert open/close button to livewire)
 
   # Metodos de pago
   - sequra para financiación

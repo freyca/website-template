@@ -42,50 +42,47 @@
 }
 
 #applied-filters-list {
-list-style: none;
-padding: 0;
-display: flex;
-flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #applied-filters-list li {
-background-color: #f0f0f0;
-border: 1px solid #ccc;
-border-radius: 20px;
-padding: 5px 10px;
-margin: 5px;
-display: flex;
-align-items: center;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
 }
 
 #applied-filters-list li .remove-filter {
-margin-left: 10px;
-cursor: pointer;
-color: red;
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
 }
 
 #clear-filters-button {
-background-color: #ff4444;
-color: white;
-padding: 5px 10px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-margin-top: 10px;
-transition: background-color 0.3s;
+    background-color: #ff4444;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
 #clear-filters-button:hover {
-background-color: #cc0000;
+    background-color: #cc0000;
 }
 
-css
-Copiar código
 #filter-side-menu:focus,
 #filter-side-menu:hover,
 #filter-side-menu:active {
-    outline: 2px solid #000;
-    outline-offset: 2px;
+    outline: 2px solid grey;
 }
 
 .form-select:focus,
