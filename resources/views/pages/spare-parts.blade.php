@@ -4,7 +4,7 @@
         @livewire('product.product-grid', key(md5('product.product-grid')), ['products' => $products, 'classFilter' => 'spare-part'])
     </div>
 
-    <x-buttons.filter-button />
+    @livewire('buttons.filter-button', key(md5('buttons.filter')))
 
     @livewire('aside.filter', key(md5('aside.filter')), ['enabledFilters' => ['price' => true]])
 

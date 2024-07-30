@@ -32,10 +32,10 @@ class Filter extends Component
 
     public bool $hiddenFilterBar = true;
 
-    #[On('refreshProductGrid')]
+    #[On('openFilters')]
     public function keepFilterBar(): void
     {
-        $this->hiddenFilterBar = false;
+        $this->hiddenFilterBar = ! $this->hiddenFilterBar;
     }
 
     public function filterProducts(): void
