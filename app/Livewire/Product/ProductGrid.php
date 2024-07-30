@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Product;
 
+use App\DTO\FilterDTO;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
@@ -32,11 +33,18 @@ class ProductGrid extends Component
     }
 
     /**
-     * @param  array<string, string|int|array<int, int>>  $filters
+     * @param  array{'minPrice': int, 'maxPrice': int, 'filteredFeatures': array<int>, 'filteredCategory': int}  $filters
      */
     #[On('refreshProductGrid')]
     public function filterProducts(array $filters): void
     {
+        $filters = new FilterDTO(
+            $filters['minPrice'],
+            $filters['maxPrice'],
+            $filters['filteredCategory'],
+            $filters['filteredFeatures']
+        );
+
         $this->products = new Collection;
 
         $repository = app($this->classFilter);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Database\Product\ProductComplement;
 
+use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Repositories\Database\Product\BaseProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,8 +22,7 @@ interface ProductComplementRepositoryInterface extends BaseProductRepositoryInte
     public function featured(): Collection;
 
     /**
-     * @param  array<string, int|string>  $filters
      * @return Collection<int, ProductComplement>
      */
-    public function filter(array $filters): Collection;
+    public function filter(FilterDTO $filters): Collection;
 }

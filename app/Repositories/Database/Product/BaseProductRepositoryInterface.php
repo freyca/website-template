@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Database\Product;
 
+use App\DTO\FilterDTO;
 use Illuminate\Database\Eloquent\Collection;
 
 interface BaseProductRepositoryInterface
@@ -12,5 +13,5 @@ interface BaseProductRepositoryInterface
 
     public function featured(): Collection;
 
-    public function filter(array $filters): Collection;
+    public function filter(FilterDTO $filters): Collection;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Database\Product\ProductSparePart;
 
+use App\DTO\FilterDTO;
 use App\Models\ProductSparePart;
 use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
@@ -33,23 +34,18 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
         });
     }
 
-    public function filter(array $filters): Collection
+    public function filter(FilterDTO $filters): Collection
     {
-        if (data_get($filters, 'filteredFeatures') !== []) {
-            return
-                ProductSparePart::whereHas('productFeatureValues', function ($query) use ($filters) {
-                    return $query->whereIn('product_spare_part_id', data_get($filters, 'filteredFeatures'));
-                })
-                    ->where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->where('published', true)
-                    ->get();
-        } else {
-            return
-                ProductSparePart::where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->where('published', true)
-                    ->get();
+        $query = ProductSparePart::where('price', '<', $filters->maxPrice)
+            ->where('price', '>', $filters->minPrice)
+            ->where('published', true);
+
+        if ($filters->features !== []) {
+            $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
+                return $query->whereIn('product_complement_id', $filters->features);
+            });
         }
+
+        return $query->get();
     }
 }
