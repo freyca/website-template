@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Product;
 
+use App\Models\BaseProduct;
 use App\Models\Product;
-use App\Repositories\Database\Product\Product\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -14,19 +14,18 @@ use Livewire\Component;
 class ProductGrid extends Component
 {
     /**
-     * @var Collection<int, Product>
+     * @var Collection<int, BaseProduct>
      */
     private Collection $products;
 
     public int $filteredResultsCount = 0;
 
-    public function mount(): void
+    /**
+     * @param  Collection<int, BaseProduct>  $products
+     */
+    public function mount(Collection $products): void
     {
-        /**
-         * @var ProductRepositoryInterface
-         */
-        $productRepository = app(ProductRepositoryInterface::class);
-        $this->products = $productRepository->getAll();
+        $this->products = $products;
     }
 
     /**
@@ -41,6 +40,7 @@ class ProductGrid extends Component
             data_get($filters, 'filteredCategory') !== 0 &&
             data_get($filters, 'filteredFeatures') !== []
         ) {
+            /** @phpstan-ignore-next-line */
             $this->products =
                 Product::whereHas('productFeatureValues', function ($query) use ($filters) {
                     return $query->whereIn('product_id', data_get($filters, 'filteredFeatures'));
@@ -50,12 +50,14 @@ class ProductGrid extends Component
                     ->where('price', '>', data_get($filters, 'minPrice'))
                     ->get();
         } elseif (data_get($filters, 'filteredCategory') !== 0) {
+            /** @phpstan-ignore-next-line */
             $this->products =
                 Product::where('price', '<', data_get($filters, 'maxPrice'))
                     ->where('price', '>', data_get($filters, 'minPrice'))
                     ->where('category_id', data_get($filters, 'filteredCategory'))
                     ->get();
         } elseif (data_get($filters, 'filteredFeatures') !== []) {
+            /** @phpstan-ignore-next-line */
             $this->products =
                 Product::whereHas('productFeatureValues', function ($query) use ($filters) {
                     return $query->whereIn('product_id', data_get($filters, 'filteredFeatures'));
@@ -64,6 +66,7 @@ class ProductGrid extends Component
                     ->where('price', '>', data_get($filters, 'minPrice'))
                     ->get();
         } else {
+            /** @phpstan-ignore-next-line */
             $this->products =
                 Product::where('price', '<', data_get($filters, 'maxPrice'))
                     ->where('price', '>', data_get($filters, 'minPrice'))
