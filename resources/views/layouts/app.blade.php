@@ -11,8 +11,7 @@
             {{ $slot }}
         </div>
 
-        {{-- Need a condition to check which pages will have filters --}}
-        @if (true)
+        @if (preg_match('/\-list$/', Route::current()->getName()))
             <x-buttons.filter-button />
             @livewire('aside.filter', key(md5('aside.filter')))
         @endif
