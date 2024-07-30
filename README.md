@@ -17,10 +17,9 @@
  # TODO:
   - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation
   - make meta-description a variable in head
-  - Modals with: https://github.com/wire-elements/modal
   - show reduced prices 'price_when_user_owns_product' to users
-  - show filters only in selected pages
   - keep filter sidebar if is open (must convert open/close button to livewire)
+  - filter correctly complements and spare parts by features
 
   # Metodos de pago
   - sequra para financiación

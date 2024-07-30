@@ -19,4 +19,10 @@ interface ProductComplementRepositoryInterface extends BaseProductRepositoryInte
      * @return Collection<int, ProductComplement>
      */
     public function featured(): Collection;
+
+    /**
+     * @param  array<string, int|string>  $filters
+     * @return Collection<int, ProductComplement>
+     */
+    public function filter(array $filters): Collection;
 }

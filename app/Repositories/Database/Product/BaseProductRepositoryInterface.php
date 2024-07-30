@@ -11,4 +11,6 @@ interface BaseProductRepositoryInterface
     public function getAll(): Collection;
 
     public function featured(): Collection;
+
+    public function filter(array $filters): Collection;
 }

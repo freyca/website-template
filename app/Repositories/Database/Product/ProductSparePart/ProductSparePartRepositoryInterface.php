@@ -19,4 +19,10 @@ interface ProductSparePartRepositoryInterface extends BaseProductRepositoryInter
      * @return Collection<int, ProductSparePart>
      */
     public function featured(): Collection;
+
+    /**
+     * @param  array<string, int|string>  $filters
+     * @return Collection<int, ProductSparePart>
+     */
+    public function filter(array $filters): Collection;
 }

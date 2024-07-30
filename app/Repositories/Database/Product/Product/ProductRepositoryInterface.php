@@ -19,4 +19,10 @@ interface ProductRepositoryInterface extends BaseProductRepositoryInterface
      * @return Collection<int, Product>
      */
     public function featured(): Collection;
+
+    /**
+     * @param  array<string, int|string>  $filters
+     * @return Collection<int, Product>
+     */
+    public function filter(array $filters): Collection;
 }

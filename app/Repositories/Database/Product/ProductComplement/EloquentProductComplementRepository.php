@@ -13,9 +13,6 @@ class EloquentProductComplementRepository implements ProductComplementRepository
 {
     use CacheKeys;
 
-    /**
-     * @return Collection<int, ProductComplement>
-     */
     public function getAll(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
@@ -25,9 +22,6 @@ class EloquentProductComplementRepository implements ProductComplementRepository
         });
     }
 
-    /**
-     * @return Collection<int, ProductComplement>
-     */
     public function featured(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
@@ -37,5 +31,27 @@ class EloquentProductComplementRepository implements ProductComplementRepository
 
             return ProductComplement::whereIn('id', $featured_products)->where('published', true)->get();
         });
+    }
+
+    public function filter(array $filters): Collection
+    {
+        if (
+            data_get($filters, 'filteredFeatures') !== []
+        ) {
+            return
+                ProductComplement::whereHas('productFeatureValues', function ($query) use ($filters) {
+                    return $query->whereIn('product_complement_id', data_get($filters, 'filteredFeatures'));
+                })
+                    ->where('price', '<', data_get($filters, 'maxPrice'))
+                    ->where('price', '>', data_get($filters, 'minPrice'))
+                    ->where('published', true)
+                    ->get();
+        } else {
+            return
+                ProductComplement::where('price', '<', data_get($filters, 'maxPrice'))
+                    ->where('price', '>', data_get($filters, 'minPrice'))
+                    ->where('published', true)
+                    ->get();
+        }
     }
 }

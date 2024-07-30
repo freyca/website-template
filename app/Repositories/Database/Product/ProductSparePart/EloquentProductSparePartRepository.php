@@ -13,9 +13,6 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
 {
     use CacheKeys;
 
-    /**
-     * @return Collection<int, ProductSparePart>
-     */
     public function getAll(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
@@ -25,9 +22,6 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
         });
     }
 
-    /**
-     * @return Collection<int, ProductSparePart>
-     */
     public function featured(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
@@ -37,5 +31,25 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
 
             return ProductSparePart::whereIn('id', $featured_products)->where('published', true)->get();
         });
+    }
+
+    public function filter(array $filters): Collection
+    {
+        if (data_get($filters, 'filteredFeatures') !== []) {
+            return
+                ProductSparePart::whereHas('productFeatureValues', function ($query) use ($filters) {
+                    return $query->whereIn('product_spare_part_id', data_get($filters, 'filteredFeatures'));
+                })
+                    ->where('price', '<', data_get($filters, 'maxPrice'))
+                    ->where('price', '>', data_get($filters, 'minPrice'))
+                    ->where('published', true)
+                    ->get();
+        } else {
+            return
+                ProductSparePart::where('price', '<', data_get($filters, 'maxPrice'))
+                    ->where('price', '>', data_get($filters, 'minPrice'))
+                    ->where('published', true)
+                    ->get();
+        }
     }
 }

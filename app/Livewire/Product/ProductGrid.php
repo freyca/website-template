@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Product;
 
-use App\Models\BaseProduct;
-use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -14,18 +13,22 @@ use Livewire\Component;
 class ProductGrid extends Component
 {
     /**
-     * @var Collection<int, BaseProduct>
+     * @var Collection<int, Model>
      */
-    private Collection $products;
+    public Collection $products;
 
     public int $filteredResultsCount = 0;
 
-    /**
-     * @param  Collection<int, BaseProduct>  $products
-     */
-    public function mount(Collection $products): void
+    public string $classFilter;
+
+    public function mount(string $classFilter): void
     {
-        $this->products = $products;
+        $this->classFilter =
+            match ($classFilter) {
+                'complement' => 'App\Repositories\Database\Product\ProductComplement\EloquentProductComplementRepository',
+                'spare-part' => 'App\Repositories\Database\Product\ProductSparePart\EloquentProductSparePartRepository',
+                default => 'App\Repositories\Database\Product\Product\EloquentProductRepository',
+            };
     }
 
     /**
@@ -34,46 +37,23 @@ class ProductGrid extends Component
     #[On('refreshProductGrid')]
     public function filterProducts(array $filters): void
     {
-        $this->products = new Collection; //@phpstan-ignore-line
+        $this->products = new Collection;
 
-        if (
-            data_get($filters, 'filteredCategory') !== 0 &&
-            data_get($filters, 'filteredFeatures') !== []
-        ) {
-            /** @phpstan-ignore-next-line */
-            $this->products =
-                Product::whereHas('productFeatureValues', function ($query) use ($filters) {
-                    return $query->whereIn('product_id', data_get($filters, 'filteredFeatures'));
-                })
-                    ->where('category_id', data_get($filters, 'filteredCategory'))
-                    ->where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->get();
-        } elseif (data_get($filters, 'filteredCategory') !== 0) {
-            /** @phpstan-ignore-next-line */
-            $this->products =
-                Product::where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->where('category_id', data_get($filters, 'filteredCategory'))
-                    ->get();
-        } elseif (data_get($filters, 'filteredFeatures') !== []) {
-            /** @phpstan-ignore-next-line */
-            $this->products =
-                Product::whereHas('productFeatureValues', function ($query) use ($filters) {
-                    return $query->whereIn('product_id', data_get($filters, 'filteredFeatures'));
-                })
-                    ->where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->get();
-        } else {
-            /** @phpstan-ignore-next-line */
-            $this->products =
-                Product::where('price', '<', data_get($filters, 'maxPrice'))
-                    ->where('price', '>', data_get($filters, 'minPrice'))
-                    ->get();
-        }
+        $repository = app($this->classFilter);
+
+        $this->products = $repository->filter($filters);
 
         $this->filteredResultsCount = count($this->products);
+    }
+
+    #[On('clearFilters')]
+    public function clearFilters(): void
+    {
+        $this->products = new Collection;
+
+        $repository = app($this->classFilter);
+
+        $this->products = $repository->getAll();
     }
 
     public function render(): View

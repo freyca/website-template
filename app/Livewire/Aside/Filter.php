@@ -50,6 +50,16 @@ class Filter extends Component
         $this->dispatch('refreshProductGrid', $filters);
     }
 
+    public function clearFilters(): void
+    {
+        $this->filteredCategory = 0;
+        $this->minPrice = 0;
+        $this->maxPrice = 10000;
+        $this->filteredFeatures = [];
+
+        $this->dispatch('clearFilters');
+    }
+
     public function render(): View
     {
         return view('livewire.aside.filter');
