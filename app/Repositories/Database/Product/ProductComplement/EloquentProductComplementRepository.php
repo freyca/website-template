@@ -36,9 +36,14 @@ class EloquentProductComplementRepository implements ProductComplementRepository
 
     public function filter(FilterDTO $filters): Collection
     {
-        $query = ProductComplement::where('price', '<', $filters->maxPrice)
-            ->where('price', '>', $filters->minPrice)
-            ->where('published', true);
+        $query = ProductComplement::where('published', true)
+            ->where(function ($q) use ($filters) {
+                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
+                    ->orWhere('price_with_discount', '>', $filters->minPrice);
+            })->where(function ($q) use ($filters) {
+                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
+                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
+            });
 
         if ($filters->features !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {

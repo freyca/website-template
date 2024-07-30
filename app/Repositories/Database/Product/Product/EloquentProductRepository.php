@@ -36,9 +36,14 @@ class EloquentProductRepository implements ProductRepositoryInterface
 
     public function filter(FilterDTO $filters): Collection
     {
-        $query = Product::where('price', '>', $filters->minPrice)
-            ->where('price', '<', $filters->maxPrice)
-            ->where('published', true);
+        $query = Product::where('published', true)
+            ->where(function ($q) use ($filters) {
+                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
+                    ->orWhere('price_with_discount', '>', $filters->minPrice);
+            })->where(function ($q) use ($filters) {
+                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
+                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
+            });
 
         if ($filters->category !== 0) {
             $query = $query->where('category_id', $filters->category);
