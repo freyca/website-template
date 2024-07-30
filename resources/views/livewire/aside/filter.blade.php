@@ -21,30 +21,11 @@
             {{ __('Search filters') }}
         </h3>
 
-        <button type="button" id="clear-filters-button"
-            class="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" wire:click="clearFilters">
+        <button type="button"
+            class="my-4 bg-slate-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded active:translate-x-1 active:translate-y-1"
+            wire:click="clearFilters">
             {{ __('Clear All Filters') }}
         </button>
-
-        <!-- Filtros Aplicados -->
-        <div id="applied-filters" class="my-4">
-            <h4 class="text-lg font-medium text-gray-700">
-                {{ __('Applied filters') }}:
-            </h4>
-            <div id="applied-filters-list" class="flex flex-wrap gap-2 mt-2">
-                {{-- @foreach ($appliedFilters as $filter)
-                    <div class="flex items-center bg-gray-200 text-gray-700 py-1 px-3 rounded-lg filter-tag">
-                        {{ $filter }}
-                        <span class="remove-filter ml-2 text-red-500 hover:text-red-700 cursor-pointer" wire:click="removeFilter('{{ $filter }}')">✖</span>
-                    </div>
-                @endforeach --}}
-            </div>
-            <div class="text-lg font-medium text-gray-700">
-                <span class="">
-                    {{ __('Number of results:') . ' ' }}
-                </span>
-            </div>
-        </div>
 
         <form wire:change.debounce.500ms="filterProducts">
             @isset($enabledFilters['category'])
