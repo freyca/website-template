@@ -10,6 +10,15 @@ use Livewire\Component;
 
 class Filter extends Component
 {
+    /**
+     * @var array<string, bool>
+     */
+    public array $enabledFilters = [
+        'price' => false,
+        'category' => false,
+        'features' => false,
+    ];
+
     public int $filteredCategory = 0;
 
     public int $minPrice = 0;

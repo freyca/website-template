@@ -61,7 +61,7 @@ class ProductController extends Controller
     public function complements(): View
     {
         return view(
-            'pages.products',
+            'pages.complements',
             [
                 'products' => $this->productComplementRepository->getAll(),
             ]
@@ -91,7 +91,7 @@ class ProductController extends Controller
     public function spareParts(): View
     {
         return view(
-            'pages.products',
+            'pages.spare-parts',
             [
                 'products' => $this->productSparePartRepository->getAll(),
             ]

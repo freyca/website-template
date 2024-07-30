@@ -6,6 +6,6 @@
 
     <x-buttons.filter-button />
 
-    @livewire('aside.filter', key(md5('aside.filter')), ['enabledFilters' => ['price' => true, 'category' => true, 'features' => true]])
+    @livewire('aside.filter', key(md5('aside.filter')), ['enabledFilters' => ['price' => true]])
 
 </x-layouts.app>
