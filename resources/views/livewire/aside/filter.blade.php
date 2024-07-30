@@ -66,27 +66,24 @@
             @isset($enabledFilters['price'])
                 <!-- Filtro de Precio -->
                 <div class="filter-price mb-4">
-                    <label for="price" class="block text-gray-700">{{ __('Price range') }}</label>
+                    <label for="price" class="block text-gray-700">
+                        {{ __('Price range') }}
+                    </label>
                     <div class="mt-1">
-                        <label for="minPrice" class="text-sm text-gray-600">{{ __('Min Price: ') }}</label>
+                        <label for="minPrice"
+                            class="text-sm text-gray-600">{{ __('Min Price') . ': ' . $minPrice . ' €' }}</label>
                         <div class="flex items-center">
                             <input type="range" wire:model.debounce.500ms="minPrice" id="minPrice" min="0"
-                                max="10000" step="100" class="w-full mr-2 filter-item">
-                            <span class="text-gray-700 font-semibold text-nowrap">
-                                {{ $minPrice . ' €' }}
-                            </span>
+                                max="10000" step="100" class="w-full mr-2 filter-item accent-red-500">
                         </div>
                     </div>
                     <div class="mt-1">
                         <label for="maxPrice" class="text-sm text-gray-600">
-                            {{ __('Max Price: ') }}
+                            {{ __('Max Price') . ': ' . $maxPrice . ' €' }}
                         </label>
                         <div class="flex items-center">
-                            <input type="range" wire:model.debounce.500ms="maxPrice" min="0" max="10000"
-                                step="100" class="w-full mr-2 filter-item">
-                            <span class="text-gray-700 font-semibold text-nowrap">
-                                {{ $maxPrice . ' €' }}
-                            </span>
+                            <input type="range" wire:model.debounce.500ms="maxPrice" id="maxPrice" min="0"
+                                max="10000" step="100" class="w-full mr-2 filter-item">
                         </div>
                     </div>
                 </div>
