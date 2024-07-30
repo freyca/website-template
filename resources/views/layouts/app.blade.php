@@ -11,7 +11,19 @@
             {{ $slot }}
         </div>
 
-        @if (preg_match('/\-list$/', Route::current()->getName()))
+        @php
+            $route = Route::current()->getName();
+            $show_filters = false;
+
+            if (
+                (str_ends_with($route, '-list') && !str_ends_with($route, 'category-list')) ||
+                str_ends_with($route, 'category')
+            ) {
+                $show_filters = true;
+            }
+        @endphp
+
+        @if ($show_filters)
             <x-buttons.filter-button />
             @livewire('aside.filter', key(md5('aside.filter')))
         @endif
