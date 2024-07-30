@@ -64,21 +64,6 @@
     color: red;
 }
 
-#clear-filters-button {
-    background-color: #ff4444;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-#clear-filters-button:hover {
-    background-color: #cc0000;
-}
-
 #filter-side-menu:focus,
 #filter-side-menu:hover,
 #filter-side-menu:active {
@@ -96,6 +81,7 @@ input[type="range"] {
     background: transparent;
     cursor: pointer;
     appearance: none;
+    background-color: #ff4444;
 }
 
 /* Range color firefox */

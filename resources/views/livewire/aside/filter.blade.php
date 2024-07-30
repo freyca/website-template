@@ -17,34 +17,15 @@
     'rounded-r',
 ])>
     <div class="filters p-6 rounded-lg h-full relative bg-white shadow-md">
-        <h3 class="text-2xl font-semibold mb-6 text-gray-900">
+        <h3 class="text-2xl font-semibold text-gray-900">
             {{ __('Search filters') }}
         </h3>
 
-        <button type="button" id="clear-filters-button"
-            class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" wire:click="clearFilters">
+        <button type="button"
+            class="my-4 bg-slate-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded active:translate-x-1 active:translate-y-1"
+            wire:click="clearFilters">
             {{ __('Clear All Filters') }}
         </button>
-
-        <!-- Filtros Aplicados -->
-        <div id="applied-filters" class="my-4">
-            <h4 class="text-lg font-medium text-gray-700">
-                {{ __('Applied filters') }}:
-            </h4>
-            <div id="applied-filters-list" class="flex flex-wrap gap-2 mt-2">
-                {{-- @foreach ($appliedFilters as $filter)
-                    <div class="flex items-center bg-gray-200 text-gray-700 py-1 px-3 rounded-lg filter-tag">
-                        {{ $filter }}
-                        <span class="remove-filter ml-2 text-red-500 hover:text-red-700 cursor-pointer" wire:click="removeFilter('{{ $filter }}')">✖</span>
-                    </div>
-                @endforeach --}}
-            </div>
-            <div class="text-lg font-medium text-gray-700">
-                <span class="">
-                    {{ __('Number of results:') . ' ' }}
-                </span>
-            </div>
-        </div>
 
         <form wire:change.debounce.500ms="filterProducts">
             @isset($enabledFilters['category'])
@@ -55,7 +36,7 @@
                     </label>
                     <select wire:model="filteredCategory" id="category-filter"
                         class="form-select mt-1 block w-full border border-gray-300 rounded-lg p-2 filter-item">
-                        <option value="0">{{ __('Select a category') }}</option>
+                        <option value="0">{{ __('Select category') }}</option>
                         @foreach (\App\Models\Category::all() as $category)
                             <option value="{{ $category->id }}">{{ __($category->name) }}</option>
                         @endforeach
@@ -70,8 +51,9 @@
                         {{ __('Price range') }}
                     </label>
                     <div class="mt-1">
-                        <label for="minPrice"
-                            class="text-sm text-gray-600">{{ __('Min Price') . ': ' . $minPrice . ' €' }}</label>
+                        <label for="minPrice" class="text-sm text-gray-600">
+                            {{ __('Min Price') . ': ' . $minPrice . ' €' }}
+                        </label>
                         <div class="flex items-center">
                             <input type="range" wire:model.debounce.500ms="minPrice" id="minPrice" min="0"
                                 max="10000" step="100" class="w-full mr-2 filter-item accent-red-500">
