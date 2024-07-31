@@ -52,7 +52,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
 
         if ($filters->features !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
-                return $query->whereIn('product_id', $filters->features);
+                return $query->where('product_feature_value_id', $filters->features);
             });
         }
 

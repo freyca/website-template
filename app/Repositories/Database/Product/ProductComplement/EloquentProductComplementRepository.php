@@ -48,7 +48,7 @@ class EloquentProductComplementRepository implements ProductComplementRepository
 
         if ($filters->features !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
-                return $query->whereIn('product_complement_id', $filters->features);
+                return $query->where('product_complement_feature_value_id', $filters->features);
             });
         }
 
