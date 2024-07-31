@@ -32,7 +32,7 @@ class Filter extends Component
 
     public bool $hiddenFilterBar = true;
 
-    #[On('openFilters')]
+    #[On('toggleFilterBar')]
     public function keepFilterBar(): void
     {
         $this->hiddenFilterBar = ! $this->hiddenFilterBar;

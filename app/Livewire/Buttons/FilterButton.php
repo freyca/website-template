@@ -9,9 +9,9 @@ use Livewire\Component;
 
 class FilterButton extends Component
 {
-    public function openFilters(): void
+    public function toggleFilterBar(): void
     {
-        $this->dispatch('openFilters');
+        $this->dispatch('toggleFilterBar');
     }
 
     public function render(): View
