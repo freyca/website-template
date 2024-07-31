@@ -32,7 +32,7 @@ class Filter extends Component
 
     public bool $hiddenFilterBar = true;
 
-    #[On('openFilters')]
+    #[On('toggleFilterBar')]
     public function keepFilterBar(): void
     {
         $this->hiddenFilterBar = ! $this->hiddenFilterBar;
@@ -57,7 +57,7 @@ class Filter extends Component
         $this->maxPrice = 10000;
         $this->filteredFeatures = [];
 
-        $this->dispatch('clearFilters');
+        $this->filterProducts();
     }
 
     public function render(): View

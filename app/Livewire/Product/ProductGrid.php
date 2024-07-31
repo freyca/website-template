@@ -6,20 +6,13 @@ namespace App\Livewire\Product;
 
 use App\DTO\FilterDTO;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ProductGrid extends Component
 {
-    /**
-     * @var Collection<int, Model>
-     */
-    public Collection $products;
-
-    public int $filteredResultsCount = 0;
-
     public string $classFilter;
 
     public function mount(string $classFilter): void
@@ -32,11 +25,14 @@ class ProductGrid extends Component
             };
     }
 
+    /** @phpstan-ignore-next-line */
+    private LengthAwarePaginator|Collection $products;
+
     /**
      * @param  array{'minPrice': int, 'maxPrice': int, 'filteredFeatures': array<int>, 'filteredCategory': int}  $filters
      */
     #[On('refreshProductGrid')]
-    public function filterProducts(array $filters): void
+    public function getFilteredProducts(array $filters): void
     {
         $filters = new FilterDTO(
             $filters['minPrice'],
@@ -45,32 +41,32 @@ class ProductGrid extends Component
             $filters['filteredFeatures']
         );
 
-        $this->products = new Collection;
-
         $repository = app($this->classFilter);
 
         $this->products = $repository->filter($filters);
-
-        $this->filteredResultsCount = count($this->products);
     }
 
-    #[On('clearFilters')]
-    public function clearFilters(): void
+    /**
+     * @return LengthAwarePaginator<\App\Models\BaseProduct>
+     */
+    public function getProductsWithoutFilters(): LengthAwarePaginator
     {
-        $this->products = new Collection;
-
         $repository = app($this->classFilter);
 
-        $this->products = $repository->getAll();
+        return $repository->getAll();
     }
 
     public function render(): View
     {
+        if (! isset($this->products)) {
+            $this->products = $this->getProductsWithoutFilters();
+        }
+
         return view(
             'livewire.product.product-grid',
             [
                 'products' => $this->products,
-                'filteredResultsCount' => $this->filteredResultsCount,
+                'filteredResultsCount' => count($this->products),
             ]
         );
     }
