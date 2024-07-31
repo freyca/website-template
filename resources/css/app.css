@@ -63,6 +63,11 @@
     cursor: pointer;
     color: red;
 }
+#filter-side-menu{
+    position: fixed;
+    height: auto;
+    margin-top: 130px;
+}
 
 #filter-side-menu:focus,
 #filter-side-menu:hover,
