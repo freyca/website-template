@@ -7,6 +7,7 @@ namespace App\Repositories\Database\Categories;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CategoryRepositoryInterface
 {
@@ -16,9 +17,9 @@ interface CategoryRepositoryInterface
     public function getAll(): Collection;
 
     /**
-     * @return Collection<int, Product>
+     * @return LengthAwarePaginator<Product>
      */
-    public function getProducts(Category $category): Collection;
+    public function getProducts(Category $category): LengthAwarePaginator;
 
     /**
      * @return Collection<int, Category>

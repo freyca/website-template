@@ -57,7 +57,7 @@ class Filter extends Component
         $this->maxPrice = 10000;
         $this->filteredFeatures = [];
 
-        $this->dispatch('clearFilters');
+        $this->filterProducts();
     }
 
     public function render(): View

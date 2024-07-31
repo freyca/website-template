@@ -8,19 +8,20 @@ use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class EloquentProductComplementRepository implements ProductComplementRepositoryInterface
 {
     use CacheKeys;
 
-    public function getAll(): Collection
+    public function getAll(): LengthAwarePaginator
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        return Cache::remember($cacheKey, 3600, function () {
-            return ProductComplement::where('published', true)->get();
-        });
+        // return Cache::remember($cacheKey, 3600, function () {
+        return ProductComplement::where('published', true)->paginate(15);
+        //});
     }
 
     public function featured(): Collection

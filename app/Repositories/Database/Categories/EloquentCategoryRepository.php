@@ -7,6 +7,7 @@ namespace App\Repositories\Database\Categories;
 use App\Models\Category;
 use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
 class EloquentCategoryRepository implements CategoryRepositoryInterface
@@ -22,13 +23,13 @@ class EloquentCategoryRepository implements CategoryRepositoryInterface
         });
     }
 
-    public function getProducts(Category $category): Collection
+    public function getProducts(Category $category): LengthAwarePaginator
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        return Cache::remember($cacheKey, 3600, function () use ($category) {
-            return $category->products()->where('published', true)->get();
-        });
+        //return Cache::remember($cacheKey, 3600, function () use ($category) {
+        return $category->products()->where('published', true)->paginate(15);
+        //});
     }
 
     public function featured(): Collection

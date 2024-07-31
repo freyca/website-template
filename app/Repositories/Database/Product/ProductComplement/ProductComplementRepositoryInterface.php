@@ -8,13 +8,14 @@ use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Repositories\Database\Product\BaseProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductComplementRepositoryInterface extends BaseProductRepositoryInterface
 {
     /**
-     * @return Collection<int, ProductComplement>
+     * @return LengthAwarePaginator<ProductComplement>
      */
-    public function getAll(): Collection;
+    public function getAll(): LengthAwarePaginator;
 
     /**
      * @return Collection<int, ProductComplement>
