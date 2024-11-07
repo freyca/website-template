@@ -5,20 +5,20 @@
         <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
         <h2 class="mb-4">{{ $product->slogan }}</h2>
 
-        <div class="grid gap-4 lg:grid-cols-1 xl:grid-cols-2">
+        <div class="grid gap-20 lg:grid-cols-1 xl:grid-cols-2">
             <x-product.product-image-gallery :product="$product" />
 
-            <div class="text-gray-700 text-justify content-center">
+            <div class="text-gray-700 text-justify">
                 {!! $product->description !!}
 
-                <div class="grid grid-cols-3 mx-auto justify-around items-center my-4">
-                    <div class="mx-auto">
+                <div class="grid grid-cols-1 items-center my-2 xl:my-4">
+                    <div class="my-2 xl:my-4">
                         @if ($product->price_with_discount)
-                            <span class="text-gray-800 text-xs pr-2 line-through">
-                                {{ $product->price }}€
-                            </span>
                             <span class="text-md font-bold text-primary-500">
                                 {{ $product->price_with_discount }}€
+                            </span>
+                            <span class="text-gray-800 text-xs pr-2 line-through">
+                                {{ $product->price }}€
                             </span>
                         @else
                             <span class="text-md font-bold text-primary-500">
