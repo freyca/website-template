@@ -38,6 +38,11 @@ class Filter extends Component
         $this->hiddenFilterBar = ! $this->hiddenFilterBar;
     }
 
+    public function toggleFilterBar(): void
+    {
+        $this->hiddenFilterBar = ! $this->hiddenFilterBar;
+    }
+
     public function filterProducts(): void
     {
         $filters = [

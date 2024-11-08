@@ -1,22 +1,31 @@
 <aside id="filter-side-menu" @class([
     'open' => $hiddenFilterBar,
-    'absolute',
+    'top-0',
+    'md:top-28',
+    'z-50',
+    'md:z-0',
+    'fixed',
+    'left-0',
     'p-1',
-    'z-40',
     'h-full',
+    'w-full',
     'md:w-2/5',
-    'lg:w-1/5',
+    'xl:w-1/5',
     'transition-transform',
     'duration-500',
     'ease-in-out',
-    'w-100',
-    'top-0',
-    'left-0',
     'overflow-y-auto',
     'bg-gray-50',
     'rounded-r',
+    'mb-10',
 ])>
     <div class="filters p-6 rounded-lg h-full relative bg-white shadow-md">
+        <button id="open-filter-side-menu" class="text-black p-3 rounded-full absolute right-10" wire:click="toggleFilterBar"
+            aria-label="Abrir filtros">
+            @svg('heroicon-o-x-mark', 'w-6 h-6')
+        </button>
+
+
         <h3 class="text-2xl font-semibold text-gray-900">
             {{ __('Search filters') }}
         </h3>
@@ -76,7 +85,7 @@
                 <div class="filter-features">
                     <label class="block text-gray-700">{{ __('Features') }}:</label>
                     @foreach (App\Models\ProductFeature::with('productFeatureValues')->get() as $feature)
-                        <details class="group relative mb-4">
+                        <details class="group relative mb-4 {{ $loop->last ? 'pb-28' : '' }}">
                             <summary
                                 class="cursor-pointer text-gray-700 flex items-center justify-between bg-gray-100 p-2 rounded-md hover:bg-gray-200 transition">
                                 <span class="flex items-center">
