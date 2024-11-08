@@ -17,8 +17,8 @@ final readonly class Payment
     public function __construct(private Order $order)
     {
         $this->repository = match ($order->payment_method) {
-            PaymentMethod::Card => new RedsysPaymentRepository(),
-            default => new BankTransferPaymentRepository(),
+            PaymentMethod::Card => new RedsysPaymentRepository,
+            default => new BankTransferPaymentRepository,
         };
     }
 

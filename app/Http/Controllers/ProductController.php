@@ -20,8 +20,7 @@ class ProductController extends Controller
         private ProductRepositoryInterface $productRepository,
         private ProductComplementRepositoryInterface $productComplementRepository,
         private ProductSparePartRepositoryInterface $productSparePartRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * Products
@@ -47,7 +46,7 @@ class ProductController extends Controller
         $variants = $product->productVariants()->get();
         $featuredProducts = \App\Models\Product::all()->take(5);
 
-            return view(
+        return view(
             'pages.product',
             [
                 'product' => $product,

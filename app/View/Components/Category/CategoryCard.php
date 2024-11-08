@@ -13,8 +13,7 @@ class CategoryCard extends Component
 {
     public function __construct(
         public Category $category
-    ) {
-    }
+    ) {}
 
     public function render(): View|Closure|string
     {

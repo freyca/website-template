@@ -16,8 +16,7 @@ class ProductGrid extends Component
      */
     public function __construct(
         public LengthAwarePaginator $products
-    ) {
-    }
+    ) {}
 
     public function render(): View
     {

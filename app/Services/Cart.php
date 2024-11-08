@@ -14,9 +14,7 @@ use Illuminate\Support\Collection;
 
 final readonly class Cart
 {
-    public function __construct(private readonly CartRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly CartRepositoryInterface $repository) {}
 
     public function add(BaseProduct $product, int $quantity): void
     {
@@ -107,7 +105,7 @@ final readonly class Cart
 
     public function buildOrder(PaymentMethod $paymentMethod, User $user): Order
     {
-        $order = new Order();
+        $order = new Order;
         $order->purchase_cost = (float) $this->getTotalCost();
         $order->payment_method = $paymentMethod;
         $order->status = OrderStatus::New;

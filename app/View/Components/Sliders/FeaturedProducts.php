@@ -16,8 +16,7 @@ class FeaturedProducts extends Component
      */
     public function __construct(
         public Collection $featuredProducts
-    ) {
-    }
+    ) {}
 
     public function render(): View
     {

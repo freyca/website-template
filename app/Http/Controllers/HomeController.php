@@ -13,8 +13,7 @@ class HomeController extends Controller
     public function __construct(
         private CategoryRepositoryInterface $categoryRepository,
         private ProductRepositoryInterface $productRepository,
-    ) {
-    }
+    ) {}
 
     public function index(): View
     {

@@ -16,8 +16,7 @@ class CategoryGrid extends Component
      */
     public function __construct(
         public Collection $categories
-    ) {
-    }
+    ) {}
 
     public function render(): View
     {

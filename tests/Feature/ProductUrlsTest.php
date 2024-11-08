@@ -10,8 +10,8 @@ use Database\Seeders\ProductSparePartSeeder;
 use Database\Seeders\UserAdminSeeder;
 use Database\Seeders\UserSeeder;
 
-use function Pest\Laravel\{actingAs};
-use function Pest\Laravel\{get};
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 test('product urls returns 200 if published and 403 if not', function () {
     $this->seed(ProductSeeder::class);

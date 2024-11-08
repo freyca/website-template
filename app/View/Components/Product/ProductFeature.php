@@ -14,8 +14,7 @@ class ProductFeature extends Component
     public function __construct(
         public FeatureModel $feature,
         public ProductFeatureValue $featureValue
-    ) {
-    }
+    ) {}
 
     public function render(): View
     {

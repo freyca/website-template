@@ -25,7 +25,5 @@ class SendContactFormEmail implements ShouldQueue
         }
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
