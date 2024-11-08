@@ -15,9 +15,8 @@ class FeaturedProducts extends Component
      * @param  Collection<int, Product>  $products
      */
     public function __construct(
-        public Collection $products
-    ) {
-    }
+        public Collection $featuredProducts
+    ) {}
 
     public function render(): View
     {

@@ -12,7 +12,7 @@
                 [
                     'product' => data_get($cartItem, 'product'),
                 ],
-                key('product-' . data_get($cartItem, 'product.name'))
+                key('product-' . data_get($cartItem, 'product.ean13'))
             )
         @endforeach
     @endif

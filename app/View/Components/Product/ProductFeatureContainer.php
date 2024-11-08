@@ -20,8 +20,7 @@ class ProductFeatureContainer extends Component
     public function __construct(
         public Collection $features,
         public Collection $featureValues
-    ) {
-    }
+    ) {}
 
     public function render(): View|Closure|string
     {

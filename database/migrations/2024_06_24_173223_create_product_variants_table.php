@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ean13');
+            $table->unsignedBigInteger('ean13')->unique();
+            $table->string('name')->unique();
             $table->float('price');
             $table->float('price_with_discount')->nullable();
             $table->unsignedInteger('stock');

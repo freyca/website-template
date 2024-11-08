@@ -24,10 +24,7 @@ class ProductVariant extends BaseProduct
      * Product variant does not has a slug, it inherits parent Product slug
      * We override the trait so it does not interferes when saving to db
      */
-    public static function bootHasSlug(): void
-    {
-
-    }
+    public static function bootHasSlug(): void {}
 
     /**
      * @return BelongsTo<Product, ProductVariant>

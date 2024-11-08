@@ -9,9 +9,7 @@ use Illuminate\View\View;
 
 class SeoController extends Controller
 {
-    public function __construct(private CategoryRepositoryInterface $categoryRepository)
-    {
-    }
+    public function __construct(private CategoryRepositoryInterface $categoryRepository) {}
 
     public function desbrozadorasBaratas(): View
     {

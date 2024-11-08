@@ -12,8 +12,7 @@ class CategoryController extends Controller
 {
     public function __construct(
         private CategoryRepositoryInterface $repository
-    ) {
-    }
+    ) {}
 
     public function index(): View
     {

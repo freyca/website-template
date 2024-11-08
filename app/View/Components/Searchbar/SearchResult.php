@@ -14,8 +14,7 @@ class SearchResult extends Component
     public function __construct(
         public stdClass $product,
         public string $urlPrefix,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

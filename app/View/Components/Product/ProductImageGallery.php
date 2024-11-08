@@ -18,8 +18,7 @@ class ProductImageGallery extends Component
      */
     public function __construct(
         public Product|ProductComplement|ProductSparePart $product
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

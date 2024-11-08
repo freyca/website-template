@@ -14,9 +14,7 @@ use Illuminate\Support\Collection;
 
 final readonly class Cart
 {
-    public function __construct(private readonly CartRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly CartRepositoryInterface $repository) {}
 
     public function add(BaseProduct $product, int $quantity): void
     {
@@ -107,7 +105,7 @@ final readonly class Cart
 
     public function buildOrder(PaymentMethod $paymentMethod, User $user): Order
     {
-        $order = new Order();
+        $order = new Order;
         $order->purchase_cost = (float) $this->getTotalCost();
         $order->payment_method = $paymentMethod;
         $order->status = OrderStatus::New;
@@ -116,7 +114,7 @@ final readonly class Cart
         $cartProducts = $this->getCart();
 
         foreach ($cartProducts as $index => $cartProduct) {
-            $this->associateProductToOrder($cartProduct);
+            $this->associateProductToOrder($cartProduct, $order);
         }
 
         $order->save();
@@ -125,7 +123,7 @@ final readonly class Cart
         return $order->fresh();
     }
 
-    private function associateProductToOrder(mixed $product): void
+    private function associateProductToOrder(mixed $product, Order $order): void
     {
         //
     }

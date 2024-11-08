@@ -20,8 +20,7 @@ class ProductController extends Controller
         private ProductRepositoryInterface $productRepository,
         private ProductComplementRepositoryInterface $productComplementRepository,
         private ProductSparePartRepositoryInterface $productSparePartRepository,
-    ) {
-    }
+    ) {}
 
     /**
      * Products
@@ -44,6 +43,8 @@ class ProductController extends Controller
 
         $features = $product->productFeatures();
         $featureValues = $product->productFeatureValues;
+        $variants = $product->productVariants()->get();
+        $featuredProducts = \App\Models\Product::all()->take(5);
 
         return view(
             'pages.product',
@@ -51,6 +52,8 @@ class ProductController extends Controller
                 'product' => $product,
                 'features' => $features,
                 'featureValues' => $featureValues,
+                'variants' => $variants,
+                'featuredProducts' => $featuredProducts,
             ]
         );
     }
