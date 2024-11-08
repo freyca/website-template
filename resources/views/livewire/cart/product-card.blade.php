@@ -30,7 +30,7 @@
 
             <div class="ml-2 sm:ml-0 w-full min-w-0 flex-1 space-y-4 col-span-2 md:order-2 md:max-w-md">
                 <div>
-                    <a href="{{ $path . '/' . $product->slug }}"
+                    <a href="{{ $path . '/'}}{{isset($product->slug) ? $product->slug : $parent->slug}}"
                         class="text-base font-medium text-gray-900 hover:underline">
                         @if(isset($parent))
                             {{ $parent->name }}
