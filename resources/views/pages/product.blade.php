@@ -11,26 +11,7 @@
             <div class="text-gray-700 text-justify">
                 {!! $product->description !!}
 
-                <div class="grid grid-cols-1 items-center my-2 xl:my-4">
-                    <div class="my-2 xl:my-4">
-                        @if ($product->price_with_discount)
-                            <span class="text-md font-bold text-primary-500">
-                                {{ $product->price_with_discount }}€
-                            </span>
-                            <span class="text-gray-800 text-xs pr-2 line-through">
-                                {{ $product->price }}€
-                            </span>
-                        @else
-                            <span class="text-md font-bold text-primary-500">
-                                {{ $product->price }}€
-                            </span>
-                        @endif
-                    </div>
-
-                    <div class="col-span-2 justify-center items-center">
-                        @livewire('product.product-buttons', ['product' => $product])
-                    </div>
-                </div>
+                <x-product.product-details :product="$product" :variants="$variants" />
             </div>
         </div>
 
@@ -40,10 +21,6 @@
             @endif
         </div>
 
-        @php
-            $products = \App\Models\Product::all()->take(5);
-        @endphp
-
-        <x-sliders.featured-products :products="$products" />
+        <x-sliders.featured-products :featuredProducts="$featuredProducts" />
     </div>
 </x-layouts.app>

@@ -6,6 +6,12 @@
         get_class($product) === 'App\Models\ProductComplement' => '/complemento',
         default => '/producto',
     };
+
+    if(is_a($product, 'App\Models\ProductVariant')) {
+        $parent = $product->product;
+
+        //dd($parent);
+    }
 @endphp
 
 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
@@ -13,18 +19,32 @@
         <div class="space-y-4 grid grid-cols-3 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 ">
 
             <a href="{{ $path . '/' . $product->slug }}" class="shrink-0 md:order-1">
-                <img class=" mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
-                    src="{{ @asset('/storage/' . $product->main_image) }}" alt="" />
+                @if(isset($parent))
+                    <img class=" mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
+                        src="{{ @asset('/storage/' . $parent->main_image) }}" alt="" />
+                @else
+                    <img class=" mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
+                        src="{{ @asset('/storage/' . $product->main_image) }}" alt="" />
+                @endif
             </a>
 
             <div class="ml-2 sm:ml-0 w-full min-w-0 flex-1 space-y-4 col-span-2 md:order-2 md:max-w-md">
                 <div>
                     <a href="{{ $path . '/' . $product->slug }}"
                         class="text-base font-medium text-gray-900 hover:underline">
-                        {{ $product->name }}
+                        @if(isset($parent))
+                            {{ $parent->name }}
+                        @else
+                            {{ $product->name }}
+                        @endif
                     </a>
                     <p class="text-base text-gray-900 truncate">
-                        {{ $product->slogan }}
+                        @if(isset($parent))
+                            {{ $parent->slogan }}
+                        @else
+                            {{ $product->slogan }}
+                        @endif
+
                     </p>
                 </div>
             </div>

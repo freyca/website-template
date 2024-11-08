@@ -116,7 +116,7 @@ final readonly class Cart
         $cartProducts = $this->getCart();
 
         foreach ($cartProducts as $index => $cartProduct) {
-            $this->associateProductToOrder($cartProduct);
+            $this->associateProductToOrder($cartProduct, $order);
         }
 
         $order->save();
@@ -125,7 +125,7 @@ final readonly class Cart
         return $order->fresh();
     }
 
-    private function associateProductToOrder(mixed $product): void
+    private function associateProductToOrder(mixed $product, Order $order): void
     {
         //
     }

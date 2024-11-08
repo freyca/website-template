@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUlid('order_id')->constrained();
             $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(ProductVariant::class)->nullable()->constrained();
             $table->float('unit_price');
             $table->integer('quantity');
             $table->timestamps();

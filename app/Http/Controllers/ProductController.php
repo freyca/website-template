@@ -44,13 +44,17 @@ class ProductController extends Controller
 
         $features = $product->productFeatures();
         $featureValues = $product->productFeatureValues;
+        $variants = $product->productVariants()->get();
+        $featuredProducts = \App\Models\Product::all()->take(5);
 
-        return view(
+            return view(
             'pages.product',
             [
                 'product' => $product,
                 'features' => $features,
                 'featureValues' => $featureValues,
+                'variants' => $variants,
+                'featuredProducts' => $featuredProducts,
             ]
         );
     }

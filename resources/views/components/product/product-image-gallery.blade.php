@@ -70,7 +70,7 @@
         <template x-for="(slide, index) in slides">
             <button class="w-3 h-3 cursor-pointer rounded-full transition "
                 x-on:click="currentSlideIndex = index + 1"
-                x-bind:class="[currentSlideIndex === index + 1 ? 'bg-red-500' : 'bg-white']"
+                x-bind:class="[currentSlideIndex === index + 1 ? 'bg-white' : 'bg-white/50']"
                 x-bind:aria-label="'slide ' + (index + 1)">
             </button>
         </template>
