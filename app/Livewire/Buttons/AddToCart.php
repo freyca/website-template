@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class AddToCart extends Component
 {
@@ -28,6 +30,12 @@ class AddToCart extends Component
         Notification::make()->title(__('Product added correctly'))->success()->send();
 
         $this->dispatch('refresh-cart');
+    }
+
+    #[On('variant-selection-changed')]
+    public function variantChanged($variant_id)
+    {
+        $this->product = ProductVariant::find($variant_id);
     }
 
     public function render(): View

@@ -14,9 +14,11 @@
                 </p>
             </a>
 
-            <div class="flex mt-auto justify-center">
-                @livewire('buttons.add-to-cart', ['product' => $product])
-            </div>
+            {{-- Care when uncommenting this --}}
+            {{-- Render function updates when product variants gets changed, so this should be a sepparate button --}}
+            {{-- <div class="flex mt-auto justify-center"> --}}
+            {{-- @livewire('buttons.add-to-cart', ['product' => $product]) --}}
+            {{-- </div> --}}
         </div>
     @endforeach
 </div>
