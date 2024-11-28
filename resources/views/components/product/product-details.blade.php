@@ -1,19 +1,20 @@
 <div class="grid grid-cols-1 items-center my-2 xl:my-4">
     @if( count($variants) )
-        <label for="variants">{{ __('Choose a variant:') }}</label>
-        <br/>
-        <select name="variants" id="product_variants">
-            @foreach($variants as $variant)
-                <option value="{{ $variant->ean13 }}">{{$variant->ean13}}</option>
-            @endforeach
-        </select>
+        <div>
+            <label for="variants" class="mr-4">{{ __('Choose a variant') }}:</label>
+            <select name="variants" id="product_variants" class="focus:border-inherit focus:outline-none focus:ring-inherit rounded-md">
+                @foreach($variants as $variant)
+                    <option value="{{ $variant->ean13 }}">{{$variant->ean13}}</option>
+                @endforeach
+            </select>
+        </div>
         <br/>
     @endif
 
     <div class="my-2 xl:my-4">
         @if(count($variants))
             @if ($variant->first()->price_with_discount)
-                <span class="text-md font-bold text-primary-500">
+                <span class="text-md font-bold text-primary-500 mr-2">
                     {{ $variant->first()->price_with_discount }}€
                 </span>
                 <span class="text-gray-800 pr-2 line-through text-sm text-slate-600">
