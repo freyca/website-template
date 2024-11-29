@@ -17,7 +17,7 @@
 
         <div class="container mx-auto my-4">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
-                <x-product.product-feature-container :features="$features" :featureValues="$featureValues" />
+                @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
         </div>
 
