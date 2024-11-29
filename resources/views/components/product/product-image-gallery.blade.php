@@ -1,15 +1,22 @@
 <div x-data="{
-    slides: [{
+    slides: [
+        {
             imgSrc: '{{ @asset('/storage/' . $product->main_image) }}',
             imgAlt: '{{ $product->name . ' image 1' }}',
         },
-        @php $imageCounter=2; @endphp
+        @php
+            $imageCounter=2;
+        @endphp
+
         @foreach ($product->images as $productImage)
-        {
-            imgSrc: '{{ @asset('/storage/' . $productImage) }}',
-            imgAlt: '{{ $product->name . ' image ' . $imageCounter }}',
-            @php $imageCounter++; @endphp
-        }, @endforeach
+            {
+                imgSrc: '{{ @asset('/storage/' . $productImage) }}',
+                imgAlt: '{{ $product->name . ' image ' . $imageCounter }}',
+                @php
+                    $imageCounter++;
+                @endphp
+            },
+        @endforeach
     ],
     currentSlideIndex: 1,
     mouseOverTimeout: null,
@@ -53,7 +60,7 @@
 
 
     <!-- Slides -->
-    <div class="relative min-h-[60vh] w-full">
+    <div class="relative min-h-[40vh] sm:min-h-[50vh] md:min-h-[60vh] md:w-full">
         <template x-for="(slide, index) in slides" :key="index">
             <div x-show="currentSlideIndex == index + 1" class="absolute inset-0 transition-opacity duration-700"
                 x-transition.opacity>
