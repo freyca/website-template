@@ -1,5 +1,5 @@
 <aside id="filter-side-menu" @class([
-    'open' => $hiddenFilterBar,
+    'open' => $isHidden,
     'top-0',
     'md:top-28',
     'z-50',
@@ -114,11 +114,4 @@
             @endisset
         </form>
     </div>
-
-    <!-- Estilos -->
-    <style>
-        #filter-side-menu.open {
-            transform: translateX(-100%);
-        }
-    </style>
 </aside>

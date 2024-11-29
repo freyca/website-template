@@ -30,17 +30,12 @@ class Filter extends Component
      */
     public array $filteredFeatures = [];
 
-    public bool $hiddenFilterBar = true;
+    public bool $isHidden = true;
 
     #[On('toggleFilterBar')]
-    public function keepFilterBar(): void
-    {
-        $this->hiddenFilterBar = ! $this->hiddenFilterBar;
-    }
-
     public function toggleFilterBar(): void
     {
-        $this->hiddenFilterBar = ! $this->hiddenFilterBar;
+        $this->isHidden = ! $this->isHidden;
     }
 
     public function filterProducts(): void
