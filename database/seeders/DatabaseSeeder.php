@@ -79,6 +79,13 @@ class DatabaseSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'role' => Role::Admin,
             ]);
+
+            UserMetadata::create([
+                'user_id' => User::where('email', 'fran@gmail.com')->first()->id,
+                'address' => 'Lamas de prado 86',
+                'city' => 'Lugo',
+                'postal_code' => 27004,
+            ]);
         }
     }
 
