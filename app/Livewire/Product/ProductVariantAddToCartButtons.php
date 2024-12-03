@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Product;
 
-use Livewire\Component;
 use App\Models\ProductVariant;
 use App\Services\Cart;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class ProductVariantAddToCartButtons extends Component
 {

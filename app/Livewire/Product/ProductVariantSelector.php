@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Product;
 
-use Livewire\Component;
 use Illuminate\Database\Eloquent\Collection;
-use App\Models\ProductVariant;
+use Livewire\Component;
 
 class ProductVariantSelector extends Component
 {

@@ -9,8 +9,8 @@ use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
 use Illuminate\View\View;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class AddToCart extends Component
 {

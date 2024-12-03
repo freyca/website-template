@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Product;
 
-use Livewire\Component;
 use App\Models\ProductVariant;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class ProductVariantPrice extends Component
 {

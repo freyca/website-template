@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Product;
 
-use Livewire\Component;
+use App\Models\ProductVariant;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\On;
-use App\Models\ProductVariant;
+use Livewire\Component;
 
 class ProductFeatureContainer extends Component
 {

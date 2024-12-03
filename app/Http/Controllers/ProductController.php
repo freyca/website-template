@@ -46,7 +46,7 @@ class ProductController extends Controller
         $variants = $product->productVariants()->get();
         $featuredProducts = \App\Models\Product::all()->take(5);
 
-        if(count($variants)) {
+        if (count($variants)) {
             $features = $features->merge($variants->first()->productFeatures())->unique();
             $featureValues = $featureValues->merge($variants->first()->productFeatureValues()->get())->unique();
         }
