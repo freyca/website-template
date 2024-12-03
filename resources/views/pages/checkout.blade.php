@@ -13,7 +13,7 @@
             @foreach (App\Enums\PaymentMethod::cases() as $paymentMethod)
                 <div class="flex items-center mb-4">
                     <input id="{{ $paymentMethod->name }}" type="radio" name="paymentMethod"
-                        value="{{ $paymentMethod->name }}" class="w-4 h-4 border-gray-300"
+                        value="{{ $paymentMethod->value }}" class="w-4 h-4 border-gray-300"
                         @if ($loop->first) {{ 'checked' }} @endif>
 
                     <label for="{{ $paymentMethod->name }}" class="block ms-2 text-sm font-medium text-gray-900">

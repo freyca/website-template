@@ -34,6 +34,11 @@ class CheckOutController extends Controller
             return redirect('user');
         }
 
+        // If is new address, create it
+        if ($request->input('address') === 'newAddress') {
+            $this->createNewAddress($request, Auth::user()->id);
+        }
+
         // Validate address_id belongs to user
         if (
             $request->input('address') !== 'newAddress' &&
@@ -47,11 +52,9 @@ class CheckOutController extends Controller
                 );
         }
 
-        $this->createNewAddress($request, Auth::user()->id);
-
         return match ($request->enum('paymentMethod', PaymentMethod::class)) {
             PaymentMethod::Card => $this->processCardPayment(),
-            default => redirect('/finished-purchase')->with(['succcess' => true]),
+            default => redirect('finished-purchase')->with(['succcess' => true]),
         };
     }
 
@@ -77,6 +80,6 @@ class CheckOutController extends Controller
 
     private function processCardPayment(): RedirectResponse
     {
-        return redirect('/');
+        return redirect('card-payment');
     }
 }
