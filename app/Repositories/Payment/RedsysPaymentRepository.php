@@ -50,7 +50,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
     /**
      * @throws Exception
      */
-    public function payPurchase(Order $order): bool
+    public function payPurchase(Order $order): string
     {
         try {
             Redsys::setAmount($order->purchase_cost);
@@ -75,9 +75,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
 
             Redsys::setAttributesSubmit('btn_submit', 'btn_id', 'Enviar', 'display:none');
 
-            Redsys::executeRedirection();
-
-            return true;
+            return Redsys::executeRedirection();
         } catch (Exception $e) {
 
             throw $e;

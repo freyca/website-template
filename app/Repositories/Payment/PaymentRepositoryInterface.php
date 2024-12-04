@@ -10,7 +10,7 @@ interface PaymentRepositoryInterface
 {
     public function isPurchasePayed(Order $order): bool;
 
-    public function payPurchase(Order $order): bool;
+    public function payPurchase(Order $order): string;
 
     public function cancelPurchase(Order $order): void;
 

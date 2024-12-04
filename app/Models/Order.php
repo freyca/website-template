@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Scopes\OrderScope;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Support\Str;
 #[ScopedBy([OrderScope::class])]
 class Order extends Model
 {
+    /** @use HasFactory<OrderFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -44,7 +46,7 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<UserMetadata, Order>
+     * @return BelongsTo<UserMetadata, $this>
      */
     public function userMetadata(): BelongsTo
     {
@@ -52,7 +54,7 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<User, Order>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -60,7 +62,7 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProduct>
+     * @return HasMany<OrderProduct, $this>
      */
     public function orderProducts(): HasMany
     {
@@ -68,7 +70,7 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProductSparePart>
+     * @return HasMany<OrderProductSparePart, $this>
      */
     public function orderProductSpareParts(): HasMany
     {
@@ -76,7 +78,7 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProductComplement>
+     * @return HasMany<OrderProductComplement, $this>
      */
     public function orderProductComplements(): HasMany
     {

@@ -22,14 +22,16 @@ class CheckOutController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        if (Auth::user() === null) {
+        $user = Auth::user();
+
+        if ($user === null) {
             return redirect('user');
         }
 
         return view(
             'pages.checkout',
             [
-                'shipping_addresses' => Auth::user()->userMetadata,
+                'shipping_addresses' => $user->userMetadata,
             ]
         );
     }
@@ -87,7 +89,7 @@ class CheckOutController extends Controller
         return redirect('finished-purchase')->with(['succcess' => false]);
     }
 
-    private function validateAddressBelongsToUser(int $addressId, $user): bool
+    private function validateAddressBelongsToUser(int $addressId, User $user): bool
     {
         return $user->userMetadata->pluck('id')->contains($addressId);
     }

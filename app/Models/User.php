@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\Role;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,10 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory;
+
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +57,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * @return HasMany<UserMetadata>
+     * @return HasMany<UserMetadata, $this>
      */
     public function userMetadata(): HasMany
     {
@@ -61,7 +65,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * @return HasMany<Order>
+     * @return HasMany<Order, $this>
      */
     public function orders(): HasMany
     {

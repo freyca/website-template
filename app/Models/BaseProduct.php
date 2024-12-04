@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -33,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 abstract class BaseProduct extends Model
 {
-    use HasFactory;
     use HasSlug;
 
     protected $fillable = [
@@ -61,7 +59,7 @@ abstract class BaseProduct extends Model
     ];
 
     /**
-     * @return BelongsToMany<Order>
+     * @return BelongsToMany<Order, $this>
      */
     public function orders(): BelongsToMany
     {

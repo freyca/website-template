@@ -11,9 +11,9 @@ class BankTransferPaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
-    public function payPurchase(Order $order): bool
+    public function payPurchase(Order $order): string
     {
-        return true;
+        return 'finished-purchase';
     }
 
     public function isGatewayOkWithPayment(Order $order): bool

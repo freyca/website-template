@@ -28,6 +28,9 @@ class EloquentProductComplementRepository implements ProductComplementRepository
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
+        /**
+         * @var Collection<int, ProductComplement>
+         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-complements');
 

@@ -12,7 +12,7 @@ use Illuminate\View\Component;
 class FeaturedProducts extends Component
 {
     /**
-     * @param  Collection<int, Product>  $products
+     * @param  Collection<int, Product>  $featuredProducts
      */
     public function __construct(
         public Collection $featuredProducts

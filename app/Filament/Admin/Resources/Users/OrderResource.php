@@ -161,6 +161,9 @@ class OrderResource extends Resource
                     ->required()
                     ->reactive()
                     ->afterStateUpdated(function ($state, Set $set) {
+                        /**
+                         * @var ?Product
+                         */
                         $product = Product::find($state);
 
                         if ($product === null) {
@@ -183,7 +186,12 @@ class OrderResource extends Resource
                             return false;
                         }
 
-                        return count(Product::find($product_id)->productVariants) === 0;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($product_id);
+
+                        return count($product->productVariants) === 0;
                     })
                     ->columnSpan([
                         'md' => 5,
@@ -205,10 +213,13 @@ class OrderResource extends Resource
                     ])
                     ->searchable()
                     ->afterStateUpdated(function ($state, Set $set) {
+                        /**
+                         * @var ?ProductVariant
+                         */
                         $product = ProductVariant::find($state);
 
                         if ($product === null) {
-                            $set('unit_price', 0);
+                            $set('unit_price', '');
 
                             return;
                         }
@@ -223,7 +234,12 @@ class OrderResource extends Resource
                             return false;
                         }
 
-                        return count(Product::find($product_id)->productVariants) !== 0;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($product_id);
+
+                        return count($product->productVariants) !== 0;
                     })
                     ->required(function (Get $get) {
                         $product_id = $get('product_id');
@@ -232,7 +248,12 @@ class OrderResource extends Resource
                             return false;
                         }
 
-                        return count(Product::find($product_id)->productVariants) !== 0;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($product_id);
+
+                        return count($product->productVariants) !== 0;
                     }),
 
                 Forms\Components\TextInput::make('quantity')

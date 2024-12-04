@@ -27,13 +27,13 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            $sessionProduct = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $sessionProduct = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($sessionProduct, 'quantity');
             data_set($sessionProduct, 'quantity', $oldQuantity + $quantity);
-            $cart->put($product->ean13, $sessionProduct);
+            $cart->put(strval($product->ean13), $sessionProduct);
         } else {
-            $cart->put($product->ean13, [
+            $cart->put(strval($product->ean13), [
                 'product' => $product,
                 'quantity' => $quantity,
             ]);
@@ -49,15 +49,15 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            if (data_get($cart->get($product->ean13), 'quantity') >= $product->stock) {
+        if ($cart->has(strval($product->ean13))) {
+            if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
                 throw new Exception('Not enough stock of '.$product->name);
             }
 
-            $productInCart = $cart->get($product->ean13);
+            $productInCart = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($productInCart, 'quantity');
             data_set($productInCart, 'quantity', $oldQuantity + 1);
-            $cart->put($product->ean13, $productInCart);
+            $cart->put(strval($product->ean13), $productInCart);
             $this->updateCart($cart);
         }
     }
@@ -66,15 +66,15 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            $productInCart = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $productInCart = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($productInCart, 'quantity');
             data_set($productInCart, 'quantity', $oldQuantity - 1);
-            $cart->put($product->ean13, $productInCart);
+            $cart->put(strval($product->ean13), $productInCart);
             $this->updateCart($cart);
 
-            if (data_get($cart->get($product->ean13), 'quantity') <= 0) {
-                $cart->forget($product->ean13);
+            if (data_get($cart->get(strval($product->ean13)), 'quantity') <= 0) {
+                $cart->forget(strval($product->ean13));
             }
         }
     }
@@ -83,7 +83,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        $cart->forget($product->ean13);
+        $cart->forget(strval($product->ean13));
 
         $this->updateCart($cart);
     }
@@ -92,8 +92,8 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            $productInCart = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $productInCart = $cart->get(strval($product->ean13));
 
             /** @var int */
             return data_get($productInCart, 'quantity');
@@ -108,9 +108,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $total = 0;
 
-        if ($cart->has($product->ean13)) {
+        if ($cart->has(strval($product->ean13))) {
             $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
-            $total = data_get($cart->get($product->ean13), 'quantity') * $price;
+            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -122,9 +122,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $total = 0;
 
-        if ($cart->has($product->ean13)) {
+        if ($cart->has(strval($product->ean13))) {
             $price = $product->price;
-            $total = data_get($cart->get($product->ean13), 'quantity') * $price;
+            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -190,7 +190,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        return $cart->has($product->ean13);
+        return $cart->has(strval($product->ean13));
     }
 
     /**

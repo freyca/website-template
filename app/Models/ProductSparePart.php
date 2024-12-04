@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class ProductSparePart extends BaseProduct
 {
     /**
-     * @return BelongsToMany<Product>
+     * @return BelongsToMany<Product, $this>
      */
     public function products(): BelongsToMany
     {
@@ -26,7 +26,7 @@ class ProductSparePart extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue>
+     * @return BelongsToMany<ProductFeatureValue, $this>
      */
     public function productFeatureValues(): BelongsToMany
     {

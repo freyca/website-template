@@ -15,9 +15,14 @@ class ProductVariantAddToCartButtons extends Component
     public bool $inCart;
 
     #[On('variant-selection-changed')]
-    public function variantSelectionChanged($variant_id)
+    public function variantSelectionChanged(int $variant_id): void
     {
-        $this->variant = ProductVariant::find($variant_id);
+        /**
+         * @var ProductVariant
+         */
+        $variant = ProductVariant::find($variant_id);
+
+        $this->variant = $variant;
     }
 
     #[On('refresh-cart')]

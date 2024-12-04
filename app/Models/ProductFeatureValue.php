@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductFeatureValueFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductFeatureValue extends Model
 {
+    /** @use HasFactory<ProductFeatureValueFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -20,7 +22,7 @@ class ProductFeatureValue extends Model
     ];
 
     /**
-     * @return BelongsTo<ProductFeature, ProductFeatureValue>
+     * @return BelongsTo<ProductFeature, $this>
      */
     public function productFeature(): BelongsTo
     {
@@ -28,7 +30,7 @@ class ProductFeatureValue extends Model
     }
 
     /**
-     * @return BelongsToMany<Product>
+     * @return BelongsToMany<Product, $this>
      */
     public function products(): BelongsToMany
     {
@@ -36,7 +38,7 @@ class ProductFeatureValue extends Model
     }
 
     /**
-     * @return BelongsToMany<ProductComplement>
+     * @return BelongsToMany<ProductComplement, $this>
      */
     public function productComplements(): BelongsToMany
     {
@@ -44,7 +46,7 @@ class ProductFeatureValue extends Model
     }
 
     /**
-     * @return BelongsToMany<ProductSparePart>
+     * @return BelongsToMany<ProductSparePart, $this>
      */
     public function productSpareParts(): BelongsToMany
     {

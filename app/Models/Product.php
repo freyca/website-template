@@ -34,7 +34,7 @@ class Product extends BaseProduct
     ];
 
     /**
-     * @return BelongsTo<Category, Product>
+     * @return BelongsTo<Category, $this>
      */
     public function category(): BelongsTo
     {
@@ -42,7 +42,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductComplement>
+     * @return BelongsToMany<ProductComplement, $this>
      */
     public function productComplements(): BelongsToMany
     {
@@ -50,7 +50,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductSparePart>
+     * @return BelongsToMany<ProductSparePart, $this>
      */
     public function productSpareParts(): BelongsToMany
     {
@@ -58,7 +58,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue>
+     * @return BelongsToMany<ProductFeatureValue, $this>
      */
     public function productFeatureValues(): BelongsToMany
     {
@@ -66,7 +66,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return HasMany<ProductVariant>
+     * @return HasMany<ProductVariant, $this>
      */
     public function productVariants(): HasMany
     {

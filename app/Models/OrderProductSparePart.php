@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\OrderProductSparePartFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderProductSparePart extends Model
 {
+    /** @use HasFactory<OrderProductSparePartFactory> */
     use HasFactory;
 
     protected $table = 'order_product_spare_part';

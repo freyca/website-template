@@ -28,6 +28,9 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
+        /**
+         * @var Collection<int, ProductSparePart>
+         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-spare-parts');
 

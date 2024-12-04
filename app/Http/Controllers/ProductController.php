@@ -41,14 +41,25 @@ class ProductController extends Controller
             abort(403);
         }
 
+        /**
+         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
+         */
         $features = $product->productFeatures();
+        /**
+         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeatureValue>
+         */
         $featureValues = $product->productFeatureValues;
         $variants = $product->productVariants()->get();
-        $featuredProducts = \App\Models\Product::all()->take(5);
+        $featuredProducts = \App\Models\Product::limit(5);
 
-        if (count($variants)) {
-            $features = $features->merge($variants->first()->productFeatures())->unique();
-            $featureValues = $featureValues->merge($variants->first()->productFeatureValues()->get())->unique();
+        if (count($variants) !== 0) {
+            /**
+             * @var \App\Models\ProductVariant
+             */
+            $variant = $variants->first();
+
+            $features = $features->merge($variant->productFeatures())->unique();
+            $featureValues = $featureValues->merge($variant->productFeatureValues()->get())->unique();
         }
 
         return view(

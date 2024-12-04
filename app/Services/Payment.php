@@ -27,7 +27,7 @@ final readonly class Payment
         return $this->repository->isPurchasePayed($this->order);
     }
 
-    public function payPurchase(): bool
+    public function payPurchase(): string
     {
         return $this->repository->payPurchase($this->order);
     }

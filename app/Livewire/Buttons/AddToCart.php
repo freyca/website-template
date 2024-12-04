@@ -33,9 +33,14 @@ class AddToCart extends Component
     }
 
     #[On('variant-selection-changed')]
-    public function variantChanged($variant_id)
+    public function variantChanged(int $variant_id): void
     {
-        $this->product = ProductVariant::find($variant_id);
+        /**
+         * @var ProductVariant
+         */
+        $variant = ProductVariant::find($variant_id);
+
+        $this->product = $variant;
     }
 
     public function render(): View

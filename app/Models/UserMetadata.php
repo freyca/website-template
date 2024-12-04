@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Role;
 use App\Models\Scopes\UserMetadataScope;
+use Database\Factories\UserMetadataFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 #[ScopedBy([UserMetadataScope::class])]
 class UserMetadata extends Model
 {
+    /** @use HasFactory<UserMetadataFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -25,7 +27,7 @@ class UserMetadata extends Model
     ];
 
     /**
-     * @return BelongsTo<User, UserMetadata>
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
