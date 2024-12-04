@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Http\Requests\CheckOutRequest;
+use App\Http\Requests\MerchantParamsRequest;
+use App\Models\Order;
+use App\Models\User;
 use App\Models\UserMetadata;
+use App\Services\Cart;
+use App\Services\Payment;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -30,42 +36,60 @@ class CheckOutController extends Controller
 
     public function paymentAndShipping(CheckOutRequest $request): RedirectResponse
     {
-        if (Auth::user() === null) {
+        $user = Auth::user();
+
+        if ($user === null) {
             return redirect('user');
         }
 
         // If is new address, create it
         if ($request->input('address') === 'newAddress') {
-            $this->createNewAddress($request, Auth::user()->id);
+            $this->createNewAddress($request, $user->id);
         }
 
         // Validate address_id belongs to user
         if (
             $request->input('address') !== 'newAddress' &&
-            ! $this->validateAddressBelongsToUser($request->integer('address'))
+            ! $this->validateAddressBelongsToUser($request->integer('address'), $user)
         ) {
             Notification::make()->title(__('Invalid address'))->danger()->send();
 
             return redirect('/checkout', 301)
                 ->with(
-                    ['shipping_addresses' => Auth::user()->userMetadata]
+                    ['shipping_addresses' => $user->userMetadata]
                 );
         }
 
-        return match ($request->enum('paymentMethod', PaymentMethod::class)) {
-            PaymentMethod::Card => $this->processCardPayment(),
-            default => redirect('finished-purchase')->with(['succcess' => true]),
-        };
+        $order = $this->buildOrder($request, $user);
+
+        return $this->processPayment($order);
     }
 
-    private function validateAddressBelongsToUser(int $addressId): bool
+    /**
+     * Comprobar respuesta de la pasarela de pago
+     */
+    public function checkResponseFromMerchant(MerchantParamsRequest $request): RedirectResponse
     {
-        $user = Auth::user();
+        /**
+         * @var \App\Models\Order
+         */
+        $order = Order::find($request->orderId);
 
-        return match (true) {
-            $user === null => false,
-            default => $user->userMetadata->pluck('id')->contains($addressId),
-        };
+        $paymentService = new Payment($order);
+
+        if ($paymentService->isGatewayOkWithPayment()) {
+            $order->status = OrderStatus::Processing;
+            $order->save();
+
+            return redirect('finished-purchase')->with(['succcess' => true]);
+        }
+
+        return redirect('finished-purchase')->with(['succcess' => false]);
+    }
+
+    private function validateAddressBelongsToUser(int $addressId, $user): bool
+    {
+        return $user->userMetadata->pluck('id')->contains($addressId);
     }
 
     private function createNewAddress(CheckOutRequest $request, int $userId): void
@@ -78,8 +102,25 @@ class CheckOutController extends Controller
         ]);
     }
 
-    private function processCardPayment(): RedirectResponse
+    private function buildOrder(CheckOutRequest $request, User $user): Order
     {
-        return redirect('card-payment');
+        /**
+         * @var Cart
+         */
+        $cart = app(Cart::class);
+
+        return $cart->buildOrder(
+            PaymentMethod::from(
+                strval($request->string('payment_method'))
+            ),
+            $user
+        );
+    }
+
+    private function processPayment(Order $order): RedirectResponse
+    {
+        $paymentService = new Payment($order);
+
+        return redirect($paymentService->payPurchase());
     }
 }
