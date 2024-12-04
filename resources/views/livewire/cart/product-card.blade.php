@@ -32,7 +32,7 @@
                         class="text-base font-medium text-gray-900 hover:underline">
                         @if(isset($parent))
                             <p>{{ $parent->name }}</p>
-                            <span class="text-sm">{{ $product->name }}</span>
+                            <span class="text-sm text-gray-500">{{ $product->name }}</span>
                         @else
                             <p>
                                 {{ $product->name }}
