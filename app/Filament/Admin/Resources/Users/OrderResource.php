@@ -12,11 +12,14 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
-use App\Models\User;
+use App\Models\ProductVariant;
+use App\Models\UserMetadata;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -43,15 +46,25 @@ class OrderResource extends Resource
                         ->label(__('Customer email'))
                         ->searchable()
                         ->preload()
-                        ->required(),
-                    Forms\Components\Select::make('user_id')
-                        ->relationship('user', 'name')
-                        ->getOptionLabelFromRecordUsing(
-                            function (User $record) {
-                                return $record->name.' '.$record->surname;
+                        ->required()
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            $user_id = $state;
+
+                            if ($user_id === null) {
+                                $set('user_metadata_id', '');
+                            }
+                        })
+                        ->live(onBlur: true),
+                    Forms\Components\Select::make('user_metadata_id')
+                        ->relationship('userMetadata', 'address')
+                        ->options(
+                            function (Get $get) {
+                                $user_id = $get('user_id');
+
+                                return UserMetadata::where('user_id', $user_id)->pluck('address', 'id');
                             }
                         )
-                        ->label(__('Customer name'))
+                        ->label(__('Shipping address'))
                         ->required(),
                     Forms\Components\ToggleButtons::make('payment_method')
                         ->label(__('Payment method'))
@@ -147,13 +160,80 @@ class OrderResource extends Resource
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        $product = Product::find($state);
+
+                        if ($product === null) {
+                            $set('unit_price', '');
+
+                            return;
+                        }
+
+                        if (count($product->productVariants) !== 0) {
+                            return;
+                        }
+
+                        $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
+                        $set('unit_price', $price);
+                    })
+                    ->distinct(function (Get $get) {
+                        $product_id = $get('product_id');
+
+                        if ($product_id === null) {
+                            return false;
+                        }
+
+                        return count(Product::find($product_id)->productVariants) === 0;
+                    })
                     ->columnSpan([
                         'md' => 5,
                     ])
-                    ->searchable(),
+                    ->searchable()
+                    ->live(onBlur: true),
+
+                Forms\Components\Select::make('product_variant_id')
+                    ->label(__('Product variant'))
+                    ->options(function (Get $get) {
+                        $product_id = $get('product_id');
+
+                        return ProductVariant::where('product_id', $product_id)->pluck('name', 'id');
+                    })
+                    ->reactive()
+                    ->distinct()
+                    ->columnSpan([
+                        'md' => 5,
+                    ])
+                    ->searchable()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        $product = ProductVariant::find($state);
+
+                        if ($product === null) {
+                            $set('unit_price', 0);
+
+                            return;
+                        }
+
+                        $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
+                        $set('unit_price', $price);
+                    })
+                    ->visible(function (Get $get) {
+                        $product_id = $get('product_id');
+
+                        if ($product_id === null) {
+                            return false;
+                        }
+
+                        return count(Product::find($product_id)->productVariants) !== 0;
+                    })
+                    ->required(function (Get $get) {
+                        $product_id = $get('product_id');
+
+                        if ($product_id === null) {
+                            return false;
+                        }
+
+                        return count(Product::find($product_id)->productVariants) !== 0;
+                    }),
 
                 Forms\Components\TextInput::make('quantity')
                     ->label(__('Quantity'))
@@ -208,7 +288,7 @@ class OrderResource extends Resource
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -269,7 +349,7 @@ class OrderResource extends Resource
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([

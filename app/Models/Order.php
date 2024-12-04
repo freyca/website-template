@@ -24,6 +24,7 @@ class Order extends Model
         'payment_method',
         'status',
         'user_id',
+        'user_metadata_id',
     ];
 
     protected $casts = [
