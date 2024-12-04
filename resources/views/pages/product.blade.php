@@ -9,6 +9,10 @@
             <x-product.product-image-gallery :product="$product" />
 
             <div class="text-gray-700 text-justify">
+                <div class="mb-4">
+                    {!! $product->short_description !!}
+                </div>
+
                 {!! $product->description !!}
 
                 <x-product.product-details :product="$product" :variants="$variants" />
@@ -17,7 +21,7 @@
 
         <div class="container mx-auto my-4">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
-                @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
+            @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
         </div>
 

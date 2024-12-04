@@ -50,7 +50,7 @@ class ProductController extends Controller
          */
         $featureValues = $product->productFeatureValues;
         $variants = $product->productVariants()->get();
-        $featuredProducts = \App\Models\Product::limit(5);
+        $featuredProducts = \App\Models\Product::limit(5)->get();
 
         if (count($variants) !== 0) {
             /**
