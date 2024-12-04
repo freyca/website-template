@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Product;
 
-use App\Models\ProductVariant;
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use App\Services\Cart;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
