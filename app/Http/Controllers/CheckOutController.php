@@ -28,6 +28,15 @@ class CheckOutController extends Controller
             return redirect('user');
         }
 
+        /**
+         * @var Cart
+         */
+        $cart = app(Cart::class);
+
+        if ($cart->isEmpty()) {
+            return redirect()->route('home');
+        }
+
         return view(
             'pages.checkout',
             [
