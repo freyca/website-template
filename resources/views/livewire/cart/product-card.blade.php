@@ -9,8 +9,6 @@
 
     if(is_a($product, 'App\Models\ProductVariant')) {
         $parent = $product->product;
-
-        //dd($parent);
     }
 @endphp
 
@@ -33,9 +31,12 @@
                     <a href="{{ $path . '/'}}{{isset($product->slug) ? $product->slug : $parent->slug}}"
                         class="text-base font-medium text-gray-900 hover:underline">
                         @if(isset($parent))
-                            {{ $parent->name }}
+                            <p>{{ $parent->name }}</p>
+                            <span class="text-sm">{{ $product->name }}</span>
                         @else
-                            {{ $product->name }}
+                            <p>
+                                {{ $product->name }}
+                            </p>
                         @endif
                     </a>
                     <p class="text-base text-gray-900 truncate">
