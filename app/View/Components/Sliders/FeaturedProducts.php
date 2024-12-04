@@ -6,7 +6,7 @@ namespace App\View\Components\Sliders;
 
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class FeaturedProducts extends Component

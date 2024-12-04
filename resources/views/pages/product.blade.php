@@ -15,16 +15,23 @@
 
                 {!! $product->description !!}
 
+                @if (!isset($variants))
+                    @php $variants = collect(); @endphp
+                @endif
                 <x-product.product-details :product="$product" :variants="$variants" />
+
             </div>
         </div>
 
         <div class="container mx-auto my-4">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
-            @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
+                @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
         </div>
 
+        @if (!isset($featuredProducts))
+            @php $featuredProducts = collect(); @endphp
+        @endif
         <x-sliders.featured-products :featuredProducts="$featuredProducts" />
     </div>
 </x-layouts.app>
