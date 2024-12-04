@@ -3,14 +3,15 @@
 namespace App\Livewire\Product;
 
 use App\Models\ProductVariant;
+use App\Models\BaseProduct;
 use App\Services\Cart;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ProductVariantAddToCartButtons extends Component
+class AddToCartButtons extends Component
 {
-    public ProductVariant $variant;
+    public BaseProduct $product;
 
     public bool $inCart;
 
@@ -22,7 +23,7 @@ class ProductVariantAddToCartButtons extends Component
          */
         $variant = ProductVariant::find($variant_id);
 
-        $this->variant = $variant;
+        $this->product = $variant;
     }
 
     #[On('refresh-cart')]
@@ -30,7 +31,7 @@ class ProductVariantAddToCartButtons extends Component
     {
         $cart = app(Cart::class);
 
-        $this->inCart = $cart->hasProduct($this->variant);
+        $this->inCart = $cart->hasProduct($this->product);
 
         return view('livewire.product.product-variant-add-to-cart-buttons');
     }

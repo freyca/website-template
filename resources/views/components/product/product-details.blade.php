@@ -14,9 +14,9 @@
 
     <div class="col-span-2 justify-center items-center">
         @if (count($variants))
-            @livewire('product.product-variant-add-to-cart-buttons', ['variant' => $variants->first()])
+            @livewire('product.add-to-cart-buttons', ['product' => $variants->first()])
         @else
-            @livewire('product.product-buttons', ['product' => $product])
+            @livewire('product.add-to-cart-buttons', ['product' => $product])
         @endif
     </div>
 </div>
