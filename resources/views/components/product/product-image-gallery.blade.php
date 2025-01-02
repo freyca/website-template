@@ -60,7 +60,7 @@
 
 
     <!-- Slides -->
-    <div class="relative min-h-[40vh] sm:min-h-[50vh] md:min-h-[60vh] md:w-full">
+    <div class="min-h-[40vh] sm:min-h-[50vh] md:min-h-[60vh] md:w-full">
         <template x-for="(slide, index) in slides" :key="index">
             <div x-show="currentSlideIndex == index + 1" class="absolute inset-0 transition-opacity duration-700"
                 x-transition.opacity>
