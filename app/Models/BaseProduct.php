@@ -9,6 +9,7 @@ use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Number;
 
 /**
  * @property int $id
@@ -67,6 +68,24 @@ abstract class BaseProduct extends Model
             'price_with_discount' => MoneyCast::class,
             'images' => 'array',
         ];
+    }
+
+    public function getFormattedPrice(): string
+    {
+        return Number::currency(
+            $this->price,
+            in: 'EUR',
+            locale: config('app.locale')
+        );
+    }
+
+    public function getFormattedPriceWithDiscount(): string
+    {
+        return Number::currency(
+            $this->price_with_discount,
+            in: 'EUR',
+            locale: config('app.locale')
+        );
     }
 
     /**
