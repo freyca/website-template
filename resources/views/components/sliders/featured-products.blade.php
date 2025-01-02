@@ -10,7 +10,7 @@
             </h5>
 
             <p class="text-center text-lg font-semibold text-primary-500 my-2">
-                {{ $product->price }} €
+                {{ number_format($product->price, 2, ',', '.') }} €
             </p>
         </a>
 

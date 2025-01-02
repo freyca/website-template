@@ -29,15 +29,15 @@
                 @if ($product->price_with_discount)
                     <span class="text-md font-bold bg-primary-500 rounded-md">
                         <span class="p-2 text-gray-100">
-                            {{ $product->price_with_discount }}€
+                            {{ number_format($product->price_with_discount, 2, ',', '.') }} €
                         </span>
                     </span>
                     <span class="text-gray-800 pr-2 line-through">
-                        {{ $product->price }}€
+                        {{ number_format($product->price, 2, ',', '.') }} €
                     </span>
                 @else
                     <span class="text-md text-gray-800">
-                        {{ $product->price }}€
+                        {{ number_format($product->price, 2, ',', '.') }} €
                     </span>
                 @endif
                 {{-- @livewire('buttons.add-to-cart', ['product' => $product]) --}}
