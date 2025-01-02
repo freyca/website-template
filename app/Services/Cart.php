@@ -12,7 +12,7 @@ use App\Models\User;
 use App\Repositories\Cart\CartRepositoryInterface;
 use Illuminate\Support\Collection;
 
-final readonly class Cart
+final class Cart
 {
     public function __construct(private readonly CartRepositoryInterface $repository) {}
 

@@ -1,33 +1,26 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de checkout">
 
-    @if(isset($errors))
-    @foreach ($errors->all() as $error)
-    @dump($error)
-    @endforeach
+    @if (isset($errors))
+        @foreach ($errors->all() as $error)
+            @dump($error)
+        @endforeach
     @endif
 
     <form method="POST" action="/checkout" class="mx-auto max-w-screen-xl px-4 2xl:px-0 my-4">
         @csrf {{ csrf_field() }}
 
-        <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2 sm:text-2xl">
             {{ __('Select payment method') }}
         </h2>
 
-        <fieldset class="mx-auto max-w-screen-xl px-4 2xl:px-0 my-4">
-            <legend class="sr-only">{{ __('Payment methods') }}</legend>
-
+        <select id="paymentMethod" name="paymentMethod"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-1/3 p-2.5">
             @foreach (App\Enums\PaymentMethod::cases() as $paymentMethod)
-            <div class="flex items-center mb-4">
-                <input id="{{ $paymentMethod->name }}" type="radio" name="paymentMethod"
-                    value="{{ $paymentMethod->value }}" class="w-4 h-4 border-gray-300"
-                    @if ($loop->first) {{ 'checked' }} @endif>
-
-                <label for="{{ $paymentMethod->name }}" class="block ms-2 text-sm font-medium text-gray-900">
-                    {{ __($paymentMethod->value) }}
-                </label>
-            </div>
+                <option id="{{ $paymentMethod->name }}" value="{{ $paymentMethod->name }}"
+                    @if ($loop->first) {{ 'selected' }} @endif>{{ __("$paymentMethod->value") }}
+                </option>
             @endforeach
-        </fieldset>
+        </select>
 
         <h2 class="text-xl font-semibold text-gray-900 sm:text-2xl">
             {{ __('Select shipping address') }}
@@ -37,21 +30,21 @@
             <legend class="sr-only">{{ __('Payment methods') }}</legend>
 
             @foreach ($shipping_addresses as $shipping_address)
-            <div class="flex items-center mb-4">
-                <input id="{{ md5($shipping_address->address) }}" type="radio" name="address"
-                    value="{{ $shipping_address->id }}" class="w-4 h-4 border-gray-300"
-                    @if ($loop->first) {{ 'checked' }} @endif />
+                <div class="flex items-center mb-4">
+                    <input id="{{ md5($shipping_address->address) }}" type="radio" name="address"
+                        value="{{ $shipping_address->id }}" class="w-4 h-4 border-gray-300"
+                        @if ($loop->first) {{ 'checked' }} @endif />
 
-                <label for="{{ md5($shipping_address->address) }}"
-                    class="block ms-2 text-sm font-medium text-gray-900">
-                    {{ $shipping_address->address . ', ' . $shipping_address->city . ', ' . $shipping_address->postal_code }}
-                </label>
-            </div>
+                    <label for="{{ md5($shipping_address->address) }}"
+                        class="block ms-2 text-sm font-medium text-gray-900">
+                        {{ $shipping_address->address . ', ' . $shipping_address->city . ', ' . $shipping_address->postal_code }}
+                    </label>
+                </div>
             @endforeach
 
             <div class="items-center mb-4">
                 <input id="newAddress" type="radio" name="address" value="newAddress" class="w-4 h-4 border-gray-300"
-                    @if (count($shipping_addresses)===0) {{ 'checked' }} @endif />
+                    @if (count($shipping_addresses) === 0) {{ 'checked' }} @endif />
                 <label for="newAddress" class="ms-2 text-sm font-medium text-gray-900">
                     {{ __('New address') }}
                 </label>
@@ -61,7 +54,7 @@
                     <div class="mb-4">
                         <label for="address"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('Address') }}</label>
-                        <input @if (count($shipping_addresses) !==0) {{ 'disabled' }} @endif type="text"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="text"
                             id="address" name="street"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>
@@ -69,7 +62,7 @@
                     <div class="mb-4">
                         <label for="city"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('City') }}</label>
-                        <input @if (count($shipping_addresses) !==0) {{ 'disabled' }} @endif type="text"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="text"
                             id="city" name="city"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>
@@ -77,7 +70,7 @@
                     <div class="mb-4">
                         <label for="postalCode"
                             class="block mb-2 text-sm font-medium text-gray-900">{{ __('Postal code') }}</label>
-                        <input @if (count($shipping_addresses) !==0) {{ 'disabled' }} @endif type="number"
+                        <input @if (count($shipping_addresses) !== 0) {{ 'disabled' }} @endif type="number"
                             id="postalCode" name="postalCode"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500" />
                     </div>

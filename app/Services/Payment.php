@@ -10,7 +10,7 @@ use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
 use App\Repositories\Payment\RedsysPaymentRepository;
 
-final readonly class Payment
+final class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 

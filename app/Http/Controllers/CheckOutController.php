@@ -122,7 +122,7 @@ class CheckOutController extends Controller
 
         return $cart->buildOrder(
             PaymentMethod::from(
-                strval($request->string('payment_method'))
+                strval($request->string('paymentMethod'))
             ),
             $user
         );
