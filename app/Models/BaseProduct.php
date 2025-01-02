@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Models\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -54,9 +55,19 @@ abstract class BaseProduct extends Model
         'images',
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'price' => MoneyCast::class,
+            'price_with_discount' => MoneyCast::class,
+            'images' => 'array',
+        ];
+    }
 
     /**
      * @return BelongsToMany<Order, $this>

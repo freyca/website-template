@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('ean13')->unique();
             $table->string('name')->unique();
-            $table->float('price');
-            $table->float('price_with_discount')->nullable();
+            $table->integer('price');
+            $table->integer('price_with_discount')->nullable();
             $table->unsignedInteger('stock');
             $table->foreignIdFor(Product::class)->constrained();
             $table->timestamps();

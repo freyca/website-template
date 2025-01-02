@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('ean13')->unique();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->float('price');
-            $table->float('price_with_discount')->nullable();
+            $table->integer('price');
+            $table->integer('price_with_discount')->nullable();
             $table->boolean('published')->default(false)->index();
             $table->unsignedInteger('stock');
             $table->float('dimension_length');

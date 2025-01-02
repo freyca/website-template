@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Scopes\OrderScope;
@@ -29,10 +30,19 @@ class Order extends Model
         'user_metadata_id',
     ];
 
-    protected $casts = [
-        'payment_method' => PaymentMethod::class,
-        'status' => OrderStatus::class,
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'purchase_cost' => MoneyCast::class,
+            'payment_method' => PaymentMethod::class,
+            'status' => OrderStatus::class,
+        ];
+    }
 
     protected $keyType = 'string';
 

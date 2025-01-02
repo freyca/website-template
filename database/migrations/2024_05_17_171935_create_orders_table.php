@@ -28,7 +28,7 @@ return new class extends Migration
 
         Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
             $table->ulid('id')->primary();
-            $table->float('purchase_cost');
+            $table->integer('purchase_cost');
             $table->enum('payment_method', $payment_methods)->default(PaymentMethod::BankTransfer->value);
             $table->enum('status', $order_status)->default(OrderStatus::New->value);
             $table->foreignIdFor(User::class)->constrained();
