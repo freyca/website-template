@@ -7,6 +7,7 @@ namespace App\Repositories\Payment;
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
 use Exception;
+use Illuminate\Support\Str;
 use Ssheduardo\Redsys\Facades\Redsys;
 
 class RedsysPaymentRepository implements PaymentRepositoryInterface
@@ -37,14 +38,15 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
     {
         $this->key = config('payments.redsys.key'); // @phpstan-ignore-line
         $this->merchantcode = config('payments.redsys.merchantcode'); // @phpstan-ignore-line
-        $this->terminal = config('payments.redsys.terminal'); // @phpstan-ignore-line
-        $this->enviroment = config('payments.redsys.enviroment'); // @phpstan-ignore-line
+        $this->terminal = intval(config('payments.redsys.terminal')); // @phpstan-ignore-line
+        $this->enviroment = config('payments.enviroment'); // @phpstan-ignore-line
         $this->urlOk = url(config('payments.redsys.url_ok')); // @phpstan-ignore-line
         $this->urlKo = url(config('payments.redsys.url_ko')); // @phpstan-ignore-line
         $this->urlNotification = url(config('payments.redsys.url_notification')); // @phpstan-ignore-line
         $this->tradeName = config('payments.redsys.tradename'); // @phpstan-ignore-line
         $this->titular = config('payments.redsys.titular'); // @phpstan-ignore-line
         $this->description = config('payments.redsys.description'); // @phpstan-ignore-line
+
     }
 
     /**
@@ -54,7 +56,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
     {
         try {
             Redsys::setAmount($order->purchase_cost);
-            Redsys::setOrder($order);
+            Redsys::setOrder(Str::take($order->id, 12));
             Redsys::setMerchantcode($this->merchantcode);
             Redsys::setCurrency(978); // Euros
             Redsys::setTransactiontype(0);

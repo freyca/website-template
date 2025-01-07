@@ -16,7 +16,7 @@
         <select id="paymentMethod" name="paymentMethod"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-1/3 p-2.5">
             @foreach (App\Enums\PaymentMethod::cases() as $paymentMethod)
-                <option id="{{ $paymentMethod->name }}" value="{{ $paymentMethod->name }}"
+                <option id="{{ $paymentMethod->name }}" value="{{ $paymentMethod->value }}"
                     @if ($loop->first) {{ 'selected' }} @endif>{{ __("$paymentMethod->value") }}
                 </option>
             @endforeach

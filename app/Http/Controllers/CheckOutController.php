@@ -47,6 +47,7 @@ class CheckOutController extends Controller
 
     public function paymentAndShipping(CheckOutRequest $request): RedirectResponse
     {
+        /** @var \App\Models\User */
         $user = Auth::user();
 
         if ($user === null) {
@@ -55,13 +56,15 @@ class CheckOutController extends Controller
 
         // If is new address, create it
         if ($request->input('address') === 'newAddress') {
-            $this->createNewAddress($request, $user->id);
+            $address = $this->createNewAddress($request, $user->id);
+        } else {
+            $address = UserMetadata::find($request->integer('address'));
         }
 
         // Validate address_id belongs to user
         if (
             $request->input('address') !== 'newAddress' &&
-            ! $this->validateAddressBelongsToUser($request->integer('address'), $user)
+            ! $this->validateAddressBelongsToUser($address->id, $user)
         ) {
             Notification::make()->title(__('Invalid address'))->danger()->send();
 
@@ -71,7 +74,7 @@ class CheckOutController extends Controller
                 );
         }
 
-        $order = $this->buildOrder($request, $user);
+        $order = $this->buildOrder($request, $user, $address);
 
         return $this->processPayment($order);
     }
@@ -103,9 +106,9 @@ class CheckOutController extends Controller
         return $user->userMetadata->pluck('id')->contains($addressId);
     }
 
-    private function createNewAddress(CheckOutRequest $request, int $userId): void
+    private function createNewAddress(CheckOutRequest $request, int $userId): UserMetadata
     {
-        UserMetadata::create([
+        return UserMetadata::create([
             'user_id' => $userId,
             'address' => $request->string('street')->trim(),
             'city' => $request->string('city')->trim(),
@@ -113,7 +116,7 @@ class CheckOutController extends Controller
         ]);
     }
 
-    private function buildOrder(CheckOutRequest $request, User $user): Order
+    private function buildOrder(CheckOutRequest $request, User $user, UserMetadata $userMetadata): Order
     {
         /**
          * @var Cart
@@ -124,7 +127,8 @@ class CheckOutController extends Controller
             PaymentMethod::from(
                 strval($request->string('paymentMethod'))
             ),
-            $user
+            $user,
+            $userMetadata
         );
     }
 
