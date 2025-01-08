@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Ssheduardo\Redsys\Facades\Redsys;
 
-class RedsysPaymentRepository implements PaymentRepositoryInterface
+class BizumPaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
@@ -61,7 +61,7 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
             Redsys::setCurrency(978); // Euros
             Redsys::setTransactiontype(0);
             Redsys::setTerminal($this->terminal);
-            Redsys::setMethod('T');
+            Redsys::setMethod('z');
             Redsys::setNotification($this->urlNotification);
             Redsys::setUrlOk($this->urlOk);
             Redsys::setUrlKo($this->urlKo);

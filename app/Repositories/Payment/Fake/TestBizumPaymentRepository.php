@@ -2,34 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories\Payment;
+namespace App\Repositories\Payment\Fake;
 
-use App\Repositories\Payment\Traits\PaymentActions;
+use App\Repositories\Payment\BizumPaymentRepository;
 
-class TestRedsysPaymentRepository extends RedsysPaymentRepository
+class TestBizumPaymentRepository extends BizumPaymentRepository
 {
-    use PaymentActions;
-
-    private string $key;
-
-    private string $merchantcode;
-
-    private int $terminal;
-
-    private string $enviroment;
-
-    private string $urlOk;
-
-    private string $urlKo;
-
-    private string $urlNotification;
-
-    private string $tradeName;
-
-    private string $titular;
-
-    private string $description;
-
     public function __construct()
     {
         $this->key = config('payments.redsys-test.key'); // @phpstan-ignore-line
