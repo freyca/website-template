@@ -14,7 +14,9 @@ class BankTransferPaymentRepository implements PaymentRepositoryInterface
 
     public function payPurchase(Order $order): Response
     {
-        return response(null, 301, ['Location' => env('PAYMENT_URL_OK')]);
+        return response(null, 301, [
+            'Location' => route('payment.banktransfer', ['orderId' => $order->id]),
+        ]);
     }
 
     public function isGatewayOkWithPayment(Order $order): bool

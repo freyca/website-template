@@ -29,8 +29,10 @@ class RedsysPaymentRepository implements PaymentRepositoryInterface
                 currency: Currency::EUR,
                 payMethods: PayMethod::Card,
                 order: Str::take($order->id, 12),
+                urlOk: route('payment.redsys-ok', ['orderId' => $order->id]),
+                urlKo: route('payment.redsys-ko', ['orderId' => $order->id]),
             )
-        );
+        )->associateWithModel($order);
 
         return $redsysRequestBuilder->redirect();
     }

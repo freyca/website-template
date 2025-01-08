@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
@@ -26,15 +27,22 @@ Route::get('contacto', function () {
     return view('pages.contact');
 })->name('contact');
 
+/** Checkout */
 Route::group(['as' => 'checkout.'], function () {
+    Route::get('carrito', function () {
+        return view('pages.cart');
+    })->name('cart');
     Route::get('checkout', [CheckOutController::class, 'index'])->name('index');
     Route::post('checkout', [CheckOutController::class, 'paymentAndShipping'])->name('validate');
 });
 
-/** Cart */
-Route::get('carrito', function () {
-    return view('pages.cart');
-})->name('cart');
+/** Payment */
+Route::group(['as' => 'payment.'], function () {
+    Route::get('pago-por-transferencia/{orderId}', [PaymentController::class, 'banktransfer'])->name('banktransfer');
+    Route::get('pago-correcto-redsys/{orderId}', [PaymentController::class, 'redsysOk'])->name('redsys-ok');
+    Route::get('pago-incorrecto-redsys/{orderId}', [PaymentController::class, 'redsysKo'])->name('redsys-ko');
+});
+
 
 /** Products */
 Route::get('/productos', [ProductController::class, 'all'])->name('product-list');
