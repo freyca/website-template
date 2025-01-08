@@ -8,17 +8,22 @@ use App\Casts\MoneyCast;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Scopes\OrderScope;
+use Creagia\LaravelRedsys\Concerns\CanCreateRedsysRequests;
+use Creagia\LaravelRedsys\Contracts\RedsysPayable;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 #[ScopedBy([OrderScope::class])]
-class Order extends Model
+class Order extends Model implements RedsysPayable
 {
+    use CanCreateRedsysRequests;
+
     /** @use HasFactory<OrderFactory> */
     use HasFactory;
 
@@ -53,6 +58,18 @@ class Order extends Model
         static::creating(function ($model) {
             $model->id = Str::ulid();
         });
+    }
+
+    public function getTotalAmount(): int
+    {
+        $cost = round(floatval($this->purchase_cost) * 100, 2);
+
+        return intval(Number::trim($cost));
+    }
+
+    public function paidWithRedsys(): void
+    {
+        // Notify user, change status to paid, ...
     }
 
     /**

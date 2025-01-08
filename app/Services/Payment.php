@@ -10,8 +10,7 @@ use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\BizumPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
 use App\Repositories\Payment\RedsysPaymentRepository;
-use App\Repositories\Payment\Fake\TestBizumPaymentRepository;
-use App\Repositories\Payment\Fake\TestRedsysPaymentRepository;
+use Illuminate\Http\Response;
 
 final class Payment
 {
@@ -19,19 +18,11 @@ final class Payment
 
     public function __construct(private Order $order)
     {
-        if (app()->environment() !== 'prod') {
-            $this->repository = match ($order->payment_method) {
-                PaymentMethod::Card => new TestRedsysPaymentRepository,
-                PaymentMethod::Bizum => new TestBizumPaymentRepository,
-                default => new BankTransferPaymentRepository,
-            };
-        } else {
-            $this->repository = match ($order->payment_method) {
-                PaymentMethod::Card => new RedsysPaymentRepository,
-                PaymentMethod::Bizum => new BizumPaymentRepository,
-                default => new BankTransferPaymentRepository,
-            };
-        }
+        $this->repository = match ($order->payment_method) {
+            PaymentMethod::Card => new RedsysPaymentRepository,
+            PaymentMethod::Bizum => new BizumPaymentRepository,
+            default => new BankTransferPaymentRepository,
+        };
     }
 
     public function isPurchasePayed(): bool
@@ -39,7 +30,7 @@ final class Payment
         return $this->repository->isPurchasePayed($this->order);
     }
 
-    public function payPurchase(): string
+    public function payPurchase(): Response
     {
         return $this->repository->payPurchase($this->order);
     }

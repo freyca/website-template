@@ -6,14 +6,15 @@ namespace App\Repositories\Payment;
 
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
+use Illuminate\Http\Response;
 
 class BankTransferPaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
-    public function payPurchase(Order $order): string
+    public function payPurchase(Order $order): Response
     {
-        return 'finished-purchase';
+        return response(null, 301, ['Location' => env('PAYMENT_URL_OK')]);
     }
 
     public function isGatewayOkWithPayment(Order $order): bool

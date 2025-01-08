@@ -12,14 +12,14 @@ enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
 {
     case Card = 'Card';
     case BankTransfer = 'Bank transfer';
-    //case Bizum = 'Bizum';
+    case Bizum = 'Bizum';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::BankTransfer => 'Bank transfer',
             self::Card => 'Card',
-            //self::Bizum => 'Bizum',
+            self::Bizum => 'Bizum',
         };
     }
 
@@ -28,7 +28,7 @@ enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::BankTransfer => 'warning',
             self::Card => 'success',
-            //self::Bizum => 'info',
+            self::Bizum => 'info',
         };
     }
 
@@ -37,7 +37,7 @@ enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::BankTransfer => 'heroicon-c-building-office-2',
             self::Card => 'heroicon-s-credit-card',
-            //self::Bizum => 'heroicon-o-device-phone-mobile',
+            self::Bizum => 'heroicon-o-device-phone-mobile',
         };
     }
 }

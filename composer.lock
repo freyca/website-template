@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afb12d23b59f5449f9846f6fcf6cc53f",
+    "content-hash": "f2a06ea025d21d6764bce16442e21314",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -350,6 +350,144 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "creagia/laravel-redsys",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creagia/laravel-redsys.git",
+                "reference": "b9565b05f32c92d343f272bc23477274e127de5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creagia/laravel-redsys/zipball/b9565b05f32c92d343f272bc23477274e127de5f",
+                "reference": "b9565b05f32c92d343f272bc23477274e127de5f",
+                "shasum": ""
+            },
+            "require": {
+                "creagia/redsys-php": "^3.0.1",
+                "illuminate/contracts": "^8.73|^9.0|^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^1.0|^2.0",
+                "laravel/pint": "^1.6",
+                "nunomaduro/collision": "^5.10|^6.0|^8.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0",
+                "pestphp/pest": "^1.21|^2.34",
+                "pestphp/pest-plugin-laravel": "^1.1|^2.3",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Creagia\\LaravelRedsys\\LaravelRedsysServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Creagia\\LaravelRedsys\\": "src",
+                    "Creagia\\LaravelRedsys\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Torras",
+                    "email": "david@creagia.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Redsys Payments Gateway",
+            "homepage": "https://github.com/creagia/laravel-redsys",
+            "keywords": [
+                "creagia",
+                "laravel",
+                "payment gateway",
+                "php",
+                "redsys"
+            ],
+            "support": {
+                "issues": "https://github.com/creagia/laravel-redsys/issues",
+                "source": "https://github.com/creagia/laravel-redsys/tree/3.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/creagia",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-11-06T16:27:09+00:00"
+        },
+        {
+            "name": "creagia/redsys-php",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creagia/redsys-php.git",
+                "reference": "60b1439c07b1a23c460ad0f192f9fd48cce93cbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creagia/redsys-php/zipball/60b1439c07b1a23c460ad0f192f9fd48cce93cbb",
+                "reference": "60b1439c07b1a23c460ad0f192f9fd48cce93cbb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "pestphp/pest": "^1.20"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Creagia\\Redsys\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Torras",
+                    "email": "david@creagia.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Online payments with Redsys",
+            "homepage": "https://github.com/creagia/redsys-php",
+            "keywords": [
+                "creagia",
+                "payment gateway",
+                "php",
+                "redsys"
+            ],
+            "support": {
+                "issues": "https://github.com/creagia/redsys-php/issues",
+                "source": "https://github.com/creagia/redsys-php/tree/3.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/creagia",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-09T09:47:36+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -4778,60 +4916,6 @@
             "time": "2024-02-26T18:08:49+00:00"
         },
         {
-            "name": "sermepa/sermepa",
-            "version": "1.4.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ssheduardo/sermepa.git",
-                "reference": "38778760747db0c36b31f2702778eb3173bcca18"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ssheduardo/sermepa/zipball/38778760747db0c36b31f2702778eb3173bcca18",
-                "reference": "38778760747db0c36b31f2702778eb3173bcca18",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3|^7.2.5|^8.0|^8.1|^8.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.0|^8.5.8|^9.3.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Redsys\\": "src/Redsys/",
-                    "Sermepa\\Tpv\\": "src/Sermepa/Tpv/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Eduardo D",
-                    "email": "ssh.eduardo@gmail.com",
-                    "homepage": "http://ubublog.com/"
-                }
-            ],
-            "description": "Pasarela de pago Redsys, Sermepa",
-            "homepage": "https://github.com/ssheduardo/sermepa",
-            "keywords": [
-                "lacaixa",
-                "pasarela",
-                "payment",
-                "redsys",
-                "sabadell",
-                "sermepa"
-            ],
-            "support": {
-                "issues": "https://github.com/ssheduardo/sermepa/issues",
-                "source": "https://github.com/ssheduardo/sermepa/tree/1.4.8"
-            },
-            "time": "2024-03-05T22:20:28+00:00"
-        },
-        {
             "name": "spatie/color",
             "version": "1.6.1",
             "source": {
@@ -5008,69 +5092,6 @@
                 }
             ],
             "time": "2024-11-18T15:02:02+00:00"
-        },
-        {
-            "name": "ssheduardo/redsys-laravel",
-            "version": "1.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ssheduardo/redsys-laravel.git",
-                "reference": "aa849d627dd9dc6830ba6789b35c56cae9d00905"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ssheduardo/redsys-laravel/zipball/aa849d627dd9dc6830ba6789b35c56cae9d00905",
-                "reference": "aa849d627dd9dc6830ba6789b35c56cae9d00905",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-                "php": "^7.2|^8.0",
-                "sermepa/sermepa": "^1.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Redsys": "Ssheduardo\\Redsys\\Facades\\Redsys"
-                    },
-                    "providers": [
-                        "Ssheduardo\\Redsys\\RedsysServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ssheduardo\\Redsys\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": ":Eduardo D",
-                    "email": "ssh.eduardo@gmail.com",
-                    "homepage": "http://ubublog.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Package redsys for laravel",
-            "homepage": "https://github.com/ssheduardo/redsys-laravel",
-            "keywords": [
-                "lacaixa",
-                "pasarela",
-                "payment",
-                "redsys",
-                "sabadell",
-                "tpv"
-            ],
-            "support": {
-                "issues": "https://github.com/ssheduardo/redsys-laravel/issues",
-                "source": "https://github.com/ssheduardo/redsys-laravel/tree/1.4.6"
-            },
-            "time": "2024-05-02T00:19:51+00:00"
         },
         {
             "name": "symfony/clock",

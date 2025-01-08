@@ -15,6 +15,7 @@ use App\Services\Cart;
 use App\Services\Payment;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -45,7 +46,7 @@ class CheckOutController extends Controller
         );
     }
 
-    public function paymentAndShipping(CheckOutRequest $request): RedirectResponse
+    public function paymentAndShipping(CheckOutRequest $request): Response
     {
         /** @var \App\Models\User */
         $user = Auth::user();
@@ -132,10 +133,10 @@ class CheckOutController extends Controller
         );
     }
 
-    private function processPayment(Order $order): RedirectResponse
+    private function processPayment(Order $order): Response
     {
         $paymentService = new Payment($order);
 
-        return redirect($paymentService->payPurchase());
+        return $paymentService->payPurchase();
     }
 }
