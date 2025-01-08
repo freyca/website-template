@@ -128,6 +128,8 @@ final class Cart
         $order->user_metadata_id = $userMetadata->id;
 
         $order->save();
+
+        /** @var Order */
         $order = $order->fresh();
 
         $this->saveOrderProducts($order);
@@ -142,6 +144,7 @@ final class Cart
 
         foreach ($CartProducts as $cartProduct) {
             $quantity = Arr::get($cartProduct, 'quantity');
+            /** @var BaseProduct */
             $product = Arr::get($cartProduct, 'product');
 
             $product_id = $product->id;

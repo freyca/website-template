@@ -14,7 +14,7 @@ use Illuminate\View\Component;
 class ProductDetails extends Component
 {
     /**
-     * @param  ?Collection<int, ProductVariant>  $variants
+     * @param  Collection<int, ProductVariant>  $variants
      */
     public function __construct(
         public BaseProduct $product,

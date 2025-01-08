@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function banktransfer(Order $orderId)
+    public function banktransfer(Order $orderId): string
     {
         $cart = app(Cart::class);
         $cart->clear();
@@ -18,7 +18,7 @@ class PaymentController extends Controller
         return 'Debes pagar en el siguiente IBAN';
     }
 
-    public function redsysOk(Order $orderId, Request $request)
+    public function redsysOk(Order $orderId, Request $request): void
     {
         $cart = app(Cart::class);
         $cart->clear();
@@ -29,7 +29,7 @@ class PaymentController extends Controller
         dump(json_decode(base64_decode($Ds_MerchantParameters)));
     }
 
-    public function redsysKo(Order $orderId)
+    public function redsysKo(Order $orderId): void
     {
         $cart = app(Cart::class);
         $cart->clear();

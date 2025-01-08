@@ -46,9 +46,9 @@ class CheckOutController extends Controller
         );
     }
 
-    public function paymentAndShipping(CheckOutRequest $request): Response
+    public function paymentAndShipping(CheckOutRequest $request): Response|RedirectResponse
     {
-        /** @var \App\Models\User */
+        /** @var ?User */
         $user = Auth::user();
 
         if ($user === null) {
@@ -59,6 +59,7 @@ class CheckOutController extends Controller
         if ($request->input('address') === 'newAddress') {
             $address = $this->createNewAddress($request, $user->id);
         } else {
+            /** @var UserMetadata */
             $address = UserMetadata::find($request->integer('address'));
         }
 
