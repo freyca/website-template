@@ -14,6 +14,7 @@ class PaymentController extends Controller
         $cart->clear();
 
         dump($orderId);
+
         return 'Debes pagar en el siguiente IBAN';
     }
 

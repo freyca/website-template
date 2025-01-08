@@ -31,7 +31,7 @@ class BizumPaymentRepository implements PaymentRepositoryInterface
                 urlOk: route('payment.redsys-ok', ['orderId' => $order->id]),
                 urlKo: route('payment.redsys-ko', ['orderId' => $order->id]),
             )
-        )->associateWithModel($order);;
+        )->associateWithModel($order);
 
         return $redsysRequestBuilder->redirect();
     }

@@ -43,7 +43,6 @@ Route::group(['as' => 'payment.'], function () {
     Route::get('pago-incorrecto-redsys/{orderId}', [PaymentController::class, 'redsysKo'])->name('redsys-ko');
 });
 
-
 /** Products */
 Route::get('/productos', [ProductController::class, 'all'])->name('product-list');
 Route::get('producto/{product}', [ProductController::class, 'product'])->name('product');
