@@ -32,31 +32,57 @@ Route::group(['as' => 'checkout.'], function () {
     Route::get('carrito', function () {
         return view('pages.cart');
     })->name('cart');
-    Route::get('checkout', [CheckOutController::class, 'index'])->name('index');
-    Route::post('checkout', [CheckOutController::class, 'paymentAndShipping'])->name('validate');
+
+    Route::get('checkout', [CheckOutController::class, 'index'])
+        ->name('index');
+
+    Route::post('checkout', [CheckOutController::class, 'paymentAndShipping'])
+        ->name('validate');
 });
 
 /** Payment */
 Route::group(['as' => 'payment.'], function () {
-    Route::get('pago-por-transferencia/{orderId}', [PaymentController::class, 'banktransfer'])->name('banktransfer');
-    Route::get('pago-correcto/{orderId}', [PaymentController::class, 'redsysOk'])->name('redsys-ok');
-    Route::get('pago-incorrecto/{orderId}', [PaymentController::class, 'redsysKo'])->name('redsys-ko');
-    Route::get('notificacion-pago-redsys/{orderId}', [PaymentController::class, 'redsysNotification'])->name('redsys-notification');
+    Route::get('pago-por-transferencia/{order}', [PaymentController::class, 'banktransfer'])
+        ->name('banktransfer');
+
+    Route::get('pago-correcto/{order}', [PaymentController::class, 'redsysOk'])
+        ->name('redsys-ok');
+
+    Route::get('pago-incorrecto/{order}', [PaymentController::class, 'redsysKo'])
+        ->name('redsys-ko');
+
+    Route::post('notificacion-pago-redsys/{order}', [PaymentController::class, 'redsysNotification'])
+        ->name('redsys-notification')
+        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 });
 
 /** Products */
-Route::get('/productos', [ProductController::class, 'all'])->name('product-list');
-Route::get('producto/{product}', [ProductController::class, 'product'])->name('product');
-Route::get('/complementos-producto', [ProductController::class, 'complements'])->name('complement-list');
-Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement'])->name('complement');
-Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts'])->name('spare-part-list');
-Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])->name('spare-part');
+Route::get('/productos', [ProductController::class, 'all'])
+    ->name('product-list');
+
+Route::get('producto/{product}', [ProductController::class, 'product'])
+    ->name('product');
+Route::get('/complementos-producto', [ProductController::class, 'complements'])
+    ->name('complement-list');
+
+Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement'])
+    ->name('complement');
+
+Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts'])
+    ->name('spare-part-list');
+
+Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])
+    ->name('spare-part');
 
 /** Seo URL's */
 Route::name('seo.')->group(function () {
-    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas'])->name('desbrozadoras-baratas');
+    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas'])
+        ->name('desbrozadoras-baratas');
 });
 
 /** Categories */
-Route::get('categorias', [CategoryController::class, 'index'])->name('category-list');
-Route::get('{category}', [CategoryController::class, 'category'])->name('category');
+Route::get('categorias', [CategoryController::class, 'index'])
+    ->name('category-list');
+
+Route::get('{category}', [CategoryController::class, 'category'])
+    ->name('category');
