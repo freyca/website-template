@@ -32,6 +32,7 @@ return new class extends Migration
             $table->enum('payment_method', $payment_methods);
             $table->enum('status', $order_status);
             $table->foreignIdFor(User::class)->constrained();
+            $table->json('payment_gateway_response')->nullable();
             $table->timestamps();
         });
     }

@@ -28,6 +28,7 @@ class Order extends Model
         'status',
         'user_id',
         'user_metadata_id',
+        'payment_gateway_response',
     ];
 
     /**

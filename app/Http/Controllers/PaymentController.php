@@ -8,6 +8,7 @@ use App\Services\Cart;
 use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysResponse;
+use Creagia\Redsys\Support\PostRequestError;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -50,11 +51,19 @@ class PaymentController extends Controller
             environment: config('redsys.environment') === 'production' ? Environment::Production : Environment::Test,
         );
 
-        $redsysNotification = new RedsysResponse($redsysClient);
-        $redsysNotification->setParametersFromResponse($_POST);
+        /**
+         *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
+         */
+        $redsysResponse = new RedsysResponse($redsysClient);
+        $inputs = $request->all();
+        $redsysResponse->setParametersFromResponse($inputs);
+
+        $order->payment_gateway_response = $redsysResponse instanceof PostRequestError
+            ? $redsysResponse->responseParameters
+            : $redsysResponse->merchantParametersArray;
 
         try {
-            $notificationData = $redsysNotification->checkResponse();
+            $notificationData = $redsysResponse->checkResponse();
             $order->status = OrderStatus::Paid;
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
