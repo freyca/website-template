@@ -39,9 +39,9 @@ class BizumPaymentRepository implements PaymentRepositoryInterface
                 currency: Currency::EUR,
                 transactionType: TransactionType::Autorizacion,
                 payMethods: PayMethod::Bizum,
-                merchantUrl: route('payment.redsys-notification', ['orderId' => $order->id]),
-                urlOk: route('payment.redsys-ok', ['orderId' => $order->id]),
-                urlKo: route('payment.redsys-ko', ['orderId' => $order->id]),
+                merchantUrl: route('payment.redsys-notification', ['order' => $order->id]),
+                urlOk: route('payment.redsys-ok', ['order' => $order->id]),
+                urlKo: route('payment.redsys-ko', ['order' => $order->id]),
             )
         );
 

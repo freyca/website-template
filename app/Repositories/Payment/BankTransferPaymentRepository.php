@@ -12,10 +12,10 @@ class BankTransferPaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
-    public function payPurchase(Order $order): Response
+    public function payPurchase(Order $order)
     {
         return response(null, 301, [
-            'Location' => route('payment.banktransfer', ['orderId' => $order->id]),
+            'Location' => route('payment.banktransfer', ['order' => $order->id]),
         ]);
     }
 

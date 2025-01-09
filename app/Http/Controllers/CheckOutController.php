@@ -81,28 +81,6 @@ class CheckOutController extends Controller
         return $this->processPayment($order);
     }
 
-    /**
-     * Comprobar respuesta de la pasarela de pago
-     */
-    public function checkResponseFromMerchant(MerchantParamsRequest $request): RedirectResponse
-    {
-        /**
-         * @var \App\Models\Order
-         */
-        $order = Order::find($request->orderId);
-
-        $paymentService = new Payment($order);
-
-        if ($paymentService->isGatewayOkWithPayment()) {
-            $order->status = OrderStatus::Paid;
-            $order->save();
-
-            return redirect('finished-purchase')->with(['succcess' => true]);
-        }
-
-        return redirect('finished-purchase')->with(['succcess' => false]);
-    }
-
     private function validateAddressBelongsToUser(int $addressId, User $user): bool
     {
         return $user->userMetadata->pluck('id')->contains($addressId);
