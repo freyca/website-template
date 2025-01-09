@@ -14,27 +14,39 @@ use Creagia\Redsys\Support\RequestParameters;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Creagia\Redsys\RedsysClient;
+use Creagia\Redsys\RedsysRequest;
+use Creagia\Redsys\Enums\Environment;
 
-class RedsysPaymentRepository implements PaymentRepositoryInterface
+
+class CreditCardPaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
-    public function payPurchase(Order $order): Response
+    public function payPurchase(Order $order)
     {
-        $redsysRequestBuilder = RequestBuilder::newRequest(
+        $redsysClient = new RedsysClient(
+            merchantCode: intval(config('redsys.tpv.merchantCode')),
+            secretKey: config('redsys.tpv.key'),
+            terminal: intval(config('redsys.tpv.terminal')),
+            environment: config('redsys.environment') === 'production' ? Environment::Production : Environment::Test,
+        );
+
+        $redsysRequest = RedsysRequest::create(
+            $redsysClient,
             new RequestParameters(
-                transactionType: TransactionType::Autorizacion,
-                productDescription: 'Compra en Casa Quiroga',
-                amountInCents: $order->getTotalAmount(),
-                currency: Currency::EUR,
-                payMethods: PayMethod::Card,
+                amountInCents: $this->convertPriceToCents($order->purchase_cost),
                 order: Str::take($order->id, 12),
+                currency: Currency::EUR,
+                transactionType: TransactionType::Autorizacion,
+                payMethods: PayMethod::Card,
+                merchantUrl: route('payment.redsys-notification', ['orderId' => $order->id]),
                 urlOk: route('payment.redsys-ok', ['orderId' => $order->id]),
                 urlKo: route('payment.redsys-ko', ['orderId' => $order->id]),
             )
-        )->associateWithModel($order);
+        );
 
-        return $redsysRequestBuilder->redirect();
+        return $redsysRequest->getRedirectFormHtml();
     }
 
     public function isGatewayOkWithPayment(Order $order): bool

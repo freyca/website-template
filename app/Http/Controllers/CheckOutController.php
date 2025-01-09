@@ -46,7 +46,7 @@ class CheckOutController extends Controller
         );
     }
 
-    public function paymentAndShipping(CheckOutRequest $request): Response|RedirectResponse
+    public function paymentAndShipping(CheckOutRequest $request)
     {
         /** @var ?User */
         $user = Auth::user();
@@ -134,7 +134,7 @@ class CheckOutController extends Controller
         );
     }
 
-    private function processPayment(Order $order): Response
+    private function processPayment(Order $order)
     {
         $paymentService = new Payment($order);
 

@@ -9,7 +9,7 @@ use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\BizumPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
-use App\Repositories\Payment\RedsysPaymentRepository;
+use App\Repositories\Payment\CreditCardPaymentRepository;
 use Illuminate\Http\Response;
 
 final class Payment
@@ -19,7 +19,7 @@ final class Payment
     public function __construct(private Order $order)
     {
         $this->repository = match ($order->payment_method) {
-            PaymentMethod::Card => new RedsysPaymentRepository,
+            PaymentMethod::Card => new CreditCardPaymentRepository,
             PaymentMethod::Bizum => new BizumPaymentRepository,
             default => new BankTransferPaymentRepository,
         };
@@ -30,7 +30,7 @@ final class Payment
         return $this->repository->isPurchasePayed($this->order);
     }
 
-    public function payPurchase(): Response
+    public function payPurchase()
     {
         return $this->repository->payPurchase($this->order);
     }
