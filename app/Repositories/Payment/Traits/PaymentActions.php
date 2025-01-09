@@ -12,7 +12,7 @@ trait PaymentActions
 {
     public function isPurchasePayed(Order $order): bool
     {
-        return $order->status !== OrderStatus::New;
+        return $order->status !== OrderStatus::Paid;
     }
 
     public function cancelPurchase(Order $order): void

@@ -94,7 +94,7 @@ class CheckOutController extends Controller
         $paymentService = new Payment($order);
 
         if ($paymentService->isGatewayOkWithPayment()) {
-            $order->status = OrderStatus::Processing;
+            $order->status = OrderStatus::Paid;
             $order->save();
 
             return redirect('finished-purchase')->with(['succcess' => true]);

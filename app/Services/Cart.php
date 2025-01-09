@@ -123,7 +123,7 @@ final class Cart
         $order = new Order;
         $order->purchase_cost = (float) $this->getTotalCost();
         $order->payment_method = $paymentMethod;
-        $order->status = OrderStatus::New;
+        $order->status = OrderStatus::PaymentPending;
         $order->user_id = $user->id;
         $order->user_metadata_id = $userMetadata->id;
 
