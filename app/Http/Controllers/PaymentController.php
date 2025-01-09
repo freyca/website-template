@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Services\Cart;
-use Illuminate\Http\Request;
-use Creagia\Redsys\Exceptions\DeniedRedsysPaymentResponseException;
+use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysResponse;
-use Creagia\Redsys\Enums\Environment;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {

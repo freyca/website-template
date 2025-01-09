@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Http\Requests\CheckOutRequest;
-use App\Http\Requests\MerchantParamsRequest;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\UserMetadata;
@@ -15,7 +13,6 @@ use App\Services\Cart;
 use App\Services\Payment;
 use Filament\Notifications\Notification;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

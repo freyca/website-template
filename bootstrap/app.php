@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ValidatePostSize::class,
             TrimStrings::class,
             AuthenticateSession::class,
-            //VerifyCsrfToken::class,
+            // VerifyCsrfToken::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

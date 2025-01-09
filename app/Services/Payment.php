@@ -8,9 +8,8 @@ use App\Enums\PaymentMethod;
 use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\BizumPaymentRepository;
-use App\Repositories\Payment\PaymentRepositoryInterface;
 use App\Repositories\Payment\CreditCardPaymentRepository;
-use Illuminate\Http\Response;
+use App\Repositories\Payment\PaymentRepositoryInterface;
 
 final class Payment
 {

@@ -6,18 +6,16 @@ namespace App\Repositories\Payment;
 
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
-use Creagia\LaravelRedsys\RequestBuilder;
 use Creagia\Redsys\Enums\Currency;
+use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\Enums\PayMethod;
 use Creagia\Redsys\Enums\TransactionType;
+use Creagia\Redsys\RedsysClient;
+use Creagia\Redsys\RedsysRequest;
 use Creagia\Redsys\Support\RequestParameters;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-use Creagia\Redsys\RedsysClient;
-use Creagia\Redsys\RedsysRequest;
-use Creagia\Redsys\Enums\Environment;
-
 
 class CreditCardPaymentRepository implements PaymentRepositoryInterface
 {
@@ -54,9 +52,9 @@ class CreditCardPaymentRepository implements PaymentRepositoryInterface
         return true;
 
         // TODO: get merchant params
-        //$merchantParams = [];
+        // $merchantParams = [];
         //
-        //try {
+        // try {
         //    $key = $this->key;
         //    $parameters = Redsys::getMerchantParameters($merchantParams);
         //    $DsResponse = $parameters['Ds_Response'];
@@ -67,8 +65,8 @@ class CreditCardPaymentRepository implements PaymentRepositoryInterface
         //    } else {
         //        return false;
         //    }
-        //} catch (Exception $e) {
+        // } catch (Exception $e) {
         //    throw $e;
-        //}
+        // }
     }
 }

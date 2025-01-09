@@ -21,7 +21,7 @@ class EloquentProductComplementRepository implements ProductComplementRepository
 
         // return Cache::remember($cacheKey, 3600, function () {
         return ProductComplement::where('published', true)->paginate(15);
-        //});
+        // });
     }
 
     public function featured(): Collection

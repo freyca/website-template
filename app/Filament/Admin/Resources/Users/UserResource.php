@@ -28,7 +28,7 @@ class UserResource extends Resource
                         ->disabled()
                         ->label('ID')
                         ->columnSpanFull(),
-                    //Forms\Components\ToggleButtons::make('role')
+                    // Forms\Components\ToggleButtons::make('role')
                     //    ->inline()
                     //    ->required()
                     //    ->options(Role::class),
