@@ -20,6 +20,7 @@
  - show reduced prices 'price_when_user_owns_product' to users
  - keep filter sidebar if is open (must convert open/close button to livewire)
  - filter correctly complements and spare parts by features
+ - create listeners for outofstock events
 
  ## Metodos de pago
  - sequra para financiación
