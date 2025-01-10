@@ -3,7 +3,7 @@
 
     @if ($cart->isEmpty())
         @php
-            redirect()->route('cart');
+            redirect()->route('checkout.cart');
         @endphp
     @else
         @foreach ($cart->getCart() as $cartItem)

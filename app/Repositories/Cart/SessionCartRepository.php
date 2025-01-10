@@ -26,6 +26,7 @@ class SessionCartRepository implements CartRepositoryInterface
     public function add(BaseProduct $product, int $quantity): void
     {
         $cart = $this->getCart();
+        $product = $this->cleanCartProduct($product);
 
         if ($cart->has(strval($product->ean13))) {
             $sessionProduct = $cart->get(strval($product->ean13));
@@ -51,7 +52,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has(strval($product->ean13))) {
             if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
-                throw new Exception('Not enough stock of '.$product->name);
+                throw new Exception('Not enough stock of ' . $product->name);
             }
 
             $productInCart = $cart->get(strval($product->ean13));
@@ -218,5 +219,15 @@ class SessionCartRepository implements CartRepositoryInterface
     private function updateCart(Collection $cart): void
     {
         Session::put(self::SESSION, $cart);
+    }
+
+    private function cleanCartProduct(BaseProduct $product): BaseProduct
+    {
+        $product->meta_description = '';
+        $product->short_description = '';
+        $product->description = '';
+        $product->images = [];
+
+        return $product;
     }
 }

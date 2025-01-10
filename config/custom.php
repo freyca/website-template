@@ -30,10 +30,10 @@ return [
     /**
      * This sections will be shown on navbar, floating to the right
      */
-    'customer-sections' => [
-        'carrito' => '/carrito',
-        'login' => '/user',
-    ],
+    // 'customer-sections' => [
+    //     'carrito' => '/carrito',
+    //     'login' => '/user',
+    // ],
 
     /**
      * Categories to show in the main page after banner

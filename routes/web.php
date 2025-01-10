@@ -62,6 +62,7 @@ Route::get('/productos', [ProductController::class, 'all'])
 
 Route::get('producto/{product}', [ProductController::class, 'product'])
     ->name('product');
+
 Route::get('/complementos-producto', [ProductController::class, 'complements'])
     ->name('complement-list');
 
