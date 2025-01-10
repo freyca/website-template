@@ -7,6 +7,8 @@ namespace App\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
 
 enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 {
@@ -34,13 +36,13 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::Paid => 'info',
-            self::Processing => 'warning',
-            self::Shipped => 'success',
-            self::Delivered => 'success',
-            self::Cancelled => 'danger',
-            self::PaymentFailed => 'danger',
-            self::PaymentPending => 'danger',
+            self::Paid => Color::rgb('rgb(187, 247, 208)'),
+            self::Processing => Color::rgb('rgb(74, 222, 128)'),
+            self::Shipped => Color::rgb('rgb(22, 163, 74)'),
+            self::Delivered => Color::rgb('rgb(22, 101, 52)'),
+            self::Cancelled => 'gray',
+            self::PaymentFailed => 'red',
+            self::PaymentPending => 'amber',
         };
     }
 
