@@ -52,7 +52,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has(strval($product->ean13))) {
             if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
-                throw new Exception('Not enough stock of ' . $product->name);
+                throw new Exception('Not enough stock of '.$product->name);
             }
 
             $productInCart = $cart->get(strval($product->ean13));

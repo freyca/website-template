@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
-use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentColor;
 
 enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 {
