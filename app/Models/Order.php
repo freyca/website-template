@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Casts\MoneyCast;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
+use App\Events\OrderCreated;
+use App\Events\OrderSaved;
 use App\Models\Scopes\OrderScope;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
@@ -44,6 +46,11 @@ class Order extends Model
             'status' => OrderStatus::class,
         ];
     }
+
+    protected $dispatchesEvents = [
+        'created' => OrderCreated::class,
+        'saved' => OrderSaved::class,
+    ];
 
     protected $keyType = 'string';
 
@@ -96,14 +103,12 @@ class Order extends Model
         return $this->hasMany(OrderProductComplement::class);
     }
 
-    public static function allPurchasedItems(int $id): ?self
+    public function allPurchasedItems()
     {
-        return self::with(
-            [
-                'orderProducts',
-                'orderProductSpareParts',
-                'orderProductComplements',
-            ]
-        )->find($id);
+        $products = $this->orderProducts()->get();
+        $complements = $this->orderProductComplements()->get();
+        $spareParts = $this->orderProductSpareParts()->get();
+
+        return $products->concat($complements)->concat($spareParts);
     }
 }
