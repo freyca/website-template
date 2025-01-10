@@ -6,10 +6,10 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use App\Models\Traits\HasSlug;
+use App\Traits\CurrencyFormatter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Number;
 
 /**
  * @property int $id
@@ -34,6 +34,7 @@ use Illuminate\Support\Number;
  */
 abstract class BaseProduct extends Model
 {
+    use CurrencyFormatter;
     use HasSlug;
 
     protected $fillable = [
@@ -72,20 +73,12 @@ abstract class BaseProduct extends Model
 
     public function getFormattedPrice(): string
     {
-        return Number::currency(
-            $this->price,
-            in: 'EUR',
-            locale: config('app.locale')
-        );
+        return $this->formatCurrency($this->price);
     }
 
     public function getFormattedPriceWithDiscount(): string
     {
-        return Number::currency(
-            $this->price_with_discount,
-            in: 'EUR',
-            locale: config('app.locale')
-        );
+        return $this->formatCurrency($this->price);
     }
 
     /**
