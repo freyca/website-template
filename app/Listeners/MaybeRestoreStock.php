@@ -20,11 +20,9 @@ class MaybeRestoreStock
     {
         $order = $event->order;
 
-        if ($order->status !== OrderStatus::Cancelled) {
-            return;
+        if ($order->wasChanged('status') && $order->status === OrderStatus::Cancelled) {
+            $this->restoreStock($order);
         }
-
-        $this->restoreStock($order);
     }
 
     private function restoreStock(Order $order): void
