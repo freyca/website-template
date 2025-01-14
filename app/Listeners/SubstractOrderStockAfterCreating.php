@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Event;
  * If listener runs sincronously, the relations will not be created, so the stock
  * will not be substracted
  */
-class SubstractOrderStock implements ShouldQueue
+class SubstractOrderStockAfterCreating implements ShouldQueue
 {
     /**
      * The time (seconds) before the job should be processed.
@@ -44,7 +44,7 @@ class SubstractOrderStock implements ShouldQueue
                 is_a($orderItem, OrderProduct::class) => $this->substractProductQuantity($orderItem),
                 is_a($orderItem, OrderProductSparePart::class) => $this->substractSparePartQuantity($orderItem),
                 is_a($orderItem, OrderProductComplement::class) => $this->substractComplementQuantity($orderItem),
-                default => throw new Exception('Order should not have this order item '.get_class($orderItem))
+                default => throw new Exception('Order should not have this order item ' . get_class($orderItem))
             };
         }
     }
