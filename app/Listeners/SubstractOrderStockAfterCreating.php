@@ -44,7 +44,7 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
                 is_a($orderItem, OrderProduct::class) => $this->substractProductQuantity($orderItem),
                 is_a($orderItem, OrderProductSparePart::class) => $this->substractSparePartQuantity($orderItem),
                 is_a($orderItem, OrderProductComplement::class) => $this->substractComplementQuantity($orderItem),
-                default => throw new Exception('Order should not have this order item ' . get_class($orderItem))
+                default => throw new Exception('Order should not have this order item '.get_class($orderItem))
             };
         }
     }

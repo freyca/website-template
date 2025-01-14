@@ -22,6 +22,9 @@
  - filter correctly complements and spare parts by features
  - create listeners for outofstock events
 
+ IMPORTANT: maybe susbtract order stock in OrderProduct and not in Order
+ This could be more eficient, since we do not have to wait for queue and we always have previous state
+
  ## Metodos de pago
  - sequra para financiación
  - paypal
