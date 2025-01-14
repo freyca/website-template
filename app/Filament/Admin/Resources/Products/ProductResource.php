@@ -68,11 +68,13 @@ class ProductResource extends Resource
                                         ->required()
                                         ->moveFiles()
                                         ->orientImagesFromExif(false)
+                                        ->preserveFilenames()
                                         ->directory('category-images'),
                                     Forms\Components\FileUpload::make('small_image')
                                         ->label(__('Small image'))
                                         ->required()
                                         ->moveFiles()
+                                        ->preserveFilenames()
                                         ->orientImagesFromExif(false)
                                         ->directory('category-images'),
                                 ]

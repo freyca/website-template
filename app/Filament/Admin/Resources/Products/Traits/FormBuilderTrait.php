@@ -211,6 +211,7 @@ trait FormBuilderTrait
                     ->reorderable()
                     ->moveFiles()
                     ->orientImagesFromExif(false)
+                    ->preserveFilenames()
                     ->directory('product-images'),
 
                 Forms\Components\FileUpload::make('images')
@@ -220,6 +221,7 @@ trait FormBuilderTrait
                     ->reorderable()
                     ->moveFiles()
                     ->orientImagesFromExif(false)
+                    ->preserveFilenames()
                     ->directory('product-images'),
 
             ])->columns(2);
