@@ -34,6 +34,10 @@ class ProductGrid extends Component
     #[On('refreshProductGrid')]
     public function getFilteredProducts(array $filters): void
     {
+        // Database has prices in cents
+        $filters['minPrice'] = intval($filters['minPrice']) * 100;
+        $filters['maxPrice'] = intval($filters['maxPrice']) * 100;
+
         $filters = new FilterDTO(
             $filters['minPrice'],
             $filters['maxPrice'],
