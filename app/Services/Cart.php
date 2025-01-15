@@ -85,6 +85,11 @@ final class Cart
         return $this->repository->getTotalCost($formatted);
     }
 
+    public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
+    {
+        return $this->repository->getTotalCostWithoutTaxes($formatted);
+    }
+
     public function getTotalDiscount(bool $formatted = false): float|string
     {
         return $this->repository->getTotalDiscount($formatted);

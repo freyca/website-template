@@ -1,4 +1,7 @@
 <div>
+    <p class="py-2 text-xl font-semibold text-gray-900 ">
+        {{ __('Products') }}
+    </p>
     @inject('cart', 'App\Services\Cart')
 
     @if ($cart->isEmpty())

@@ -2,11 +2,16 @@
     @inject('cart', 'App\Services\Cart')
 
     <div class="mx-auto max-w-screen-xl px-4 xl:px-0">
+
         <h2 class="mx-auto text-xl text-center font-semibold text-gray-900 sm:text-2xl">
-            {{ __('Shopping Cart') }}
+            @if ($cart->isEmpty())
+                {{ __('Shopping Cart') }}
+            @else
+                {{ __('Order summary') }}
+            @endif
         </h2>
 
-        <div class="mt-6 sm:mt-8 md:gap-6 xl:flex xl:items-start xl:gap-8">
+        <div class="mt-6 sm:mt-8 md:gap-6 xl:flex xl:items-start xl:gap-4">
             @if ($cart->isEmpty())
                 <div class="mx-auto text-center">
                     <p class="container mx-auto">
@@ -22,8 +27,7 @@
                     </div>
                 </div>
             @else
-                @livewire('cart-items')
-                @livewire('cart.cart-sidebar')
+                @livewire('cart.cart-container')
             @endif
 
         </div>

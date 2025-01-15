@@ -52,7 +52,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($cart->has(strval($product->ean13))) {
             if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
-                throw new Exception('Not enough stock of '.$product->name);
+                throw new Exception('Not enough stock of ' . $product->name);
             }
 
             $productInCart = $cart->get(strval($product->ean13));
@@ -153,6 +153,24 @@ class SessionCartRepository implements CartRepositoryInterface
         });
 
         return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        $total_without_taxes = $total * 0.79;
+
+        return $formatted ? $this->formatCurrency($total_without_taxes) : $total_without_taxes;
     }
 
     public function getTotalDiscount(bool $formatted = false): float|string

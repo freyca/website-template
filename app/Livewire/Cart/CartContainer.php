@@ -9,7 +9,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class CartSidebar extends Component
+class CartContainer extends Component
 {
     #[On('refresh-cart')]
     public function render(): string|View
@@ -25,6 +25,6 @@ class CartSidebar extends Component
         blade;
         }
 
-        return view('livewire.cart.cart-sidebar');
+        return view('livewire.cart.cart-container');
     }
 }

@@ -1,20 +1,21 @@
 @inject('cart', 'App\Services\Cart')
 
-<div class="my-6 sm:mt-8 max-w-4xl flex-1 space-y-6 xl:mt-6 lg:w-full">
+<div class="max-w-4xl flex-1 space-y-6 ">
 
-    <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-        <p class="text-xl font-semibold text-gray-900 ">
-            {{ __('Order summary') }}
-        </p>
+    <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        @livewire('cart-items')
 
-        <div class="space-y-4">
+        <x-cart.shipping-adress />
+        <x-cart.payment-methods />
+
+        <div class="space-y-4 mt-8">
             @if ($cart->getTotalDiscount() > 0)
                 <div class="space-y-2">
                     <dl class="flex items-center justify-between gap-4">
                         <dt class="text-base font-normal text-gray-500">
-                            {{ __('Precio') }}
+                            {{ __('Price') }}
                         </dt>
-                        <dd class="text-base font-medium text-gray-900">
+                        <dd class="text-base line-through font-medium text-gray-900">
                             {{ $cart->getTotalCostWithoutDiscount(true) }}
                         </dd>
                     </dl>
@@ -23,7 +24,7 @@
                         <dt class="text-base font-normal text-gray-500">
                             {{ __('Savings') }}
                         </dt>
-                        <dd class="text-base font-medium text-green-600">
+                        <dd class="text-base font-bold text-lime-500">
                             - {{ $cart->getTotalDiscount(true) }}
                         </dd>
                     </dl>
@@ -31,11 +32,20 @@
             @endif
 
             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
-                <dt class="text-base font-bold text-gray-900">
+                <dt class="text-base font-medium text-gray-700">
                     {{ __('Total') }}
                 </dt>
-                <dd class="text-base font-bold text-gray-900">
+                <dd class="text-base font-medium text-gray-700">
                     {{ $cart->getTotalCost(true) }}
+                </dd>
+            </dl>
+
+            <dl class="flex items-center justify-between gap-4">
+                <dt class="text-base font-bold text-gray-900">
+                    {{ __('Without taxes') }}
+                </dt>
+                <dd class="text-base font-bold text-gray-900">
+                    {{ $cart->getTotalCostWithoutTaxes(true) }}
                 </dd>
             </dl>
         </div>
