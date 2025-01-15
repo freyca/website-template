@@ -12,6 +12,6 @@ class EmptyCart extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.empty-cart');
+        return view('components.cart.empty-cart');
     }
 }
