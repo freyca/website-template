@@ -4,19 +4,13 @@
     </p>
     @inject('cart', 'App\Services\Cart')
 
-    @if ($cart->isEmpty())
-        @php
-            redirect()->route('checkout.cart');
-        @endphp
-    @else
-        @foreach ($cart->getCart() as $cartItem)
-            @livewire(
-                'cart.product-card',
-                [
-                    'product' => data_get($cartItem, 'product'),
-                ],
-                key('product-' . data_get($cartItem, 'product.ean13'))
-            )
-        @endforeach
-    @endif
+    @foreach ($cart->getCart() as $cartItem)
+        @livewire(
+            'cart.product-card',
+            [
+                'product' => data_get($cartItem, 'product'),
+            ],
+            key('product-' . data_get($cartItem, 'product.ean13'))
+        )
+    @endforeach
 </div>

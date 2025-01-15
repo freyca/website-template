@@ -14,17 +14,6 @@ class CartContainer extends Component
     #[On('refresh-cart')]
     public function render(): string|View
     {
-        /** @var Cart */
-        $cart = app(Cart::class);
-
-        if ($cart->getTotalQuantity() === 0) {
-            return <<<'blade'
-            <span>
-            </span>
-
-        blade;
-        }
-
         return view('livewire.cart.cart-container');
     }
 }
