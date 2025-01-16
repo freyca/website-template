@@ -14,67 +14,69 @@
             <x-cart.empty-cart />
         @else
 
-        <div class="">
-            <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                @livewire('cart-items')
+        <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            @livewire('cart-items')
 
-                <x-cart.shipping-adress />
-                <x-cart.payment-methods />
+            <x-cart.shipping-adress />
+            <x-cart.payment-methods />
 
-                <div class="space-y-4 mt-8">
+            <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
+                <div class="rounded-lg border bg-white p-2 shadow-sm md:p-6 space-x-6">
+                    <div class="space-y-2">
                     @if ($cart->getTotalDiscount() > 0)
-                        <div class="space-y-2">
-                            <dl class="flex items-center justify-between gap-4">
-                                <dt class="text-base font-normal text-gray-500">
-                                    {{ __('Price') }}
-                                </dt>
-                                <dd class="text-base line-through font-medium text-gray-900">
-                                    {{ $cart->getTotalCostWithoutDiscount(true) }}
-                                </dd>
-                            </dl>
+                        <dl class="flex items-center justify-between gap-4">
+                            <dt class="text-base font-normal text-gray-500">
+                                {{ __('Price') }}
+                            </dt>
+                            <dd class="text-base line-through font-medium text-gray-900">
+                                {{ $cart->getTotalCostWithoutDiscount(true) }}
+                            </dd>
+                        </dl>
 
-                            <dl class="flex items-center justify-between gap-4">
-                                <dt class="text-base font-normal text-gray-500">
-                                    {{ __('Savings') }}
-                                </dt>
-                                <dd class="text-base font-bold text-lime-500">
-                                    - {{ $cart->getTotalDiscount(true) }}
-                                </dd>
-                            </dl>
-                        </div>
+                        <dl class="flex items-center justify-between gap-4">
+                            <dt class="text-base font-normal text-gray-500">
+                                {{ __('Savings') }}
+                            </dt>
+                            <dd class="text-base font-bold text-lime-500">
+                                - {{ $cart->getTotalDiscount(true) }}
+                            </dd>
+                        </dl>
                     @endif
 
-                    <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
-                        <dt class="text-base font-medium text-gray-700">
-                            {{ __('Total') }}
-                        </dt>
-                        <dd class="text-base font-medium text-gray-700">
-                            {{ $cart->getTotalCost(true) }}
-                        </dd>
-                    </dl>
+                        <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+                            <dt class="text-base font-medium text-gray-700">
+                                {{ __('Total') }}
+                            </dt>
+                            <dd class="text-base font-medium text-gray-700">
+                                {{ $cart->getTotalCost(true) }}
+                            </dd>
+                        </dl>
 
-                    <dl class="flex items-center justify-between gap-4">
-                        <dt class="text-base font-bold text-gray-900">
-                            {{ __('Without taxes') }}
-                        </dt>
-                        <dd class="text-base font-bold text-gray-900">
-                            {{ $cart->getTotalCostWithoutTaxes(true) }}
-                        </dd>
-                    </dl>
-                </div>
+                        <dl class="flex items-center justify-between gap-4">
+                            <dt class="text-base font-bold text-gray-900">
+                                {{ __('Without taxes') }}
+                            </dt>
+                            <dd class="text-base font-bold text-gray-900">
+                                {{ $cart->getTotalCostWithoutTaxes(true) }}
+                            </dd>
+                        </dl>
 
-                <a href="/checkout"
-                    class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500">
-                    {{ __('Proceed to Checkout') }}
-                </a>
+                        <div class="mt-6">
+                            <a href="/checkout"
+                            class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500">
+                                {{ __('Proceed to Checkout') }}
+                            </a>
 
-                <div class="flex items-center justify-center gap-2">
-                    <span class="text-sm font-normal text-gray-500"> {{ __('or') }} </span>
-                    <a href="/" title=""
-                        class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 underline hover:no-underline">
-                        {{ __('Continue shopping') }}
-                        @svg('heroicon-s-arrow-right-circle', 'w-5 h-5')
-                    </a>
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-sm font-normal text-gray-500"> {{ __('or') }} </span>
+                                <a href="/" title=""
+                                    class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 underline hover:no-underline">
+                                    {{ __('Continue shopping') }}
+                                    @svg('heroicon-s-arrow-right-circle', 'w-5 h-5')
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
