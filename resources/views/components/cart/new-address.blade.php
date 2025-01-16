@@ -26,7 +26,7 @@
 
 
 <div id="newAddressForm"
-    class="flex-col my-4
+    class="flex-col pt-4
     @if ($shouldBeChecked !== true) {{ 'hidden' }} @endif"
     >
     <div class="w-full xl:grid xl:grid-cols-2 xl:gap-5">
