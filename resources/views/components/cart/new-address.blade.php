@@ -1,4 +1,4 @@
-<li>
+<li class="mb-8">
     <label for="newAddress" class="block relative">
         <input
             type="radio"
@@ -29,37 +29,103 @@
     class="flex-col my-4
     @if ($shouldBeChecked !== true) {{ 'hidden' }} @endif"
     >
-    <div class="w-full xl:grid xl:grid-cols-2">
+    <div class="w-full xl:grid xl:grid-cols-2 xl:gap-5">
         <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                    Ciudad
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="name">
+                    {{ __('Name') }}
                 </label>
             </div>
-            <div class="md:w-2/3">
-                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="inline-full-name" type="text">
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="name" type="text">
             </div>
         </div>
 
         <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                    Código postal
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="surname">
+                    {{ __('Surname') }}
                 </label>
             </div>
-            <div class="md:w-2/3">
-                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="inline-full-name" type="text">
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="surname" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="cif">
+                    {{ __('NIF/CIF') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="cif" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="phone">
+                    {{ __('Phone') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="phone" type="text">
             </div>
         </div>
 
         <div class="md:flex md:items-center mb-6 xl:col-span-2">
-            <div class="">
-                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                    Dirección
+            <div class="md:w-1/4 xl:w-min">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="address">
+                    {{ __('Address') }}
                 </label>
             </div>
             <div class="md:w-full">
-                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="inline-full-name" type="text">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="address" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="city">
+                    {{ __('City') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="city" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="province">
+                    {{ __('Province') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="province" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="zip-code">
+                    {{ __('Zip code') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="zip-code" type="text">
+            </div>
+        </div>
+
+        <div class="md:flex md:items-center mb-6">
+            <div class="md:w-1/4">
+                <label class="block text-gray-700 font-bold md:text-right mb-1 md:mb-0 pr-4" for="country">
+                    {{ __('Country') }}
+                </label>
+            </div>
+            <div class="md:w-full">
+                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none" id="country" type="text">
             </div>
         </div>
     </div>
