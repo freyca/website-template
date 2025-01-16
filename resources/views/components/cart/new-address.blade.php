@@ -133,30 +133,32 @@
 
 <script>
     function showNewAddressForm() {
-        if (document.getElementById('newAddress').checked) {
-            // Make elements required
-            document.getElementById('address').required = true;
-            document.getElementById('city').required = true;
-            document.getElementById('postalCode').required = true;
+        const requiredElements = [
+            'name',
+            'surname',
+            'cif',
+            'phone',
+            'address',
+            'city',
+            'province',
+            'zip-code',
+            'country'
+        ];
 
-            // Enable options
-            document.getElementById('address').disabled = false;
-            document.getElementById('city').disabled = false;
-            document.getElementById('postalCode').disabled = false;
+        if (document.getElementById('newAddress').checked) {
+            for (const element of requiredElements) {
+                document.getElementById('address').required = true;
+                document.getElementById('address').disabled = false;
+            }
 
             document.getElementById('newAddressForm').style.display = 'flex';
         } else {
+            for (const element of requiredElements) {
+                document.getElementById('address').required = false;
+                document.getElementById('address').disabled = true;
+            }
+
             document.getElementById('newAddressForm').style.display = 'none';
-
-            // Does not make it required
-            document.getElementById('address').required = false;
-            document.getElementById('city').required = false;
-            document.getElementById('postalCode').required = false;
-
-            // Disable elements
-            document.getElementById('address').disabled = true;
-            document.getElementById('city').disabled = true;
-            document.getElementById('postalCode').disabled = true;
         }
     }
 </script>
