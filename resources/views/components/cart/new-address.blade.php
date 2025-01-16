@@ -1,4 +1,4 @@
-<li class="mb-8">
+<li class="mb-8 @if (auth()->user() === null) {{ 'hidden' }} @endif">
     <label for="newAddress" class="block relative">
         <input
             type="radio"
