@@ -78,7 +78,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function getShippingForm($shipping_addresses = [])
+    private function getShippingForm($shipping_addresses = new Collection)
     {
         return Section::make(__('Shipping Address'))
             ->icon('heroicon-s-truck')
@@ -90,18 +90,25 @@ class CheckoutForm extends Component implements HasForms
                     ->default($shipping_addresses->keys()->first())
                     ->live()
                     ->hidden(function () use ($shipping_addresses) {
-                        return $shipping_addresses === [];
+                        // If there is no addresses
+                        return $shipping_addresses->count() === 0;
                     }),
                 $this->addressFormFields('shipping', $shipping_addresses === [])
                     ->hidden(
-                        function (Get $get) {
+                        function (Get $get) use ($shipping_addresses) {
+                            // If there is no addresses
+                            if (count($shipping_addresses) === 0) {
+                                return false;
+                            }
+
+                            // If is checked 'new address
                             return $get('shipping_address_id') !== "0";
                         }
                     )
             ]);
     }
 
-    private function getBillingForm($shipping_addresses = [])
+    private function getBillingForm($billing_addresses  = new Collection)
     {
         return Section::make(__('Billing Address'))
             ->icon('heroicon-s-credit-card')
@@ -112,24 +119,35 @@ class CheckoutForm extends Component implements HasForms
                     ->label(__('Same as shipping')),
                 Select::make('billing_address_id')
                     ->hiddenLabel()
-                    ->options($shipping_addresses)
+                    ->options($billing_addresses)
                     ->selectablePlaceholder(false)
-                    ->default($shipping_addresses->keys()->first())
+                    ->default($billing_addresses->keys()->first())
                     ->live()
                     ->hidden(
-                        // Hidden if is checked 'use shipping' or user does not has shipping addresses
-                        function (Get $get) use ($shipping_addresses) {
-                            return $get('use_shipping_address') || $shipping_addresses === [];
-                        }
-                    ),
-                $this->addressFormFields('billing')
-                    ->hidden(
-                        // Hidden in is checked 'use shipping' or is selected 'new address'
-                        function (Get $get) {
+                        function (Get $get) use ($billing_addresses) {
+                            // If is checked use_shipping_address
                             if ($get('use_shipping_address')) {
                                 return true;
                             }
 
+                            // If there is no addresses
+                            return $billing_addresses->count() === 0;
+                        }
+                    ),
+                $this->addressFormFields('billing')
+                    ->hidden(
+                        function (Get $get) use ($billing_addresses) {
+                            // If is checked use_shipping_address
+                            if ($get('use_shipping_address')) {
+                                return true;
+                            }
+
+                            // If there is no billing addresses
+                            if ($billing_addresses->count() === 0) {
+                                return false;
+                            }
+
+                            // If is checked "New address
                             return $get('billing_address_id') !== "0";
                         }
                     )
