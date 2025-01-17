@@ -98,7 +98,7 @@ class CheckoutForm extends Component implements HasForms
                         // If there is no addresses
                         return $shipping_addresses->count() === 0;
                     }),
-                $this->addressFormFields('shipping', $shipping_addresses === [])
+                $this->addressFormFields('shipping', auth()->user() === null)
                     ->hidden(
                         function (Get $get) use ($shipping_addresses) {
                             // If there is no addresses
@@ -215,8 +215,13 @@ class CheckoutForm extends Component implements HasForms
                 ->default(false)
                 ->label(__('Purchase as guest'))
                 ->hidden(function () use ($form_field_name, $is_guest) {
-                    // Hidden on billing and for registered users
-                    return $form_field_name === 'billing' || $is_guest === false;
+                    // Hidden on billing
+                    if ($form_field_name === 'billing') {
+                        return true;
+                    }
+
+                    // Hidden if user is registered
+                    return $is_guest === false;
                 })
         ]);
     }
