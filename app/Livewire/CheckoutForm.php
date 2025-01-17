@@ -122,7 +122,12 @@ class CheckoutForm extends Component implements HasForms
                     ->live(),
                 $this->addressFormFields('billing')
                     ->hidden(
+                        // Hidden in is checked 'use shipping' or is selected 'new address'
                         function (Get $get) {
+                            if ($get('use_shipping_address')) {
+                                return true;
+                            }
+
                             return $get('billing_address_id') !== "0";
                         }
                     )
