@@ -20,7 +20,7 @@
                     <dt class="text-base font-normal text-gray-500">
                         {{ __('Savings') }}
                     </dt>
-                    <dd class="text-base font-bold text-lime-500">
+                    <dd class="text-base font-bold text-lime-600">
                         - {{ $cart->getTotalDiscount(true) }}
                     </dd>
                 </dl>

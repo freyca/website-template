@@ -63,11 +63,14 @@
 
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
-                    <p class="text-base font-bold text-primary-700 line-through">
+                    <p class="text-base line-through font-medium text-gray-900">
                         {{ $cart->getTotalCostforProductWithoutDiscount($product, true) }}
                     </p>
+
+                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, true) }}</p>
+                @else
+                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
                 @endif
-                <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
             </div>
 
         </div>
