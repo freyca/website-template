@@ -83,14 +83,20 @@ class CheckoutForm extends Component implements HasForms
         return Section::make(__('Shipping Address'))
             ->icon('heroicon-s-truck')
             ->schema([
-                Select::make('address_id')
+                Select::make('shipping_address_id')
                     ->hiddenLabel()
                     ->options($shipping_addresses)
                     ->selectablePlaceholder(false)
                     ->hidden(function () use ($shipping_addresses) {
                         return $shipping_addresses === [];
-                    }),
+                    })
+                    ->live(),
                 $this->addressFormFields('shipping', $shipping_addresses === [])
+                    ->hidden(
+                        function (Get $get) {
+                            return $get('shipping_address_id') !== "0";
+                        }
+                    )
             ]);
     }
 
@@ -103,7 +109,7 @@ class CheckoutForm extends Component implements HasForms
                     ->live()
                     ->default(true)
                     ->label(__('Same as shipping')),
-                Select::make('address_id')
+                Select::make('billing_address_id')
                     ->hiddenLabel()
                     ->options($shipping_addresses)
                     ->selectablePlaceholder(false)
@@ -112,9 +118,14 @@ class CheckoutForm extends Component implements HasForms
                         function (Get $get) use ($shipping_addresses) {
                             return $get('use_shipping_address') || $shipping_addresses === [];
                         }
-                    ),
+                    )
+                    ->live(),
                 $this->addressFormFields('billing')
-                    ->hidden(fn(Get $get) => $get('use_shipping_address'))
+                    ->hidden(
+                        function (Get $get) {
+                            return $get('billing_address_id') !== "0";
+                        }
+                    )
             ]);
     }
 
