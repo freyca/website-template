@@ -87,10 +87,11 @@ class CheckoutForm extends Component implements HasForms
                     ->hiddenLabel()
                     ->options($shipping_addresses)
                     ->selectablePlaceholder(false)
+                    ->default($shipping_addresses->keys()->first())
+                    ->live()
                     ->hidden(function () use ($shipping_addresses) {
                         return $shipping_addresses === [];
-                    })
-                    ->live(),
+                    }),
                 $this->addressFormFields('shipping', $shipping_addresses === [])
                     ->hidden(
                         function (Get $get) {
@@ -113,13 +114,14 @@ class CheckoutForm extends Component implements HasForms
                     ->hiddenLabel()
                     ->options($shipping_addresses)
                     ->selectablePlaceholder(false)
+                    ->default($shipping_addresses->keys()->first())
+                    ->live()
                     ->hidden(
                         // Hidden if is checked 'use shipping' or user does not has shipping addresses
                         function (Get $get) use ($shipping_addresses) {
                             return $get('use_shipping_address') || $shipping_addresses === [];
                         }
-                    )
-                    ->live(),
+                    ),
                 $this->addressFormFields('billing')
                     ->hidden(
                         // Hidden in is checked 'use shipping' or is selected 'new address'
