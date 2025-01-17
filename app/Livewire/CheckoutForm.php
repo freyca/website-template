@@ -19,6 +19,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 
 class CheckoutForm extends Component implements HasForms
 {
@@ -48,6 +49,7 @@ class CheckoutForm extends Component implements HasForms
         dd($this->form->getState());
     }
 
+    #[On('refresh-cart')]
     public function render(): View
     {
         return view('livewire.checkout-form');
