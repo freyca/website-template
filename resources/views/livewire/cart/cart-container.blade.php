@@ -22,7 +22,7 @@
 
             <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
                 <div class="rounded-lg border bg-white p-2 shadow-sm md:p-6 space-x-6">
-                    <div class="space-y-2">
+                    <div class="space-y-3">
                     @if ($cart->getTotalDiscount() > 0)
                         <dl class="flex items-center justify-between gap-4">
                             <dt class="text-base font-normal text-gray-500">
@@ -43,7 +43,7 @@
                         </dl>
                     @endif
 
-                        <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2">
+                        <dl class="flex items-center justify-between gap-4 @if ($cart->getTotalDiscount() > 0) {{ 'border-t border-gray-200 pt-2' }} @endif">
                             <dt class="text-base font-medium text-gray-700">
                                 {{ __('Total') }}
                             </dt>
@@ -61,7 +61,7 @@
                             </dd>
                         </dl>
 
-                        <div class="mt-6">
+                        <div class="space-y-3">
                             <a href="/checkout"
                             class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500">
                                 {{ __('Proceed to Checkout') }}
