@@ -58,7 +58,10 @@ class CheckoutForm extends Component implements HasForms
     private function getFormForLoggedInUser(User $user, Form $form): Form
     {
         $shipping_addresses = UserMetadata::where('user_id', $user->id)->pluck('address', 'id');
-        $shipping_addresses->put(0, __('New address'));
+
+        if ($shipping_addresses->count() !== 0) {
+            $shipping_addresses->put(0, __('New address'));
+        }
 
         return $form
             ->schema([
