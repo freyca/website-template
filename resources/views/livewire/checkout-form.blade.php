@@ -26,21 +26,21 @@
                 </dl>
             @endif
 
-                <dl class="flex items-center justify-between gap-4 @if ($cart->getTotalDiscount() > 0) {{ 'border-t border-gray-200 pt-2' }} @endif">
-                    <dt class="text-base font-medium text-gray-700">
-                        {{ __('Total') }}
-                    </dt>
-                    <dd class="text-base font-medium text-gray-700">
-                        {{ $cart->getTotalCost(true) }}
-                    </dd>
-                </dl>
-
                 <dl class="flex items-center justify-between gap-4">
                     <dt class="text-base font-bold text-gray-900">
                         {{ __('Without taxes') }}
                     </dt>
                     <dd class="text-base font-bold text-gray-900">
                         {{ $cart->getTotalCostWithoutTaxes(true) }}
+                    </dd>
+                </dl>
+
+                <dl class="flex items-center justify-between gap-4 @if ($cart->getTotalDiscount() > 0) {{ 'border-t border-gray-200 pt-2' }} @endif">
+                    <dt class="text-base font-medium text-gray-700">
+                        {{ __('Total') }}
+                    </dt>
+                    <dd class="text-base font-medium text-gray-700">
+                        {{ $cart->getTotalCost(true) }}
                     </dd>
                 </dl>
 

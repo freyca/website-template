@@ -69,4 +69,9 @@ return [
      */
     'category-image-storage' => public_path('/storage/category-images'),
 
+    /**
+     * Taxes
+     */
+
+    'tax_iva' => 0.21,
 ];

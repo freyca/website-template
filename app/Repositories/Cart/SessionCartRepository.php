@@ -168,7 +168,7 @@ class SessionCartRepository implements CartRepositoryInterface
             return data_get($item, 'quantity') * $price;
         });
 
-        $total_without_taxes = $total * 0.79;
+        $total_without_taxes = $total * (1 - config('custom.tax_iva'));
 
         return $formatted ? $this->formatCurrency($total_without_taxes) : $total_without_taxes;
     }
