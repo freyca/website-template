@@ -19,6 +19,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 
 class CheckoutForm extends Component implements HasForms
@@ -34,11 +35,12 @@ class CheckoutForm extends Component implements HasForms
 
     public function form(Form $form): Form
     {
-        $user = auth()->user();
+        /** @var User */
+        $user = Auth::user();
 
         $form = match ($user) {
-            null => $this->getFormForNotLoggedInUser($form),
-            default => $this->getFormForLoggedInUser($user, $form),
+            null => $this->buildFormForNotLoggedInUser($form),
+            default => $this->buildFormForLoggedInUser($user, $form),
         };
 
         return $form->statePath('checkoutFormData');
@@ -55,7 +57,7 @@ class CheckoutForm extends Component implements HasForms
         return view('livewire.checkout-form');
     }
 
-    private function getFormForLoggedInUser(User $user, Form $form): Form
+    private function buildFormForLoggedInUser(User $user, Form $form): Form
     {
         $shipping_addresses = UserMetadata::where('user_id', $user->id)->pluck('address', 'id');
 
@@ -72,7 +74,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function getFormForNotLoggedInUser(Form $form): Form
+    private function buildFormForNotLoggedInUser(Form $form): Form
     {
         return $form
             ->schema([
@@ -98,7 +100,7 @@ class CheckoutForm extends Component implements HasForms
                         // If there is no addresses
                         return $shipping_addresses->count() === 0;
                     }),
-                $this->addressFormFields('shipping', auth()->user() === null)
+                $this->addressFormFields('shipping', Auth::user() === null)
                     ->hidden(
                         function (Get $get) use ($shipping_addresses) {
                             // If there is no addresses
