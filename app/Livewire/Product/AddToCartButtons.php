@@ -35,6 +35,6 @@ class AddToCartButtons extends Component
 
         $this->inCart = $cart->hasProduct($this->product);
 
-        return view('livewire.product.product-variant-add-to-cart-buttons');
+        return view('livewire.product.add-to-cart-buttons');
     }
 }
