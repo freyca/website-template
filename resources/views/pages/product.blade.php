@@ -5,7 +5,7 @@
         <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
         <h2 class="mb-4">{{ $product->slogan }}</h2>
 
-        <div class="grid gap-20 lg:grid-cols-1 xl:grid-cols-2">
+        <div class="grid gap-5 lg:grid-cols-1 xl:grid-cols-2">
             <x-product.product-image-gallery :product="$product" />
 
             <div class="text-gray-700 text-justify">
