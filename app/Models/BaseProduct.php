@@ -78,7 +78,7 @@ abstract class BaseProduct extends Model
 
     public function getFormattedPriceWithDiscount(): string
     {
-        return $this->formatCurrency($this->price);
+        return $this->formatCurrency($this->price_with_discount);
     }
 
     /**
