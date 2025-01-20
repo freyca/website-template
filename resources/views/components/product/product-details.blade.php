@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 items-center my-2 xl:my-4">
+<div class="grid grid-cols-1 items-center my-2 xl:my-4 gap-2">
     @if (count($variants))
         @livewire('product.product-variant-selector', ['variants' => $variants])
         <br />
