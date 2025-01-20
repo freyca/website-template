@@ -173,11 +173,9 @@ class CheckoutForm extends Component implements HasForms
                 ->prefixIcon('heroicon-c-user-group')
                 ->required(),
             TextInput::make($form_field_name . '_cif')
-                ->placeholder(__('NIF/CIF'))
+                ->placeholder(__('NIF/CIF') . ' (' . __('optional') . ')')
                 ->hiddenLabel()
-                ->numeric()
-                ->prefixIcon('heroicon-s-identification')
-                ->required(),
+                ->prefixIcon('heroicon-s-identification'),
             TextInput::make($form_field_name . '_phone')
                 ->placeholder(__('Phone'))
                 ->hiddenLabel()
