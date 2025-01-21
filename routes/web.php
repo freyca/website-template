@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -33,11 +32,7 @@ Route::group(['as' => 'checkout.'], function () {
         return view('pages.cart');
     })->name('cart');
 
-    Route::get('checkout', [CheckOutController::class, 'index'])
-        ->name('index');
-
-    Route::post('checkout', [CheckOutController::class, 'paymentAndShipping'])
-        ->name('validate');
+    // POST requests sents to checkout are managed by livewire in App\Livewire\CheckoutForm
 });
 
 /** Payment */
