@@ -130,7 +130,7 @@ final class Cart
         $order->payment_method = $paymentMethod;
         $order->status = OrderStatus::PaymentPending;
         $order->user_id = $user->id;
-        $order->user_metadata_id = $Address->id;
+        $order->address_id = $Address->id;
 
         $order->save();
 

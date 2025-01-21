@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\PaymentMethod;
 use App\Models\User;
-use App\Models\Adress;
+use App\Models\Address;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Group;
 use Livewire\Component;
@@ -59,7 +59,7 @@ class CheckoutForm extends Component implements HasForms
 
     private function buildFormForLoggedInUser(User $user, Form $form): Form
     {
-        $shipping_addresses = Adress::where('user_id', $user->id)->pluck('address', 'id');
+        $shipping_addresses = Address::where('user_id', $user->id)->pluck('address', 'id');
 
         if ($shipping_addresses->count() !== 0) {
             $shipping_addresses->put(0, __('New address'));

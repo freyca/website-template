@@ -29,7 +29,7 @@ class Order extends Model
         'payment_method',
         'status',
         'user_id',
-        'user_metadata_id',
+        'address_id',
         'payment_gateway_response',
     ];
 
@@ -68,7 +68,7 @@ class Order extends Model
      */
     public function address(): BelongsTo
     {
-        return $this->belongsTo(Adress::class);
+        return $this->belongsTo(Address::class);
     }
 
     /**

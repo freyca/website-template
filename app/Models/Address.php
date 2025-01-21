@@ -21,9 +21,16 @@ class Address extends Model
 
     protected $fillable = [
         'user_id',
+        'address_type',
+        'name',
+        'surname',
+        'financial_number',
+        'phone',
         'address',
         'city',
-        'postal_code',
+        'state',
+        'zip_code',
+        'country',
     ];
 
     /**
@@ -36,14 +43,14 @@ class Address extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (Address $Address) {
+        static::creating(function (Address $address) {
             /** @var ?\App\Models\User $user */
             $user = Auth::getUser();
 
             match (true) {
                 $user === null => true,
                 $user->role === Role::Admin => true,
-                default => $Address->user_id = $user->id,
+                default => $address->user_id = $user->id,
             };
         });
     }

@@ -55,7 +55,7 @@ class OrderResource extends Resource
                             }
                         })
                         ->live(onBlur: true),
-                    Forms\Components\Select::make('user_metadata_id')
+                    Forms\Components\Select::make('address_id')
                         ->relationship('Address', 'address')
                         ->options(
                             function (Get $get) {

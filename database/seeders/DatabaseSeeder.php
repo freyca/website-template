@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AddressType;
 use App\Enums\Role;
 use App\Models\Category;
 use App\Models\Order;
@@ -82,9 +83,16 @@ class DatabaseSeeder extends Seeder
 
             Address::create([
                 'user_id' => User::where('email', 'fran@gmail.com')->first()->id,
+                'address_type' => AddressType::Shipping,
+                'name' => 'Francisco',
+                'surname' => 'Rey Castedo',
+                'financial_number' => '00000000F',
+                'phone' => 617547428,
                 'address' => 'Lamas de prado 86',
                 'city' => 'Lugo',
-                'postal_code' => 27004,
+                'state' => 'Galiza',
+                'zip_code' => 27004,
+                'country' => 'Galiza',
             ]);
         }
     }
