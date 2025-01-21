@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\UserMetadata;
+use App\Models\Address;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,17 +13,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_metadata', function (Blueprint $table) {
+        Schema::create('adress', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained()->nullable();
             $table->string('address');
             $table->string('city');
             $table->integer('postal_code');
             $table->timestamps();
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->foreignIdFor(UserMetadata::class)->constrained('user_metadata');
         });
     }
 
@@ -32,10 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_metadata');
-
-        Schema::table('orders', function ($table) {
-            $table->dropColumn('user_metadata_id');
-        });
+        Schema::dropIfExists('adress');
     }
 };

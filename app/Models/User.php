@@ -57,11 +57,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * @return HasMany<UserMetadata, $this>
+     * @return HasMany<Address, $this>
      */
-    public function userMetadata(): HasMany
+    public function Address(): HasMany
     {
-        return $this->hasMany(UserMetadata::class);
+        return $this->hasMany(Address::class);
     }
 
     /**

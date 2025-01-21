@@ -10,9 +10,9 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class UserMetadataRelationManager extends RelationManager
+class AddressRelationManager extends RelationManager
 {
-    protected static string $relationship = 'userMetadata';
+    protected static string $relationship = 'Address';
 
     public function form(Form $form): Form
     {

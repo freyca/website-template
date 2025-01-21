@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 
-class UserMetadataScope implements Scope
+class AddressScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
      *
-     * @param  Builder<\App\Models\UserMetadata>  $builder
+     * @param  Builder<\App\Models\Address>  $builder
      */
     public function apply(Builder $builder, Model $model): void
     {

@@ -17,7 +17,7 @@ class ShippingAdress extends Component
 
         $user = auth()->user();
         if ($user !== null) {
-            $this->adresses = $user->userMetadata;
+            $this->adresses = $user->Address;
         }
     }
 

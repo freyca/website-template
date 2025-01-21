@@ -13,7 +13,7 @@ use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
-use App\Models\UserMetadata;
+use App\Models\Address;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
 use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
@@ -123,14 +123,14 @@ final class Cart
         $this->repository->clear();
     }
 
-    public function buildOrder(PaymentMethod $paymentMethod, User $user, UserMetadata $userMetadata): Order
+    public function buildOrder(PaymentMethod $paymentMethod, User $user, Address $Address): Order
     {
         $order = new Order;
         $order->purchase_cost = (float) $this->getTotalCost();
         $order->payment_method = $paymentMethod;
         $order->status = OrderStatus::PaymentPending;
         $order->user_id = $user->id;
-        $order->user_metadata_id = $userMetadata->id;
+        $order->user_metadata_id = $Address->id;
 
         $order->save();
 

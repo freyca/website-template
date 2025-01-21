@@ -64,11 +64,11 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<UserMetadata, $this>
+     * @return BelongsTo<Adress, $this>
      */
-    public function userMetadata(): BelongsTo
+    public function address(): BelongsTo
     {
-        return $this->belongsTo(UserMetadata::class);
+        return $this->belongsTo(Adress::class);
     }
 
     /**

@@ -13,7 +13,7 @@ use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
-use App\Models\UserMetadata;
+use App\Models\Address;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -56,12 +56,12 @@ class OrderResource extends Resource
                         })
                         ->live(onBlur: true),
                     Forms\Components\Select::make('user_metadata_id')
-                        ->relationship('userMetadata', 'address')
+                        ->relationship('Address', 'address')
                         ->options(
                             function (Get $get) {
                                 $user_id = $get('user_id');
 
-                                return UserMetadata::where('user_id', $user_id)->pluck('address', 'id');
+                                return Address::where('user_id', $user_id)->pluck('address', 'id');
                             }
                         )
                         ->label(__('Shipping address'))
@@ -294,7 +294,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -313,7 +313,7 @@ class OrderResource extends Resource
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -355,7 +355,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_complement_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_complement_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -374,7 +374,7 @@ class OrderResource extends Resource
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -416,7 +416,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_spare_part_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_spare_part_id'])),
             ])
             ->defaultItems(1)
             ->columns([

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\Role;
-use App\Models\Scopes\UserMetadataScope;
-use Database\Factories\UserMetadataFactory;
+use App\Models\Scopes\AddressScope;
+use Database\Factories\AddressFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 
-#[ScopedBy([UserMetadataScope::class])]
-class UserMetadata extends Model
+#[ScopedBy([AddressScope::class])]
+class Address extends Model
 {
-    /** @use HasFactory<UserMetadataFactory> */
+    /** @use HasFactory<AddressFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -36,14 +36,14 @@ class UserMetadata extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (UserMetadata $userMetadata) {
+        static::creating(function (Address $Address) {
             /** @var ?\App\Models\User $user */
             $user = Auth::getUser();
 
             match (true) {
                 $user === null => true,
                 $user->role === Role::Admin => true,
-                default => $userMetadata->user_id = $user->id,
+                default => $Address->user_id = $user->id,
             };
         });
     }

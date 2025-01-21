@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Resources;
 
-use App\Filament\User\Resources\UserMetadataResource\Pages;
-use App\Models\UserMetadata;
+use App\Filament\User\Resources\AddressResource\Pages;
+use App\Models\Address;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class UserMetadataResource extends Resource
+class AddressResource extends Resource
 {
-    protected static ?string $model = UserMetadata::class;
+    protected static ?string $model = Address::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
@@ -70,9 +70,9 @@ class UserMetadataResource extends Resource
     public static function getPages(): array
     {
         return [
-            'create' => Pages\CreateUserMetadata::route('/create'),
-            'index' => Pages\ListUserMetadata::route('/'),
-            'edit' => Pages\EditUserMetadata::route('/{record}/edit'),
+            'create' => Pages\CreateAddress::route('/create'),
+            'index' => Pages\ListAddress::route('/'),
+            'edit' => Pages\EditAddress::route('/{record}/edit'),
         ];
     }
 

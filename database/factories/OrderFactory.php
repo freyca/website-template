@@ -26,7 +26,7 @@ class OrderFactory extends Factory
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
             'user_id' => $user->id,
-            'user_metadata_id' => $user->userMetadata->random()->id,
+            'user_metadata_id' => $user->Address->random()->id,
         ];
     }
 
