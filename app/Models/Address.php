@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\AddressType;
 use App\Enums\Role;
 use App\Models\Scopes\AddressScope;
 use Database\Factories\AddressFactory;
@@ -31,6 +32,10 @@ class Address extends Model
         'state',
         'zip_code',
         'country',
+    ];
+
+    protected $casts = [
+        'address_type' => AddressType::class,
     ];
 
     /**

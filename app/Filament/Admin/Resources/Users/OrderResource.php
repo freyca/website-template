@@ -13,7 +13,7 @@ use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
-use App\Models\Address;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -55,22 +55,42 @@ class OrderResource extends Resource
                             }
                         })
                         ->live(onBlur: true),
-                    Forms\Components\Select::make('address_id')
-                        ->relationship('Address', 'address')
-                        ->options(
-                            function (Get $get) {
-                                $user_id = $get('user_id');
-
-                                return Address::where('user_id', $user_id)->pluck('address', 'id');
-                            }
-                        )
-                        ->label(__('Shipping address'))
-                        ->required(),
                     Forms\Components\ToggleButtons::make('payment_method')
                         ->label(__('Payment method'))
                         ->inline()
                         ->options(PaymentMethod::class)
                         ->required(),
+                    Forms\Components\Select::make('shipping_address_id')
+                        ->relationship('Address', 'shippingAddress')
+                        ->options(
+                            function (Get $get) {
+                                $user_id = $get('user_id');
+                                $user = User::find($user_id);
+
+                                return match ($user) {
+                                    null => collect(),
+                                    default => $user->shippingAddresses->pluck('address', 'id'),
+                                };
+                            }
+                        )
+                        ->columnSpanFull()
+                        ->label(__('Shipping address'))
+                        ->required(),
+                    Forms\Components\Select::make('billing_address_id')
+                        ->relationship('Address', 'billingAddress')
+                        ->options(
+                            function (Get $get) {
+                                $user_id = $get('user_id');
+                                $user = User::find($user_id);
+
+                                return match ($user) {
+                                    null => collect(),
+                                    default => $user->billingAddresses->pluck('address', 'id'),
+                                };
+                            }
+                        )
+                        ->columnSpanFull()
+                        ->label(__('Billing address')),
                     Forms\Components\ToggleButtons::make('status')
                         ->label(__('Status'))
                         ->inline()

@@ -17,6 +17,7 @@ use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
 use App\Models\Address;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -59,15 +60,23 @@ class DatabaseSeeder extends Seeder
             )
             ->create();
 
-        User::factory(10)
-            ->has(Address::factory(1))
-            ->has(
-                Order::factory(4)
-                    ->has(OrderProduct::factory(2))
-                    ->has(OrderProductSparePart::factory(2))
-                    ->has(OrderProductComplement::factory(2))
-            )
-            ->create();
+
+        // Create users and attach its orders
+        for ($counter = 0; $counter < 10; $counter++) {
+            $user = User::factory()->create();
+
+            Address::factory(5)->for($user)->create();
+
+            Order::factory(5, [
+                'shipping_address_id' => $user->addresses->first()->id
+            ])
+                ->for($user)
+                ->has(OrderProduct::factory(2))
+                ->has(OrderProductSparePart::factory(2))
+                ->has(OrderProductComplement::factory(2))
+                ->create();
+        }
+
 
         // Creates an admin user if not exists
         if (User::where('email', 'fran@gmail.com')->first() === null) {

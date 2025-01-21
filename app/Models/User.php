@@ -6,6 +6,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\AddressType;
 use App\Enums\Role;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
@@ -70,5 +71,15 @@ class User extends Authenticatable implements FilamentUser
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function shippingAddresses(): HasMany
+    {
+        return $this->addresses()->where('address_type', AddressType::Shipping);
+    }
+
+    public function billingAddresses(): HasMany
+    {
+        return $this->addresses()->where('address_type', AddressType::Billing);
     }
 }

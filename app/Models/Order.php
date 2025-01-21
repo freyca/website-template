@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 #[ScopedBy([OrderScope::class])]
@@ -29,7 +30,8 @@ class Order extends Model
         'payment_method',
         'status',
         'user_id',
-        'address_id',
+        'shipping_address_id',
+        'billing_address_id',
         'payment_gateway_response',
     ];
 
@@ -66,7 +68,15 @@ class Order extends Model
     /**
      * @return BelongsTo<Adress, $this>
      */
-    public function address(): BelongsTo
+    public function shippingAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    /**
+     * @return BelongsTo<Adress, $this>
+     */
+    public function billingAddress(): BelongsTo
     {
         return $this->belongsTo(Address::class);
     }
