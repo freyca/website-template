@@ -50,7 +50,8 @@ class OrderResource extends Resource
                             $user_id = $state;
 
                             if ($user_id === null) {
-                                $set('user_metadata_id', '');
+                                $set('shipping_address_id', '');
+                                $set('billing_address_id', '');
                             }
                         })
                         ->live(onBlur: true),
