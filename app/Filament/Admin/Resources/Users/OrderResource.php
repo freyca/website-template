@@ -46,7 +46,6 @@ class OrderResource extends Resource
                         ->label(__('Customer email'))
                         ->searchable()
                         ->preload()
-                        ->required()
                         ->afterStateUpdated(function ($state, Set $set) {
                             $user_id = $state;
 
