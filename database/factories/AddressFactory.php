@@ -21,6 +21,7 @@ class AddressFactory extends Factory
             'address_type' => $this->getRandomAddressType(),
             'name' => fake()->name(),
             'surname' => fake()->lastName(),
+            'email' => fake()->email(),
             'financial_number' => fake()->randomNumber(9, true) .  fake()->randomLetter(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),

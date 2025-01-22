@@ -75,11 +75,11 @@ class User extends Authenticatable implements FilamentUser
 
     public function shippingAddresses(): HasMany
     {
-        return $this->addresses()->where('address_type', AddressType::Shipping);
+        return $this->addresses()->whereNot('address_type', AddressType::Billing);
     }
 
     public function billingAddresses(): HasMany
     {
-        return $this->addresses()->where('address_type', AddressType::Billing);
+        return $this->addresses()->whereNot('address_type', AddressType::Shipping);
     }
 }

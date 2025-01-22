@@ -25,6 +25,7 @@ class Address extends Model
         'address_type',
         'name',
         'surname',
+        'email',
         'financial_number',
         'phone',
         'address',
