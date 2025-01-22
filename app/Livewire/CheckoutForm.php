@@ -21,6 +21,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
+use App\Services\OrderBuilder;
 
 class CheckoutForm extends Component implements HasForms
 {
@@ -48,7 +49,7 @@ class CheckoutForm extends Component implements HasForms
 
     public function create(): void
     {
-        dd($this->form->getState());
+        $orderBuilder = new OrderBuilder($this->form->getState());
     }
 
     #[On('refresh-cart')]
