@@ -8,6 +8,7 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Filament\Admin\Resources\Products\ProductResource;
 use App\Filament\Admin\Resources\Users\OrderResource\Pages;
+use App\Models\Address;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComplement;
@@ -65,21 +66,28 @@ class OrderResource extends Resource
                         ->options(
                             function (Get $get) {
                                 $user_id = $get('user_id');
-                                $user = User::find($user_id);
-
                                 $order_id = $get('id');
 
                                 if ($user_id === null && $order_id !== null) {
                                     return [Order::find($order_id)->shippingAddress->address];
                                 }
 
-                                return match ($user) {
-                                    null => collect(),
-                                    default => $user->shippingAddresses->pluck('address', 'id'),
+                                return match ($user_id) {
+                                    null => Address::all()->pluck('address', 'id'),
+                                    default => User::find($user_id)->shippingAddresses->pluck('address', 'id'),
                                 };
                             }
                         )
-                        ->selectablePlaceholder(false)
+                        ->selectablePlaceholder(function (Get $get) {
+                            $user_id = $get('user_id');
+                            $order_id = $get('id');
+
+                            return match (true) {
+                                $order_id !== null => false,
+                                $user_id === null => true,
+                                default => true,
+                            };
+                        })
                         ->columnSpanFull()
                         ->label(__('Shipping address'))
                         ->required(),
@@ -88,21 +96,28 @@ class OrderResource extends Resource
                         ->options(
                             function (Get $get) {
                                 $user_id = $get('user_id');
-                                $user = User::find($user_id);
-
                                 $order_id = $get('id');
 
                                 if ($user_id === null && $order_id !== null) {
                                     return [Order::find($order_id)->shippingAddress->address];
                                 }
 
-                                return match ($user) {
-                                    null => collect(),
-                                    default => $user->shippingAddresses->pluck('address', 'id'),
+                                return match ($user_id) {
+                                    null => Address::all()->pluck('address', 'id'),
+                                    default => User::find($user_id)->shippingAddresses->pluck('address', 'id'),
                                 };
                             }
                         )
-                        ->selectablePlaceholder(false)
+                        ->selectablePlaceholder(function (Get $get) {
+                            $user_id = $get('user_id');
+                            $order_id = $get('id');
+
+                            return match (true) {
+                                $order_id !== null => false,
+                                $user_id === null => true,
+                                default => true,
+                            };
+                        })
                         ->columnSpanFull()
                         ->label(__('Billing address')),
                     Forms\Components\ToggleButtons::make('status')
