@@ -173,6 +173,7 @@ class OrderResource extends Resource
                     ->date()
                     ->label(__('Order date')),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
