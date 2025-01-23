@@ -95,6 +95,7 @@ class DatabaseSeeder extends Seeder
                 'address_type' => AddressType::Shipping,
                 'name' => 'Francisco',
                 'surname' => 'Rey Castedo',
+                'email' => 'franreycastedo@gmail.es',
                 'financial_number' => '00000000F',
                 'phone' => 617547428,
                 'address' => 'Lamas de prado 86',
