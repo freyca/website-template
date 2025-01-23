@@ -61,11 +61,17 @@ class OrderResource extends Resource
                         ->options(PaymentMethod::class)
                         ->required(),
                     Forms\Components\Select::make('shipping_address_id')
-                        ->relationship('Address', 'shippingAddress')
+                        ->relationship('shippingAddress', 'address')
                         ->options(
                             function (Get $get) {
                                 $user_id = $get('user_id');
                                 $user = User::find($user_id);
+
+                                $order_id = $get('id');
+
+                                if ($user_id === null && $order_id !== null) {
+                                    return [Order::find($order_id)->shippingAddress->address];
+                                }
 
                                 return match ($user) {
                                     null => collect(),
@@ -73,22 +79,30 @@ class OrderResource extends Resource
                                 };
                             }
                         )
+                        ->selectablePlaceholder(false)
                         ->columnSpanFull()
                         ->label(__('Shipping address'))
                         ->required(),
                     Forms\Components\Select::make('billing_address_id')
-                        ->relationship('Address', 'billingAddress')
+                        ->relationship('billingAddress', 'address')
                         ->options(
                             function (Get $get) {
                                 $user_id = $get('user_id');
                                 $user = User::find($user_id);
 
+                                $order_id = $get('id');
+
+                                if ($user_id === null && $order_id !== null) {
+                                    return [Order::find($order_id)->shippingAddress->address];
+                                }
+
                                 return match ($user) {
                                     null => collect(),
-                                    default => $user->billingAddresses->pluck('address', 'id'),
+                                    default => $user->shippingAddresses->pluck('address', 'id'),
                                 };
                             }
                         )
+                        ->selectablePlaceholder(false)
                         ->columnSpanFull()
                         ->label(__('Billing address')),
                     Forms\Components\ToggleButtons::make('status')
