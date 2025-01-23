@@ -7,7 +7,7 @@ namespace App\Providers\Filament;
 use App\Filament\User\Pages\Auth\EditProfile;
 use App\Filament\User\Pages\Auth\Login;
 use App\Filament\User\Pages\Auth\Register;
-use App\Http\Middleware\CanAccessUserPanel;
+use App\Http\Middleware\RedirectsAdminUsersToAdminPanel;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -33,7 +33,6 @@ class UserPanelProvider extends PanelProvider
             ->login(Login::class)
             ->passwordReset()
             ->registration(Register::class)
-            ->emailVerification()
             ->profile(
                 page: EditProfile::class,
                 isSimple: false
@@ -108,7 +107,7 @@ class UserPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                CanAccessUserPanel::class,
+                RedirectsAdminUsersToAdminPanel::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
