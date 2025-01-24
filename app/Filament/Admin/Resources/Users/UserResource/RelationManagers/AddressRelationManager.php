@@ -31,6 +31,9 @@ class AddressRelationManager extends RelationManager
                     ->label(__('Address type'))
                     ->required()
                     ->options(AddressType::class),
+                Forms\Components\TextInput::make('bussiness_name')
+                    ->label(__('Business Name') . '(optional)')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('financial_number')
                     ->label(__('Financial Number') . '(optional)')
                     ->maxLength(255),
