@@ -180,7 +180,7 @@ class CheckoutForm extends Component implements HasForms
             TextInput::make($form_field_name . '_email')
                 ->placeholder(__('Email'))
                 ->hiddenLabel()
-                ->maxLength(20)
+                ->maxLength(255)
                 ->email()
                 ->prefixIcon('heroicon-s-envelope')
                 ->required()
