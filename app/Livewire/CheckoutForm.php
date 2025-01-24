@@ -182,7 +182,7 @@ class CheckoutForm extends Component implements HasForms
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->email()
-                ->prefixIcon('heroicon-c-user-group')
+                ->prefixIcon('heroicon-s-envelope')
                 ->required()
                 ->hidden(function () use ($form_field_name, $is_guest) {
                     // Hidden on billing
