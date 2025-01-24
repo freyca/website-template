@@ -21,7 +21,7 @@ return new class extends Migration
 
         Schema::create('addresses', function (Blueprint $table) use ($address_types) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->nullable();
+            $table->foreignIdFor(User::class)->nullable()->constrained();
             $table->enum('address_type', $address_types);
             $table->string('name')->maxLength(255);
             $table->string('surname')->maxLength(255);
