@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enums\PaymentMethod;
 use App\Models\User;
 use App\Models\Address;
+use App\Services\AddressBuilder;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Group;
 use Livewire\Component;
@@ -22,6 +23,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Services\OrderBuilder;
+use App\Services\Payment;
 
 class CheckoutForm extends Component implements HasForms
 {
@@ -47,9 +49,15 @@ class CheckoutForm extends Component implements HasForms
         return $form->statePath('checkoutFormData');
     }
 
-    public function create(): void
+    public function create()
     {
-        $orderBuilder = new OrderBuilder($this->form->getState());
+        $addressBuilder = new AddressBuilder($this->form);
+
+        $orderBuilder = app(OrderBuilder::class);
+        $orderBuilder->build($addressBuilder);
+
+        $paymentService = new Payment($orderBuilder);
+        return $paymentService->payPurchase();
     }
 
     #[On('refresh-cart')]
@@ -121,7 +129,7 @@ class CheckoutForm extends Component implements HasForms
         return Section::make(__('Billing Address'))
             ->icon('heroicon-s-credit-card')
             ->schema([
-                Checkbox::make('use_shipping_address')
+                Checkbox::make('use_shipping_address_as_billing_address')
                     ->live()
                     ->default(true)
                     ->label(__('Same as shipping')),
@@ -133,8 +141,8 @@ class CheckoutForm extends Component implements HasForms
                     ->live()
                     ->hidden(
                         function (Get $get) use ($billing_addresses) {
-                            // If is checked use_shipping_address
-                            if ($get('use_shipping_address')) {
+                            // If is checked use_shipping_address_as_billing_address
+                            if ($get('use_shipping_address_as_billing_address')) {
                                 return true;
                             }
 
@@ -145,8 +153,8 @@ class CheckoutForm extends Component implements HasForms
                 $this->addressFormFields('billing')
                     ->hidden(
                         function (Get $get) use ($billing_addresses) {
-                            // If is checked use_shipping_address
-                            if ($get('use_shipping_address')) {
+                            // If is checked use_shipping_address_as_billing_address
+                            if ($get('use_shipping_address_as_billing_address')) {
                                 return true;
                             }
 
@@ -198,6 +206,11 @@ class CheckoutForm extends Component implements HasForms
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->prefixIcon('heroicon-s-identification'),
+            TextInput::make($form_field_name . '_business_name')
+                ->placeholder(__('Business name') . ' (' . __('optional') . ')')
+                ->hiddenLabel()
+                ->maxLength(20)
+                ->prefixIcon('heroicon-s-building-storefront'),
             TextInput::make($form_field_name . '_phone')
                 ->placeholder(__('Phone'))
                 ->hiddenLabel()

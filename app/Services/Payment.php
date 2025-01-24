@@ -15,23 +15,27 @@ final class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 
-    public function __construct(private Order $order)
+    private Order $order;
+
+    public function __construct(OrderBuilder $order_builder)
     {
-        $this->repository = match ($order->payment_method) {
+        $this->order = $order_builder->order();
+
+        $this->repository = match ($this->order->payment_method) {
             PaymentMethod::Card => new CreditCardPaymentRepository,
             PaymentMethod::Bizum => new BizumPaymentRepository,
             default => new BankTransferPaymentRepository,
         };
     }
 
-    public function isPurchasePayed(): bool
-    {
-        return $this->repository->isPurchasePayed($this->order);
-    }
-
     public function payPurchase()
     {
         return $this->repository->payPurchase($this->order);
+    }
+
+    public function isPurchasePayed(): bool
+    {
+        return $this->repository->isPurchasePayed($this->order);
     }
 
     public function cancelPurchase(): void
