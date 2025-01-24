@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Services\Cart;
+use App\Services\OrderBuilder;
+use App\Services\Payment;
 use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysResponse;
@@ -13,6 +15,13 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function redirectToPayment(Order $order)
+    {
+        $paymentService = new Payment($order);
+
+        return $paymentService->payPurchase();
+    }
+
     public function banktransfer(Order $order): string
     {
         $cart = app(Cart::class);
