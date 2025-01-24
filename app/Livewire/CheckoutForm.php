@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Enums\PaymentMethod;
+use App\Http\Controllers\PaymentController;
 use App\Models\User;
 use App\Models\Address;
 use App\Services\AddressBuilder;
@@ -56,8 +57,12 @@ class CheckoutForm extends Component implements HasForms
         $orderBuilder = app(OrderBuilder::class);
         $orderBuilder->build($addressBuilder);
 
-        $paymentService = new Payment($orderBuilder);
-        return $paymentService->payPurchase();
+        $this->redirect(
+            action(
+                [PaymentController::class, 'redirectToPayment'],
+                ['order' => $orderBuilder->order()]
+            )
+        );
     }
 
     #[On('refresh-cart')]

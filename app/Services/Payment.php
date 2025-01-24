@@ -15,12 +15,8 @@ final class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 
-    private Order $order;
-
-    public function __construct(OrderBuilder $order_builder)
+    public function __construct(private Order $order)
     {
-        $this->order = $order_builder->order();
-
         $this->repository = match ($this->order->payment_method) {
             PaymentMethod::Card => new CreditCardPaymentRepository,
             PaymentMethod::Bizum => new BizumPaymentRepository,

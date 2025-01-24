@@ -33,6 +33,9 @@ Route::group(['as' => 'checkout.'], function () {
     })->name('cart');
 
     // POST requests sents to checkout are managed by livewire in App\Livewire\CheckoutForm
+
+    Route::get('redirectToPayment/{order}', [PaymentController::class, 'redirectToPayment'])
+        ->name('redirectToPayment');
 });
 
 /** Payment */
