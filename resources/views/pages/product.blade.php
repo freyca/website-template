@@ -13,8 +13,6 @@
                     {!! $product->short_description !!}
                 </div>
 
-                {!! $product->description !!}
-
                 @if (!isset($variants))
                     @php $variants = collect(); @endphp
                 @endif
@@ -23,10 +21,12 @@
             </div>
         </div>
 
-        <div class="container mx-auto my-4">
+        <div class="container mx-auto mt-4 mb-10">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
                 @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
+
+            {!! $product->description !!}
         </div>
 
         @if (!isset($featuredProducts))
