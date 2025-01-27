@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Services\OrderBuilder;
 use App\Services\Payment;
+use Illuminate\Database\UniqueConstraintViolationException;
 
 class CheckoutForm extends Component implements HasForms
 {
@@ -52,7 +53,14 @@ class CheckoutForm extends Component implements HasForms
 
     public function create()
     {
-        $addressBuilder = new AddressBuilder($this->form);
+        try {
+            $addressBuilder = new AddressBuilder($this->form);
+            $addressBuilder->build();
+        } catch (UniqueConstraintViolationException $th) {
+            session()->flash('email_account_exists');
+            redirect('/user/login');
+            return;
+        }
 
         $orderBuilder = app(OrderBuilder::class);
         $orderBuilder->build($addressBuilder);

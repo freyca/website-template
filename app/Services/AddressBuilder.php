@@ -123,9 +123,6 @@ class AddressBuilder
 
         // Payment method
         $this->payment_method = data_get($form_data, 'payment_method');
-
-        //dd($this);
-        $this->build();
     }
 
     public function paymentMethod(): PaymentMethod
@@ -153,15 +150,10 @@ class AddressBuilder
         return $this->order_details;
     }
 
-    private function build(): void
+    public function build(): void
     {
         if ($this->user === null) {
-            try {
-                $this->buildNotRegisteredUserOrder();
-            } catch (UniqueConstraintViolationException $th) {
-                session()->flash('email_account_exists');
-                redirect('/user/login');
-            }
+            $this->buildNotRegisteredUserOrder();
         } else {
             $this->buildRegisteredUserOrder();
         }
