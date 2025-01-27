@@ -43,4 +43,6 @@
         @endif
         <x-sliders.featured-products :featuredProducts="$featuredProducts" />
     </div>
+
+    <x-buttons.whats-app-button />
 </x-layouts.app>

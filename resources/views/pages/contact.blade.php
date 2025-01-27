@@ -5,4 +5,6 @@
 
         <x-location-map />
     </div>
+
+    <x-buttons.whats-app-button />
 </x-layouts.app>

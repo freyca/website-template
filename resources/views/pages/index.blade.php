@@ -27,4 +27,6 @@
         </div>
 
     </div>
+
+    <x-buttons.whats-app-button />
 </x-layouts.app>

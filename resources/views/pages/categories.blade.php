@@ -4,5 +4,7 @@
     </h1>
 
     <x-category-grid :categories="$categories" />
+
+    <x-buttons.whats-app-button />
 </x-layouts.app>
 
