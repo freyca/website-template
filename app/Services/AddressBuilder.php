@@ -150,6 +150,9 @@ class AddressBuilder
         return $this->order_details;
     }
 
+    /**
+     * @throws UniqueConstraintViolationException
+     */
     public function build(): void
     {
         if ($this->user === null) {
@@ -182,6 +185,9 @@ class AddressBuilder
         }
     }
 
+    /**
+     * @throws UniqueConstraintViolationException
+     */
     private function buildNotRegisteredUserOrder(): void
     {
         if ($this->purchase_as_guest === false) {
