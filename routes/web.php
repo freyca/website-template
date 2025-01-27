@@ -44,14 +44,8 @@ Route::group(['as' => 'checkout.'], function () {
 
 /** Payment */
 Route::group(['as' => 'payment.'], function () {
-    Route::get('pago-por-transferencia/{order}', [PaymentController::class, 'banktransfer'])
-        ->name('banktransfer');
-
-    Route::get('pago-correcto/{order}', [PaymentController::class, 'redsysOk'])
-        ->name('redsys-ok');
-
-    Route::get('pago-incorrecto/{order}', [PaymentController::class, 'redsysKo'])
-        ->name('redsys-ko');
+    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinished'])
+        ->name('purchase-complete');
 
     Route::post('notificacion-pago-redsys/{order}', [PaymentController::class, 'redsysNotification'])
         ->name('redsys-notification')

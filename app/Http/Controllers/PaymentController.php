@@ -12,6 +12,7 @@ use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysResponse;
 use Creagia\Redsys\Support\PostRequestError;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
@@ -22,33 +23,20 @@ class PaymentController extends Controller
         return $paymentService->payPurchase();
     }
 
-    public function banktransfer(Order $order): string
+    public function orderFinished(Order $order, Request $request): View
     {
         $cart = app(Cart::class);
         $cart->clear();
 
-        dump($order);
-
-        return 'Debes pagar en el siguiente IBAN';
-    }
-
-    public function redsysOk(Order $order, Request $request): void
-    {
-        $cart = app(Cart::class);
-        $cart->clear();
-
+        // For redsys
         $Ds_MerchantParameters = $request->Ds_MerchantParameters;
 
-        dump($order);
-        dump(json_decode(base64_decode($Ds_MerchantParameters)));
-    }
-
-    public function redsysKo(Order $order): void
-    {
-        $cart = app(Cart::class);
-        $cart->clear();
-
-        dump($order);
+        return view(
+            'pages.purchase-complete',
+            [
+                'order' => $order,
+            ]
+        );
     }
 
     public function redsysNotification(Order $order, Request $request): void

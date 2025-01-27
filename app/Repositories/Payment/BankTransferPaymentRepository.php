@@ -14,7 +14,7 @@ class BankTransferPaymentRepository implements PaymentRepositoryInterface
     public function payPurchase(Order $order)
     {
         return response(null, 301, [
-            'Location' => route('payment.banktransfer', ['order' => $order->id]),
+            'Location' => route('payment.purchase-complete', ['order' => $order->id]),
         ]);
     }
 
