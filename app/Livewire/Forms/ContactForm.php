@@ -57,7 +57,7 @@ class ContactForm extends Component implements HasForms
 
         session()->flash('contactFormSuccess');
 
-        return $this->redirect('/contacto');
+        return $this->redirect(route('contact'));
     }
 
     public function render(): View
