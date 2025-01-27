@@ -14,13 +14,17 @@ Route::get('quienes-somos', function () {
     return view('pages.who-we-are');
 })->name('who-we-are');
 
-Route::get('como-comprar', function () {
-    return view('pages.how-to-buy');
-})->name('how-to-buy');
+//Route::get('como-comprar', function () {
+//    return view('pages.how-to-buy');
+//})->name('how-to-buy');
 
 Route::get('sobre-nosotros', function () {
     return view('pages.about-us');
 })->name('about-us');
+
+Route::get('politica-de-privacidad', function () {
+    return view('pages.privacy-policy');
+})->name('privacy-policy');
 
 Route::get('contacto', function () {
     return view('pages.contact');
