@@ -15,12 +15,12 @@
    - public/storage/category-images
 
 # TODO:
- - mustverifyemail para usuarios: https://laravel.com/docs/11.x/verification#model-preparation
  - make meta-description a variable in head ¿sure   ?
  - show reduced prices 'price_when_user_owns_product' to users
  - keep filter sidebar if is open (must convert open/close button to livewire)
  - filter correctly complements and spare parts by features
  - create listeners for outofstock events
+ - create listener for user created - IMPORTANT
 
  IMPORTANT: maybe susbtract order stock in OrderProduct and not in Order
  This could be more eficient, since we do not have to wait for queue and we always have previous state
