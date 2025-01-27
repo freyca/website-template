@@ -4,44 +4,64 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms;
 
-use App\Jobs\SendContactFormEmail;
-use Filament\Notifications\Notification;
+use App\Events\ContactFormSubmitted;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\View\View;
 use Livewire\Component;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Forms\Components\Textarea;
 
-class ContactForm extends Component
+class ContactForm extends Component implements HasForms
 {
-    public string $name = '';
+    use InteractsWithForms;
 
-    public string $email = '';
+    public ?array $contactFormData = [];
 
-    public string $message = '';
+    public function mount(): void
+    {
+        $this->form->fill();
+    }
 
-    /**
-     * @var array<string, string>
-     */
-    protected array $rules = [
-        'name' => 'required|string',
-        'email' => 'required|email',
-        'message' => 'required|string',
-    ];
+    public function form(Form $form): Form
+    {
+        $form = $form
+            ->schema([
+                TextInput::make(__('Name'))
+                    ->required()
+                    ->placeholder(__('Name'))
+                    ->hiddenLabel()
+                    ->prefixIcon('heroicon-s-user')
+                    ->maxLength(255),
+                TextInput::make(__('Email'))
+                    ->required()
+                    ->email()
+                    ->placeholder(__('Email'))
+                    ->hiddenLabel()
+                    ->prefixIcon('heroicon-s-envelope')
+                    ->maxLength(255),
+                Textarea::make(__('Message'))
+                    ->required()
+                    ->placeholder(__('Write your message here'))
+                    ->hiddenLabel()
+                    ->columnSpanFull(),
+            ])->columns(['sm' => 1, 'lg' => 2]);
+
+        return $form->statePath('contactFormData');
+    }
+
+    public function submit()
+    {
+        ContactFormSubmitted::dispatch($this->form);
+
+        session()->flash('contactFormSuccess');
+
+        return $this->redirect('/contacto');
+    }
 
     public function render(): View
     {
         return view('livewire.forms.contact-form');
-    }
-
-    public function save(): void
-    {
-        $validated = $this->validate();
-
-        SendContactFormEmail::dispatch($validated);
-
-        $this->reset();
-
-        Notification::make()->title(__('Your message will be replied soon.'))->success()->send();
-        session()->flash('message', __('Your message will be replied soon.'));
-
-        $this->redirect('/contacto');
     }
 }

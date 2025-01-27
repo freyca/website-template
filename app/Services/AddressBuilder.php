@@ -220,7 +220,7 @@ class AddressBuilder
                 'role' => Role::Customer,
             ]);
 
-            UserCreated::dispatch();
+            UserCreated::dispatch($this->user);
         } catch (UniqueConstraintViolationException $th) {
             throw $th;
         }

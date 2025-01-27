@@ -20,10 +20,10 @@
                 <x-product.product-details :product="$product" :variants="$variants" />
 
                 <div class="text-gray-700 text-justify grid gap-2 pt-4">
-                    <p>@svg('heroicon-m-home', 'w-6 h-6 inline-block text-primary-600') Recibirás en casa el producto {{strtolower($product->name)}}</p>
-                    <p>@svg('heroicon-s-user-group', 'w-6 h-6 inline-block text-primary-600') Máquinas probadas de forma exhaustiva por nuestros técnicos: conocemos cada detalle de las máquinas que comercializamos. Esto nos permite ofrecer productos confiables y resolver incidencias de forma efectiva.</p>
-                    <p>@svg('heroicon-m-cog-8-tooth', 'w-6 h-6 inline-block text-primary-600') 3 años de garantía oficial Roteco</p>
-                    <p>@svg('heroicon-m-wrench', 'w-6 h-6 inline-block text-primary-600') Servicio de recambios y SAT</p>
+                    <p>@svg('heroicon-m-home', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('You will receive at home product') . ' ' . strtolower($product->name)}}</p>
+                    <p>@svg('heroicon-s-user-group', 'mr-2 w-6 h-6 inline-block text-primary-600') {{ __('Machines thoroughly tested by our technicians: we know every detail of the machines we sell. This allows us to offer reliable products and resolve incidents effectively.')}}</p>
+                    <p>@svg('heroicon-m-cog-8-tooth', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('3 years official Roteco warranty')}}</p>
+                    <p>@svg('heroicon-m-wrench', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('Spare parts service and SAT')}}</p>
                 </div>
             </div>
         </div>
