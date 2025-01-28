@@ -81,6 +81,11 @@ abstract class BaseProduct extends Model
         return $this->formatCurrency($this->price_with_discount);
     }
 
+    public function getFormattedSavings(): string
+    {
+        return $this->formatCurrency($this->price - $this->price_with_discount);
+    }
+
     /**
      * @return BelongsToMany<Order, $this>
      */
