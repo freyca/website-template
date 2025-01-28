@@ -27,7 +27,6 @@
 
  ## Metodos de pago
  - sequra para financiación
- - paypal
 
  ## Metodos de envio
  - Directamente a través do proveedor: url + numero seguimiento

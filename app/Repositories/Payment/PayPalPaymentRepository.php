@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repositories\Payment;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
+use App\Services\Payment;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PayPalPaymentRepository implements PaymentRepositoryInterface
@@ -14,47 +16,42 @@ class PayPalPaymentRepository implements PaymentRepositoryInterface
 
     public function payPurchase(Order $order)
     {
-        $provider = new PayPalClient;
+        try {
 
-        $provider->setApiCredentials($this->paypalConfig());
+            $provider = new PayPalClient;
+            $provider->setApiCredentials($this->paypalConfig());
+            $provider->getAccessToken();
+            $provider->setCurrency('EUR');
 
-        $provider->getAccessToken();
-
-        $provider->setCurrency('EUR');
-
-        $response = $provider->createOrder([
-            "intent" => "CAPTURE",
-            "application_context" => [
-                "return_url" => route('successTransaction'),
-                "cancel_url" => route('cancelTransaction'),
-            ],
-            "purchase_units" => [
-                0 => [
-                    "amount" => [
-                        "currency_code" => "EUR",
-                        "value" => $order->purchase_cost,
+            $response = $provider->createOrder([
+                "intent" => "CAPTURE",
+                "application_context" => [
+                    "return_url" => route('payment.purchase-complete', ['order' => $order->id]),
+                    "cancel_url" => route('payment.purchase-complete', ['order' => $order->id]),
+                ],
+                "purchase_units" => [
+                    0 => [
+                        "amount" => [
+                            "currency_code" => "EUR",
+                            "value" => $order->purchase_cost,
+                        ]
                     ]
                 ]
-            ]
-        ]);
+            ]);
 
-        try {
+            // If we get the link, we redirect to paypal
             if (isset($response['id']) && $response['id'] != null) {
                 foreach ($response['links'] as $link) {
                     if ($link['rel'] == 'approve') {
                         return redirect()->away($link['href']);
                     }
                 }
-
-                Session::flash('error', 'Something went wrong.');
-                return redirect()->route('homepage');
-            } else {
-                Session::flash('error', $response['message'] ?? 'Something went wrong.');
-                return redirect()->route('homepage');
             }
+
+            // Reached here, something has failed, mark order as failed and redirect user
+            $this->redirectWithFail($order);
         } catch (\Throwable $throwable) {
-            Session::flash('error', $throwable->getMessage() ?? 'Something went wrong.');
-            return redirect()->route('homepage');
+            $this->redirectWithFail($order);
         }
     }
 
@@ -66,5 +63,16 @@ class PayPalPaymentRepository implements PaymentRepositoryInterface
     private function paypalConfig()
     {
         return config('paypal');
+    }
+
+    private function redirectWithFail(Order $order)
+    {
+        $order->status = OrderStatus::PaymentFailed;
+        $order->save();
+
+        $cart = app(\App\Services\Cart::class);
+        $cart->clear();
+
+        return redirect()->route('payment.purchase-complete', ['order' => $order->id]);
     }
 }
