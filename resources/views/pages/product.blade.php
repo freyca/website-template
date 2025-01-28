@@ -9,7 +9,7 @@
             <x-product.product-image-gallery :product="$product" />
 
             <div class="text-gray-700 text-justify">
-                <div class="mb-4">
+                <div id="product-short-description" class="mb-4">
                     {!! $product->short_description !!}
                 </div>
 
@@ -33,6 +33,11 @@
                 @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
 
+            <h3 class="text-center mt-14 mb-10">
+                <span class="font-bold text-lg bg-primary-400 rounded-full py-6 px-6 text-gray-800">
+                    {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
+                </span>
+            </h3>
             <div class="text-gray-700 text-justify">
                 {!! $product->description !!}
             </div>
