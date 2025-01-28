@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\BizumPaymentRepository;
 use App\Repositories\Payment\CreditCardPaymentRepository;
+use App\Repositories\Payment\PayPalPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
 
 final class Payment
@@ -20,6 +21,7 @@ final class Payment
         $this->repository = match ($this->order->payment_method) {
             PaymentMethod::Card => new CreditCardPaymentRepository,
             PaymentMethod::Bizum => new BizumPaymentRepository,
+            PaymentMethod::PayPal => new PayPalPaymentRepository,
             default => new BankTransferPaymentRepository,
         };
     }
