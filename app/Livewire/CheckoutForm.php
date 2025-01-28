@@ -4,28 +4,27 @@ namespace App\Livewire;
 
 use App\Enums\PaymentMethod;
 use App\Http\Controllers\PaymentController;
-use App\Models\User;
 use App\Models\Address;
+use App\Models\User;
 use App\Services\AddressBuilder;
+use App\Services\OrderBuilder;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Group;
-use Livewire\Component;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
-use App\Services\OrderBuilder;
-use App\Services\Payment;
-use Illuminate\Database\UniqueConstraintViolationException;
+use Livewire\Component;
 
 class CheckoutForm extends Component implements HasForms
 {
@@ -59,6 +58,7 @@ class CheckoutForm extends Component implements HasForms
         } catch (UniqueConstraintViolationException $th) {
             session()->flash('email_account_exists');
             redirect('/user/login');
+
             return;
         }
 
@@ -131,13 +131,13 @@ class CheckoutForm extends Component implements HasForms
                             }
 
                             // If is checked 'new address
-                            return $get('shipping_address_id') !== "0";
+                            return $get('shipping_address_id') !== '0';
                         }
-                    )
+                    ),
             ]);
     }
 
-    private function getBillingForm($billing_addresses  = new Collection)
+    private function getBillingForm($billing_addresses = new Collection)
     {
         return Section::make(__('Billing Address'))
             ->icon('heroicon-s-credit-card')
@@ -177,28 +177,28 @@ class CheckoutForm extends Component implements HasForms
                             }
 
                             // If is checked "New address
-                            return $get('billing_address_id') !== "0";
+                            return $get('billing_address_id') !== '0';
                         }
-                    )
+                    ),
             ]);
     }
 
     private function addressFormFields(string $form_field_name, bool $is_guest = true)
     {
         return Group::make([
-            TextInput::make($form_field_name . '_name')
+            TextInput::make($form_field_name.'_name')
                 ->placeholder(__('Name'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-user')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name . '_surname')
+            TextInput::make($form_field_name.'_surname')
                 ->placeholder(__('Surname'))
                 ->hiddenLabel()
                 ->maxLength(255)
                 ->prefixIcon('heroicon-c-user-group')
                 ->required(),
-            TextInput::make($form_field_name . '_email')
+            TextInput::make($form_field_name.'_email')
                 ->placeholder(__('Email'))
                 ->hiddenLabel()
                 ->maxLength(255)
@@ -214,17 +214,17 @@ class CheckoutForm extends Component implements HasForms
                     // Hidden if user is registered
                     return $is_guest === false;
                 }),
-            TextInput::make($form_field_name . '_cif')
-                ->placeholder(__('NIF/CIF') . ' (' . __('optional') . ')')
+            TextInput::make($form_field_name.'_cif')
+                ->placeholder(__('NIF/CIF').' ('.__('optional').')')
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->prefixIcon('heroicon-s-identification'),
-            TextInput::make($form_field_name . '_business_name')
-                ->placeholder(__('Business name') . ' (' . __('optional') . ')')
+            TextInput::make($form_field_name.'_business_name')
+                ->placeholder(__('Business name').' ('.__('optional').')')
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->prefixIcon('heroicon-s-building-storefront'),
-            TextInput::make($form_field_name . '_phone')
+            TextInput::make($form_field_name.'_phone')
                 ->placeholder(__('Phone'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-phone')
@@ -232,32 +232,32 @@ class CheckoutForm extends Component implements HasForms
                 ->maxLength(20)
                 ->tel()
                 ->required(),
-            TextInput::make($form_field_name . '_address')
+            TextInput::make($form_field_name.'_address')
                 ->placeholder(__('Address'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-truck')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name . '_city')
+            TextInput::make($form_field_name.'_city')
                 ->placeholder(__('City'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-building-office-2')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name . '_state')
+            TextInput::make($form_field_name.'_state')
                 ->placeholder(__('State'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-globe-alt')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name . '_zip_code')
+            TextInput::make($form_field_name.'_zip_code')
                 ->placeholder(__('Zip code'))
                 ->numeric()
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-m-hashtag')
                 ->maxLength(20)
                 ->required(),
-            TextInput::make($form_field_name . '_country')
+            TextInput::make($form_field_name.'_country')
                 ->placeholder(__('Country'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-globe-europe-africa')
@@ -275,7 +275,7 @@ class CheckoutForm extends Component implements HasForms
 
                     // Hidden if user is registered
                     return $is_guest === false;
-                })
+                }),
         ]);
     }
 
@@ -298,7 +298,7 @@ class CheckoutForm extends Component implements HasForms
                     ->options(PaymentMethod::class)
                     ->inline()
                     ->required()
-                    ->default(PaymentMethod::Card)
+                    ->default(PaymentMethod::Card),
             ]);
     }
 }

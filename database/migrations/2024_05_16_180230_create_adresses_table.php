@@ -27,13 +27,13 @@ return new class extends Migration
             $table->string('surname')->maxLength(255);
             $table->string('bussiness_name')->nullable()->maxLength(255);
             $table->string('email')->maxLength(255);
-            $table->string('financial_number')->nullable()->maxLength(20);;
-            $table->string('phone')->maxLength(20);;
-            $table->string('address')->maxLength(255);;
-            $table->string('city')->maxLength(255);;
-            $table->string('state')->maxLength(255);;
-            $table->unsignedInteger('zip_code')->maxLength(20);;
-            $table->string('country')->maxLength(255);;
+            $table->string('financial_number')->nullable()->maxLength(20);
+            $table->string('phone')->maxLength(20);
+            $table->string('address')->maxLength(255);
+            $table->string('city')->maxLength(255);
+            $table->string('state')->maxLength(255);
+            $table->unsignedInteger('zip_code')->maxLength(20);
+            $table->string('country')->maxLength(255);
             $table->timestamps();
         });
     }

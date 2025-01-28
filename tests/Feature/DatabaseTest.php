@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -12,7 +13,6 @@ use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
-use App\Models\Address;
 
 test('db has correct items after been seeded', function () {
     expect(Category::count())->toBe(0);

@@ -6,13 +6,13 @@ use App\Enums\AddressType;
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
 use App\Events\UserCreated;
-use App\Models\User;
 use App\Models\Address;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Exception;
 use Filament\Forms\Form;
-use Illuminate\Support\Str;
 use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AddressBuilder
 {
@@ -76,7 +76,7 @@ class AddressBuilder
 
     private PaymentMethod $payment_method;
 
-    function __construct(private Form $form)
+    public function __construct(private Form $form)
     {
         $form_data = $form->getState();
         $this->user = Auth::user();
@@ -239,7 +239,7 @@ class AddressBuilder
         $address = Address::find($address_id);
 
         if (! $this->validateAddressBelongsToUser($address)) {
-            throw new Exception("Address does not belongs to user", 1);
+            throw new Exception('Address does not belongs to user', 1);
         }
 
         return $address;

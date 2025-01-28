@@ -2,10 +2,10 @@
 
 namespace App\Events;
 
+use Filament\Forms\Form;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Filament\Forms\Form;
 
 class ContactFormSubmitted
 {

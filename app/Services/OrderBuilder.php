@@ -11,7 +11,6 @@ use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
-use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
 use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
 use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;

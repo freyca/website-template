@@ -72,6 +72,5 @@ return [
     /**
      * Taxes
      */
-
     'tax_iva' => 0.21,
 ];

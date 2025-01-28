@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Models\BaseProduct;
 use App\Repositories\Cart\CartRepositoryInterface;
-use Exception;
 use Illuminate\Support\Collection;
 
 final class Cart
