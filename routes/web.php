@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Payment\BankTransferPaymentController;
+use App\Http\Controllers\Payment\PayPalPaymentController;
+use App\Http\Controllers\Payment\RedsysPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
@@ -44,11 +47,14 @@ Route::group(['as' => 'checkout.'], function () {
 
 /** Payment */
 Route::group(['as' => 'payment.'], function () {
-    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinished'])
+    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinishedOk'])
         ->name('purchase-complete');
 
-    Route::post('notificacion-pago-redsys/{order}', [PaymentController::class, 'redsysNotification'])
-        ->name('redsys-notification')
+    Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
+        ->name('purchase-failed');
+
+    Route::post('notificacion-pago-pasarela/{order}', [PaymentController::class, 'paymentGatewayNotification'])
+        ->name('gateway-notification')
         ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 });
 

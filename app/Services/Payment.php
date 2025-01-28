@@ -11,6 +11,7 @@ use App\Repositories\Payment\BizumPaymentRepository;
 use App\Repositories\Payment\CreditCardPaymentRepository;
 use App\Repositories\Payment\PayPalPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
+use Illuminate\Http\Request;
 
 final class Payment
 {
@@ -41,8 +42,8 @@ final class Payment
         $this->repository->cancelPurchase($this->order);
     }
 
-    public function isGatewayOkWithPayment(): bool
+    public function isGatewayOkWithPayment(Request $request): bool
     {
-        return $this->repository->isGatewayOkWithPayment($this->order);
+        return $this->repository->isGatewayOkWithPayment($this->order, $request);
     }
 }

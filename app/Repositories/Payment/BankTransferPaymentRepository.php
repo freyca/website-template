@@ -6,6 +6,7 @@ namespace App\Repositories\Payment;
 
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
+use Illuminate\Http\Request;
 
 class BankTransferPaymentRepository implements PaymentRepositoryInterface
 {
@@ -18,7 +19,7 @@ class BankTransferPaymentRepository implements PaymentRepositoryInterface
         ]);
     }
 
-    public function isGatewayOkWithPayment(Order $order): bool
+    public function isGatewayOkWithPayment(Order $order, Request $request): bool
     {
         return true;
     }

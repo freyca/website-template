@@ -7,8 +7,8 @@ namespace App\Repositories\Payment;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Payment\Traits\PaymentActions;
-use App\Services\Payment;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
+use Illuminate\Http\Request;
 
 class PayPalPaymentRepository implements PaymentRepositoryInterface
 {
@@ -27,10 +27,11 @@ class PayPalPaymentRepository implements PaymentRepositoryInterface
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('payment.purchase-complete', ['order' => $order->id]),
-                    "cancel_url" => route('payment.purchase-complete', ['order' => $order->id]),
+                    "cancel_url" => route('payment.purchase-failed', ['order' => $order->id]),
                 ],
                 "purchase_units" => [
                     0 => [
+                        "invoice_id" => $order->id,
                         "amount" => [
                             "currency_code" => "EUR",
                             "value" => $order->purchase_cost,
@@ -55,7 +56,7 @@ class PayPalPaymentRepository implements PaymentRepositoryInterface
         }
     }
 
-    public function isGatewayOkWithPayment(Order $order): bool
+    public function isGatewayOkWithPayment(Order $order, Request $request): bool
     {
         return true;
     }
@@ -73,6 +74,6 @@ class PayPalPaymentRepository implements PaymentRepositoryInterface
         $cart = app(\App\Services\Cart::class);
         $cart->clear();
 
-        return redirect()->route('payment.purchase-complete', ['order' => $order->id]);
+        return redirect()->route('payment.purchase-failed', ['order' => $order->id]);
     }
 }

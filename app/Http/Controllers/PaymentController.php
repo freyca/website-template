@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Services\Cart;
 use App\Services\Payment;
-use Creagia\Redsys\Enums\Environment;
-use Creagia\Redsys\RedsysClient;
-use Creagia\Redsys\RedsysResponse;
-use Creagia\Redsys\Support\PostRequestError;
+use App\Services\Cart;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -22,13 +18,13 @@ class PaymentController extends Controller
         return $paymentService->payPurchase();
     }
 
-    public function orderFinished(Order $order, Request $request): View
+    public function orderFinishedOk(Order $order, Request $request): View
     {
         $cart = app(Cart::class);
         $cart->clear();
 
-        // For redsys
-        $Ds_MerchantParameters = $request->Ds_MerchantParameters;
+        $paymentService = new Payment($order);
+        $paymentService->isGatewayOkWithPayment($request);
 
         return view(
             'pages.purchase-complete',
@@ -38,34 +34,28 @@ class PaymentController extends Controller
         );
     }
 
-    public function redsysNotification(Order $order, Request $request): void
+    public function orderFinishedKo(Order $order, Request $request): View
     {
-        $redsysClient = new RedsysClient(
-            merchantCode: config('redsys.tpv.merchantCode'),
-            secretKey: config('redsys.tpv.key'),
-            terminal: config('redsys.tpv.terminal'),
-            environment: config('redsys.environment') === 'production' ? Environment::Production : Environment::Test,
-        );
+        $cart = app(Cart::class);
+        $cart->clear();
 
-        /**
-         *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
-         */
-        $redsysResponse = new RedsysResponse($redsysClient);
-        $inputs = $request->all();
-        $redsysResponse->setParametersFromResponse($inputs);
+        $paymentService = new Payment($order);
+        $paymentService->isGatewayOkWithPayment($request);
 
-        $order->payment_gateway_response = $redsysResponse instanceof PostRequestError
-            ? $redsysResponse->responseParameters
-            : $redsysResponse->merchantParametersArray;
-
-        try {
-            $notificationData = $redsysResponse->checkResponse();
-            $order->status = OrderStatus::Paid;
-        } catch (\Exception $e) {
-            $errorMessage = $e->getMessage();
-            $order->status = OrderStatus::PaymentFailed;
-        }
-
+        $order->status = OrderStatus::PaymentFailed;
         $order->save();
+
+        return view(
+            'pages.purchase-complete',
+            [
+                'order' => $order,
+            ]
+        );
+    }
+
+    public function paymentGatewayNotification(Order $order, Request $request): void
+    {
+        $paymentService = new Payment($order);
+        $paymentService->isGatewayOkWithPayment($request);
     }
 }
