@@ -1,6 +1,6 @@
 <div class="my-10">
     <p class="font-bold text-lg text-center gap-10">
-        {{ __('Features') }}
+        {{ __('Technical details') }}
     </p>
 
     <div id="accordion-collapse" data-accordion="collapse" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">

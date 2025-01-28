@@ -83,7 +83,7 @@
             @isset($enabledFilters['features'])
                 <!-- Filtro de Características -->
                 <div class="filter-features">
-                    <label class="block text-gray-700">{{ __('Features') }}:</label>
+                    <label class="block text-gray-700">{{ __('Technical details') }}:</label>
                     @foreach (App\Models\ProductFeature::with('productFeatureValues')->get() as $feature)
                         <details class="group relative mb-4 {{ $loop->last ? 'pb-28' : '' }}">
                             <summary
