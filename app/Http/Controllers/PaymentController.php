@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
-use App\Repositories\Payment\PayPalPaymentRepository;
-use App\Services\Payment;
 use App\Services\Cart;
+use App\Services\Payment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -15,7 +14,7 @@ use Throwable;
 
 class PaymentController extends Controller
 {
-    function __construct(
+    public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly Cart $cart,
     ) {}
@@ -66,7 +65,7 @@ class PaymentController extends Controller
             $order = $this->orderRepository->find($order_id);
 
             if ($order === null) {
-                throw new Exception('Invalid PayPal request ' . json_encode($request->all()));
+                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
             }
 
             $this->paymentGatewayNotification($order, $request);

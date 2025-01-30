@@ -11,7 +11,7 @@ abstract class PaymentRepository implements PaymentRepositoryInterface
 {
     use PaymentActions;
 
-    function __construct(protected OrderRepositoryInterface $orderRepository) {}
+    public function __construct(protected OrderRepositoryInterface $orderRepository) {}
 
     public function redirectWithFail(Order $order, ?string $response = null)
     {

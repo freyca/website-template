@@ -9,8 +9,8 @@ use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
 use App\Repositories\Payment\BizumPaymentRepository;
 use App\Repositories\Payment\CreditCardPaymentRepository;
-use App\Repositories\Payment\PayPalPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
+use App\Repositories\Payment\PayPalPaymentRepository;
 use Illuminate\Http\Request;
 
 final class Payment

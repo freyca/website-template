@@ -6,10 +6,9 @@ namespace App\Repositories\Payment;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use Exception;
-use Srmklive\PayPal\Services\PayPal;
 use Illuminate\Http\Request;
+use Srmklive\PayPal\Services\PayPal;
 use Throwable;
 
 class PayPalPaymentRepository extends PaymentRepository
@@ -81,15 +80,14 @@ class PayPalPaymentRepository extends PaymentRepository
 
         // gather webhook data to verify it
         $verify_data = [
-            'auth_algo'         => $headers['auth_algo'],
-            'cert_url'          => $headers['cert_url'],
-            'transmission_id'   => $headers['transmission_id'],
-            'transmission_sig'  => $headers['transmission_sig'],
+            'auth_algo' => $headers['auth_algo'],
+            'cert_url' => $headers['cert_url'],
+            'transmission_id' => $headers['transmission_id'],
+            'transmission_sig' => $headers['transmission_sig'],
             'transmission_time' => $headers['transmission_time'],
-            'webhook_id'        => $paypal_webhook_id,
-            'webhook_event'     => $paypal_response
+            'webhook_id' => $paypal_webhook_id,
+            'webhook_event' => $paypal_response,
         ];
-
 
         // Verify webhook
         $validation = $provider->verifyWebHook($verify_data);
@@ -100,17 +98,19 @@ class PayPalPaymentRepository extends PaymentRepository
 
         // Verify order status
         if ($paypal_response['resource']['purchase_units'][0]['invoice_id'] === $order->id) {
-            throw new Exception('Invalid order ID ' . json_encode($paypal_response));
+            throw new Exception('Invalid order ID '.json_encode($paypal_response));
         }
 
         $this->orderRepository->paymentGatewayResponse($order, json_encode($paypal_response));
 
         if ($paypal_response['event_type'] !== self::ORDER_APPROVED) {
             $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
+
             return false;
         }
 
         $this->orderRepository->changeStatus($order, OrderStatus::Paid);
+
         return true;
     }
 
@@ -126,24 +126,24 @@ class PayPalPaymentRepository extends PaymentRepository
     private function payPalOrderStructure(Order $order): array
     {
         return [
-            "intent" => "CAPTURE",
-            "payment_source" => [
-                "paypal" => [
-                    "experience_contexts" => [
-                        "return_url" => route('payment.purchase-complete', ['order' => $order->id]),
-                        "cancel_url" => route('payment.purchase-failed', ['order' => $order->id]),
-                    ]
-                ]
+            'intent' => 'CAPTURE',
+            'payment_source' => [
+                'paypal' => [
+                    'experience_contexts' => [
+                        'return_url' => route('payment.purchase-complete', ['order' => $order->id]),
+                        'cancel_url' => route('payment.purchase-failed', ['order' => $order->id]),
+                    ],
+                ],
             ],
-            "purchase_units" => [
+            'purchase_units' => [
                 0 => [
-                    "invoice_id" => $order->id,
-                    "amount" => [
-                        "currency_code" => 'EUR',
-                        "value" => $order->purchase_cost,
-                    ]
-                ]
-            ]
+                    'invoice_id' => $order->id,
+                    'amount' => [
+                        'currency_code' => 'EUR',
+                        'value' => $order->purchase_cost,
+                    ],
+                ],
+            ],
         ];
     }
 }

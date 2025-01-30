@@ -6,7 +6,6 @@ namespace App\Repositories\Payment;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use Creagia\Redsys\Enums\Currency;
 use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\Enums\PayMethod;
@@ -58,7 +57,6 @@ abstract class RedsysPaymentRepository extends PaymentRepository
             $order->payment_gateway_response = $redsys_response instanceof PostRequestError
                 ? $redsys_response->responseParameters
                 : $redsys_response->merchantParametersArray;
-
 
             $notificationData = $redsys_response->checkResponse();
 
