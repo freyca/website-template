@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductVariantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductVariant extends BaseProduct
 {
+    /** @use HasFactory<ProductVariantFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -27,7 +29,7 @@ class ProductVariant extends BaseProduct
     public static function bootHasSlug(): void {}
 
     /**
-     * @return BelongsTo<Product, ProductVariant>
+     * @return BelongsTo<Product, $this>
      */
     public function product(): BelongsTo
     {
@@ -35,7 +37,7 @@ class ProductVariant extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue>
+     * @return BelongsToMany<ProductFeatureValue, $this>
      */
     public function productFeatureValues(): BelongsToMany
     {

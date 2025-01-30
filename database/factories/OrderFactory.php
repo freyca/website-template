@@ -25,8 +25,6 @@ class OrderFactory extends Factory
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
-            'user_id' => $user->id,
-            'user_metadata_id' => $user->userMetadata->random()->id,
         ];
     }
 

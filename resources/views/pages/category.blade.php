@@ -25,4 +25,6 @@
 
         <x-product-grid :products="$products" />
     </div>
+
+    <x-buttons.whats-app-button />
 </x-layouts.app>

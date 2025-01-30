@@ -1,4 +1,4 @@
-<a href="/carrito">
+<a href="{{ route('checkout.cart') }}">
     <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button" aria-expanded="false">
         <span class="sr-only">
             {{ __('Open cart') }}

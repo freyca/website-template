@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repositories\Payment\Traits;
 
-use App\Enums\OrderStatus;
-use App\Models\Order;
+use App\Casts\MoneyCast;
 
 trait PaymentActions
 {
-    public function isPurchasePayed(Order $order): bool
+    protected function convertPriceToCents(float|MoneyCast $price): int
     {
-        return $order->status !== OrderStatus::New;
-    }
-
-    public function cancelPurchase(Order $order): void
-    {
-        $order->status = OrderStatus::Cancelled;
-        $order->save();
+        return intval(bcmul(strval($price), '100'));
     }
 }

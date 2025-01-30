@@ -41,6 +41,22 @@ class ProductVariantsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('ean13')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->label(__('Price'))
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
+                    ->badge()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('price_with_discount')
+                    ->label(__('Price with discount'))
+                    ->money(
+                        currency: 'eur',
+                        locale: 'es'
+                    )
+                    ->badge()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('productFeatureValues.name')
                     ->sortable()
                     ->searchable()

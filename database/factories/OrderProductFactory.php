@@ -19,6 +19,11 @@ class OrderProductFactory extends Factory
     {
         $product = Product::inRandomOrder()->first();
 
+        $variants = $product->productVariants;
+        if (count($variants) !== 0) {
+            $variant = $variants->random();
+        }
+
         $price = match (true) {
             ! is_null($product->price_with_discount) => $product->price_with_discount,
             default => $product->price,
@@ -26,6 +31,7 @@ class OrderProductFactory extends Factory
 
         return [
             'product_id' => $product->id,
+            'product_variant_id' => isset($variant) ? $variant->id : null,
             'quantity' => rand(1, 10),
             'unit_price' => $price,
         ];

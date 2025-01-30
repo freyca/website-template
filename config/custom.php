@@ -30,10 +30,10 @@ return [
     /**
      * This sections will be shown on navbar, floating to the right
      */
-    'customer-sections' => [
-        'carrito' => '/carrito',
-        'login' => '/user',
-    ],
+    // 'customer-sections' => [
+    //     'carrito' => '/carrito',
+    //     'login' => '/user',
+    // ],
 
     /**
      * Categories to show in the main page after banner
@@ -50,7 +50,7 @@ return [
      * TODO: criteria to show products
      */
     'featured-products' => [
-        1,
+        52,
         2,
         3,
         4,
@@ -69,4 +69,8 @@ return [
      */
     'category-image-storage' => public_path('/storage/category-images'),
 
+    /**
+     * Taxes
+     */
+    'tax_iva' => 0.21,
 ];

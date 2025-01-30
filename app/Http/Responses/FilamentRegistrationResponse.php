@@ -17,7 +17,7 @@ class FilamentRegistrationResponse implements RegistrationResponse
         $cart = app(Cart::class);
 
         if ($cart->getTotalQuantity() > 0) {
-            return redirect()->route('checkout.index');
+            return redirect()->route('checkout.cart');
         }
 
         return redirect('/user');

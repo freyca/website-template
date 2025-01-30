@@ -2,6 +2,7 @@
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -28,10 +29,13 @@ return new class extends Migration
 
         Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
             $table->ulid('id')->primary();
-            $table->float('purchase_cost');
-            $table->enum('payment_method', $payment_methods)->default(PaymentMethod::BankTransfer->value);
-            $table->enum('status', $order_status)->default(OrderStatus::New->value);
-            $table->foreignIdFor(User::class)->constrained();
+            $table->integer('purchase_cost');
+            $table->enum('payment_method', $payment_methods);
+            $table->enum('status', $order_status);
+            $table->foreignIdFor(User::class)->nullable()->constrained();
+            $table->foreignIdFor(Address::class)->name('shipping_address_id')->constrained();
+            $table->foreignIdFor(Address::class)->name('billing_address_id')->nullable()->constrained();
+            $table->json('payment_gateway_response')->nullable();
             $table->timestamps();
         });
     }

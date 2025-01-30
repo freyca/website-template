@@ -28,7 +28,7 @@ class UserResource extends Resource
                         ->disabled()
                         ->label('ID')
                         ->columnSpanFull(),
-                    //Forms\Components\ToggleButtons::make('role')
+                    // Forms\Components\ToggleButtons::make('role')
                     //    ->inline()
                     //    ->required()
                     //    ->options(Role::class),
@@ -89,7 +89,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            UserResource\RelationManagers\UserMetadataRelationManager::class,
+            UserResource\RelationManagers\AddressRelationManager::class,
         ];
     }
 

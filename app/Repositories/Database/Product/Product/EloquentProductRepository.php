@@ -19,15 +19,18 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        //return Cache::remember($cacheKey, 3600, function () {
+        // return Cache::remember($cacheKey, 3600, function () {
         return Product::where('published', true)->paginate(15);
-        //});
+        // });
     }
 
     public function featured(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
+        /**
+         * @var Collection<int, Product>
+         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-products');
 

@@ -26,14 +26,15 @@ class SessionCartRepository implements CartRepositoryInterface
     public function add(BaseProduct $product, int $quantity): void
     {
         $cart = $this->getCart();
+        $product = $this->cleanCartProduct($product);
 
-        if ($cart->has($product->ean13)) {
-            $sessionProduct = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $sessionProduct = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($sessionProduct, 'quantity');
             data_set($sessionProduct, 'quantity', $oldQuantity + $quantity);
-            $cart->put($product->ean13, $sessionProduct);
+            $cart->put(strval($product->ean13), $sessionProduct);
         } else {
-            $cart->put($product->ean13, [
+            $cart->put(strval($product->ean13), [
                 'product' => $product,
                 'quantity' => $quantity,
             ]);
@@ -49,15 +50,15 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            if (data_get($cart->get($product->ean13), 'quantity') >= $product->stock) {
+        if ($cart->has(strval($product->ean13))) {
+            if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
                 throw new Exception('Not enough stock of '.$product->name);
             }
 
-            $productInCart = $cart->get($product->ean13);
+            $productInCart = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($productInCart, 'quantity');
             data_set($productInCart, 'quantity', $oldQuantity + 1);
-            $cart->put($product->ean13, $productInCart);
+            $cart->put(strval($product->ean13), $productInCart);
             $this->updateCart($cart);
         }
     }
@@ -66,15 +67,15 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            $productInCart = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $productInCart = $cart->get(strval($product->ean13));
             $oldQuantity = data_get($productInCart, 'quantity');
             data_set($productInCart, 'quantity', $oldQuantity - 1);
-            $cart->put($product->ean13, $productInCart);
+            $cart->put(strval($product->ean13), $productInCart);
             $this->updateCart($cart);
 
-            if (data_get($cart->get($product->ean13), 'quantity') <= 0) {
-                $cart->forget($product->ean13);
+            if (data_get($cart->get(strval($product->ean13)), 'quantity') <= 0) {
+                $cart->forget(strval($product->ean13));
             }
         }
     }
@@ -83,7 +84,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        $cart->forget($product->ean13);
+        $cart->forget(strval($product->ean13));
 
         $this->updateCart($cart);
     }
@@ -92,8 +93,8 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        if ($cart->has($product->ean13)) {
-            $productInCart = $cart->get($product->ean13);
+        if ($cart->has(strval($product->ean13))) {
+            $productInCart = $cart->get(strval($product->ean13));
 
             /** @var int */
             return data_get($productInCart, 'quantity');
@@ -108,9 +109,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $total = 0;
 
-        if ($cart->has($product->ean13)) {
+        if ($cart->has(strval($product->ean13))) {
             $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
-            $total = data_get($cart->get($product->ean13), 'quantity') * $price;
+            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -122,9 +123,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $total = 0;
 
-        if ($cart->has($product->ean13)) {
+        if ($cart->has(strval($product->ean13))) {
             $price = $product->price;
-            $total = data_get($cart->get($product->ean13), 'quantity') * $price;
+            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
         }
 
         return $formatted ? $this->formatCurrency($total) : $total;
@@ -152,6 +153,24 @@ class SessionCartRepository implements CartRepositoryInterface
         });
 
         return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
+    {
+        $cart = $this->getCart();
+
+        /** @var float */
+        $total = $cart->sum(function ($item) {
+            /** @var BaseProduct */
+            $product = data_get($item, 'product');
+            $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
+
+            return data_get($item, 'quantity') * $price;
+        });
+
+        $total_without_taxes = $total * (1 - config('custom.tax_iva'));
+
+        return $formatted ? $this->formatCurrency($total_without_taxes) : $total_without_taxes;
     }
 
     public function getTotalDiscount(bool $formatted = false): float|string
@@ -190,7 +209,7 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $cart = $this->getCart();
 
-        return $cart->has($product->ean13);
+        return $cart->has(strval($product->ean13));
     }
 
     /**
@@ -218,5 +237,15 @@ class SessionCartRepository implements CartRepositoryInterface
     private function updateCart(Collection $cart): void
     {
         Session::put(self::SESSION, $cart);
+    }
+
+    private function cleanCartProduct(BaseProduct $product): BaseProduct
+    {
+        $product->meta_description = '';
+        $product->short_description = '';
+        $product->description = '';
+        $product->images = [];
+
+        return $product;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Database\Categories;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Repositories\Database\Traits\CacheKeys;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,6 +19,9 @@ class EloquentCategoryRepository implements CategoryRepositoryInterface
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
+        /**
+         * @var Collection<int, Category>
+         */
         return Cache::remember($cacheKey, 3600, function () {
             return Category::all();
         });
@@ -27,15 +31,19 @@ class EloquentCategoryRepository implements CategoryRepositoryInterface
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        //return Cache::remember($cacheKey, 3600, function () use ($category) {
+        /**
+         * @var LengthAwarePaginator<Product>
+         */
         return $category->products()->where('published', true)->paginate(15);
-        //});
     }
 
     public function featured(): Collection
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
+        /**
+         * @var Collection<int, Category>
+         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_categories = config('custom.featured-categories');
 

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AddressType;
 use App\Enums\Role;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -15,7 +17,6 @@ use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
-use App\Models\UserMetadata;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -58,15 +59,21 @@ class DatabaseSeeder extends Seeder
             )
             ->create();
 
-        User::factory(10)
-            ->has(UserMetadata::factory(1))
-            ->has(
-                Order::factory(4)
-                    ->has(OrderProduct::factory(2))
-                    ->has(OrderProductSparePart::factory(2))
-                    ->has(OrderProductComplement::factory(2))
-            )
-            ->create();
+        // Create users and attach its orders
+        for ($counter = 0; $counter < 10; $counter++) {
+            $user = User::factory()->create();
+
+            Address::factory(5)->for($user)->create();
+
+            Order::factory(5, [
+                'shipping_address_id' => $user->addresses->first()->id,
+            ])
+                ->for($user)
+                ->has(OrderProduct::factory(2))
+                ->has(OrderProductSparePart::factory(2))
+                ->has(OrderProductComplement::factory(2))
+                ->create();
+        }
 
         // Creates an admin user if not exists
         if (User::where('email', 'fran@gmail.com')->first() === null) {
@@ -78,6 +85,21 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
                 'role' => Role::Admin,
+            ]);
+
+            Address::create([
+                'user_id' => User::where('email', 'fran@gmail.com')->first()->id,
+                'address_type' => AddressType::Shipping,
+                'name' => 'Francisco',
+                'surname' => 'Rey Castedo',
+                'email' => 'franreycastedo@gmail.es',
+                'financial_number' => '00000000F',
+                'phone' => 617547428,
+                'address' => 'Lamas de prado 86',
+                'city' => 'Lugo',
+                'state' => 'Galiza',
+                'zip_code' => 27004,
+                'country' => 'Galiza',
             ]);
         }
     }

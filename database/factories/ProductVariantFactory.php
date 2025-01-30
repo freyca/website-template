@@ -23,6 +23,7 @@ class ProductVariantFactory extends Factory
 
         return [
             'ean13' => fake()->unique()->ean13(),
+            'name' => fake()->unique()->name(),
             'price' => fake()->randomFloat(2, 10, 1000),
             'price_with_discount' => $this->isProductDiscounted($price),
             'stock' => fake()->numberBetween(10, 100),

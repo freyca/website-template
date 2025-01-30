@@ -124,3 +124,26 @@ input[type="range"]::-webkit-slider-thumb {
 #minPrice::-ms-fill-upper {
     background-color: lightcoral;
 }
+
+#filter-side-menu.open {
+    transform: translateX(-100%);
+}
+
+#product-short-description h3 {
+    font-weight: 700;
+    font-size: var(--text-lg);
+    /* 1.125rem (18px) */
+    line-height: var(--text-lg--line-height);
+    /* calc(1.75 / 1.125) */
+}
+
+#product-short-description li {
+    display: flex;
+    margin-bottom: 1px;
+}
+
+#product-short-description li:before {
+    content: '✓';
+    margin-right: 2px;
+    color: #228B22;
+}

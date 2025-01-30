@@ -9,8 +9,6 @@
 
     if(is_a($product, 'App\Models\ProductVariant')) {
         $parent = $product->product;
-
-        //dd($parent);
     }
 @endphp
 
@@ -19,23 +17,25 @@
         <div class="space-y-4 grid grid-cols-3 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 ">
 
             <a href="{{ $path . '/' . $product->slug }}" class="shrink-0 md:order-1">
+                <img class="mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
                 @if(isset($parent))
-                    <img class=" mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
                         src="{{ @asset('/storage/' . $parent->main_image) }}" alt="" />
                 @else
-                    <img class=" mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
                         src="{{ @asset('/storage/' . $product->main_image) }}" alt="" />
                 @endif
             </a>
 
             <div class="ml-2 sm:ml-0 w-full min-w-0 flex-1 space-y-4 col-span-2 md:order-2 md:max-w-md">
                 <div>
-                    <a href="{{ $path . '/' . $product->slug }}"
+                    <a href="{{ $path . '/'}}{{isset($product->slug) ? $product->slug : $parent->slug}}"
                         class="text-base font-medium text-gray-900 hover:underline">
                         @if(isset($parent))
-                            {{ $parent->name }}
+                            <p>{{ $parent->name }}</p>
+                            <span class="text-sm text-gray-500">{{ $product->name }}</span>
                         @else
-                            {{ $product->name }}
+                            <p>
+                                {{ $product->name }}
+                            </p>
                         @endif
                     </a>
                     <p class="text-base text-gray-900 truncate">
@@ -63,11 +63,14 @@
 
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
-                    <p class="text-base font-bold text-primary-700 line-through">
+                    <p class="text-base line-through font-medium text-gray-900">
                         {{ $cart->getTotalCostforProductWithoutDiscount($product, true) }}
                     </p>
+
+                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, true) }}</p>
+                @else
+                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
                 @endif
-                <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
             </div>
 
         </div>

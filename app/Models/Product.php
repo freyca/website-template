@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Events\ProductDeleted;
+use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends BaseProduct
 {
+    /** @use HasFactory<ProductFactory> */
+    use HasFactory;
+
     /**
      * Create a new Eloquent model instance.
      *
@@ -34,7 +39,7 @@ class Product extends BaseProduct
     ];
 
     /**
-     * @return BelongsTo<Category, Product>
+     * @return BelongsTo<Category, $this>
      */
     public function category(): BelongsTo
     {
@@ -42,7 +47,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductComplement>
+     * @return BelongsToMany<ProductComplement, $this>
      */
     public function productComplements(): BelongsToMany
     {
@@ -50,7 +55,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductSparePart>
+     * @return BelongsToMany<ProductSparePart, $this>
      */
     public function productSpareParts(): BelongsToMany
     {
@@ -58,7 +63,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue>
+     * @return BelongsToMany<ProductFeatureValue, $this>
      */
     public function productFeatureValues(): BelongsToMany
     {
@@ -66,7 +71,7 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return HasMany<ProductVariant>
+     * @return HasMany<ProductVariant, $this>
      */
     public function productVariants(): HasMany
     {

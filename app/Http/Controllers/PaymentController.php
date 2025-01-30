@@ -1,67 +1,76 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
-use App\Enums\PaymentMethod;
-use App\Http\Requests\MerchantParamsRequest;
-use App\Http\Requests\PaymentRequest;
 use App\Models\Order;
+use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Services\Cart;
 use App\Services\Payment;
-use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Throwable;
 
 class PaymentController extends Controller
 {
-    public function index(PaymentRequest $request): bool
+    public function __construct(
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly Cart $cart,
+    ) {}
+
+    public function redirectToPayment(Order $order)
     {
-        /**
-         * @var Cart
-         */
-        $cart = app(Cart::class);
-
-        /**
-         * @var \App\Models\User|null
-         */
-        $user = Auth::getUser();
-
-        if ($user === null) {
-            return false;
-        }
-
-        $order = $cart->buildOrder(
-            PaymentMethod::from(
-                strval($request->string('payment_method'))
-            ),
-            $user
-        );
-
         $paymentService = new Payment($order);
 
         return $paymentService->payPurchase();
     }
 
-    /**
-     * Comprobar respuesta de Redsys
-     */
-    public function checkResponse(MerchantParamsRequest $request): bool
+    public function orderFinishedOk(Order $order, Request $request): View
     {
-        /**
-         * @var \App\Models\Order
-         */
-        $order = Order::find($request->orderId);
+        $this->cart->clear();
 
+        return view(
+            'pages.purchase-complete',
+            [
+                'order' => $order,
+            ]
+        );
+    }
+
+    public function orderFinishedKo(Order $order, Request $request): View
+    {
+        $this->cart->clear();
+
+        $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
+
+        return view(
+            'pages.purchase-complete',
+            [
+                'order' => $order,
+            ]
+        );
+    }
+
+    public function paymentGatewayNotification(Order $order, Request $request): void
+    {
         $paymentService = new Payment($order);
+        $paymentService->isGatewayOkWithPayment($request);
+    }
 
-        if ($paymentService->isGatewayOkWithPayment()) {
-            $order->status = OrderStatus::Processing;
-            $order->save();
+    public function paypalGatewayNotification(Request $request): void
+    {
+        try {
+            $order_id = $request->resource['purchase_units'][0]['invoice_id'];
+            $order = $this->orderRepository->find($order_id);
 
-            return true;
+            if ($order === null) {
+                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
+            }
+
+            $this->paymentGatewayNotification($order, $request);
+        } catch (Throwable $th) {
+            throw ($th);
         }
-
-        return false;
     }
 }

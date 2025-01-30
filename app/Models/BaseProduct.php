@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Models\Traits\HasSlug;
+use App\Traits\CurrencyFormatter;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 abstract class BaseProduct extends Model
 {
-    use HasFactory;
+    use CurrencyFormatter;
     use HasSlug;
 
     protected $fillable = [
@@ -56,12 +57,37 @@ abstract class BaseProduct extends Model
         'images',
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'price' => MoneyCast::class,
+            'price_with_discount' => MoneyCast::class,
+            'images' => 'array',
+        ];
+    }
+
+    public function getFormattedPrice(): string
+    {
+        return $this->formatCurrency($this->price);
+    }
+
+    public function getFormattedPriceWithDiscount(): string
+    {
+        return $this->formatCurrency($this->price_with_discount);
+    }
+
+    public function getFormattedSavings(): string
+    {
+        return $this->formatCurrency($this->price - $this->price_with_discount);
+    }
 
     /**
-     * @return BelongsToMany<Order>
+     * @return BelongsToMany<Order, $this>
      */
     public function orders(): BelongsToMany
     {

@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
+use App\Events\OrderCreated;
+use App\Events\OrderSaved;
 use App\Models\Scopes\OrderScope;
+use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +21,7 @@ use Illuminate\Support\Str;
 #[ScopedBy([OrderScope::class])]
 class Order extends Model
 {
+    /** @use HasFactory<OrderFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -24,11 +29,28 @@ class Order extends Model
         'payment_method',
         'status',
         'user_id',
+        'shipping_address_id',
+        'billing_address_id',
+        'payment_gateway_response',
     ];
 
-    protected $casts = [
-        'payment_method' => PaymentMethod::class,
-        'status' => OrderStatus::class,
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'purchase_cost' => MoneyCast::class,
+            'payment_method' => PaymentMethod::class,
+            'status' => OrderStatus::class,
+        ];
+    }
+
+    protected $dispatchesEvents = [
+        'created' => OrderCreated::class,
+        'saved' => OrderSaved::class,
     ];
 
     protected $keyType = 'string';
@@ -43,15 +65,23 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<UserMetadata, Order>
+     * @return BelongsTo<Adress, $this>
      */
-    public function userMetadata(): BelongsTo
+    public function shippingAddress(): BelongsTo
     {
-        return $this->belongsTo(UserMetadata::class);
+        return $this->belongsTo(Address::class);
     }
 
     /**
-     * @return BelongsTo<User, Order>
+     * @return BelongsTo<Adress, $this>
+     */
+    public function billingAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {
@@ -59,7 +89,7 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProduct>
+     * @return HasMany<OrderProduct, $this>
      */
     public function orderProducts(): HasMany
     {
@@ -67,7 +97,7 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProductSparePart>
+     * @return HasMany<OrderProductSparePart, $this>
      */
     public function orderProductSpareParts(): HasMany
     {
@@ -75,21 +105,19 @@ class Order extends Model
     }
 
     /**
-     * @return HasMany<OrderProductComplement>
+     * @return HasMany<OrderProductComplement, $this>
      */
     public function orderProductComplements(): HasMany
     {
         return $this->hasMany(OrderProductComplement::class);
     }
 
-    public static function allPurchasedItems(int $id): ?self
+    public function allPurchasedItems()
     {
-        return self::with(
-            [
-                'orderProducts',
-                'orderProductSpareParts',
-                'orderProductComplements',
-            ]
-        )->find($id);
+        $products = $this->orderProducts()->get();
+        $complements = $this->orderProductComplements()->get();
+        $spareParts = $this->orderProductSpareParts()->get();
+
+        return $products->concat($complements)->concat($spareParts);
     }
 }

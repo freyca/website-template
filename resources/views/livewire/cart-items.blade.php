@@ -1,11 +1,10 @@
 <div>
+    <p class="py-2 text-xl font-semibold text-center text-gray-900 ">
+        {{ __('Products') }}
+    </p>
     @inject('cart', 'App\Services\Cart')
 
-    @if ($cart->isEmpty())
-        @php
-            redirect()->route('cart');
-        @endphp
-    @else
+    <div>
         @foreach ($cart->getCart() as $cartItem)
             @livewire(
                 'cart.product-card',
@@ -15,5 +14,5 @@
                 key('product-' . data_get($cartItem, 'product.ean13'))
             )
         @endforeach
-    @endif
+    </div>
 </div>

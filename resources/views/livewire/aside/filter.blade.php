@@ -1,5 +1,5 @@
 <aside id="filter-side-menu" @class([
-    'open' => $hiddenFilterBar,
+    'open' => $isHidden,
     'top-0',
     'md:top-28',
     'z-50',
@@ -83,7 +83,7 @@
             @isset($enabledFilters['features'])
                 <!-- Filtro de Características -->
                 <div class="filter-features">
-                    <label class="block text-gray-700">{{ __('Features') }}:</label>
+                    <label class="block text-gray-700">{{ __('Technical details') }}:</label>
                     @foreach (App\Models\ProductFeature::with('productFeatureValues')->get() as $feature)
                         <details class="group relative mb-4 {{ $loop->last ? 'pb-28' : '' }}">
                             <summary
@@ -114,11 +114,4 @@
             @endisset
         </form>
     </div>
-
-    <!-- Estilos -->
-    <style>
-        #filter-side-menu.open {
-            transform: translateX(-100%);
-        }
-    </style>
 </aside>

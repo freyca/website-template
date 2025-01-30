@@ -7,38 +7,33 @@ namespace App\Services;
 use App\Enums\PaymentMethod;
 use App\Models\Order;
 use App\Repositories\Payment\BankTransferPaymentRepository;
+use App\Repositories\Payment\BizumPaymentRepository;
+use App\Repositories\Payment\CreditCardPaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
-use App\Repositories\Payment\RedsysPaymentRepository;
+use App\Repositories\Payment\PayPalPaymentRepository;
+use Illuminate\Http\Request;
 
-final readonly class Payment
+final class Payment
 {
     private readonly PaymentRepositoryInterface $repository;
 
     public function __construct(private Order $order)
     {
-        $this->repository = match ($order->payment_method) {
-            PaymentMethod::Card => new RedsysPaymentRepository,
-            default => new BankTransferPaymentRepository,
+        $this->repository = match ($this->order->payment_method) {
+            PaymentMethod::Card => app(CreditCardPaymentRepository::class),
+            PaymentMethod::Bizum => app(BizumPaymentRepository::class),
+            PaymentMethod::PayPal => app(PayPalPaymentRepository::class),
+            default => app(BankTransferPaymentRepository::class),
         };
     }
 
-    public function isPurchasePayed(): bool
-    {
-        return $this->repository->isPurchasePayed($this->order);
-    }
-
-    public function payPurchase(): bool
+    public function payPurchase()
     {
         return $this->repository->payPurchase($this->order);
     }
 
-    public function cancelPurchase(): void
+    public function isGatewayOkWithPayment(Request $request): bool
     {
-        $this->repository->cancelPurchase($this->order);
-    }
-
-    public function isGatewayOkWithPayment(): bool
-    {
-        return $this->repository->isGatewayOkWithPayment($this->order);
+        return $this->repository->isGatewayOkWithPayment($this->order, $request);
     }
 }

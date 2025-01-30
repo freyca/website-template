@@ -4,104 +4,80 @@ declare(strict_types=1);
 
 namespace App\Repositories\Payment;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Repositories\Payment\Traits\PaymentActions;
+use Creagia\Redsys\Enums\Currency;
+use Creagia\Redsys\Enums\Environment;
+use Creagia\Redsys\Enums\PayMethod;
+use Creagia\Redsys\Enums\TransactionType;
+use Creagia\Redsys\RedsysClient;
+use Creagia\Redsys\RedsysRequest;
+use Creagia\Redsys\RedsysResponse;
+use Creagia\Redsys\Support\PostRequestError;
+use Creagia\Redsys\Support\RequestParameters;
 use Exception;
-use Ssheduardo\Redsys\Facades\Redsys;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class RedsysPaymentRepository implements PaymentRepositoryInterface
+abstract class RedsysPaymentRepository extends PaymentRepository
 {
-    use PaymentActions;
-
-    private string $key;
-
-    private string $merchantcode;
-
-    private int $terminal;
-
-    private string $enviroment;
-
-    private string $urlOk;
-
-    private string $urlKo;
-
-    private string $urlNotification;
-
-    private string $tradeName;
-
-    private string $titular;
-
-    private string $description;
-
-    public function __construct()
-    {
-        $this->key = config('payments.redsys.key'); // @phpstan-ignore-line
-        $this->merchantcode = config('payments.redsys.merchantcode'); // @phpstan-ignore-line
-        $this->terminal = config('payments.redsys.terminal'); // @phpstan-ignore-line
-        $this->enviroment = config('payments.redsys.enviroment'); // @phpstan-ignore-line
-        $this->urlOk = url(config('payments.redsys.url_ok')); // @phpstan-ignore-line
-        $this->urlKo = url(config('payments.redsys.url_ko')); // @phpstan-ignore-line
-        $this->urlNotification = url(config('payments.redsys.url_notification')); // @phpstan-ignore-line
-        $this->tradeName = config('payments.redsys.tradename'); // @phpstan-ignore-line
-        $this->titular = config('payments.redsys.titular'); // @phpstan-ignore-line
-        $this->description = config('payments.redsys.description'); // @phpstan-ignore-line
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function payPurchase(Order $order): bool
+    public function createRedsysRequest(Order $order, PayMethod $payMethod)
     {
         try {
-            Redsys::setAmount($order->purchase_cost);
-            Redsys::setOrder($order);
-            Redsys::setMerchantcode($this->merchantcode);
-            Redsys::setCurrency(978); // Euros
-            Redsys::setTransactiontype(0);
-            Redsys::setTerminal($this->terminal);
-            Redsys::setMethod('T');
-            Redsys::setNotification($this->urlNotification);
-            Redsys::setUrlOk($this->urlOk);
-            Redsys::setUrlKo($this->urlKo);
-            Redsys::setVersion('HMAC_SHA256_V1');
-            Redsys::setTradeName($this->tradeName);
-            Redsys::setTitular($this->titular);
-            Redsys::setProductDescription($this->description);
-            Redsys::setEnviroment($this->enviroment);
+            $redsysRequest = RedsysRequest::create(
+                $this->createClient(),
+                new RequestParameters(
+                    amountInCents: $this->convertPriceToCents($order->purchase_cost),
+                    order: Str::take($order->id, 12),
+                    currency: Currency::EUR,
+                    transactionType: TransactionType::Autorizacion,
+                    payMethods: $payMethod,
+                    merchantUrl: route('payment.gateway-notification', ['order' => $order->id]),
+                    urlOk: route('payment.purchase-complete', ['order' => $order->id]),
+                    urlKo: route('payment.purchase-failed', ['order' => $order->id]),
+                )
+            );
 
-            $signature = Redsys::generateMerchantSignature($this->key);
+            return $redsysRequest->getRedirectFormHtml();
+        } catch (\Throwable $th) {
+            return $this->redirectWithFail($order);
+        }
+    }
 
-            Redsys::setMerchantSignature($signature);
+    public function isGatewayOkWithPayment(Order $order, Request $request): bool
+    {
+        try {
+            /**
+             *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
+             */
+            $redsys_response = new RedsysResponse($this->createClient());
+            $inputs = $request->all();
+            $redsys_response->setParametersFromResponse($inputs);
 
-            Redsys::setAttributesSubmit('btn_submit', 'btn_id', 'Enviar', 'display:none');
+            $order->payment_gateway_response = $redsys_response instanceof PostRequestError
+                ? $redsys_response->responseParameters
+                : $redsys_response->merchantParametersArray;
 
-            Redsys::executeRedirection();
+            $notificationData = $redsys_response->checkResponse();
+
+            $this->orderRepository->changeStatus($order, $order->status = OrderStatus::Paid);
 
             return true;
         } catch (Exception $e) {
+            $this->redirectWithFail($order, json_encode($inputs));
+            $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
 
-            throw $e;
+            return false;
         }
     }
 
-    public function isGatewayOkWithPayment(Order $order): bool
+    private function createClient(): RedsysClient
     {
-        // TODO: get merchant params
-        $merchantParams = [];
-
-        try {
-            $key = $this->key;
-            $parameters = Redsys::getMerchantParameters($merchantParams);
-            $DsResponse = $parameters['Ds_Response'];
-            $DsResponse += 0;
-
-            if (Redsys::check($key, $merchantParams) && $DsResponse <= 99) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return new RedsysClient(
+            merchantCode: intval(config('redsys.tpv.merchantCode')),
+            secretKey: config('redsys.tpv.key'),
+            terminal: intval(config('redsys.tpv.terminal')),
+            environment: config('redsys.environment') === 'production' ? Environment::Production : Environment::Test,
+        );
     }
 }

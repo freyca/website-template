@@ -25,7 +25,9 @@ class ListOrders extends ListRecords
     {
         return [
             null => Tab::make(__('All')),
-            __('New') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::New)), // @phpstan-ignore-line
+            __('Paid') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::Paid)), // @phpstan-ignore-line
+            __('Payment Failed') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::PaymentFailed)), // @phpstan-ignore-line
+            __('PaymentPending') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::PaymentPending)), // @phpstan-ignore-line
             __('Processing') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::Processing)), // @phpstan-ignore-line
             __('Shipped') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::Shipped)), // @phpstan-ignore-line
             __('Delivered') => Tab::make()->query(fn ($query) => $query->where('status', OrderStatus::Delivered)), // @phpstan-ignore-line

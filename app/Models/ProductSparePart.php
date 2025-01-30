@@ -4,13 +4,30 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductSparePartFactory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ProductSparePart extends BaseProduct
 {
+    /** @use HasFactory<ProductSparePartFactory> */
+    use HasFactory;
+
     /**
-     * @return BelongsToMany<Product>
+     * Create a new Eloquent model instance.
+     *
+     * @param  array<string>  $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->mergeFillable(['price_when_user_owns_product']);
+
+        parent::__construct($attributes);
+    }
+
+    /**
+     * @return BelongsToMany<Product, $this>
      */
     public function products(): BelongsToMany
     {
@@ -26,7 +43,7 @@ class ProductSparePart extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue>
+     * @return BelongsToMany<ProductFeatureValue, $this>
      */
     public function productFeatureValues(): BelongsToMany
     {

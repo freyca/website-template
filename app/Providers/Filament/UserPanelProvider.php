@@ -7,7 +7,7 @@ namespace App\Providers\Filament;
 use App\Filament\User\Pages\Auth\EditProfile;
 use App\Filament\User\Pages\Auth\Login;
 use App\Filament\User\Pages\Auth\Register;
-use App\Http\Middleware\CanAccessUserPanel;
+use App\Http\Middleware\RedirectsAdminUsersToAdminPanel;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -33,7 +33,6 @@ class UserPanelProvider extends PanelProvider
             ->login(Login::class)
             ->passwordReset()
             ->registration(Register::class)
-            ->emailVerification()
             ->profile(
                 page: EditProfile::class,
                 isSimple: false
@@ -48,22 +47,30 @@ class UserPanelProvider extends PanelProvider
                     ->group(__('Website urls'))
                     ->sort(5),
                 NavigationItem::make(__('Cart'))
-                    ->url('/carrito')
+                    ->url(function () {
+                        return route('checkout.cart');
+                    })
                     ->icon('heroicon-o-shopping-bag')
                     ->group(__('Website urls'))
                     ->sort(5),
                 NavigationItem::make(__('Products'))
-                    ->url('/products')
+                    ->url(function () {
+                        return route('product-list');
+                    })
                     ->icon('heroicon-o-rectangle-stack')
                     ->group(__('Website urls'))
                     ->sort(5),
                 NavigationItem::make(__('Product complements'))
-                    ->url('/complementos-producto')
+                    ->url(function () {
+                        return route('complement-list');
+                    })
                     ->icon('heroicon-o-puzzle-piece')
                     ->group(__('Website urls'))
                     ->sort(5),
                 NavigationItem::make(__('Product spare parts'))
-                    ->url('/piezas-de-repuesto')
+                    ->url(function () {
+                        return route('spare-part-list');
+                    })
                     ->icon('heroicon-s-wrench')
                     ->group(__('Website urls'))
                     ->sort(5),
@@ -100,7 +107,7 @@ class UserPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                CanAccessUserPanel::class,
+                RedirectsAdminUsersToAdminPanel::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUlid('order_id')->constrained();
             $table->foreignIdFor(ProductComplement::class)->constrained();
-            $table->float('unit_price');
+            $table->integer('unit_price');
             $table->integer('quantity');
             $table->timestamps();
         });
