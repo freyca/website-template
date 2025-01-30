@@ -17,12 +17,12 @@ class FilamentCustomizationProvider extends ServiceProvider
         // Filament colors
         FilamentColor::register([
             'primary' => Color::Red,
-            'gray' => Color::Gray,
             'info' => Color::Blue,
             'warning' => Color::Yellow,
             'success' => Color::Green,
             'danger' => Color::Pink,
 
+            'gray' => Color::Gray,
             'red' => Color::Red,
             'slate' => Color::Slate,
             'zinc' => Color::Zinc,

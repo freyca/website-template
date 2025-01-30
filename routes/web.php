@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Payment\BankTransferPaymentController;
-use App\Http\Controllers\Payment\PayPalPaymentController;
-use App\Http\Controllers\Payment\RedsysPaymentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
@@ -17,9 +14,9 @@ Route::get('quienes-somos', function () {
     return view('pages.who-we-are');
 })->name('who-we-are');
 
-//Route::get('como-comprar', function () {
+// Route::get('como-comprar', function () {
 //    return view('pages.how-to-buy');
-//})->name('how-to-buy');
+// })->name('how-to-buy');
 
 Route::get('sobre-nosotros', function () {
     return view('pages.about-us');
