@@ -20,26 +20,16 @@ final class Payment
     public function __construct(private Order $order)
     {
         $this->repository = match ($this->order->payment_method) {
-            PaymentMethod::Card => new CreditCardPaymentRepository,
-            PaymentMethod::Bizum => new BizumPaymentRepository,
-            PaymentMethod::PayPal => new PayPalPaymentRepository,
-            default => new BankTransferPaymentRepository,
+            PaymentMethod::Card => app(CreditCardPaymentRepository::class),
+            PaymentMethod::Bizum => app(BizumPaymentRepository::class),
+            PaymentMethod::PayPal => app(PayPalPaymentRepository::class),
+            default => app(BankTransferPaymentRepository::class),
         };
     }
 
     public function payPurchase()
     {
         return $this->repository->payPurchase($this->order);
-    }
-
-    public function isPurchasePayed(): bool
-    {
-        return $this->repository->isPurchasePayed($this->order);
-    }
-
-    public function cancelPurchase(): void
-    {
-        $this->repository->cancelPurchase($this->order);
     }
 
     public function isGatewayOkWithPayment(Request $request): bool

@@ -9,7 +9,9 @@ use App\Repositories\Cart\SessionCartRepository;
 use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use App\Repositories\Database\Categories\EloquentCategoryRepository;
 use App\Repositories\Database\Order\Product\EloquentOrderProductRepository;
+use App\Repositories\Database\Order\Order\EloquentOrderRepository;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
+use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\ProductComplement\EloquentOrderProductComplementRepository;
 use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
 use App\Repositories\Database\Order\ProductSparePart\EloquentOrderProductSparePartRepository;
@@ -64,6 +66,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderProductSparePartRepositoryInterface::class,
             EloquentOrderProductSparePartRepository::class,
+        );
+
+        $this->app->bind(
+            OrderRepositoryInterface::class,
+            EloquentOrderRepository::class,
         );
     }
 }

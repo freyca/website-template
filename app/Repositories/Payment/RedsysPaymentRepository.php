@@ -6,7 +6,7 @@ namespace App\Repositories\Payment;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
-use App\Repositories\Payment\Traits\PaymentActions;
+use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use Creagia\Redsys\Enums\Currency;
 use Creagia\Redsys\Enums\Environment;
 use Creagia\Redsys\Enums\PayMethod;
@@ -20,9 +20,58 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-abstract class RedsysPaymentRepository implements PaymentRepositoryInterface
+abstract class RedsysPaymentRepository extends PaymentRepository
 {
-    use PaymentActions;
+    public function createRedsysRequest(Order $order, PayMethod $payMethod)
+    {
+        try {
+            $redsysRequest = RedsysRequest::create(
+                $this->createClient(),
+                new RequestParameters(
+                    amountInCents: $this->convertPriceToCents($order->purchase_cost),
+                    order: Str::take($order->id, 12),
+                    currency: Currency::EUR,
+                    transactionType: TransactionType::Autorizacion,
+                    payMethods: $payMethod,
+                    merchantUrl: route('payment.gateway-notification', ['order' => $order->id]),
+                    urlOk: route('payment.purchase-complete', ['order' => $order->id]),
+                    urlKo: route('payment.purchase-failed', ['order' => $order->id]),
+                )
+            );
+
+            return $redsysRequest->getRedirectFormHtml();
+        } catch (\Throwable $th) {
+            return $this->redirectWithFail($order);
+        }
+    }
+
+    public function isGatewayOkWithPayment(Order $order, Request $request): bool
+    {
+        try {
+            /**
+             *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
+             */
+            $redsys_response = new RedsysResponse($this->createClient());
+            $inputs = $request->all();
+            $redsys_response->setParametersFromResponse($inputs);
+
+            $order->payment_gateway_response = $redsys_response instanceof PostRequestError
+                ? $redsys_response->responseParameters
+                : $redsys_response->merchantParametersArray;
+
+
+            $notificationData = $redsys_response->checkResponse();
+
+            $this->orderRepository->changeStatus($order, $order->status = OrderStatus::Paid);
+
+            return true;
+        } catch (Exception $e) {
+            $this->redirectWithFail($order, json_encode($inputs));
+            $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
+
+            return false;
+        }
+    }
 
     private function createClient(): RedsysClient
     {
@@ -32,53 +81,5 @@ abstract class RedsysPaymentRepository implements PaymentRepositoryInterface
             terminal: intval(config('redsys.tpv.terminal')),
             environment: config('redsys.environment') === 'production' ? Environment::Production : Environment::Test,
         );
-    }
-
-    public function createRedsysRequest(Order $order, PayMethod $payMethod)
-    {
-        $redsysRequest = RedsysRequest::create(
-            $this->createClient(),
-            new RequestParameters(
-                amountInCents: $this->convertPriceToCents($order->purchase_cost),
-                order: Str::take($order->id, 12),
-                currency: Currency::EUR,
-                transactionType: TransactionType::Autorizacion,
-                payMethods: $payMethod,
-                merchantUrl: route('payment.gateway-notification', ['order' => $order->id]),
-                urlOk: route('payment.purchase-complete', ['order' => $order->id]),
-                urlKo: route('payment.purchase-failed', ['order' => $order->id]),
-            )
-        );
-
-        return $redsysRequest->getRedirectFormHtml();
-    }
-
-    public function isGatewayOkWithPayment(Order $order, Request $request): bool
-    {
-        /**
-         *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
-         */
-        $redsysResponse = new RedsysResponse($this->createClient());
-        $inputs = $request->all();
-        $redsysResponse->setParametersFromResponse($inputs);
-
-        $order->payment_gateway_response = $redsysResponse instanceof PostRequestError
-            ? $redsysResponse->responseParameters
-            : $redsysResponse->merchantParametersArray;
-
-        try {
-            $notificationData = $redsysResponse->checkResponse();
-            $order->status = OrderStatus::Paid;
-
-            $order->save();
-
-            return true;
-        } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            $order->status = OrderStatus::PaymentFailed;
-
-            $order->save();
-            return false;
-        }
     }
 }

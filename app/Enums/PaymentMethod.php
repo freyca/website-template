@@ -30,7 +30,7 @@ enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::BankTransfer => 'warning',
             self::Card => 'success',
-            self::Bizum => 'info',
+            self::Bizum => 'teal',
             self::PayPal => 'info',
         };
     }

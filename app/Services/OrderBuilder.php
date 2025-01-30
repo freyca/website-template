@@ -11,6 +11,7 @@ use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
+use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
 use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
 use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
@@ -20,8 +21,6 @@ use Illuminate\Support\Arr;
 class OrderBuilder
 {
     private Order $order;
-
-    private Cart $cart;
 
     private ?User $user;
 
@@ -34,6 +33,8 @@ class OrderBuilder
     private string $order_details;
 
     public function __construct(
+        private readonly Cart $cart,
+        private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderProductRepositoryInterface $orderProductRepository,
         private readonly OrderProductComplementRepositoryInterface $orderProductComplementRepository,
         private readonly OrderProductSparePartRepositoryInterface $orderProductSparePartRepository,
@@ -41,8 +42,6 @@ class OrderBuilder
 
     public function build(AddressBuilder $addressBuilder)
     {
-        $this->cart = app(Cart::class);
-
         $this->user = $addressBuilder->user();
         $this->payment_method = $addressBuilder->paymentMethod();
         $this->shipping_address = $addressBuilder->shippingAddress();
@@ -60,25 +59,20 @@ class OrderBuilder
 
     private function buildOrder(): void
     {
-        $this->order = Order::create([
-            'purchase_cost' => (float) $this->cart->getTotalCost(),
-            'payment_method' => $this->payment_method,
-            'status' => OrderStatus::PaymentPending,
-            'user_id' => $this->user ? $this->user->id : null,
-            'shipping_address_id' => $this->shipping_address->id,
-            'billing_address_id' => $this->billing_address->id,
-            'order_details' => $this->order_details,
-        ]);
+        $this->order = $this->orderRepository->create(
+            purchase_cost: (float) $this->cart->getTotalCost(),
+            payment_method: $this->payment_method,
+            status: OrderStatus::PaymentPending,
+            user: $this->user ? $this->user : null,
+            shipping_address: $this->shipping_address,
+            billing_address: $this->billing_address,
+            order_details: $this->order_details,
+        );
     }
 
     private function saveOrderProducts(): void
     {
-        /**
-         * @var Cart
-         */
-        $cart = app(Cart::class);
-
-        $CartProducts = $cart->getCart();
+        $CartProducts = $this->cart->getCart();
 
         foreach ($CartProducts as $cartProduct) {
             $quantity = Arr::get($cartProduct, 'quantity');

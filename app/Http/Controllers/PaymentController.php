@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
+use App\Repositories\Payment\PayPalPaymentRepository;
 use App\Services\Payment;
 use App\Services\Cart;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Throwable;
 
 class PaymentController extends Controller
 {
+    function __construct(
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly Cart $cart,
+    ) {}
+
     public function redirectToPayment(Order $order)
     {
         $paymentService = new Payment($order);
@@ -20,11 +29,7 @@ class PaymentController extends Controller
 
     public function orderFinishedOk(Order $order, Request $request): View
     {
-        $cart = app(Cart::class);
-        $cart->clear();
-
-        $paymentService = new Payment($order);
-        $paymentService->isGatewayOkWithPayment($request);
+        $this->cart->clear();
 
         return view(
             'pages.purchase-complete',
@@ -36,14 +41,9 @@ class PaymentController extends Controller
 
     public function orderFinishedKo(Order $order, Request $request): View
     {
-        $cart = app(Cart::class);
-        $cart->clear();
+        $this->cart->clear();
 
-        $paymentService = new Payment($order);
-        $paymentService->isGatewayOkWithPayment($request);
-
-        $order->status = OrderStatus::PaymentFailed;
-        $order->save();
+        $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
 
         return view(
             'pages.purchase-complete',
@@ -57,5 +57,21 @@ class PaymentController extends Controller
     {
         $paymentService = new Payment($order);
         $paymentService->isGatewayOkWithPayment($request);
+    }
+
+    public function paypalGatewayNotification(Request $request): void
+    {
+        try {
+            $order_id = $request->resource['purchase_units'][0]['invoice_id'];
+            $order = $this->orderRepository->find($order_id);
+
+            if ($order === null) {
+                throw new Exception('Invalid PayPal request ' . json_encode($request->all()));
+            }
+
+            $this->paymentGatewayNotification($order, $request);
+        } catch (Throwable $th) {
+            throw ($th);
+        }
     }
 }

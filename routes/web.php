@@ -53,8 +53,15 @@ Route::group(['as' => 'payment.'], function () {
     Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
         ->name('purchase-failed');
 
-    Route::post('notificacion-pago-pasarela/{order}', [PaymentController::class, 'paymentGatewayNotification'])
+    /**
+     * Payment notifications
+     */
+    Route::post('notificacion-pago/{order}', [PaymentController::class, 'paymentGatewayNotification'])
         ->name('gateway-notification')
+        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+
+    Route::post('notificacion-pago-paypal', [PaymentController::class, 'paypalGatewayNotification'])
+        ->name('paypal-gateway-notification')
         ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 });
 
