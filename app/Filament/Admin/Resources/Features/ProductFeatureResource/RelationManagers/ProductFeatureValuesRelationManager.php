@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductFeatureValuesRelationManager extends RelationManager
@@ -23,7 +24,7 @@ class ProductFeatureValuesRelationManager extends RelationManager
                     ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('description')
+                TiptapEditor::make('description')
                     ->label(__('Description'))
                     ->required(),
 

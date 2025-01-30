@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\TiptapEditor;
 
 class ProductFeatureResource extends Resource
 {
@@ -34,14 +35,10 @@ class ProductFeatureResource extends Resource
                         ->options(ProductFeatureFamily::class)
                         ->required()
                         ->columnSpan('full'),
-                    Forms\Components\RichEditor::make('description')
+                    TiptapEditor::make('description')
                         ->label(__('Description'))
                         ->required()
-                        ->columnSpan('full')
-                        ->disableToolbarButtons([
-                            'attachFiles',
-                            'table',
-                        ]),
+                        ->columnSpan('full'),
                 ]),
             ]);
     }

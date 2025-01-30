@@ -9,6 +9,7 @@ use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use FilamentTiptapEditor\TiptapEditor;
 use Livewire\Component;
 
 trait FormBuilderTrait
@@ -165,13 +166,9 @@ trait FormBuilderTrait
                             Forms\Components\TextInput::make('name')
                                 ->required()
                                 ->maxLength(255),
-                            Forms\Components\RichEditor::make('description')
+                            TiptapEditor::make('description')
                                 ->required()
-                                ->columnSpan('full')
-                                ->disableToolbarButtons([
-                                    'attachFiles',
-                                    'table',
-                                ]),
+                                ->columnSpan('full'),
                         ]),
 
                     ]),
@@ -181,23 +178,15 @@ trait FormBuilderTrait
     private static function textsSection(): Forms\Components\Section
     {
         return Forms\Components\Section::make(__('Texts'))->schema([
-            Forms\Components\RichEditor::make('short_description')
+            TiptapEditor::make('short_description')
                 ->label(__('Short description'))
                 ->required()
-                ->columnSpan('full')
-                ->disableToolbarButtons([
-                    'attachFiles',
-                    'table',
-                ]),
+                ->columnSpan('full'),
 
-            Forms\Components\RichEditor::make('description')
+            TiptapEditor::make('description')
                 ->label(__('Full Description'))
                 ->required()
-                ->columnSpan('full')
-                ->disableToolbarButtons([
-                    'attachFiles',
-                    'table',
-                ]),
+                ->columnSpan('full'),
         ]);
     }
 
