@@ -31,7 +31,7 @@
         </h3>
 
         <button type="button"
-            class="my-4 bg-slate-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded active:translate-x-1 active:translate-y-1"
+            class="my-4 bg-slate-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             wire:click="clearFilters">
             {{ __('Clear All Filters') }}
         </button>

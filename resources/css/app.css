@@ -147,3 +147,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin-right: 2px;
     color: #228B22;
 }
+
+button {
+    @apply active:translate-x-1 active:translate-y-1
+}
