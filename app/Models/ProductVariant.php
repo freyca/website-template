@@ -15,6 +15,7 @@ class ProductVariant extends BaseProduct
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'product_id',
         'ean13',
         'price',

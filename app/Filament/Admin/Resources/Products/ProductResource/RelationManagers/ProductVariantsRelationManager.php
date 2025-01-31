@@ -27,6 +27,10 @@ class ProductVariantsRelationManager extends RelationManager
                     ->required()
                     ->numeric(),
 
+                Forms\Components\TextInput::make('name')
+                    ->label(__('Name'))
+                    ->required(),
+
                 self::priceSection(),
 
                 self::featuresSection(),
