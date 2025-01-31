@@ -224,7 +224,13 @@ class SessionCartRepository implements CartRepositoryInterface
 
     private function getProductKey(BaseProduct $product, ?bool $assemble = null): string
     {
-        if (!$product->can_be_assembled) {
+        $parent = $product;
+
+        if (is_a($product, ProductVariant::class)) {
+            $parent = $product->product;
+        }
+
+        if (!$parent->can_be_assembled) {
             return strval($product->ean13);
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Product;
 
 use App\Models\BaseProduct;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
@@ -93,6 +94,7 @@ class ProductCartContainer extends Component
         $cart = app(Cart::class);
 
         $this->setAssemblyStatus();
+        $this->validateVariantProduct();
 
         $this->in_cart = $cart->hasProduct($this->product, $this->assemble_status);
         $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, $this->assemble_status);
@@ -100,10 +102,28 @@ class ProductCartContainer extends Component
         return view('livewire.product.product-cart-container');
     }
 
+    /**
+     * Determines if product can be assebled
+     */
     private function setAssemblyStatus(): void
     {
         if (!isset($this->assemble_status)) {
             $this->assemble_status = $this->product->can_be_assembled ? true : false;
+        }
+    }
+
+    /**
+     * If product has variants cannot be the selected product, needs to be a
+     * variant
+     */
+    private function validateVariantProduct(): void
+    {
+        if (! is_a($this->product, Product::class)) {
+            return;
+        }
+
+        if ($this->product->productVariants->count() !== 0) {
+            $this->product = $this->product->productVariants->first();
         }
     }
 }
