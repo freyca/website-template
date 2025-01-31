@@ -17,7 +17,7 @@
                     @php $variants = collect(); @endphp
                 @endif
 
-                @livewire('product.product-cart-container', ['product' => $product, 'variants' => $variants])
+                @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => $variants])
 
                 <div class="text-gray-700 text-justify grid gap-2 pt-4">
                     <p>@svg('heroicon-m-home', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('You will receive at home product') . ' ' . strtolower($product->name)}}</p>

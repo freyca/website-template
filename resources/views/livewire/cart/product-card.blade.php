@@ -1,18 +1,5 @@
 @inject('cart', 'App\Services\Cart')
 
-@php
-    $path = match (true) {
-        get_class($product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
-        get_class($product) === 'App\Models\ProductComplement' => '/complemento',
-        default => '/producto',
-    };
-
-    if(is_a($product, 'App\Models\ProductVariant')) {
-        $parent = $product->product;
-    }
-
-@endphp
-
 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
     <div class="rounded-lg border bg-white p-2 shadow-sm md:p-6 space-x-6">
         <div class="space-y-4 grid grid-cols-3 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0 ">
@@ -33,7 +20,7 @@
                         @if(isset($parent))
                             <p>
                                 {{ $parent->name }}
-                                @if($assemble)
+                                @if($assembly_status)
                                     <span class="text-sm font-normal">
                                         {{ ' (' . __('with assembly') . ')'}}
                                     </span>
@@ -43,9 +30,9 @@
                         @else
                             <p>
                                 {{ $product->name }}
-                                @if($assemble)
+                                @if($assembly_status)
                                     <span class="text-sm font-normal">
-                                        {{ ' (' . __('with assemble') . ')'}}
+                                        {{ ' (' . __('with assembly_status') . ')'}}
                                     </span>
                                 @endif
                             </p>
@@ -66,30 +53,30 @@
 
             <div class="flex col-span-2 justify-around md:order-4 md:grid">
                 <div class="flex items-center justify-between md:justify-center ">
-                    @livewire('buttons.increment-decrement-cart', ['product' => $product, 'assemble' => $assemble])
+                    @livewire('buttons.increment-decrement-cart', ['product' => $product, 'assembly_status' => $assembly_status])
                 </div>
 
                 <div class="flex items-center gap-4">
-                    @livewire('buttons.remove-from-cart', ['product' => $product, 'assemble' => $assemble])
+                    @livewire('buttons.remove-from-cart', ['product' => $product, 'assembly_status' => $assembly_status])
                 </div>
             </div>
 
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
                     <p class="text-base line-through font-medium text-gray-900">
-                        {{ $cart->getTotalCostforProductWithoutDiscount($product, $assemble, true) }}
+                        {{ $cart->getTotalCostforProductWithoutDiscount($product, $assembly_status, true) }}
                     </p>
 
                     <p class="text-base font-bold text-lime-600">
-                        {{ $cart->getTotalCostforProduct($product, $assemble, true) }}
-                        @if($assemble)
+                        {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
+                        @if($assembly_status)
                             <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
                         @endif
                     </p>
                 @else
                     <p class="text-base font-bold text-gray-900">
-                        {{ $cart->getTotalCostforProduct($product, $assemble, true) }}
-                        @if($assemble)
+                        {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
+                        @if($assembly_status)
                             <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
                         @endif
                     </p>

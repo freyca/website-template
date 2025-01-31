@@ -12,7 +12,7 @@
         <br/>
         <p>
             <span class="text-lg font-bold p-3 px-4 mr-4 rounded-md bg-green-500 text-gray-100">
-                Te estás ahorrando {{ $product->getFormattedSavings() }}
+                {{__('Savings') . ': ' . $product->getFormattedSavings()}}
             </span>
         </p>
     @else

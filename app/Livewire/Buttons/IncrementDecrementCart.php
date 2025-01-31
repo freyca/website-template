@@ -4,30 +4,33 @@ declare(strict_types=1);
 
 namespace App\Livewire\Buttons;
 
+use App\Livewire\Buttons\Traits\AssemblyStatusChanger;
+use App\Livewire\Buttons\Traits\ProductVariantChanger;
 use App\Models\BaseProduct;
-use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
 use Illuminate\View\View;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class IncrementDecrementCart extends Component
 {
+    use AssemblyStatusChanger;
+    use ProductVariantChanger;
+
     public BaseProduct $product;
 
     public int $productQuantity = 0;
-
-    public bool $assemble;
 
     public function increment(): void
     {
         /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->add($this->product, 1, $this->assemble);
-
-        Notification::make()->title(__('Product incremented'))->success()->send();
+        if ($cart->add($this->product, 1, $this->getAssemblyStatus())) {
+            Notification::make()->title(__('Product incremented'))->success()->send();
+        } else {
+            Notification::make()->title(__('Not enough stock'))->danger()->send();
+        }
 
         $this->dispatch('refresh-cart');
     }
@@ -37,7 +40,7 @@ class IncrementDecrementCart extends Component
         /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->add($this->product, -1, $this->assemble);
+        $cart->add($this->product, -1, $this->getAssemblyStatus());
 
         Notification::make()->title(__('Product decremented'))->danger()->send();
 
@@ -55,23 +58,12 @@ class IncrementDecrementCart extends Component
         $this->dispatch('refresh-cart');
     }
 
-    #[On('variant-selection-changed')]
-    public function variantChanged(int $variant_id): void
-    {
-        /**
-         * @var ProductVariant
-         */
-        $variant = ProductVariant::find($variant_id);
-
-        $this->product = $variant;
-    }
-
     public function render(): View
     {
         /** @var Cart */
         $cart = app(Cart::class);
 
-        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, $this->assemble);
+        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, $this->getAssemblyStatus());
 
         return view('livewire.buttons.increment-decrement-cart');
     }

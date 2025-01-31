@@ -13,11 +13,34 @@ class ProductCard extends Component
 {
     public BaseProduct $product;
 
-    public bool $assemble;
+    public BaseProduct $parent;
+
+    public bool $assembly_status;
+
+    public string $path;
 
     #[On('refresh-cart')]
     public function render(): View
     {
+        $this->setProductPath();
+        $this->setProductParent();
+
         return view('livewire.cart.product-card');
+    }
+
+    private function setProductPath(): void
+    {
+        $this->path = match (true) {
+            get_class($this->product) === 'App\Models\ProductSparePart' => '/pieza-de-repuesto',
+            get_class($this->product) === 'App\Models\ProductComplement' => '/complemento',
+            default => '/producto',
+        };
+    }
+
+    private function setProductParent(): void
+    {
+        if (is_a($this->product, 'App\Models\ProductVariant')) {
+            $this->parent = $this->product->product;
+        }
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 interface CartRepositoryInterface
 {
-    public function add(BaseProduct $product, int $quantity, bool $assemble): void;
+    public function add(BaseProduct $product, int $quantity, bool $assemble): bool;
 
     public function remove(BaseProduct $product, bool $assemble): void;
 
@@ -30,6 +30,8 @@ interface CartRepositoryInterface
     public function getTotalCostWithoutDiscount(bool $formatted = false): float|string;
 
     public function hasProduct(BaseProduct $product, bool $assemble): bool;
+
+    public function canBeIncremented(BaseProduct $product): bool;
 
     /**
      * @return Collection<string, array<string, BaseProduct|int>>

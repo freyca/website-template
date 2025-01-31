@@ -14,12 +14,13 @@ final class Cart implements CartRepositoryInterface
         private readonly CartRepositoryInterface $repository,
     ) {}
 
-    public function add(BaseProduct $product, int $quantity, bool $assemble): void
+    public function add(BaseProduct $product, int $quantity, bool $assemble): bool
     {
         try {
             $this->repository->add($product, $quantity, $assemble);
+            return true;
         } catch (\Throwable $th) {
-            return;
+            return false;
         }
     }
 
@@ -89,5 +90,10 @@ final class Cart implements CartRepositoryInterface
     public function clear(): void
     {
         $this->repository->clear();
+    }
+
+    public function canBeIncremented(BaseProduct $product): bool
+    {
+        return $this->repository->canBeIncremented($product);
     }
 }

@@ -24,7 +24,7 @@ class SessionCartRepository implements CartRepositoryInterface
         }
     }
 
-    public function add(BaseProduct $product, int $quantity, bool $assemble): void
+    public function add(BaseProduct $product, int $quantity, bool $assemble): bool
     {
         $cart = $this->getCart();
         $product = $this->cleanCartProduct($product);
@@ -46,7 +46,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
             $this->updateCart($cart);
 
-            return;
+            return true;
         }
 
         $session_product = $cart->get($cart_product_key);
@@ -61,7 +61,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
             $this->updateCart($cart);
 
-            return;
+            return true;
         }
 
         // Cart has the product in same assemble state
@@ -71,13 +71,15 @@ class SessionCartRepository implements CartRepositoryInterface
         if ($new_quantity <= 0) {
             $this->remove($product, $assemble);
 
-            return;
+            return false;
         }
 
         data_set($session_product, 'quantity', $new_quantity);
         $cart->put($cart_product_key, $session_product);
 
         $this->updateCart($cart);
+
+        return true;
     }
 
     public function remove(BaseProduct $product, bool $assemble): void
@@ -242,7 +244,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $assemble = $assemble ? 'assemble' : 'noAssemble';
 
-        return strval($product->ean13).'+'.$assemble;
+        return strval($product->ean13) . '+' . $assemble;
     }
 
     private function cleanCartProduct(BaseProduct $product): BaseProduct
@@ -285,7 +287,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $assembly_price * $quantity;
     }
 
-    private function canBeIncremented(BaseProduct $product): bool
+    public function canBeIncremented(BaseProduct $product): bool
     {
         $cart = $this->getCart();
 
