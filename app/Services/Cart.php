@@ -8,41 +8,39 @@ use App\Models\BaseProduct;
 use App\Repositories\Cart\CartRepositoryInterface;
 use Illuminate\Support\Collection;
 
-final class Cart
+final class Cart implements CartRepositoryInterface
 {
     public function __construct(
         private readonly CartRepositoryInterface $repository,
     ) {}
 
-    public function add(BaseProduct $product, int $quantity, bool $assemble_status): bool
+    public function add(BaseProduct $product, int $quantity, bool $assemble): void
     {
         try {
-            $this->repository->add($product, $quantity, $assemble_status);
-
-            return true;
+            $this->repository->add($product, $quantity, $assemble);
         } catch (\Throwable $th) {
-            return false;
+            return;
         }
     }
 
-    public function remove(BaseProduct $product, bool $assemble_status): void
+    public function remove(BaseProduct $product, bool $assemble): void
     {
-        $this->repository->remove($product, $assemble_status);
+        $this->repository->remove($product, $assemble);
     }
 
-    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble_status): int
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble): int
     {
-        return $this->repository->getTotalQuantityForProduct($product, $assemble_status);
+        return $this->repository->getTotalQuantityForProduct($product, $assemble);
     }
 
-    public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, bool $formatted = false): float|string
     {
-        return $this->repository->getTotalCostforProduct($product, $formatted);
+        return $this->repository->getTotalCostforProduct($product, $assemble, $formatted);
     }
 
-    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, bool $formatted = false): float|string
     {
-        return $this->repository->getTotalCostforProductWithoutDiscount($product, $formatted);
+        return $this->repository->getTotalCostforProductWithoutDiscount($product, $assemble, $formatted);
     }
 
     public function getTotalQuantity(): int

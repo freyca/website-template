@@ -255,7 +255,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $product;
     }
 
-    private function calculateCostForProduct(BaseProduct $product, bool $assemble, $price, bool $formatted = false): float|string
+    private function calculateCostForProduct(BaseProduct $product, bool $assemble, float $price, bool $formatted = false): float|string
     {
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assemble);

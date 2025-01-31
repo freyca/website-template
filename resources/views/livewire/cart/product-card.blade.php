@@ -77,12 +77,12 @@
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
                     <p class="text-base line-through font-medium text-gray-900">
-                        {{ $cart->getTotalCostforProductWithoutDiscount($product, $assemble) }}
+                        {{ $cart->getTotalCostforProductWithoutDiscount($product, $assemble, true) }}
                     </p>
 
-                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, $assemble) }}</p>
+                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, $assemble, true) }}</p>
                 @else
-                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, $assemble) }}</p>
+                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, $assemble, true) }}</p>
                 @endif
             </div>
 
