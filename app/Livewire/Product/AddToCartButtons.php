@@ -17,6 +17,15 @@ class AddToCartButtons extends Component
 
     public bool $inCart;
 
+    public bool $assemble_status = true;
+
+    #[On('assemble-status-changed')]
+    public function assembleStatusChanged(bool $assemble_status)
+    {
+        $this->assemble_status = $assemble_status;
+    }
+
+
     #[On('variant-selection-changed')]
     public function variantSelectionChanged(int $variant_id): void
     {
@@ -33,7 +42,7 @@ class AddToCartButtons extends Component
     {
         $cart = app(Cart::class);
 
-        $this->inCart = $cart->hasProduct($this->product);
+        $this->inCart = $cart->hasProduct($this->product, $this->assemble_status);
 
         return view('livewire.product.add-to-cart-buttons');
     }

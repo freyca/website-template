@@ -13,13 +13,13 @@ use Throwable;
 
 class PayPalPaymentRepository extends PaymentRepository
 {
-    private const string OUT_LINK = 'payer-action';
+    private const OUT_LINK = 'payer-action';
 
-    private const string ACTION = 'PAYER_ACTION_REQUIRED';
+    private const ACTION = 'PAYER_ACTION_REQUIRED';
 
-    private const string VALIDATION_ERROR = 'VALIDATION_ERROR';
+    private const VALIDATION_ERROR = 'VALIDATION_ERROR';
 
-    private const string ORDER_APPROVED = 'CHECKOUT.ORDER.APPROVED';
+    private const ORDER_APPROVED = 'CHECKOUT.ORDER.APPROVED';
 
     public function payPurchase(Order $order)
     {
@@ -98,7 +98,7 @@ class PayPalPaymentRepository extends PaymentRepository
 
         // Verify order status
         if ($paypal_response['resource']['purchase_units'][0]['invoice_id'] === $order->id) {
-            throw new Exception('Invalid order ID '.json_encode($paypal_response));
+            throw new Exception('Invalid order ID ' . json_encode($paypal_response));
         }
 
         $this->orderRepository->paymentGatewayResponse($order, json_encode($paypal_response));

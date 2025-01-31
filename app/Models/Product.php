@@ -24,7 +24,12 @@ class Product extends BaseProduct
      */
     public function __construct(array $attributes = [])
     {
-        $this->mergeFillable(['category_id']);
+        $this->mergeFillable([
+            'category_id',
+            'can_be_assembled',
+            'mandatory_assembly',
+            'assembly_price',
+        ]);
 
         parent::__construct($attributes);
     }
@@ -76,5 +81,10 @@ class Product extends BaseProduct
     public function productVariants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function getFormattedAssemblyPrice(): string
+    {
+        return $this->formatCurrency($this->assembly_price);
     }
 }

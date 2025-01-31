@@ -18,12 +18,14 @@ class IncrementDecrementCart extends Component
 
     public int $productQuantity = 0;
 
+    public bool $assemble;
+
     public function increment(): void
     {
         /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->increment($this->product);
+        $cart->add($this->product, 1, $this->assemble);
 
         Notification::make()->title(__('Product incremented'))->success()->send();
 
@@ -35,7 +37,7 @@ class IncrementDecrementCart extends Component
         /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->decrement($this->product);
+        $cart->add($this->product, -1, $this->assemble);
 
         Notification::make()->title(__('Product decremented'))->danger()->send();
 
@@ -46,7 +48,7 @@ class IncrementDecrementCart extends Component
     {
         $cart = app(Cart::class);
 
-        $cart->remove($this->product);
+        $cart->remove($this->product, true);
 
         Notification::make()->title(__('Product removed from cart'))->danger()->send();
 
@@ -69,7 +71,7 @@ class IncrementDecrementCart extends Component
         /** @var Cart */
         $cart = app(Cart::class);
 
-        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product);
+        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, true);
 
         return view('livewire.buttons.increment-decrement-cart');
     }

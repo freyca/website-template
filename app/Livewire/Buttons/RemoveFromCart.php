@@ -16,11 +16,13 @@ class RemoveFromCart extends Component
 {
     public BaseProduct $product;
 
+    public bool $assemble;
+
     public function remove(): void
     {
         $cart = app(Cart::class);
 
-        $cart->remove($this->product);
+        $cart->remove($this->product, $this->assemble);
 
         Notification::make()->title(__('Product removed from cart'))->danger()->send();
 

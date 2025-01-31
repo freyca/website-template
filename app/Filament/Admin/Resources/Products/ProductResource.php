@@ -7,9 +7,11 @@ namespace App\Filament\Admin\Resources\Products;
 use App\Filament\Admin\Resources\Products\ProductResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\Product;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -84,6 +86,34 @@ class ProductResource extends Resource
                     ]),
 
                 self::priceSection(),
+
+                Forms\Components\Section::make(__('Assembly'))
+                    ->schema([
+                        Forms\Components\Toggle::make('can_be_assembled')
+                            ->required()
+                            ->label(__('Requires assembly'))
+                            ->columnSpanFull()
+                            ->live(),
+
+                        Forms\Components\Toggle::make('mandatory_assembly')
+                            ->required()
+                            ->label(__('Mandatory assembly'))
+                            ->required()
+                            ->inline(false)
+                            ->hidden(
+                                fn(Get $get): bool => $get('can_be_assembled') === false
+                            ),
+
+                        Forms\Components\TextInput::make('assembly_price')
+                            ->label(__('Assembly price'))
+                            ->numeric()
+                            ->suffix('€')
+                            ->required()
+                            ->hidden(
+                                fn(Get $get): bool => $get('can_be_assembled') === false
+                            ),
+
+                    ])->columns(2),
 
                 self::dimensionsSection(),
 

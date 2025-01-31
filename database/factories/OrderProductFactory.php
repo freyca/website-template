@@ -34,6 +34,7 @@ class OrderProductFactory extends Factory
             'product_variant_id' => isset($variant) ? $variant->id : null,
             'quantity' => rand(1, 10),
             'unit_price' => $price,
+            'assembly_price' => $product->assembly_price,
         ];
     }
 }

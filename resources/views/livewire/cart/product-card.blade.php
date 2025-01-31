@@ -10,6 +10,7 @@
     if(is_a($product, 'App\Models\ProductVariant')) {
         $parent = $product->product;
     }
+
 @endphp
 
 <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
@@ -30,11 +31,23 @@
                     <a href="{{ $path . '/'}}{{isset($product->slug) ? $product->slug : $parent->slug}}"
                         class="text-base font-medium text-gray-900 hover:underline">
                         @if(isset($parent))
-                            <p>{{ $parent->name }}</p>
+                            <p>
+                                {{ $parent->name }}
+                                @if($assemble)
+                                    <span class="text-sm font-normal">
+                                        {{ ' (' . __('with assemble') . ')'}}
+                                    </span>
+                                @endif
+                            </p>
                             <span class="text-sm text-gray-500">{{ $product->name }}</span>
                         @else
                             <p>
                                 {{ $product->name }}
+                                @if($assemble)
+                                    <span class="text-sm font-normal">
+                                        {{ ' (' . __('with assemble') . ')'}}
+                                    </span>
+                                @endif
                             </p>
                         @endif
                     </a>
@@ -53,23 +66,23 @@
 
             <div class="flex col-span-2 justify-around md:order-4 md:grid">
                 <div class="flex items-center justify-between md:justify-center ">
-                    @livewire('buttons.increment-decrement-cart', ['product' => $product])
+                    @livewire('buttons.increment-decrement-cart', ['product' => $product, 'assemble' => $assemble])
                 </div>
 
                 <div class="flex items-center gap-4">
-                    @livewire('buttons.remove-from-cart', ['product' => $product])
+                    @livewire('buttons.remove-from-cart', ['product' => $product, 'assemble' => $assemble])
                 </div>
             </div>
 
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
                     <p class="text-base line-through font-medium text-gray-900">
-                        {{ $cart->getTotalCostforProductWithoutDiscount($product, true) }}
+                        {{ $cart->getTotalCostforProductWithoutDiscount($product, $assemble) }}
                     </p>
 
-                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, true) }}</p>
+                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, $assemble) }}</p>
                 @else
-                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, true) }}</p>
+                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, $assemble) }}</p>
                 @endif
             </div>
 

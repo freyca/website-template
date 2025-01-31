@@ -36,6 +36,7 @@ class OrderProduct extends Pivot
         'product_id',
         'product_variant_id',
         'unit_price',
+        'assembly_price',
         'quantity',
     ];
 

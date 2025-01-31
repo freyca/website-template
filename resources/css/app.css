@@ -151,3 +151,7 @@ input[type="range"]::-webkit-slider-thumb {
 button {
     @apply active:translate-x-1 active:translate-y-1;
 }
+
+button:disabled {
+    @apply active:translate-x-0 active:translate-y-0;
+}

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->constrained();
             $table->foreignIdFor(ProductVariant::class)->nullable()->constrained();
             $table->integer('unit_price');
+            $table->integer('assembly_price');
             $table->integer('quantity');
             $table->timestamps();
         });

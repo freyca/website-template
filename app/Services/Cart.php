@@ -14,18 +14,10 @@ final class Cart
         private readonly CartRepositoryInterface $repository,
     ) {}
 
-    public function add(BaseProduct $product, int $quantity): void
-    {
-        $this->repository->add($product, $quantity);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function increment(BaseProduct $product): bool
+    public function add(BaseProduct $product, int $quantity, bool $assemble_status): bool
     {
         try {
-            $this->repository->increment($product);
+            $this->repository->add($product, $quantity, $assemble_status);
 
             return true;
         } catch (\Throwable $th) {
@@ -33,19 +25,14 @@ final class Cart
         }
     }
 
-    public function decrement(BaseProduct $product): void
+    public function remove(BaseProduct $product, bool $assemble_status): void
     {
-        $this->repository->decrement($product);
+        $this->repository->remove($product, $assemble_status);
     }
 
-    public function remove(BaseProduct $product): void
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble_status): int
     {
-        $this->repository->remove($product);
-    }
-
-    public function getTotalQuantityForProduct(BaseProduct $product): int
-    {
-        return $this->repository->getTotalQuantityForProduct($product);
+        return $this->repository->getTotalQuantityForProduct($product, $assemble_status);
     }
 
     public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string
@@ -83,9 +70,9 @@ final class Cart
         return $this->repository->getTotalCostWithoutDiscount($formatted);
     }
 
-    public function hasProduct(BaseProduct $product): bool
+    public function hasProduct(BaseProduct $product, bool $assemble_status): bool
     {
-        return $this->repository->hasProduct($product);
+        return $this->repository->hasProduct($product, $assemble_status);
     }
 
     /**

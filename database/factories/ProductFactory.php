@@ -21,6 +21,15 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         $price = fake()->randomFloat(2, 10, 3000);
+        $mandatory_assembly = false;
+        $assembly_price = 0;
+
+        $can_be_assembled = fake()->boolean(70);
+
+        if ($can_be_assembled === true) {
+            $mandatory_assembly = fake()->boolean();
+            $assembly_price = fake()->randomFloat(2, 50, 500);
+        }
 
         return [
             'name' => fake()->unique()->catchPhrase(),
@@ -29,6 +38,9 @@ class ProductFactory extends Factory
             'price_with_discount' => $this->isProductDiscounted($price),
             'published' => fake()->boolean(75),
             'stock' => fake()->numberBetween(10, 100),
+            'can_be_assembled' => $can_be_assembled,
+            'mandatory_assembly' => $mandatory_assembly,
+            'assembly_price' => $assembly_price,
             'dimension_length' => fake()->randomFloat(2, 5, 100),
             'dimension_width' => fake()->randomFloat(2, 5, 100),
             'dimension_height' => fake()->randomFloat(2, 5, 100),

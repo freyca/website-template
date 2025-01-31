@@ -13,6 +13,8 @@ class ProductCard extends Component
 {
     public BaseProduct $product;
 
+    public bool $assemble;
+
     #[On('refresh-cart')]
     public function render(): View
     {

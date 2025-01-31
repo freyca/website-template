@@ -10,8 +10,9 @@
                 'cart.product-card',
                 [
                     'product' => data_get($cartItem, 'product'),
+                    'assemble' => data_get($cartItem, 'assemble'),
                 ],
-                key('product-' . data_get($cartItem, 'product.ean13'))
+                key('product-' . data_get($cartItem, 'product.ean13') . ' ' . strval(data_get($cartItem, 'assemble')))
             )
         @endforeach
     </div>

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Address;
+use App\Models\BaseProduct;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComplement;
@@ -75,32 +76,58 @@ class OrderBuilder
         $CartProducts = $this->cart->getCart();
 
         foreach ($CartProducts as $cartProduct) {
-            $quantity = Arr::get($cartProduct, 'quantity');
             /** @var BaseProduct */
             $product = Arr::get($cartProduct, 'product');
 
-            $product_id = $product->id;
-            $product_variant_id = null;
-            $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
-
-            if (is_a($product, ProductVariant::class)) {
-                $product_variant_id = $product->id;
-                $product_id = $product->product_id;
-            }
-
-            $productData = [
-                'product_id' => $product_id,
-                'product_variant_id' => $product_variant_id,
-                'price' => $price,
-                'quantity' => $quantity,
+            $product_data = [
+                'product_id' => $this->getProductId($product),
+                'product_variant_id' => $this->getProductVariantId($product),
+                'price' => $this->getProductPrice($product),
+                'assembly_price' => $this->getAssemblyPrice($product),
+                'quantity' =>  Arr::get($cartProduct, 'quantity'),
             ];
 
             match (true) {
-                is_a($product, Product::class) || is_a($product, ProductVariant::class) => $this->orderProductRepository->save($this->order, $productData),
-                is_a($product, ProductComplement::class) => $this->orderProductComplementRepository->save($this->order, $productData),
-                is_a($product, ProductSparePart::class) => $this->orderProductSparePartRepository->save($this->order, $productData),
-                default => throw (new Exception('Unknown Product Type'))
+                is_a($product, ProductComplement::class) => $this->orderProductComplementRepository->save($this->order, $product_data),
+                is_a($product, ProductSparePart::class) => $this->orderProductSparePartRepository->save($this->order, $product_data),
+                default => $this->orderProductRepository->save($this->order, $product_data),
             };
         }
+    }
+
+    private function getProductId(BaseProduct $product)
+    {
+        if (is_a($product, ProductVariant::class)) {
+            return $product->product_id;
+        }
+
+        return $product->id;
+    }
+
+    private function getProductVariantId(BaseProduct $product)
+    {
+        if (is_a($product, ProductVariant::class)) {
+            return $product->id;
+        }
+
+        return null;
+    }
+
+    private function getProductPrice(BaseProduct $product)
+    {
+        return $product->price_with_discount ? $product->price_with_discount : $product->price;
+    }
+
+    private function getAssemblyPrice(BaseProduct $product)
+    {
+        if (is_a($product, ProductComplement::class) || is_a($product, ProductSparePart::class)) {
+            return null;
+        }
+
+        if (is_a($product, ProductVariant::class)) {
+            return $product->product->assembly_price;
+        }
+
+        return $product->assembly_price;
     }
 }

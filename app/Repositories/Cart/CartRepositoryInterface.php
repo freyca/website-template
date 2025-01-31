@@ -9,19 +9,15 @@ use Illuminate\Support\Collection;
 
 interface CartRepositoryInterface
 {
-    public function add(BaseProduct $product, int $quantity): void;
+    public function add(BaseProduct $product, int $quantity, bool $assemble): void;
 
-    public function increment(BaseProduct $product): void;
+    public function remove(BaseProduct $product, bool $assemble): void;
 
-    public function decrement(BaseProduct $product): void;
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble): int;
 
-    public function remove(BaseProduct $product): void;
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, bool $formatted = false): float|string;
 
-    public function getTotalQuantityForProduct(BaseProduct $product): int;
-
-    public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string;
-
-    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string;
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, bool $formatted = false): float|string;
 
     public function getTotalQuantity(): int;
 
@@ -33,7 +29,7 @@ interface CartRepositoryInterface
 
     public function getTotalCostWithoutDiscount(bool $formatted = false): float|string;
 
-    public function hasProduct(BaseProduct $product): bool;
+    public function hasProduct(BaseProduct $product, bool $assemble): bool;
 
     /**
      * @return Collection<string, array<string, BaseProduct|int>>
