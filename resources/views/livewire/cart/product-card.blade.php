@@ -35,7 +35,7 @@
                                 {{ $parent->name }}
                                 @if($assemble)
                                     <span class="text-sm font-normal">
-                                        {{ ' (' . __('with assemble') . ')'}}
+                                        {{ ' (' . __('with assembly') . ')'}}
                                     </span>
                                 @endif
                             </p>
@@ -80,9 +80,19 @@
                         {{ $cart->getTotalCostforProductWithoutDiscount($product, $assemble, true) }}
                     </p>
 
-                    <p class="text-base font-bold text-lime-600">{{ $cart->getTotalCostforProduct($product, $assemble, true) }}</p>
+                    <p class="text-base font-bold text-lime-600">
+                        {{ $cart->getTotalCostforProduct($product, $assemble, true) }}
+                        @if($assemble)
+                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
+                        @endif
+                    </p>
                 @else
-                    <p class="text-base font-bold text-gray-900">{{ $cart->getTotalCostforProduct($product, $assemble, true) }}</p>
+                    <p class="text-base font-bold text-gray-900">
+                        {{ $cart->getTotalCostforProduct($product, $assemble, true) }}
+                        @if($assemble)
+                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
+                        @endif
+                    </p>
                 @endif
             </div>
 

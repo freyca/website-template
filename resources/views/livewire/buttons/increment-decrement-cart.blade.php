@@ -17,10 +17,9 @@
 
     <p class="text-center text-md px-1 font-medium text-gray-900 mx-1">
         @if ($productQuantity < 10)
-            &nbsp;{{ $productQuantity }}
-        @else
-            {{ $productQuantity }}
+            &nbsp;
         @endif
+        {{ $productQuantity }}
     </p>
 
     <button wire:click="increment" type="button" id="increment-button" data-input-counter-increment="counter-input"

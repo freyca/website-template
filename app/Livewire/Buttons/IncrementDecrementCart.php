@@ -71,7 +71,7 @@ class IncrementDecrementCart extends Component
         /** @var Cart */
         $cart = app(Cart::class);
 
-        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, true);
+        $this->productQuantity = $cart->getTotalQuantityForProduct($this->product, $this->assemble);
 
         return view('livewire.buttons.increment-decrement-cart');
     }
