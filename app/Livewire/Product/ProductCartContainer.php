@@ -26,6 +26,12 @@ class ProductCartContainer extends Component
 
     public int $productQuantity = 0;
 
+    public bool $can_be_assembled;
+
+    public bool $mandatory_assembly;
+
+    public string $assembly_price;
+
     public function toggleAssemble()
     {
         $this->assemble_status = ! $this->assemble_status;
@@ -94,6 +100,7 @@ class ProductCartContainer extends Component
     {
         $cart = app(Cart::class);
 
+        $this->canBeAssembled();
         $this->setAssemblyStatus();
         $this->validateVariantProduct();
 
@@ -111,6 +118,21 @@ class ProductCartContainer extends Component
         if (! isset($this->assemble_status)) {
             $this->assemble_status = $this->product->can_be_assembled ? true : false;
         }
+    }
+
+    private function canBeAssembled()
+    {
+        if (is_a($this->product, \App\Models\ProductVariant::class)) {
+            $this->can_be_assembled = $this->product->product->can_be_assembled;
+            $this->mandatory_assembly = $this->product->product->mandatory_assembly;
+            $this->assembly_price = $this->product->product->getFormattedAssemblyPrice();
+
+            return;
+        }
+
+        $this->can_be_assembled = $this->product->can_be_assembled;
+        $this->mandatory_assembly = $this->product->mandatory_assembly;
+        $this->assembly_price = $this->product->getFormattedAssemblyPrice();
     }
 
     /**

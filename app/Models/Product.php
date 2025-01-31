@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Events\ProductDeleted;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +29,12 @@ class Product extends BaseProduct
             'can_be_assembled',
             'mandatory_assembly',
             'assembly_price',
+        ]);
+
+        $this->mergeCasts([
+            'can_be_assembled' => 'boolean',
+            'mandatory_assembly' => 'boolean',
+            'assembly_price' => MoneyCast::class,
         ]);
 
         parent::__construct($attributes);
