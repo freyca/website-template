@@ -7,7 +7,6 @@ use App\Enums\PaymentMethod;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
@@ -16,7 +15,6 @@ use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
 use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
 use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
-use Exception;
 use Illuminate\Support\Arr;
 
 class OrderBuilder
@@ -84,7 +82,7 @@ class OrderBuilder
                 'product_variant_id' => $this->getProductVariantId($product),
                 'price' => $this->getProductPrice($product),
                 'assembly_price' => $this->getAssemblyPrice($product),
-                'quantity' =>  Arr::get($cartProduct, 'quantity'),
+                'quantity' => Arr::get($cartProduct, 'quantity'),
             ];
 
             match (true) {

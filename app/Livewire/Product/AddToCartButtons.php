@@ -25,7 +25,6 @@ class AddToCartButtons extends Component
         $this->assemble_status = $assemble_status;
     }
 
-
     #[On('variant-selection-changed')]
     public function variantSelectionChanged(int $variant_id): void
     {

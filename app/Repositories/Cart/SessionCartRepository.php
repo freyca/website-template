@@ -32,12 +32,12 @@ class SessionCartRepository implements CartRepositoryInterface
 
         // we do not need to check decrement since if the sum is less than 0
         // we delete product from cart
-        if ($quantity > 0 && !$this->canBeIncremented($product)) {
+        if ($quantity > 0 && ! $this->canBeIncremented($product)) {
             throw new Exception('Product cannot be incremented');
         }
 
         // Cart does not has the product, we simply add it
-        if (!$cart->has($cart_product_key)) {
+        if (! $cart->has($cart_product_key)) {
             $cart->put($cart_product_key, [
                 'product' => $product,
                 'quantity' => $quantity,
@@ -45,6 +45,7 @@ class SessionCartRepository implements CartRepositoryInterface
             ]);
 
             $this->updateCart($cart);
+
             return;
         }
 
@@ -59,6 +60,7 @@ class SessionCartRepository implements CartRepositoryInterface
             ]);
 
             $this->updateCart($cart);
+
             return;
         }
 
@@ -68,6 +70,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         if ($new_quantity <= 0) {
             $this->remove($product, $assemble);
+
             return;
         }
 
@@ -122,7 +125,6 @@ class SessionCartRepository implements CartRepositoryInterface
         Session::put(self::SESSION, $cart);
     }
 
-
     public function getTotalQuantity(): int
     {
         $cart = $this->getCart();
@@ -169,6 +171,7 @@ class SessionCartRepository implements CartRepositoryInterface
             /** @var BaseProduct */
             $product = data_get($item, 'product');
             $assemble = data_get($item, 'assemble');
+
             return $this->getTotalCostforProduct($product, $assemble);
         });
 
@@ -184,6 +187,7 @@ class SessionCartRepository implements CartRepositoryInterface
             /** @var BaseProduct */
             $product = data_get($item, 'product');
             $assemble = data_get($item, 'assemble');
+
             return $this->getTotalCostforProduct($product, $assemble);
         });
 
@@ -201,6 +205,7 @@ class SessionCartRepository implements CartRepositoryInterface
             /** @var BaseProduct */
             $product = data_get($item, 'product');
             $assemble = data_get($item, 'assemble');
+
             return $this->getTotalCostforProductWithoutDiscount($product, $assemble) - $this->getTotalCostforProduct($product, $assemble);
         });
 
@@ -216,6 +221,7 @@ class SessionCartRepository implements CartRepositoryInterface
             /** @var BaseProduct */
             $product = data_get($item, 'product');
             $assemble = data_get($item, 'assemble');
+
             return $this->getTotalCostforProductWithoutDiscount($product, $assemble);
         });
 
@@ -230,13 +236,13 @@ class SessionCartRepository implements CartRepositoryInterface
             $parent = $product->product;
         }
 
-        if (!$parent->can_be_assembled) {
+        if (! $parent->can_be_assembled) {
             return strval($product->ean13);
         }
 
         $assemble = $assemble ? 'assemble' : 'noAssemble';
 
-        return strval($product->ean13) . '+' . $assemble;
+        return strval($product->ean13).'+'.$assemble;
     }
 
     private function cleanCartProduct(BaseProduct $product): BaseProduct
@@ -284,7 +290,7 @@ class SessionCartRepository implements CartRepositoryInterface
         $cart = $this->getCart();
 
         // If product cannot be assembled we only have to query cart once
-        if (!$product->can_be_assembled) {
+        if (! $product->can_be_assembled) {
             $quantity = 0;
             $key = $this->getProductKey($product, false);
 

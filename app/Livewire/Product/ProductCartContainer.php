@@ -9,8 +9,8 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
-use Livewire\Component;
 use Illuminate\Support\Collection;
+use Livewire\Component;
 
 class ProductCartContainer extends Component
 {
@@ -29,6 +29,7 @@ class ProductCartContainer extends Component
     public function toggleAssemble()
     {
         $this->assemble_status = ! $this->assemble_status;
+
         return $this->assemble_status;
     }
 
@@ -107,7 +108,7 @@ class ProductCartContainer extends Component
      */
     private function setAssemblyStatus(): void
     {
-        if (!isset($this->assemble_status)) {
+        if (! isset($this->assemble_status)) {
             $this->assemble_status = $this->product->can_be_assembled ? true : false;
         }
     }

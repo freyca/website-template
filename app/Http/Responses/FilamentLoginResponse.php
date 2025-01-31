@@ -6,11 +6,11 @@ namespace App\Http\Responses;
 
 use App\Enums\Role;
 use App\Services\Cart;
+use Filament\Facades\Filament;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Illuminate\Http\RedirectResponse;
-use Livewire\Features\SupportRedirects\Redirector;
-use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class FilamentLoginResponse implements LoginResponse
 {

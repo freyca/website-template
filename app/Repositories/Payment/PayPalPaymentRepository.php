@@ -98,7 +98,7 @@ class PayPalPaymentRepository extends PaymentRepository
 
         // Verify order status
         if ($paypal_response['resource']['purchase_units'][0]['invoice_id'] === $order->id) {
-            throw new Exception('Invalid order ID ' . json_encode($paypal_response));
+            throw new Exception('Invalid order ID '.json_encode($paypal_response));
         }
 
         $this->orderRepository->paymentGatewayResponse($order, json_encode($paypal_response));
