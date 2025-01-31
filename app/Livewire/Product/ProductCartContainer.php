@@ -47,6 +47,8 @@ class ProductCartContainer extends Component
         $variant = ProductVariant::find($this->variant_id);
 
         $this->product = $variant;
+
+        $this->dispatch('variant-selection-changed', $this->product->id);
     }
 
     public function add(): void
