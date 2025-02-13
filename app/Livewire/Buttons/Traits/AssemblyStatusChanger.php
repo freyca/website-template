@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Buttons\Traits;
 
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
+use App\Models\ProductVariant;
 use Livewire\Attributes\On;
 
 trait AssemblyStatusChanger
@@ -18,6 +21,21 @@ trait AssemblyStatusChanger
 
     public function getAssemblyStatus(): bool
     {
-        return isset($this->assembly_status) ? $this->assembly_status : true;
+        // If isset by user, return status
+        if (isset($this->assembly_status)) {
+            return $this->assembly_status;
+        }
+
+        // Complements and spare parts cannot be assembled
+        if (is_a($this->product, ProductComplement::class) || is_a($this->product, ProductSparePart::class)) {
+            return false;
+        }
+
+        // For variants, check if parent can be assembled
+        if (is_a($this->product, ProductVariant::class)) {
+            return $this->product->product->can_be_assembled ? true : false;
+        }
+
+        return $this->product->can_be_assembled ? true : false;
     }
 }
