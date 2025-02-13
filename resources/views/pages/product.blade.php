@@ -28,16 +28,18 @@
             </div>
         </div>
 
-        <div class="container mx-auto mt-4 mb-10">
+        <div class="container mx-auto mt-4 mb-20">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
                 @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
 
-            <h3 class="text-center mt-14 mb-10">
-                <span class="font-bold text-lg bg-primary-400 rounded-full py-6 px-6 text-gray-800">
-                    {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
-                </span>
-            </h3>
+            <div class="flex justify-center items-center">
+                <h3 class="text-center mt-14 mb-10 bg-primary-400 p-4 rounded-full max-w-2xl">
+                    <span class="font-bold text-lg text-gray-800">
+                        {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
+                    </span>
+                </h3>
+            </div>
             <div class="text-gray-700 text-justify">
                 {!! $product->description !!}
             </div>
