@@ -32,7 +32,7 @@
                                 {{ $product->name }}
                                 @if($assembly_status)
                                     <span class="text-sm font-normal">
-                                        {{ ' (' . __('with assembly_status') . ')'}}
+                                        {{ ' (' . __('with assembly') . ')'}}
                                     </span>
                                 @endif
                             </p>
@@ -70,14 +70,15 @@
                     <p class="text-base font-bold text-lime-600">
                         {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
                         @if($assembly_status)
-                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
+                            <br/>
+                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included') . ')'}}</span>
                         @endif
                     </p>
                 @else
                     <p class="text-base font-bold text-gray-900">
                         {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
                         @if($assembly_status)
-                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included' . ')')}}</span>
+                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included') . ')'}}</span>
                         @endif
                     </p>
                 @endif
