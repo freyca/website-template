@@ -19,6 +19,7 @@
 
                 @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => $variants])
 
+                <x-product.payment-banners />
             </div>
         </div>
 
