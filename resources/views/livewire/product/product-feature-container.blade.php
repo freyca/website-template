@@ -8,7 +8,7 @@
         @foreach ($features->pluck('family')->unique() as $featureFamily)
             <div class="">
                 {{-- Print name of family --}}
-                <h3 class="text-center p-5 font-md border bg-gray-200 border-gray-200 mt-6">
+                <h3 class="text-center p-5 font-md border bg-gray-800 border-gray-200 mt-6 text-gray-200 font-semibold">
                     {{ __($featureFamily->value) }}
                 </h3>
 

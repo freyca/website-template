@@ -1,15 +1,17 @@
-<div
-    class="bg-white mx-5 shadow-md rounded-lg p-6 text-gray-800 hover:text-gray-900 hover:bg-gray-200 hover:scale-105 transition-transform duration-300">
-    <a href="{{ $category->slug }}">
-        <img class="h-48 object-contain rounded-t-md mx-auto" src="{{ @asset('/storage/' . $category->big_image) }}" />
+<div class="bg-gray-800 rounded-md relative flex mx-4">
+    <a href="{{ $category->slug }}" class="h-full">
+        <figure class="p-6 pb-10">
+            <picture>
+                <img class="h-40" src="{{ @asset('/storage/' . $category->big_image) }}" alt="{{ $category->name }}">
+            </picture>
+
+            <figcaption class="absolute bottom-0 right-0">
+                <h3 class="text-lg font-semibold text-gray-800">
+                    <span class="bg-white py-2 px-4 rounded-tl-md">
+                        {{ $category->name }}
+                    </span>
+                </h3>
+            </figcaption>
+        </figure>
     </a>
-    <div class="mt-5">
-
-        <h2 class="text-lg font-semibold text-center mb-2">
-            <a href="{{ $category->slug }}">
-                {{ $category->name }}
-            </a>
-        </h2>
-
-    </div>
 </div>

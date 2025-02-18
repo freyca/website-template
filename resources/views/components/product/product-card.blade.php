@@ -7,9 +7,9 @@
 @endphp
 
 <div
-    class="bg-white shadow-lg rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-2xl flex flex-col justify-between h-full">
+    class="bg-white rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-2xl flex flex-col justify-between h-full">
     <a href="{{ $path . '/' . $product->slug }}" class="p-4">
-        <div class="relative pb-48 overflow-hidden rounded-t-md">
+        <div class="relative pb-48 overflow-hidden rounded-md border border-solid border-gray-800">
             <img class="absolute inset-0 h-full w-full object-scale-down transition-transform duration-300 transform group-hover:scale-110"
                 src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}">
             <div
@@ -21,25 +21,32 @@
                 </div>
             </div>
         </div>
-        <div class="p-4 flex-grow flex flex-col justify-between">
-            <h3 class="text-xl font-semibold mb-2 text-gray-800">
-                {{ $product->name }}
-            </h3>
-            <div class="flex items-center justify-between mt-auto space-x-2 overflow-hidden">
-                @if ($product->price_with_discount)
-                    <span class="text-md font-bold bg-primary-500 rounded-md">
-                        <span class="p-2 text-gray-100">
-                            {{ $product->getFormattedPriceWithDiscount() }}
-                        </span>
-                    </span>
-                    <span class="text-gray-800 pr-2 line-through">
-                        {{ $product->getFormattedPrice() }}
-                    </span>
-                @else
-                    <span class="text-md text-gray-800">
-                        {{ $product->getFormattedPrice() }}
-                    </span>
-                @endif
+        <div class="py-4 px-4 sm:px-0 flex-grow flex flex-col justify-between">
+            <div class="grid grid-cols-3 mt-auto space-x-2 overflow-hidden">
+                <div class="col-span-2">
+                    <h3 class="text-sm text-gray-800">
+                        {{ $product->name }}
+                    </h3>
+                </div>
+
+                <div class="text-right text-nowrap mr-4">
+                    @if ($product->price_with_discount)
+                        <p class="text-md text-center font-semibold text-sm bg-primary-500 rounded-md py-1">
+                            <span class="p-2 text-gray-100">
+                                {{ $product->getFormattedPriceWithDiscount() }}
+                            </span>
+                        </p>
+                        <p class="text-gray-800 pr-2 text-sm line-through">
+                            {{ $product->getFormattedPrice() }}
+                        </p>
+                    @else
+                        <p class="text-md text-center font-semibold text-sm bg-gray-800 rounded-md py-1">
+                            <span class="p-2 text-gray-100">
+                                {{ $product->getFormattedPrice() }}
+                            </span>
+                        </p>
+                    @endif
+                </div>
                 {{-- @livewire('buttons.add-to-cart', ['product' => $product]) --}}
             </div>
         </div>

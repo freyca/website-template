@@ -19,12 +19,6 @@
 
                 @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => $variants])
 
-                <div class="text-gray-700 text-justify grid gap-2 pt-4">
-                    <p>@svg('heroicon-m-home', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('You will receive at home product') . ' ' . strtolower($product->name)}}</p>
-                    <p>@svg('heroicon-s-user-group', 'mr-2 w-6 h-6 inline-block text-primary-600') {{ __('Machines thoroughly tested by our technicians: we know every detail of the machines we sell. This allows us to offer reliable products and resolve incidents effectively.')}}</p>
-                    <p>@svg('heroicon-m-cog-8-tooth', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('3 years official Roteco warranty')}}</p>
-                    <p>@svg('heroicon-m-wrench', 'mr-2 w-6 h-6 inline-block text-primary-600') {{__('Spare parts service and SAT')}}</p>
-                </div>
             </div>
         </div>
 
@@ -34,8 +28,8 @@
             @endif
 
             <div class="flex justify-center items-center">
-                <h3 class="text-center mt-14 mb-10 bg-primary-400 p-4 rounded-full max-w-2xl">
-                    <span class="font-bold text-lg text-gray-800">
+                <h3 class="text-center mt-14 mb-10 bg-gray-800 p-4 rounded-full max-w-2xl">
+                    <span class="font-bold text-lg text-gray-100">
                         {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
                     </span>
                 </h3>
