@@ -17,6 +17,10 @@ export default {
         "./node_modules/flowbite/**/*.js"
     ],
     plugins: [
-        require('flowbite/plugin')
+        require('flowbite/plugin'),
+        require('daisyui'),
     ],
+    daisyui: {
+        themes: [],
+    },
 }
