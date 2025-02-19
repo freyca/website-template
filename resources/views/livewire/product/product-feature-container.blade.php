@@ -1,7 +1,12 @@
 <div class="my-10">
-    <p class="font-bold text-lg text-center gap-10">
-        {{ __('Technical details') }}
-    </p>
+
+    <div class="flex justify-center items-center">
+        <p class="text-center my-6 bg-primary-800 p-4 rounded-full max-w-2xl">
+            <span class="font-bold text-lg text-primary-100">
+                {{ __('Technical details') }}
+            </span>
+        </p>
+    </div>
 
     <div id="accordion-collapse" data-accordion="collapse" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1">
         {{-- Get associated families --}}

@@ -48,28 +48,35 @@
             </div>
         </div>
 
-        <div class="container mx-auto mt-4 mb-20">
+        <div class="container mx-auto my-6">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
                 @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
             @endif
 
             <div class="flex justify-center items-center">
-                <h3 class="text-center mt-14 mb-10 bg-primary-800 p-4 rounded-full max-w-2xl">
+                <h3 class="text-center my-6 bg-primary-800 p-4 rounded-full max-w-2xl">
                     <span class="font-bold text-lg text-primary-100">
                         {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
                     </span>
                 </h3>
             </div>
+
             <div class="text-primary-700 text-justify">
                 {!! $product->description !!}
             </div>
         </div>
 
-        @if (!isset($featuredProducts))
-            @php $featuredProducts = collect(); @endphp
-        @endif
+        @if(isset($featuredProducts) && $featuredProducts->count() > 0)
+            <div class="flex justify-center items-center">
+                <p class="text-center my-6 bg-primary-800 p-4 rounded-full max-w-2xl">
+                    <span class="font-bold text-lg text-primary-100">
+                        {{ mb_strtoupper( __('Featured products') )}}
+                    </span>
+                </p>
+            </div>
 
-        <x-product-grid :products="$featuredProducts" />
+            <x-product-grid :products="$featuredProducts" />
+        @endif
     </div>
 
     <x-buttons.whats-app-button />

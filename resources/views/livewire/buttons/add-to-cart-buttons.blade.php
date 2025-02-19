@@ -1,4 +1,4 @@
-<div class="flex mx-auto">
+<div class="flex">
     @if (!$inCart)
         @livewire('buttons.add-to-cart', ['product' => $product, 'assembly_status' => $this->getAssemblyStatus()])
     @else

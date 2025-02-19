@@ -13,8 +13,10 @@
             </span>
         </p>
     @else
-        <span class="text-lg font-bold p-3 px-4 mr-4 rounded-3xl bg-primary-800 text-primary-100">
-            {{ $product->getFormattedPrice() }}
-        </span>
+        <p>
+            <span class="text-lg font-bold p-3 px-4 mr-4 rounded-3xl bg-primary-800 text-primary-100">
+                {{ $product->getFormattedPrice() }}
+            </span>
+        </p>
     @endif
 </div>
