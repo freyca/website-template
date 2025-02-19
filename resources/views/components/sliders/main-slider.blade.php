@@ -1,6 +1,3 @@
-
-
- <!--HTML CODE-->
  <div class="w-full relative">
 
     <div class="swiper index-default-carousel swiper-container">
