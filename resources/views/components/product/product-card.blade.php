@@ -7,7 +7,7 @@
 @endphp
 
 <div
-    class="bg-white rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-2xl flex flex-col justify-between h-full">
+    class="bg-white rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-2xl flex flex-col justify-between h-full py-2">
     <a href="{{ $path . '/' . $product->slug }}" class="px-2">
         <div class="relative pb-48 overflow-hidden rounded-md border border-solid border-primary-800">
             <img class="absolute inset-0 h-full w-full object-scale-down transition-transform duration-300 transform group-hover:scale-110"
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="md:py-4 md:px-4 sm:px-0 flex-grow flex flex-col justify-between">
-            <div class="grid grid-cols-3 mt-auto overflow-hidden">
-                <div class="col-span-3 md:col-span-2">
+            <div class="grid grid-cols-3 mt-auto overflow-hidden md:gap-2">
+                <div class="col-span-3 md:col-span-2 my-1">
                     <h3 class="text-sm text-primary-800">
                         {{ $product->name }}
                     </h3>
@@ -36,7 +36,7 @@
                                 {{ $product->getFormattedPriceWithDiscount() }}
                             </span>
                         </p>
-                        <p class="text-primary-800 pr-2 text-sm line-through">
+                        <p class="text-primary-800 text-center pr-2 text-sm line-through">
                             {{ $product->getFormattedPrice() }}
                         </p>
                     @else

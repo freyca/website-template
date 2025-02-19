@@ -43,7 +43,8 @@
         @if (!isset($featuredProducts))
             @php $featuredProducts = collect(); @endphp
         @endif
-        <x-sliders.featured-products :featuredProducts="$featuredProducts" />
+
+        <x-product-grid :products="$featuredProducts" />
     </div>
 
     <x-buttons.whats-app-button />
