@@ -29,5 +29,7 @@
             @svg('heroicon-c-chevron-right', 'bg-primary-300 text-primary-700 swiper-button-next rounded-full')
         </div>
     </div>
+
+    @vite('resources/js/index.js')
 </div>
 
