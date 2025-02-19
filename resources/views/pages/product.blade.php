@@ -8,7 +8,7 @@
         <div class="grid gap-4 md:gap-14 lg:grid-cols-1 xl:grid-cols-2">
             <x-product.product-image-gallery :product="$product" />
 
-            <div class="text-gray-700 text-justify">
+            <div class="text-primary-700 text-justify">
                 <div id="product-short-description" class="mb-4">
                     {!! $product->short_description !!}
                 </div>
@@ -29,13 +29,13 @@
             @endif
 
             <div class="flex justify-center items-center">
-                <h3 class="text-center mt-14 mb-10 bg-gray-800 p-4 rounded-full max-w-2xl">
-                    <span class="font-bold text-lg text-gray-100">
+                <h3 class="text-center mt-14 mb-10 bg-primary-800 p-4 rounded-full max-w-2xl">
+                    <span class="font-bold text-lg text-primary-100">
                         {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
                     </span>
                 </h3>
             </div>
-            <div class="text-gray-700 text-justify">
+            <div class="text-primary-700 text-justify">
                 {!! $product->description !!}
             </div>
         </div>

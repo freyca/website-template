@@ -3,7 +3,7 @@
 
     <div class="container rounded-top-md">
         <div class="container mx-auto">
-            <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-left text-gray-800 ml-4">
+            <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-left text-primary-800 ml-4">
                 {{ __('Categories') }}
             </h2>
 
@@ -11,12 +11,12 @@
         </div>
 
         <div class="container mx-auto">
-            <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-left text-gray-800 ml-4">
+            <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-left text-primary-800 ml-4">
                 {{ __('Featured Products') }}
             </h2>
 
             <div class="container mx-auto py-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                     @foreach ($products as $product)
                         <x-product.product-card :product="$product" />
                     @endforeach

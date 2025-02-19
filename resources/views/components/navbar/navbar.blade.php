@@ -1,14 +1,14 @@
-<nav class="p-2 z-50 text-gray-800">
+<nav class="p-2 z-50 text-primary-800">
     <div class="container mx-auto mt-6 flex justify-between items-center">
         <div class="flex flex-start">
-            <a href="/" class="text-gray-50 text-2xl font-bold mr-4">
+            <a href="/" class="text-primary-50 text-2xl font-bold mr-4">
                 <img src="https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png" class="h-13" alt="Roteco">
             </a>
 
             <div class="hidden md:flex space-x-4 content-start">
                 @foreach (config('custom.nav-sections') as $section => $url)
-                    <a class="relative block space-y-3 p-3 rounded hover:bg-gray-700 hover:text-white" href="{{ $url }}">
-                        <p class="font-semibold test-gray-700">{{ ucfirst($section) }}</p>
+                    <a class="relative block space-y-3 p-3 rounded hover:bg-primary-700 hover:text-white" href="{{ $url }}">
+                        <p class="font-semibold test-primary-700">{{ ucfirst($section) }}</p>
                     </a>
                 @endforeach
             </div>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="flex space-x-4">
-                <button id="search-button" class="text-gray-900 md:hidden">
+                <button id="search-button" class="text-primary-900 md:hidden">
                     @svg('heroicon-o-magnifying-glass', 'w-8 h-8')
                 </button>
 
@@ -34,7 +34,7 @@
 
                 @livewire('buttons.cart-icon')
 
-                <button id="menu-button" class="mx-3 text-gray-900 md:hidden">
+                <button id="menu-button" class="mx-3 text-primary-900 md:hidden">
                     @svg('heroicon-o-bars-3-bottom-right', 'w-8 h-8')
                 </button>
             </div>

@@ -16,7 +16,7 @@
             <div class="ml-2 sm:ml-0 w-full min-w-0 flex-1 space-y-4 col-span-2 md:order-2 md:max-w-md">
                 <div>
                     <a href="{{ $path . '/'}}{{isset($product->slug) ? $product->slug : $parent->slug}}"
-                        class="text-base font-medium text-gray-900 hover:underline">
+                        class="text-base font-medium text-primary-900 hover:underline">
                         @if(isset($parent))
                             <p>
                                 {{ $parent->name }}
@@ -26,7 +26,7 @@
                                     </span>
                                 @endif
                             </p>
-                            <span class="text-sm text-gray-500">{{ $product->name }}</span>
+                            <span class="text-sm text-primary-500">{{ $product->name }}</span>
                         @else
                             <p>
                                 {{ $product->name }}
@@ -38,7 +38,7 @@
                             </p>
                         @endif
                     </a>
-                    <p class="text-base text-gray-900 truncate">
+                    <p class="text-base text-primary-900 truncate">
                         @if(isset($parent))
                             {{ $parent->slogan }}
                         @else
@@ -63,22 +63,22 @@
 
             <div class="text-center self-center md:order-3 md:w-32">
                 @if (!is_null($product->price_with_discount))
-                    <p class="text-base line-through font-medium text-gray-900">
+                    <p class="text-base line-through font-medium text-primary-900">
                         {{ $cart->getTotalCostforProductWithoutDiscount($product, $assembly_status, true) }}
                     </p>
 
-                    <p class="text-base font-bold text-lime-600">
+                    <p class="text-base font-bold text-success-600">
                         {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
                         @if($assembly_status)
                             <br/>
-                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included') . ')'}}</span>
+                            <span class="text-sm font-normal text-primary-900">{{'(' . __('Assembly included') . ')'}}</span>
                         @endif
                     </p>
                 @else
-                    <p class="text-base font-bold text-gray-900">
+                    <p class="text-base font-bold text-primary-900">
                         {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
                         @if($assembly_status)
-                            <span class="text-sm font-normal text-gray-900">{{'(' . __('Assembly included') . ')'}}</span>
+                            <span class="text-sm font-normal text-primary-900">{{'(' . __('Assembly included') . ')'}}</span>
                         @endif
                     </p>
                 @endif

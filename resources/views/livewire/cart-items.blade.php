@@ -1,5 +1,5 @@
 <div>
-    <p class="py-2 text-xl font-semibold text-center text-gray-900 ">
+    <p class="py-2 text-xl font-semibold text-center text-primary-900 ">
         {{ __('Products') }}
     </p>
     @inject('cart', 'App\Services\Cart')

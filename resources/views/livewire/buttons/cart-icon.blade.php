@@ -3,7 +3,7 @@
         <span class="sr-only">
             {{ __('Open cart') }}
         </span>
-        @svg('heroicon-o-shopping-bag', 'w-8 h-8 text-gray-800 rounded')
+        @svg('heroicon-o-shopping-bag', 'w-8 h-8 text-primary-800 rounded')
         @if ($cartItems > 0)
             <span class="relative flex right-4 bottom-2 animate-pulse">
                 <span id="cart-count"

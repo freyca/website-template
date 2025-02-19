@@ -27,7 +27,7 @@
     next() {
         this.currentSlideIndex = (this.currentSlideIndex < this.slides.length) ? this.currentSlideIndex + 1 : 1;
     }
-}" class="relative w-full rounded-xl overflow-hidden shadow-xl bg-gray-100">
+}" class="relative w-full rounded-xl overflow-hidden shadow-xl bg-primary-100">
 
     <!-- Previous button for non-mobile view -->
     <button id="prevButton" type="button" class="hidden md:flex absolute left-0 h-full top-0 z-20 items-center justify-center transition-all duration-300 focus:outline-none bg-opacity-50 bg-slate-800" aria-label="previous slide" x-on:click="previous()" style="width: 50px;">

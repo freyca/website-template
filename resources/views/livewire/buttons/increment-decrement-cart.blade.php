@@ -15,7 +15,7 @@
         @endif
     </button>
 
-    <p class="text-center text-md px-1 font-medium text-gray-900 mx-1">
+    <p class="text-center text-md px-1 font-medium text-primary-900 mx-1">
         @if ($productQuantity < 10)
             &nbsp;
         @endif

@@ -9,7 +9,7 @@
                 {{ $product->name }}
             </h5>
 
-            <p class="text-center text-lg font-semibold text-gray-800 my-2">
+            <p class="text-center text-lg font-semibold text-primary-800 my-2">
                 {{ $product->getFormattedPrice() }}
             </p>
         </a>
