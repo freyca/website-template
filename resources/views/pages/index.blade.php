@@ -21,4 +21,6 @@
 
         <x-buttons.whats-app-button />
     </div>
+
+    @vite('resources/js/index.js')
 </x-layouts.app>

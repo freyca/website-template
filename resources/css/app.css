@@ -1,3 +1,4 @@
+@import 'swiper/css/bundle';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -160,4 +161,18 @@ button {
 
 button:disabled {
     @apply active:translate-x-0 active:translate-y-0;
+}
+
+
+/* CSS Code */
+.swiper-wrapper {
+    width: 100%;
+    height: max-content !important;
+    -webkit-transition-timing-function: linear !important;
+    transition-timing-function: linear !important;
+    position: relative;
+}
+
+.swiper-pagination-bullet {
+    display: none;
 }
