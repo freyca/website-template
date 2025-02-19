@@ -1,5 +1,10 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de sobre nosotros">
 
+    <x-bread-crumbs :breadcrumbs="[
+            __('About us') => route('about-us'),
+        ]"
+    />
+
     <div class="container mx-auto p-4">
         <div class="grid gap-4">
             <div class="bg-white shadow-md rounded-lg overflow-hidden p-4">

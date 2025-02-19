@@ -1,5 +1,11 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de politica de privacidad">
 
+    <x-bread-crumbs  :breadcrumbs="
+        [
+            __('Privacy policy') => route('privacy-policy'),
+        ]"
+    />
+
     <div class="container mx-auto p-4">
         <div class="grid gap-4">
             <div class="bg-white shadow-md rounded-lg overflow-hidden p-4">

@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
-Route::get('quienes-somos', function () {
-    return view('pages.who-we-are');
-})->name('who-we-are');
-
 // Route::get('como-comprar', function () {
 //    return view('pages.how-to-buy');
 // })->name('how-to-buy');
