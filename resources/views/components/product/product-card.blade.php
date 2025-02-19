@@ -36,7 +36,7 @@
                                 {{ $product->getFormattedPriceWithDiscount() }}
                             </span>
                         </p>
-                        <p class="text-primary-800 text-center pr-2 text-sm line-through">
+                        <p class="text-primary-800 text-center text-sm line-through">
                             {{ $product->getFormattedPrice() }}
                         </p>
                     @else
