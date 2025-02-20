@@ -1,22 +1,20 @@
 <div>
-    @if ($product->price_with_discount)
-        <p>
-            <span class="text-md font-semibold p-3 px-4 mr-4 rounded-3xl bg-primary-800 text-primary-100">
+    <p>
+        <span class="text-md font-semibold p-3 px-4 mr-4 rounded text-primary-100 bg-primary-800">
+            @if ($product->price_with_discount)
                 {{ $product->getFormattedPriceWithDiscount() }}
-            </span>
+            @else
+                {{ $product->getFormattedPrice() }}
+            @endif
+        </span>
 
+        @if ($product->price_with_discount)
             <span class="pr-2 text-primary-800">
                 {{ __('Before') . ': ' }}
                 <span class="line-through font-semibold">
                     {{ $product->getFormattedPrice() }}
                 </span>
             </span>
-        </p>
-    @else
-        <p>
-            <span class="text-lg font-bold p-3 px-4 mr-4 rounded-3xl bg-primary-800 text-primary-100">
-                {{ $product->getFormattedPrice() }}
-            </span>
-        </p>
-    @endif
+        @endif
+    </p>
 </div>
