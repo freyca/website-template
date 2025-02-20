@@ -55,7 +55,7 @@
         </ul>
     </div>
 
-    <div id="mobile-search-bar" class="md:hidden hidden">
+    <div id="mobile-search-bar" class="md:hidden hidden mx-2">
         @livewire('search-bar')
     </div>
 </nav>
