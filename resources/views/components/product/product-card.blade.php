@@ -21,15 +21,15 @@
                 </div>
             </div>
         </div>
-        <div class="md:py-4 md:px-4 sm:px-0 flex-grow flex flex-col justify-between">
+        <div class="md:py-4 md:px-2 sm:px-0 flex-grow flex flex-col justify-between">
             <div class="grid grid-cols-3 mt-auto overflow-hidden md:gap-2">
-                <div class="col-span-3 md:col-span-2 my-1">
-                    <h3 class="text-sm text-primary-800">
+                <div class="col-span-3 md:col-span-2 my-1 text-center md:text-left">
+                    <h3 class="text-sm text-primary-800 truncate md:text-wrap">
                         {{ $product->name }}
                     </h3>
                 </div>
 
-                <div class="text-nowrap col-span-3 md:mr-4 md:col-span-1 md:text-right">
+                <div class="text-nowrap col-span-3 md:col-span-1 md:text-right">
                     @if ($product->price_with_discount)
                         <p class="text-md text-center font-semibold text-sm bg-danger-500 rounded-md py-1">
                             <span class="p-2 text-primary-100">
