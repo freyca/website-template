@@ -1,5 +1,5 @@
-<nav class="flex mx-4 px-5 py-3 text-primary-700 border border-primary-200 rounded-lg bg-primary-50" aria-label="Breadcrumb">
-    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+<nav class="flex mx-4 px-3 md:px-5 py-3 md:py-4 text-primary-700 border border-primary-200 rounded-full" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center md:space-x-2 rtl:space-x-reverse truncate">
         <li class="inline-flex items-center">
             <a href="{{ route('home') }}" class="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-600">
                 @svg('heroicon-m-home', 'w-4 h-4 mr-2')
