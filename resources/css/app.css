@@ -156,7 +156,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 button {
-    @apply active:translate-x-1 active:translate-y-1;
+    @apply active:translate-x-1 active:translate-y-1 transition;
 }
 
 button:disabled {
