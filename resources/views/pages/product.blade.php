@@ -54,7 +54,7 @@
             @endif
 
             <div class="flex justify-center items-center">
-                <h3 class="text-center my-6 bg-primary-800 p-4 rounded-full max-w-2xl">
+                <h3 class="text-center my-6 bg-primary-800 p-4 rounded-xl max-w-2xl">
                     <span class="font-bold text-lg text-primary-100">
                         {{ mb_strtoupper( __('Extended description of') . ' ' . $product->name) }}
                     </span>
@@ -68,7 +68,7 @@
 
         @if(isset($featuredProducts) && $featuredProducts->count() > 0)
             <div class="flex justify-center items-center">
-                <p class="text-center my-6 bg-primary-800 p-4 rounded-full max-w-2xl">
+                <p class="text-center my-6 bg-primary-800 p-4 rounded-xl max-w-2xl">
                     <span class="font-bold text-lg text-primary-100">
                         {{ mb_strtoupper( __('Featured products') )}}
                     </span>

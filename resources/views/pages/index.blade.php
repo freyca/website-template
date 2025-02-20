@@ -12,7 +12,7 @@
 
         <div class="container mx-auto">
             <h2 class="flex text-3xl font-bold mt-10 mx-auto justify-left text-primary-800 ml-4">
-                {{ __('Featured Products') }}
+                {{ __('Featured products') }}
             </h2>
 
             <x-product-grid :products="$products" />
