@@ -1,5 +1,5 @@
-<nav class="p-2 z-50 text-primary-800">
-    <div class="container mx-auto mt-6 flex justify-between items-center">
+<nav class="px-2 z-50 text-primary-800">
+    <div class="container mx-auto mt-2 md:mt-6 flex justify-between items-center">
         <div class="flex flex-start">
             <a href="/" class="text-primary-50 text-2xl font-bold mr-4">
                 <img src="https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png" class="h-13" alt="Roteco">
