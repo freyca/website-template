@@ -28,20 +28,20 @@ class ContactForm extends Component implements HasForms
     {
         $form = $form
             ->schema([
-                TextInput::make(__('Name'))
+                TextInput::make('name')
                     ->required()
                     ->placeholder(__('Name'))
                     ->hiddenLabel()
                     ->prefixIcon('heroicon-s-user')
                     ->maxLength(255),
-                TextInput::make(__('Email'))
+                TextInput::make('email')
                     ->required()
                     ->email()
                     ->placeholder(__('Email'))
                     ->hiddenLabel()
                     ->prefixIcon('heroicon-s-envelope')
                     ->maxLength(255),
-                Textarea::make(__('Message'))
+                Textarea::make('message')
                     ->required()
                     ->placeholder(__('Write your message here'))
                     ->hiddenLabel()

@@ -72,4 +72,9 @@ return [
      * Taxes
      */
     'tax_iva' => 0.21,
+
+    /**
+     * Mail destination addresses
+     */
+    'admin_email' => env('MAIL_ADMIN_EMAIL'),
 ];
