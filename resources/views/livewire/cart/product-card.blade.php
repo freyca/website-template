@@ -62,26 +62,30 @@
             </div>
 
             <div class="text-center self-center md:order-3 md:w-32">
-                @if (!is_null($product->price_with_discount))
-                    <p class="text-base line-through font-medium text-primary-900">
+                @php
+                    $has_discount = ! is_null($product->price_with_discount);                
+                @endphp
+                @if ($has_discount)
+                    <p class="text-base line-through font-medium text-primary-900 inline-block">
                         {{ $cart->getTotalCostforProductWithoutDiscount($product, $assembly_status, true) }}
                     </p>
-
-                    <p class="text-base font-bold text-success-600">
-                        {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
-                        @if($assembly_status)
-                            <br/>
-                            <span class="text-sm font-normal text-primary-900">{{'(' . __('Assembly included') . ')'}}</span>
-                        @endif
-                    </p>
-                @else
-                    <p class="text-base font-bold text-primary-900">
-                        {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
-                        @if($assembly_status)
-                            <span class="text-sm font-normal text-primary-900">{{'(' . __('Assembly included') . ')'}}</span>
-                        @endif
-                    </p>
                 @endif
+
+                    <p @class([
+                        'text-base',
+                        'font-bold',
+                        'inline-block',
+                        'text-primary-800' => !$has_discount,
+                        'text-success-600' => $has_discount,
+                    ])>
+                        {{ $cart->getTotalCostforProduct($product, $assembly_status, true) }}
+                    </p>
+
+                    @if($assembly_status)
+                        <p class="text-sm font-normal text-primary-900 inline-block">
+                            {{'(' . __('Assembly included') . ')'}}
+                        </p>
+                    @endif
             </div>
 
         </div>

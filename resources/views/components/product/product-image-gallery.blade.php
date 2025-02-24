@@ -86,7 +86,7 @@
 
     <!-- slides -->
     <!-- Change min-h-[50svh] to your preferred height size -->
-    <div class="relative min-h-[40svh] w-full" x-on:touchstart="handleTouchStart($event)" x-on:touchmove="handleTouchMove($event)" x-on:touchend="handleTouchEnd()">
+    <div class="relative h-full min-h-[40svh] w-full" x-on:touchstart="handleTouchStart($event)" x-on:touchmove="handleTouchMove($event)" x-on:touchend="handleTouchEnd()">
         <template x-for="(slide, index) in slides">
             <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.700ms>
                 <img class="rounded-md absolute w-full h-full inset-0 object-cover text-on-surface dark:text-on-surface-dark" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" />
