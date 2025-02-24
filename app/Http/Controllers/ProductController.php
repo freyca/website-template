@@ -45,12 +45,17 @@ class ProductController extends Controller
          * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
          */
         $features = $product->productFeatures();
+
         /**
          * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeatureValue>
          */
         $featureValues = $product->productFeatureValues;
+
         $variants = $product->productVariants()->get();
-        $featuredProducts = \App\Models\Product::limit(5)->get();
+        
+        $relatedComplements = $product->productComplements()->limit(5)->get();
+        $relatedSpareparts = $product->productSpareParts()->limit(5)->get();
+        $relatedProducts = $relatedComplements->concat($relatedSpareparts);
 
         if (count($variants) !== 0) {
             /**
@@ -69,7 +74,9 @@ class ProductController extends Controller
                 'features' => $features,
                 'featureValues' => $featureValues,
                 'variants' => $variants,
-                'featuredProducts' => $featuredProducts,
+                'featuredProducts' => $relatedProducts,
+                // TODO: difefference between related (other similar products, suitable components or spare parts)
+                // and featured (products we want to sell)
             ]
         );
     }
@@ -93,13 +100,21 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productComplement->productFeatureValues;
+        /**
+         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
+         */
+        $features = $productComplement->productFeatures();
+        $featureValues = $productComplement->productFeatureValues;
+
+        $relatedProducts = $productComplement->products()->limit(5)->get();
 
         return view(
             'pages.product',
             [
                 'product' => $productComplement,
                 'features' => $features,
+                'featureValues' => $featureValues,
+                'featuredProducts' => $relatedProducts,
             ]
         );
     }
@@ -123,13 +138,21 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productSparePart->productFeatureValues;
+        /**
+         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
+         */
+        $features = $productSparePart->productFeatures();
+        $featureValues = $productSparePart->productFeatureValues;
+
+        $relatedProducts = $productSparePart->products()->limit(5)->get();
 
         return view(
             'pages.product',
             [
                 'product' => $productSparePart,
                 'features' => $features,
+                'featureValues' => $featureValues,
+                'featuredProducts' => $relatedProducts,
             ]
         );
     }

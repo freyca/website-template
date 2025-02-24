@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Services\Cart;
 use App\Services\Payment;
+use App\Services\ProductsWithDiscountPerPurchase;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,6 +18,7 @@ class PaymentController extends Controller
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly Cart $cart,
+        private readonly ProductsWithDiscountPerPurchase $purchasedProducts,
     ) {}
 
     public function redirectToPayment(Order $order)
@@ -29,6 +31,10 @@ class PaymentController extends Controller
     public function orderFinishedOk(Order $order, Request $request): View
     {
         $this->cart->clear();
+
+        // Refreshes user purchased products in cart session so discounts
+        // can be applied if decides to make another purchase
+        $this->purchasedProducts->savePurchasedProducts(true);
 
         return view(
             'pages.purchase-complete',
@@ -65,7 +71,7 @@ class PaymentController extends Controller
             $order = $this->orderRepository->find($order_id);
 
             if ($order === null) {
-                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
+                throw new Exception('Invalid PayPal request ' . json_encode($request->all()));
             }
 
             $this->paymentGatewayNotification($order, $request);

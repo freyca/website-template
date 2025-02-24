@@ -22,6 +22,8 @@ use App\Repositories\Database\Product\ProductComplement\EloquentProductComplemen
 use App\Repositories\Database\Product\ProductComplement\ProductComplementRepositoryInterface;
 use App\Repositories\Database\Product\ProductSparePart\EloquentProductSparePartRepository;
 use App\Repositories\Database\Product\ProductSparePart\ProductSparePartRepositoryInterface;
+use App\Repositories\ProductsWithDiscountPerPurchase\ProductsWithDiscountPerPurchaseInterface;
+use App\Repositories\ProductsWithDiscountPerPurchase\SessionProductsWithDiscountPerPurchase;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -71,6 +73,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderRepositoryInterface::class,
             EloquentOrderRepository::class,
+        );
+
+        $this->app->bind(
+            ProductsWithDiscountPerPurchaseInterface::class,
+            SessionProductsWithDiscountPerPurchase::class,
         );
     }
 }

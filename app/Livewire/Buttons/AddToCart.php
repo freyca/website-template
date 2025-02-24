@@ -11,7 +11,6 @@ use App\Services\Cart;
 use Filament\Notifications\Notification;
 use Illuminate\View\View;
 use Livewire\Component;
-use Livewire\Attributes\On;
 
 class AddToCart extends Component
 {
