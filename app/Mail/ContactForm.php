@@ -12,7 +12,7 @@ class ContactForm extends Mailable
 {
     private string $name;
     private string $email;
-    private string $message;
+    private string $user_message;
 
     public function __construct(private Form $form)
     {
@@ -20,7 +20,7 @@ class ContactForm extends Mailable
 
         $this->name = strval(data_get($form_data, 'name'));
         $this->email = strval(data_get($form_data, 'email'));
-        $this->message = strval(data_get($form_data, 'message'));
+        $this->user_message = strval(data_get($form_data, 'message'));
     }
 
     public function envelope(): Envelope
@@ -37,6 +37,11 @@ class ContactForm extends Mailable
     {
         return new Content(
             view: 'emails.contact-form',
+            with: ([
+                'name' => $this->name,
+                'email' => $this->email,
+                'user_message' => $this->user_message,
+            ]),
         );
     }
 }
