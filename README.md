@@ -15,7 +15,6 @@
    - public/storage/category-images
 
 # TODO:
- - make meta-description a variable in head ¿sure   ?
  - keep filter sidebar if is open (must convert open/close button to livewire)
  - filter correctly complements and spare parts by features
  - create listeners for outofstock events
