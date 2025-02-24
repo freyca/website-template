@@ -2,16 +2,18 @@
 
 namespace App\Mail;
 
+use Filament\Forms\Form;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Filament\Forms\Form;
 
 class ContactForm extends Mailable
 {
     private string $name;
+
     private string $email;
+
     private string $user_message;
 
     public function __construct(private Form $form)
