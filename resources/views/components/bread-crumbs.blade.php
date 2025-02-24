@@ -2,8 +2,7 @@
     <ol class="inline-flex items-center md:space-x-2 rtl:space-x-reverse truncate">
         <li class="inline-flex items-center">
             <a href="{{ route('home') }}" class="inline-flex items-center text-sm font-medium text-primary-700 hover:text-primary-600">
-                @svg('heroicon-m-home', 'w-4 h-4 mr-2')
-                {{ __('Home') }}
+                @svg('heroicon-m-home', 'w-4 h-4')
             </a>
         </li>
 
