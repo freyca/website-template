@@ -14,7 +14,7 @@
     </ul>
     <p>Consulta:</p>
     <p>
-        {{ $message }}
+        {{ $user_message }}
     </p>
 </body>
 </html>
