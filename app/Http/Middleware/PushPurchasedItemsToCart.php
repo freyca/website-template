@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Cart;
 use App\Services\ProductsWithDiscountPerPurchase;
 use Closure;
 use Illuminate\Http\Request;

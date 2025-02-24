@@ -14,6 +14,7 @@ class ProductSparePart extends BaseProduct
 {
     /** @use HasFactory<ProductSparePartFactory> */
     use HasFactory;
+
     use HasPriceWhenUserOwnsProduct;
 
     /**

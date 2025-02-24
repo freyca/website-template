@@ -258,7 +258,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $assemble = $assemble ? 'assemble' : 'noAssemble';
 
-        return strval($product->ean13) . '+' . $assemble;
+        return strval($product->ean13).'+'.$assemble;
     }
 
     private function calculateCostForProduct(BaseProduct $product, bool $assemble, float $price, bool $formatted = false): float|string

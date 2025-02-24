@@ -6,8 +6,8 @@ use App\Livewire\Buttons\Traits\AssemblyStatusChanger;
 use App\Livewire\Buttons\Traits\ProductVariantChanger;
 use App\Models\BaseProduct;
 use App\Services\Cart;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class AddToCartButtons extends Component
 {

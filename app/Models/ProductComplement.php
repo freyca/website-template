@@ -14,6 +14,7 @@ class ProductComplement extends BaseProduct
 {
     /** @use HasFactory<ProductComplementFactory> */
     use HasFactory;
+
     use HasPriceWhenUserOwnsProduct;
 
     /**

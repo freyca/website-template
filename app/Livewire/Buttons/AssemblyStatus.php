@@ -3,8 +3,8 @@
 namespace App\Livewire\Buttons;
 
 use App\Livewire\Buttons\Traits\ProductVariantChanger;
-use App\Models\ProductVariant;
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -29,7 +29,7 @@ class AssemblyStatus extends Component
 
     public function render(): View
     {
-        if (!isset($this->assembly_price)) {
+        if (! isset($this->assembly_price)) {
             $this->setAssemblyPrice();
         }
 
@@ -40,6 +40,7 @@ class AssemblyStatus extends Component
     {
         if (is_a($this->product, ProductVariant::class)) {
             $this->assembly_price = $this->product->product->getFormattedAssemblyPrice();
+
             return;
         }
 

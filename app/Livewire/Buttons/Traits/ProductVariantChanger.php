@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Buttons\Traits;
 
-use Livewire\Attributes\On;
 use App\Models\ProductVariant;
+use Livewire\Attributes\On;
 
 trait ProductVariantChanger
 {

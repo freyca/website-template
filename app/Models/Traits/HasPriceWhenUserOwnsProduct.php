@@ -19,7 +19,7 @@ trait HasPriceWhenUserOwnsProduct
 
         parent::__construct($attributes);
     }
-    
+
     /**
      * Get the attributes that should be cast.
      *
@@ -29,7 +29,7 @@ trait HasPriceWhenUserOwnsProduct
     {
         $parent_casts = parent::casts();
 
-        return array_merge($parent_casts,  [
+        return array_merge($parent_casts, [
             'price_when_user_owns_product' => MoneyCast::class,
         ]);
     }

@@ -130,7 +130,6 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
         $this->updateDiscountProducts($purchased, $in_cart);
     }
 
-
     /**
      * @return Collection<Collection<string>, Collection<string>>
      */

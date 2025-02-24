@@ -6,9 +6,7 @@ namespace App\Livewire\Product;
 
 use App\Livewire\Buttons\Traits\ProductVariantChanger;
 use App\Models\BaseProduct;
-use App\Models\ProductVariant;
 use Illuminate\Contracts\View\View;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ProductPrice extends Component

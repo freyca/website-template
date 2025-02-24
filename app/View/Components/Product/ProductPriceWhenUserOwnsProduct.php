@@ -4,8 +4,6 @@ namespace App\View\Components\Product;
 
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
-use App\Models\ProductVariant;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

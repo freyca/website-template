@@ -18,6 +18,7 @@ final class Cart implements CartRepositoryInterface
     {
         try {
             $this->repository->add($product, $quantity, $assemble);
+
             return true;
         } catch (\Throwable $th) {
             return false;

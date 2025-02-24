@@ -5,8 +5,8 @@ namespace App\Livewire\Buttons;
 use App\Models\BaseProduct;
 use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class ProductCartButtons extends Component
 {
@@ -30,7 +30,6 @@ class ProductCartButtons extends Component
 
         $this->maybeSetVariant();
     }
-
 
     #[On('refresh-cart')]
     public function render()

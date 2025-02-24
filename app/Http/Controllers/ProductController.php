@@ -52,7 +52,7 @@ class ProductController extends Controller
         $featureValues = $product->productFeatureValues;
 
         $variants = $product->productVariants()->get();
-        
+
         $relatedComplements = $product->productComplements()->limit(5)->get();
         $relatedSpareparts = $product->productSpareParts()->limit(5)->get();
         $relatedProducts = $relatedComplements->concat($relatedSpareparts);
