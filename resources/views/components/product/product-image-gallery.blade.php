@@ -1,5 +1,5 @@
 <div x-data="{
-    autoplayIntervalTime: 4000,
+    autoplayIntervalTime: 6000,
     slides: [
         {
             imgSrc: '{{ @asset('/storage/' . $product->main_image) }}',
@@ -89,7 +89,7 @@
     <div class="relative h-full min-h-[40svh] w-full" x-on:touchstart="handleTouchStart($event)" x-on:touchmove="handleTouchMove($event)" x-on:touchend="handleTouchEnd()">
         <template x-for="(slide, index) in slides">
             <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.700ms>
-                <img class="rounded-md absolute w-full h-full inset-0 object-cover text-on-surface dark:text-on-surface-dark" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" />
+                <img class="rounded-md absolute w-full h-full inset-0 object-contain text-on-surface dark:text-on-surface-dark" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" />
             </div>
         </template>
     </div>
