@@ -19,20 +19,26 @@ class AddToCart extends Component
 
     public BaseProduct $product;
 
+    public string $icon;
+
     public function add(): void
     {
         /** @var Cart * */
         $cart = app(Cart::class);
 
-        $cart->add($this->product, 1, $this->getAssemblyStatus());
-
-        Notification::make()->title(__('Product added correctly'))->success()->send();
+        if ($cart->add($this->product, 1, $this->getAssemblyStatus())) {
+            Notification::make()->title(__('Product added correctly'))->success()->send();
+        } else {
+            Notification::make()->title(__('Failed to add product'))->danger()->send();
+        }
 
         $this->dispatch('refresh-cart');
     }
 
     public function render(): View
     {
+        $this->icon = $this->product->stock > 0 ? 'heroicon-o-shopping-bag' : 'heroicon-m-x-mark';
+
         return view('livewire.buttons.add-to-cart');
     }
 }
