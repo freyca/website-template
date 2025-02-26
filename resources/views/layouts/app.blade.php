@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<x-head.head :metaDescription="$metaDescription" />
+<x-head.head :title="$title" :metaDescription="$metaDescription" />
 
 <body id="app-container" class="bg-white-100 text-primary-900 min-h-screen m-0">
     <x-navbar.navbar />
