@@ -26,14 +26,6 @@ return [
     ],
 
     /**
-     * This sections will be shown on navbar, floating to the right
-     */
-    // 'customer-sections' => [
-    //     'carrito' => '/carrito',
-    //     'login' => '/user',
-    // ],
-
-    /**
      * Categories to show in the main page after banner
      */
     'featured-categories' => [
@@ -46,6 +38,7 @@ return [
     /**
      * Products to show in the main page
      * If the array is empty, it will 15 products Products table
+     * Products need to be published to be shown
      * TODO: criteria to show products
      */
     'featured-products' => [
@@ -56,6 +49,7 @@ return [
         5,
         6,
         7,
+        13,
     ],
 
     /**
@@ -77,4 +71,10 @@ return [
      * Mail destination addresses
      */
     'admin_email' => env('MAIL_ADMIN_EMAIL'),
+
+    /**
+     * Web logo
+     */
+    'web_logo' => 'https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png',
+    'web_logo_alt' => 'Roteco',
 ];

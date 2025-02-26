@@ -201,7 +201,7 @@ trait FormBuilderTrait
                     ->moveFiles()
                     ->orientImagesFromExif(false)
                     ->preserveFilenames()
-                    ->directory('product-images'),
+                    ->directory(config('custom.product-image-storage')),
 
                 Forms\Components\FileUpload::make('images')
                     ->label(__('Additional images'))
@@ -211,7 +211,7 @@ trait FormBuilderTrait
                     ->moveFiles()
                     ->orientImagesFromExif(false)
                     ->preserveFilenames()
-                    ->directory('product-images'),
+                    ->directory(config('custom.product-image-storage')),
 
             ])->columns(2);
     }

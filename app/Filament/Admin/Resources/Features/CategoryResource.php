@@ -46,7 +46,7 @@ class CategoryResource extends Resource
                     ->moveFiles()
                     ->preserveFilenames()
                     ->orientImagesFromExif(false)
-                    ->directory('category-images'),
+                    ->directory(config('custom.category-image-storage')),
                 Forms\Components\FileUpload::make('small_image')
                     ->label(__('Small image'))
                     ->required()
