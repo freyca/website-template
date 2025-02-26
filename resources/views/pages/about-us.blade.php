@@ -1,9 +1,12 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de sobre nosotros">
 
-    <x-bread-crumbs :breadcrumbs="[
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
             __('About us') => route('about-us'),
-        ]"
-    />
+        ]);
+    @endphp
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="container mx-auto p-4">
         <div class="grid gap-4">

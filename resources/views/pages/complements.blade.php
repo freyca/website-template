@@ -1,10 +1,12 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de products">
 
-    <x-bread-crumbs  :breadcrumbs="
-        [
-            __('Complements') => route('complement-list'),
-        ]"
-    />
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
+            __('Complements') => route('complement-list')
+        ]);
+    @endphp
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="main-content transition-all duration-500 ease-in-out p-4 w-auto">
         @livewire('product.product-grid', key(md5('product.product-grid')), ['classFilter' => 'complement'])

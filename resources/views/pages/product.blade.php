@@ -1,28 +1,9 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $product->meta_description }}">
     @inject(cart, '\App\Services\Cart')
 
-    @if(is_a($product, \App\Models\Product::class) || is_a($product, \App\Models\ProductVariant::class))
-        @php
-            $breadcrumbs=[
-                $product->category->name => '/' . $product->category->slug,
-                $product->name => $product->slug,
-            ];
-        @endphp
-    @elseif ( is_a($product, \App\Models\ProductComplement::class))
-        @php
-            $breadcrumbs=[
-                __('Complements') => route('complement-list'),
-                $product->name => $product->slug,
-            ];
-        @endphp
-    @else
-        @php
-            $breadcrumbs=[
-                __('Spare parts') => route('spare-part-list'),
-                $product->name => $product->slug,
-            ];
-        @endphp
-    @endif
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\ProductBreadCrumbs($product);
+    @endphp
 
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 

@@ -1,10 +1,12 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de politica de privacidad">
 
-    <x-bread-crumbs  :breadcrumbs="
-        [
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
             __('Privacy policy') => route('privacy-policy'),
-        ]"
-    />
+        ]);
+    @endphp
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="container mx-auto p-4">
         <div class="grid gap-4">

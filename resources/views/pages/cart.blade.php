@@ -1,11 +1,13 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de carrito">
     @inject('cart', 'App\Services\Cart')
 
-    <x-bread-crumbs  :breadcrumbs="
-        [
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
             __('Cart') => route('checkout.cart'),
-        ]"
-    />
+        ]);
+    @endphp
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="mx-auto px-0 xl:px-4 my-4">
         @livewire('cart.cart-container')

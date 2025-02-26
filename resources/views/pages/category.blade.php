@@ -1,12 +1,14 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->meta_description }}">
     <div class="container mx-auto rounded-md">
 
-        <x-bread-crumbs  :breadcrumbs="
-            [
+        @php
+            $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
                 __('Categories') => route('category-list'),
                 __($category->name) => $category->slug,
-            ]"
-        />
+            ]);
+        @endphp
+
+        <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
         <div class="grid grid-cols-1 mt-4 lg:gap-4 lg:grid-cols-3 mb-4">
             <div class="grid place-content-center flex bg-primary-800 rounded mx-4">

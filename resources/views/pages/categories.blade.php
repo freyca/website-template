@@ -1,9 +1,12 @@
 <x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de categorias">
-    <x-bread-crumbs  :breadcrumbs="
-        [
+
+    @php
+        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
             __('Categories') => route('category-list'),
-        ]"
-    />
+        ]);
+    @endphp
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <h1 class="mt-5 text-center text-3xl font-bold mb-4">
         {{ __('Categories') }}
