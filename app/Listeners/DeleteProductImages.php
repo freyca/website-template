@@ -5,22 +5,24 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\ProductDeleted;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Storage;
 
-class DeleteProductImages
+class DeleteProductImages implements ShouldQueue
 {
     public function handle(ProductDeleted $event): void
     {
-        $images = $event->product->images;
+        $product_images = $event->product->images;
+        array_push($product_images, $event->product->main_image);
+
         /** @var string $disk_path */
         $disk_path = config('filament.default_filesystem_disk');
         $disk = Storage::disk($disk_path);
 
-        foreach ($images as $image) {
-            $image_abs_path = '/product-images/'.$image;
-
-            if ($disk->exists($image_abs_path)) {
-                $disk->delete($image_abs_path);
+        $disk->get('.');
+        foreach ($product_images as $image) {
+            if ($disk->exists($image)) {
+                $disk->delete($image);
             }
         }
     }

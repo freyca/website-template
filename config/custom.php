@@ -55,12 +55,12 @@ return [
     /**
      * Directory to save product images
      */
-    'product-image-storage' => public_path('/storage/product-images'),
+    'product-image-storage' => '/public/storage/product-images',
 
     /**
      * Directory to save category images
      */
-    'category-image-storage' => public_path('/storage/category-images'),
+    'category-image-storage' => '/public/storage/category-images',
 
     /**
      * Taxes
@@ -75,6 +75,6 @@ return [
     /**
      * Web logo
      */
-    'web_logo' => 'https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png',
+    'web_logo' => '/images/logo.png',
     'web_logo_alt' => 'Roteco',
 ];
