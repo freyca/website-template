@@ -55,12 +55,12 @@ return [
     /**
      * Directory to save product images
      */
-    'product-image-storage' => '/public/storage/product-images',
+    'product-image-storage' => '/product-images',
 
     /**
      * Directory to save category images
      */
-    'category-image-storage' => '/public/storage/category-images',
+    'category-image-storage' => '/category-images',
 
     /**
      * Taxes
