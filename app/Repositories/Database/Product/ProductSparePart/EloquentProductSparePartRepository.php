@@ -20,7 +20,7 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
         // return Cache::remember($cacheKey, 3600, function () {
-        return ProductSparePart::where('published', true)->paginate(15);
+        return ProductSparePart::paginate(15);
         // });
     }
 
@@ -34,20 +34,19 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-spare-parts');
 
-            return ProductSparePart::whereIn('id', $featured_products)->where('published', true)->get();
+            return ProductSparePart::whereIn('id', $featured_products)->get();
         });
     }
 
     public function filter(FilterDTO $filters): Collection
     {
-        $query = ProductSparePart::where('published', true)
-            ->where(function ($q) use ($filters) {
-                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '>', $filters->minPrice);
-            })->where(function ($q) use ($filters) {
-                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
-            });
+        $query = ProductSparePart::where(function ($q) use ($filters) {
+            $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '>', $filters->minPrice);
+        })->where(function ($q) use ($filters) {
+            $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '<', $filters->maxPrice);
+        });
 
         if ($filters->features !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {

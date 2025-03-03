@@ -6,12 +6,15 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use App\Events\ProductDeleted;
+use App\Models\Scopes\PublishedScope;
 use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ScopedBy([PublishedScope::class])]
 class Product extends BaseProduct
 {
     /** @use HasFactory<ProductFactory> */

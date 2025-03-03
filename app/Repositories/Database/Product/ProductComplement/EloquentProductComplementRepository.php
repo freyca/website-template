@@ -20,7 +20,7 @@ class EloquentProductComplementRepository implements ProductComplementRepository
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
         // return Cache::remember($cacheKey, 3600, function () {
-        return ProductComplement::where('published', true)->paginate(15);
+        return ProductComplement::paginate(15);
         // });
     }
 
@@ -34,20 +34,19 @@ class EloquentProductComplementRepository implements ProductComplementRepository
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-complements');
 
-            return ProductComplement::whereIn('id', $featured_products)->where('published', true)->get();
+            return ProductComplement::whereIn('id', $featured_products)->get();
         });
     }
 
     public function filter(FilterDTO $filters): Collection
     {
-        $query = ProductComplement::where('published', true)
-            ->where(function ($q) use ($filters) {
-                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '>', $filters->minPrice);
-            })->where(function ($q) use ($filters) {
-                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
-            });
+        $query = ProductComplement::where(function ($q) use ($filters) {
+            $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '>', $filters->minPrice);
+        })->where(function ($q) use ($filters) {
+            $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '<', $filters->maxPrice);
+        });
 
         if ($filters->features !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
