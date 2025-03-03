@@ -2,11 +2,10 @@
 
 namespace App\Notifications;
 
+use Filament\Forms\Form;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Filament\Forms\Form;
 use Illuminate\Support\Facades\Lang;
 
 class ContactFormNotification extends Notification
@@ -40,9 +39,9 @@ class ContactFormNotification extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Contact form reached'))
-            ->line(Lang::get('Name' . ': ' . $this->name))
-            ->line(Lang::get('Email' . ': ' . $this->email))
-            ->line(Lang::get('Message' . ': ' . $this->user_message));
+            ->line(Lang::get('Name'.': '.$this->name))
+            ->line(Lang::get('Email'.': '.$this->email))
+            ->line(Lang::get('Message'.': '.$this->user_message));
     }
 
     /**

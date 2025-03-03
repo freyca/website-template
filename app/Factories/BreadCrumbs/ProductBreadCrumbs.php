@@ -26,7 +26,7 @@ class ProductBreadCrumbs extends StandardPageBreadCrumbs
     private function productBreadCrumb(BaseProduct $product)
     {
         return [
-            $product->category->name => '/' . $product->category->slug,
+            $product->category->name => '/'.$product->category->slug,
         ];
     }
 

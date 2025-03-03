@@ -34,7 +34,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property array<string> $images
  * @property BelongsToMany<ProductFeatureValue> $productFeatureValues
  */
-
 #[ScopedBy([PublishedScope::class])]
 abstract class BaseProduct extends Model
 {
