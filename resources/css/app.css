@@ -135,19 +135,19 @@ input[type="range"]::-moz-range-thumb {
     background-color: #ff4444;
 }
 
-#minPrice::-moz-range-progress {
+#min_price::-moz-range-progress {
     background-color: lightcoral;
 }
 
-#minPrice::-moz-range-track {
+#min_price::-moz-range-track {
     background-color: red;
 }
 
-#maxPrice::-moz-range-progress {
+#max_price::-moz-range-progress {
     background-color: red;
 }
 
-#maxPrice::-moz-range-track {
+#max_price::-moz-range-track {
     background-color: lightcoral;
 }
 
@@ -156,19 +156,19 @@ input[type="range"]::-webkit-slider-thumb {
     background-color: #ff4444;
 }
 
-#minPrice::-ms-fill-lower {
+#min_price::-ms-fill-lower {
     background-color: lightcoral;
 }
 
-#minPrice::-ms-fill-upper {
+#min_price::-ms-fill-upper {
     background-color: red;
 }
 
-#minPrice::-ms-fill-lower {
+#min_price::-ms-fill-lower {
     background-color: red;
 }
 
-#minPrice::-ms-fill-upper {
+#min_price::-ms-fill-upper {
     background-color: lightcoral;
 }
 

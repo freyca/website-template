@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Product;
 
 use App\DTO\FilterDTO;
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
@@ -13,15 +15,17 @@ use Livewire\Component;
 
 class ProductGrid extends Component
 {
-    public string $classFilter;
+    public string $class_filter;
 
-    public function mount(string $classFilter): void
+    public function mount(string $class_name): void
     {
-        $this->classFilter =
-            match ($classFilter) {
-                'complement' => 'App\Repositories\Database\Product\ProductComplement\EloquentProductComplementRepository',
-                'spare-part' => 'App\Repositories\Database\Product\ProductSparePart\EloquentProductSparePartRepository',
-                default => 'App\Repositories\Database\Product\Product\EloquentProductRepository',
+        $basename = 'App\Repositories\Database\Product';
+
+        $this->class_filter =
+            match ($class_name) {
+                ProductComplement::class => $basename.'\ProductComplement\EloquentProductComplementRepository',
+                ProductSparePart::class => $basename.'\ProductSparePart\EloquentProductSparePartRepository',
+                default => $basename.'\Product\EloquentProductRepository',
             };
     }
 
@@ -29,25 +33,22 @@ class ProductGrid extends Component
     private LengthAwarePaginator|Collection $products;
 
     /**
-     * @param  array{'minPrice': int, 'maxPrice': int, 'filteredFeatures': array<int>, 'filteredCategory': int}  $filters
+     * @param  array{'min_price': int, 'maxPmax_pricerice': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
      */
     #[On('refreshProductGrid')]
     public function getFilteredProducts(array $filters): void
     {
+        $filter_dto = new FilterDTO;
+
         // Database has prices in cents
-        $filters['minPrice'] = intval($filters['minPrice']) * 100;
-        $filters['maxPrice'] = intval($filters['maxPrice']) * 100;
+        $filter_dto->minPrice(intval($filters['min_price']) * 100);
+        $filter_dto->maxPrice(intval($filters['max_price']) * 100);
+        $filter_dto->category($filters['filtered_category']);
+        $filter_dto->features($filters['filtered_features']);
 
-        $filters = new FilterDTO(
-            $filters['minPrice'],
-            $filters['maxPrice'],
-            $filters['filteredCategory'],
-            $filters['filteredFeatures']
-        );
+        $repository = app($this->class_filter);
 
-        $repository = app($this->classFilter);
-
-        $this->products = $repository->filter($filters);
+        $this->products = $repository->filter($filter_dto);
     }
 
     /**
@@ -55,7 +56,7 @@ class ProductGrid extends Component
      */
     public function getProductsWithoutFilters(): LengthAwarePaginator
     {
-        $repository = app($this->classFilter);
+        $repository = app($this->class_filter);
 
         return $repository->getAll();
     }

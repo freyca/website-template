@@ -18,12 +18,12 @@ interface ProductRepositoryInterface extends BaseProductRepositoryInterface
     public function getAll(): LengthAwarePaginator;
 
     /**
-     * @return Collection<int, Product>
+     * @return Collection<Product>
      */
-    public function featured(): Collection;
+    public function featured(): LengthAwarePaginator;
 
     /**
-     * @return Collection<int, Product>
+     * @return Collection<Product>
      */
-    public function filter(FilterDTO $filters): Collection;
+    public function filter(FilterDTO $filters): LengthAwarePaginator;
 }

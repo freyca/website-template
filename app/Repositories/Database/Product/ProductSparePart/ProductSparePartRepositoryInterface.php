@@ -7,7 +7,6 @@ namespace App\Repositories\Database\Product\ProductSparePart;
 use App\DTO\FilterDTO;
 use App\Models\ProductSparePart;
 use App\Repositories\Database\Product\BaseProductRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductSparePartRepositoryInterface extends BaseProductRepositoryInterface
@@ -18,12 +17,12 @@ interface ProductSparePartRepositoryInterface extends BaseProductRepositoryInter
     public function getAll(): LengthAwarePaginator;
 
     /**
-     * @return Collection<int, ProductSparePart>
+     * @return LengthAwarePaginator<ProductSparePart>
      */
-    public function featured(): Collection;
+    public function featured(): LengthAwarePaginator;
 
     /**
-     * @return Collection<int, ProductSparePart>
+     * @return LengthAwarePaginator<ProductSparePart>
      */
-    public function filter(FilterDTO $filters): Collection;
+    public function filter(FilterDTO $filters): LengthAwarePaginator;
 }

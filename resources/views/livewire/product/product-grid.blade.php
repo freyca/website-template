@@ -1,7 +1,3 @@
-<div class="container mx-auto py-8">
-    @if (method_exists($products, 'links'))
-        {{ $products->links() }}
-    @endif
-
+<div class="container mx-auto">
     <x-product-grid :products="$products" />
 </div>

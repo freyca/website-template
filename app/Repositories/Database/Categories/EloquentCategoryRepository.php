@@ -34,7 +34,7 @@ class EloquentCategoryRepository implements CategoryRepositoryInterface
         /**
          * @var LengthAwarePaginator<Product>
          */
-        return $category->products()->paginate(15);
+        return $category->products()->paginate(8);
     }
 
     public function featured(): Collection

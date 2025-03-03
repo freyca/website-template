@@ -1,5 +1,5 @@
 <aside id="filter-side-menu" @class([
-    'open' => $isHidden,
+    'open' => $is_hidden,
     'top-0',
     'md:top-28',
     'z-50',
@@ -33,17 +33,17 @@
         <button type="button"
             class="my-4 bg-slate-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded"
             wire:click="clearFilters">
-            {{ __('Clear All Filters') }}
+            {{ __('Clear all filters') }}
         </button>
 
         <form wire:change.debounce.500ms="filterProducts">
-            @isset($enabledFilters['category'])
+            @if($enabled_filters['category'] === true)
                 <!-- Filtro de Categoría -->
                 <div class="filter-category mb-4">
                     <label for="category" class="block text-primary-700">
                         {{ __('Category') }}:
                     </label>
-                    <select wire:model="filteredCategory" id="category-filter"
+                    <select wire:model="filtered_category" id="category-filter"
                         class="form-select mt-1 block w-full border border-primary-300 rounded-lg p-2 filter-item">
                         <option value="0">{{ __('Select category') }}</option>
                         @foreach (\App\Models\Category::all() as $category)
@@ -51,36 +51,36 @@
                         @endforeach
                     </select>
                 </div>
-            @endisset
+            @endif
 
-            @isset($enabledFilters['price'])
+            @if($enabled_filters['price'] === true)
                 <!-- Filtro de Precio -->
                 <div class="filter-price mb-4">
                     <label for="price" class="block text-primary-700">
                         {{ __('Price range') }}
                     </label>
                     <div class="mt-1">
-                        <label for="minPrice" class="text-sm text-primary-600">
-                            {{ __('Min Price') . ': ' . $minPrice . ' €' }}
+                        <label for="min_price" class="text-sm text-primary-600">
+                            {{ __('Min Price') . ': ' . $min_price . ' €' }}
                         </label>
                         <div class="flex items-center">
-                            <input type="range" wire:model.debounce.500ms="minPrice" id="minPrice" min="0"
+                            <input type="range" wire:model.debounce.500ms="min_price" id="min_price" min="0"
                                 max="10000" step="100" class="w-full mr-2 filter-item accent-red-500">
                         </div>
                     </div>
                     <div class="mt-1">
-                        <label for="maxPrice" class="text-sm text-primary-600">
-                            {{ __('Max Price') . ': ' . $maxPrice . ' €' }}
+                        <label for="max_price" class="text-sm text-primary-600">
+                            {{ __('Max Price') . ': ' . $max_price . ' €' }}
                         </label>
                         <div class="flex items-center">
-                            <input type="range" wire:model.debounce.500ms="maxPrice" id="maxPrice" min="0"
+                            <input type="range" wire:model.debounce.500ms="max_price" id="max_price" min="0"
                                 max="10000" step="100" class="w-full mr-2 filter-item">
                         </div>
                     </div>
                 </div>
-            @endisset
+            @endif
 
-            @isset($enabledFilters['features'])
+            @if($enabled_filters['features'] === true)
                 <!-- Filtro de Características -->
                 <div class="filter-features">
                     <label class="block text-primary-700">{{ __('Technical details') }}:</label>
@@ -101,7 +101,7 @@
                                 @foreach ($feature->productFeatureValues as $featureValue)
                                     <div class="flex items-center mb-2">
                                         <label class="flex items-center">
-                                            <input wire:model="filteredFeatures" value="{{ $featureValue->id }}"
+                                            <input wire:model="filtered_features" value="{{ $featureValue->id }}"
                                                 type="checkbox" class="mr-2 filter-item">
                                             {{ __($featureValue->name) }}
                                         </label>
@@ -111,7 +111,7 @@
                         </details>
                     @endforeach
                 </div>
-            @endisset
+            @endif
         </form>
     </div>
 </aside>

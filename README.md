@@ -16,7 +16,6 @@
 
 # TODO:
  - keep filter sidebar if is open (must convert open/close button to livewire)
- - filter correctly complements and spare parts by features
  - create listeners for outofstock events
  - create listener for user created - IMPORTANT
 
@@ -29,9 +28,6 @@
  ## Metodos de envio
  - Directamente a través do proveedor: url + numero seguimiento
 
- ## Landings
- - complementos/recambios a un precio rebajado si compras maquina
-
  ## Buscador
- - no busca en productos con variantes
+ - no busca nombres de variantes -esperable-
 
