@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\View\Components\Searchbar;
 
+use App\Models\BaseProduct;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use stdClass;
 
 class SearchResult extends Component
 {
     public function __construct(
-        public stdClass $product,
+        public BaseProduct $product,
         public string $urlPrefix,
     ) {}
 

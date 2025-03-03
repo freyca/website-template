@@ -15,19 +15,19 @@
             <div id="dropdownHover"
                 class="absolute mt-12 z-50 bg-primary-800 rounded -ml-2 sm:ml-4 min-w-full sm:min-w-96 max-w-full">
                 <ul class="py-2 text-sm text-primary-100 min-w-full">
-                    @if (isset($results['products']) && $results['products'] > 0)
+                    @if (isset($results['products']) && $results['products']->count() > 0)
                         @foreach ($results['products'] as $product)
                             <x-searchbar.search-result :product="$product" urlPrefix='producto' />
                         @endforeach
                     @endif
 
-                    @if (isset($results['complements']) && $results['complements'] > 0)
+                    @if (isset($results['complements']) && $results['complements']->count() > 0)
                         @foreach ($results['complements'] as $product)
                             <x-searchbar.search-result :product="$product" urlPrefix='complemento' />
                         @endforeach
                     @endif
 
-                    @if (isset($results['spare-parts']) && $results['spare-parts'] > 0)
+                    @if (isset($results['spare-parts']) && $results['spare-parts']->count() > 0)
                         @foreach ($results['spare-parts'] as $product)
                             <x-searchbar.search-result :product="$product" urlPrefix='pieza-de-repuesto' />
                         @endforeach
