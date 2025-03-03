@@ -8,7 +8,7 @@
 
 <div
     class="bg-white rounded-lg overflow-hidden group transition-shadow duration-300 hover:shadow-2xl flex flex-col justify-between h-full py-2">
-    <a href="{{ $path . '/' . $product->slug }}" class="px-2">
+    <a href="{{ $path . '/' . $product->slug }}" class="">
         <div class="relative pb-48 overflow-hidden rounded-md border border-solid border-primary-800">
             <img class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 transform group-hover:scale-110"
                 src="{{ @asset('/storage/' . $product->main_image) }}" alt="{{ $product->name }}">
