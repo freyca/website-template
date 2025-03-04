@@ -64,9 +64,6 @@ class SeoTags
         $this->meta_description = $config_seo_container['description'];
     }
 
-    /**
-     * TODO: do not allow objects with empty tags
-     */
     private function buildFromClass(object $seo_container): void
     {
         $this->meta_title = $seo_container->name;
