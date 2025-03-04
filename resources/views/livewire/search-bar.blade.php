@@ -1,5 +1,9 @@
 <div id="search-bar-container" class="container mx-auto block justify-between items-center w-full mt-4 md:mt-0 md:w-96">
-    <form role="search" class="w-full float-end">
+    <form id="search-form"
+            role="search"
+            class="w-full float-end"
+            x-on:focusout="$wire.set('searchTerm', '')"
+    >
         <div class="relative float-end text-center w-full md:block">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 @svg('heroicon-o-magnifying-glass', 'w-4 h-4 text-black')
@@ -36,5 +40,4 @@
             </div>
         @endif
     </form>
-
 </div>
