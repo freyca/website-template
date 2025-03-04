@@ -13,7 +13,7 @@
 
         @if (count($results) > 0)
             <div id="dropdownHover"
-                class="absolute mt-12 z-50 bg-primary-800 rounded -ml-2 sm:ml-4 min-w-full sm:min-w-96 max-w-full">
+            class="absolute mt-12 z-50 bg-primary-800 rounded -ml-4 sm:ml-0 min-w-full sm:min-w-96 max-w-full">
                 <ul class="py-2 text-sm text-primary-100 min-w-full">
                     @if (isset($results['products']) && $results['products']->count() > 0)
                         @foreach ($results['products'] as $product)

@@ -63,15 +63,12 @@
 <script>
     document.getElementById('menu-button').addEventListener('click', function() {
         var mobileMenu = document.getElementById('mobile-menu');
-        var isExpanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', !isExpanded);
         mobileMenu.classList.toggle('hidden');
     });
 
     document.getElementById('search-button').addEventListener('click', function() {
-        var mobileMenu = document.getElementById('mobile-search-bar');
-        var isExpanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', !isExpanded);
-        mobileMenu.classList.toggle('hidden');
+        var searchBar = document.getElementById('mobile-search-bar');
+        searchBar.classList.toggle('hidden');
+        searchBar.querySelector('input').focus();
     });
 </script>

@@ -15,7 +15,9 @@
                 {{ __('Featured products') }}
             </h2>
 
-            <x-product-grid :products="$products" />
+            <div class="main-content transition-all duration-500 ease-in-out px-4 w-auto">
+                <x-product-grid :products="$products" />
+            </div>
 
         </div>
 
