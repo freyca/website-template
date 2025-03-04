@@ -1,4 +1,4 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de products">
+<x-layouts.app :seotags="$seotags">
 
     @php
         $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([

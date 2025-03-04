@@ -1,4 +1,4 @@
-<x-layouts.app :title="config('custom.title')" :metaDescription="'Metadescripcion de la pagina de inicio'">
+<x-layouts.app :seotags="$seotags">
     <x-sliders.main-slider />
 
     <div class="container rounded-top-md">

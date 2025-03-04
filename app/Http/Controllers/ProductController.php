@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\DTO\SeoTags;
 use App\Enums\Role;
 use App\Models\Product;
 use App\Models\ProductComplement;
@@ -27,18 +28,21 @@ class ProductController extends Controller
      */
     public function all(): View
     {
-        return view(
-            'pages.products',
-            [
-                'products' => $this->productRepository->getAll(),
-            ]
-        );
+        return view('pages.products', [
+            'products' => $this->productRepository->getAll(),
+            'seotags' => new SeoTags('product_all'),
+        ]);
     }
 
     public function product(Product $product): View
     {
         if (! $product->published && ! $this->canAccessPrivateProducts()) {
             abort(403);
+        }
+
+        $variants = $product->productVariants()->get();
+        if (count($variants) !== 0) {
+            $first_variant = $variants->first();
         }
 
         /**
@@ -51,30 +55,18 @@ class ProductController extends Controller
          */
         $featureValues = $product->productFeatureValues;
 
-        $variants = $product->productVariants()->get();
-
         $relatedComplements = $product->productComplements()->limit(5)->get();
         $relatedSpareparts = $product->productSpareParts()->limit(5)->get();
-        $relatedProducts = $relatedComplements->concat($relatedSpareparts);
-
-        if (count($variants) !== 0) {
-            /**
-             * @var \App\Models\ProductVariant
-             */
-            $variant = $variants->first();
-
-            $features = $features->merge($variant->productFeatures())->unique();
-            $featureValues = $featureValues->merge($variant->productFeatureValues()->get())->unique();
-        }
 
         return view(
             'pages.product',
             [
                 'product' => $product,
-                'features' => $features,
-                'featureValues' => $featureValues,
                 'variants' => $variants,
-                'featuredProducts' => $relatedProducts,
+                'features' => ($variants->count() === 0) ? $features : $features->merge($first_variant->productFeatures())->unique(),
+                'featureValues' => ($variants->count() === 0) ? $featureValues : $featureValues->merge($first_variant->productFeatureValues()->get())->unique(),
+                'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
+                'seotags' => new SeoTags($product),
                 // TODO: difefference between related (other similar products, suitable components or spare parts)
                 // and featured (products we want to sell)
             ]
@@ -86,12 +78,10 @@ class ProductController extends Controller
      */
     public function complements(): View
     {
-        return view(
-            'pages.complements',
-            [
-                'products' => $this->productComplementRepository->getAll(),
-            ]
-        );
+        return view('pages.complements', [
+            'products' => $this->productComplementRepository->getAll(),
+            'seotags' => new SeoTags('complements_all'),
+        ]);
     }
 
     public function productComplement(ProductComplement $productComplement): View
@@ -100,23 +90,13 @@ class ProductController extends Controller
             abort(403);
         }
 
-        /**
-         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
-         */
-        $features = $productComplement->productFeatures();
-        $featureValues = $productComplement->productFeatureValues;
-
-        $relatedProducts = $productComplement->products()->limit(5)->get();
-
-        return view(
-            'pages.product',
-            [
-                'product' => $productComplement,
-                'features' => $features,
-                'featureValues' => $featureValues,
-                'featuredProducts' => $relatedProducts,
-            ]
-        );
+        return view('pages.product', [
+            'product' => $productComplement,
+            'features' => $productComplement->productFeatures(),
+            'featureValues' => $productComplement->productFeatureValues,
+            'featuredProducts' => $productComplement->products()->limit(5)->get(),
+            'seotags' => new SeoTags($productComplement),
+        ]);
     }
 
     /**
@@ -124,12 +104,10 @@ class ProductController extends Controller
      */
     public function spareParts(): View
     {
-        return view(
-            'pages.spare-parts',
-            [
-                'products' => $this->productSparePartRepository->getAll(),
-            ]
-        );
+        return view('pages.spare-parts', [
+            'products' => $this->productSparePartRepository->getAll(),
+            'seotags' => new SeoTags('spare_parts_all'),
+        ]);
     }
 
     public function ProductSparePart(ProductSparePart $productSparePart): View
@@ -138,23 +116,13 @@ class ProductController extends Controller
             abort(403);
         }
 
-        /**
-         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
-         */
-        $features = $productSparePart->productFeatures();
-        $featureValues = $productSparePart->productFeatureValues;
-
-        $relatedProducts = $productSparePart->products()->limit(5)->get();
-
-        return view(
-            'pages.product',
-            [
-                'product' => $productSparePart,
-                'features' => $features,
-                'featureValues' => $featureValues,
-                'featuredProducts' => $relatedProducts,
-            ]
-        );
+        return view('pages.product', [
+            'product' => $productSparePart,
+            'features' => $productSparePart->productFeatures(),
+            'featureValues' => $productSparePart->productFeatureValues,
+            'featuredProducts' => $productSparePart->products()->limit(5)->get(),
+            'seotags' => new SeoTags($productSparePart),
+        ]);
     }
 
     private function canAccessPrivateProducts(): bool

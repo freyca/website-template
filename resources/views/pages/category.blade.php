@@ -1,4 +1,4 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="{{ $category->meta_description }}">
+<x-layouts.app :seotags="$seotags">
     <div class="container mx-auto rounded-md">
 
         @php

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\DTO\SeoTags;
 use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
 
@@ -19,11 +20,9 @@ class SeoController extends Controller
         $category = $this->categoryRepository->getAll()->first();
         $products = $this->categoryRepository->getProducts($category);
 
-        return view(
-            'pages.products',
-            [
-                'products' => $products,
-            ]
-        );
+        return view('pages.products', [
+            'products' => $products,
+            'seotags' => new SeoTags('desbrozadoras_baratas'),
+        ]);
     }
 }

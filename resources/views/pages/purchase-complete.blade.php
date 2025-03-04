@@ -1,4 +1,4 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Pedido completado">
+<x-layouts.app :seotags="$seotags">
 
     <div class="mx-10 flex flex-col items-center justify-center ">
         <div class="my-6 mt-20">

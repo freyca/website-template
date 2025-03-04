@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\SeoTags;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
@@ -28,7 +29,7 @@ class PaymentController extends Controller
         return $paymentService->payPurchase();
     }
 
-    public function orderFinishedOk(Order $order, Request $request): View
+    public function orderFinishedOk(Order $order): View
     {
         $this->cart->clear();
 
@@ -36,26 +37,22 @@ class PaymentController extends Controller
         // can be applied if decides to make another purchase
         $this->purchasedProducts->savePurchasedProducts(true);
 
-        return view(
-            'pages.purchase-complete',
-            [
-                'order' => $order,
-            ]
-        );
+        return view('pages.purchase-complete', [
+            'order' => $order,
+            'seotags' => new SeoTags('order_ok'),
+        ]);
     }
 
-    public function orderFinishedKo(Order $order, Request $request): View
+    public function orderFinishedKo(Order $order): View
     {
         $this->cart->clear();
 
         $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
 
-        return view(
-            'pages.purchase-complete',
-            [
-                'order' => $order,
-            ]
-        );
+        return view('pages.purchase-complete', [
+            'order' => $order,
+            'seotags' => new SeoTags('order_ko'),
+        ]);
     }
 
     public function paymentGatewayNotification(Order $order, Request $request): void
@@ -71,7 +68,7 @@ class PaymentController extends Controller
             $order = $this->orderRepository->find($order_id);
 
             if ($order === null) {
-                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
+                throw new Exception('Invalid PayPal request ' . json_encode($request->all()));
             }
 
             $this->paymentGatewayNotification($order, $request);

@@ -1,4 +1,4 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de carrito">
+<x-layouts.app :seotags="$seotags">
     @inject('cart', 'App\Services\Cart')
 
     @php
