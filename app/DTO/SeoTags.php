@@ -70,7 +70,7 @@ class SeoTags
     private function buildFromClass(object $seo_container): void
     {
         $this->meta_title = $seo_container->name;
-        $this->meta_description = $seo_container->meta_description ?? '';
+        $this->meta_description = $seo_container->meta_description;
     }
 
     private function setAdditionalHeadersFromConfig(string $seo_container, array $additional_headers): void
