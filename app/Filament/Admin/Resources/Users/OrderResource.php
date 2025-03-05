@@ -226,7 +226,8 @@ class OrderResource extends Resource
                             return;
                         }
 
-                        if (count($product->productVariants) !== 0) {
+                        if ($product->productVariants()->count() !== 0) {
+                            $set('unit_price', 0);
                             return;
                         }
 
@@ -281,7 +282,7 @@ class OrderResource extends Resource
                         $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
                         $set('unit_price', $price);
                     })
-                    ->visible(function (Get $get) {
+                    ->visible(function (Get $get, Set $set) {
                         $product_id = $get('product_id');
 
                         if ($product_id === null) {
@@ -293,7 +294,22 @@ class OrderResource extends Resource
                          */
                         $product = Product::find($product_id);
 
-                        return count($product->productVariants) !== 0;
+                        // If not visible, nothing to do
+                        if ($product->productVariants()->count() === 0) {
+                            return false;
+                        }
+
+                        // Before return, we check if price is 0
+                        // If is 0, we select first variant and put its price
+                        if ($get('unit_price') === 0) {
+                            $variant =  $product->productVariants()->first();
+                            $price = $variant->price_with_discount ? $variant->price_with_discount : $variant->price;
+
+                            $set('product_variant_id', $variant->id);
+                            $set('unit_price', $price);
+                        }
+
+                        return true;
                     })
                     ->required(function (Get $get) {
                         $product_id = $get('product_id');
@@ -307,7 +323,7 @@ class OrderResource extends Resource
                          */
                         $product = Product::find($product_id);
 
-                        return count($product->productVariants) !== 0;
+                        return $product->productVariants()->count() !== 0;
                     }),
 
                 Forms\Components\TextInput::make('quantity')
@@ -344,7 +360,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -363,7 +379,7 @@ class OrderResource extends Resource
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -405,7 +421,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_complement_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_complement_id'])),
             ])
             ->defaultItems(1)
             ->columns([
@@ -424,7 +440,7 @@ class OrderResource extends Resource
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -466,7 +482,7 @@ class OrderResource extends Resource
 
                         return ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
-                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_spare_part_id'])),
+                    ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['product_spare_part_id'])),
             ])
             ->defaultItems(1)
             ->columns([

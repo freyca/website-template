@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.2",
         "andreiio/blade-remix-icon": "^3.6",
-        "awcodes/filament-tiptap-editor": "^3.0",
+        "awcodes/filament-tiptap-editor": "^3.5",
         "blade-ui-kit/blade-heroicons": "^2.3",
         "creagia/redsys-php": "^3.0",
         "filament/filament": "^3.2",

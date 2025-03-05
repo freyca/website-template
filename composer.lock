@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c24e32328e5a18ab7eaacb42c2d880d0",
+    "content-hash": "8fc3ce501f99550846b9397969fe7ab9",
     "packages": [
         {
             "name": "andreiio/blade-remix-icon",
@@ -132,16 +132,16 @@
         },
         {
             "name": "awcodes/filament-tiptap-editor",
-            "version": "v3.5.8",
+            "version": "v3.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awcodes/filament-tiptap-editor.git",
-                "reference": "5d93f5ff5c6f6490e5f43909aebe6c1975e26c31"
+                "reference": "7c401aa7ffe7672fe23c5a30fb65deae3e9201fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/5d93f5ff5c6f6490e5f43909aebe6c1975e26c31",
-                "reference": "5d93f5ff5c6f6490e5f43909aebe6c1975e26c31",
+                "url": "https://api.github.com/repos/awcodes/filament-tiptap-editor/zipball/7c401aa7ffe7672fe23c5a30fb65deae3e9201fb",
+                "reference": "7c401aa7ffe7672fe23c5a30fb65deae3e9201fb",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             ],
             "support": {
                 "issues": "https://github.com/awcodes/filament-tiptap-editor/issues",
-                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.5.8"
+                "source": "https://github.com/awcodes/filament-tiptap-editor/tree/v3.5.9"
             },
             "funding": [
                 {
@@ -210,7 +210,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-15T19:24:30+00:00"
+            "time": "2025-02-25T14:52:20+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
