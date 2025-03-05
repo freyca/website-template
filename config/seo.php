@@ -10,6 +10,20 @@
  * This meta tag wil have the key as name and the value as content
  */
 return [
+    // This tags are always written in head
+    // Its values can be overwriten in every page
+    'default' => [
+        'robots' => 'index, follow',
+        'author' => 'Fran Rey - franreycastedo@gmail.com',
+    ],
+
+    // Use this if you want to reaturn a view and do not want to be indexed
+    'noindex' => [
+        'title' => '',
+        'description' => '',
+        'robots' => 'noindex, nofollow',
+    ],
+
     'index' => [
         'title' => 'Meta titulo de la página de inicio',
         'description' => 'Meta descripción de la página de categorías',
@@ -48,20 +62,5 @@ return [
     'privacy_policy' => [
         'title' => '',
         'description' => '',
-    ],
-
-    'order_ok' => [
-        'title' => '',
-        'description' => '',
-    ],
-
-    'order_ko' => [
-        'title' => '',
-        'description' => '',
-    ],
-
-    '404' => [
-        'title' => 'Page not found',
-        'description' => 'Page not found',
     ],
 ];

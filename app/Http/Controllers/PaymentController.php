@@ -39,7 +39,7 @@ class PaymentController extends Controller
 
         return view('pages.purchase-complete', [
             'order' => $order,
-            'seotags' => new SeoTags('order_ok'),
+            'seotags' => new SeoTags('noindex'),
         ]);
     }
 
@@ -51,7 +51,7 @@ class PaymentController extends Controller
 
         return view('pages.purchase-complete', [
             'order' => $order,
-            'seotags' => new SeoTags('order_ko'),
+            'seotags' => new SeoTags('noindex'),
         ]);
     }
 

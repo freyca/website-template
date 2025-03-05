@@ -14,7 +14,6 @@ class SeoTags
 
     public function __construct(
         string|object $seo_container,
-        array $additional_headers = [],
     ) {
         match (true) {
             is_object($seo_container) => $this->buildFromClass($seo_container),
@@ -22,8 +21,8 @@ class SeoTags
         };
 
         match (true) {
-            is_string($seo_container) => $this->setAdditionalHeadersFromConfig($seo_container, $additional_headers),
-            default => $this->setAdditionalHeadersFromObject($seo_container, $additional_headers),
+            is_string($seo_container) => $this->setAdditionalHeadersFromConfig($seo_container),
+            default => $this->setAdditionalHeadersFromObject($seo_container),
         };
     }
 
@@ -76,20 +75,20 @@ class SeoTags
         }
     }
 
-    private function setAdditionalHeadersFromConfig(string $seo_container, array $additional_headers): void
+    private function setAdditionalHeadersFromConfig(string $seo_container): void
     {
         $config_seo_container = config('seo.'.$seo_container);
         unset($config_seo_container['title']);
         unset($config_seo_container['description']);
 
-        $this->additional_headers = array_merge($config_seo_container, $additional_headers);
+        $this->additional_headers = array_merge(config('seo.default'), $config_seo_container);
     }
 
     /**
      * TODO: build og tags with images and so on
      */
-    private function setAdditionalHeadersFromObject(object $seo_container, array $additional_headers): void
+    private function setAdditionalHeadersFromObject(object $seo_container): void
     {
-        $this->additional_headers = $additional_headers;
+        $this->additional_headers = config('seo.default');
     }
 }
