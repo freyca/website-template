@@ -15,7 +15,7 @@ class PublishedScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (Auth::user()->role === Role::Customer) {
+        if (Auth::user()?->role === Role::Customer) {
             $builder->where('published', true);
         }
     }
