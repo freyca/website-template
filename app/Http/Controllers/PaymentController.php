@@ -68,7 +68,7 @@ class PaymentController extends Controller
             $order = $this->orderRepository->find($order_id);
 
             if ($order === null) {
-                throw new Exception('Invalid PayPal request ' . json_encode($request->all()));
+                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
             }
 
             $this->paymentGatewayNotification($order, $request);
