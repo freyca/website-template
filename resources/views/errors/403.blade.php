@@ -2,11 +2,11 @@
     <section>
         <div class="container mx-auto p-4">
             <h1 class="text-3xl text-center font-bold mb-4">
-                Esta página no existe
+                OOOOOPS, parece que estás intentando acceder a una página prohibida
             </h1>
 
             <h2 class="text-xl text-center mb-2">
-                Sin embargo, quizá te interesen estos productos
+                Quizá te interesen estos productos
             </h2>
 
             @php
