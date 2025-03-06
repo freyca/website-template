@@ -12,10 +12,19 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class ProductGrid extends Component
 {
+    use WithoutUrlPagination, WithPagination;
+
     public string $class_filter;
+
+    public array $filters = [];
+
+    /** @phpstan-ignore-next-line */
+    private LengthAwarePaginator|Collection $products;
 
     public function mount(string $class_name): void
     {
@@ -29,15 +38,25 @@ class ProductGrid extends Component
             };
     }
 
-    /** @phpstan-ignore-next-line */
-    private LengthAwarePaginator|Collection $products;
-
     /**
      * @param  array{'min_price': int, 'maxPmax_pricerice': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
      */
     #[On('refreshProductGrid')]
-    public function getFilteredProducts(array $filters): void
+    public function getFilteredProducts(array $filters = [])
     {
+        if ($filters === []) {
+            $repository = app($this->class_filter);
+
+            return $repository->getAll();
+        }
+
+        // If filters change, we reset url pagination and save them
+        // Need to save then so pagination does not breaks filters
+        if ($filters !== $this->filters) {
+            $this->filters = $filters;
+            $this->resetPage();
+        }
+
         $filter_dto = new FilterDTO;
 
         // Database has prices in cents
@@ -47,31 +66,17 @@ class ProductGrid extends Component
         $filter_dto->features($filters['filtered_features']);
 
         $repository = app($this->class_filter);
+        $products = $repository->filter($filter_dto);
 
-        $this->products = $repository->filter($filter_dto);
-    }
-
-    /**
-     * @return LengthAwarePaginator<\App\Models\BaseProduct>
-     */
-    public function getProductsWithoutFilters(): LengthAwarePaginator
-    {
-        $repository = app($this->class_filter);
-
-        return $repository->getAll();
+        return $products;
     }
 
     public function render(): View
     {
-        if (! isset($this->products)) {
-            $this->products = $this->getProductsWithoutFilters();
-        }
-
         return view(
             'livewire.product.product-grid',
             [
-                'products' => $this->products,
-                'filteredResultsCount' => count($this->products),
+                'products' => $this->getFilteredProducts($this->filters),
             ]
         );
     }
