@@ -530,6 +530,7 @@ class OrderResource extends Resource
         $set('unit_price', $price);
     }
 
+    // TODO: calculate prices with assembly cost
     public static function calculateTotalPrice(Livewire $livewire)
     {
         $price = 0;
@@ -624,7 +625,7 @@ class OrderResource extends Resource
         }
 
         return match ($user_id) {
-            null => Address::all()->pluck('address', 'id'),
+            null => Address::select('address')->pluck('address')->toArray(),
             default => User::find($user_id)->shippingAddresses->pluck('address', 'id'),
         };
     }

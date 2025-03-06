@@ -13,6 +13,9 @@ use Filament\Forms\Form;
 use Illuminate\View\View;
 use Livewire\Component;
 
+/**
+ * @property ComponentContainer $form
+ */
 class ContactForm extends Component implements HasForms
 {
     use InteractsWithForms;

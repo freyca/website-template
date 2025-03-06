@@ -46,12 +46,13 @@ abstract class RedsysPaymentRepository extends PaymentRepository
 
     public function isGatewayOkWithPayment(Order $order, Request $request): bool
     {
+        $inputs = $request->all();
+
         try {
             /**
              *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
              */
             $redsys_response = new RedsysResponse($this->createClient());
-            $inputs = $request->all();
             $redsys_response->setParametersFromResponse($inputs);
 
             $order->payment_gateway_response = $redsys_response instanceof PostRequestError

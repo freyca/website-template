@@ -7,7 +7,6 @@ namespace App\Repositories\Database\Product\ProductComplement;
 use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Repositories\Database\Product\BaseProductRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductComplementRepositoryInterface extends BaseProductRepositoryInterface
@@ -17,13 +16,7 @@ interface ProductComplementRepositoryInterface extends BaseProductRepositoryInte
      */
     public function getAll(): LengthAwarePaginator;
 
-    /**
-     * @return Collection<ProductComplement>
-     */
     public function featured(): LengthAwarePaginator;
 
-    /**
-     * @return Collection<ProductComplement>
-     */
     public function filter(FilterDTO $filters): LengthAwarePaginator;
 }

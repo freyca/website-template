@@ -46,7 +46,7 @@ class ProductController extends Controller
         }
 
         $variants = $product->productVariants()->get();
-        if (count($variants) !== 0) {
+        if ($variants->count() !== 0) {
             $first_variant = $variants->first();
         }
 

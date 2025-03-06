@@ -23,7 +23,6 @@ class ProductGrid extends Component
 
     public array $filters = [];
 
-    /** @phpstan-ignore-next-line */
     private LengthAwarePaginator|Collection $products;
 
     public function mount(string $class_name): void

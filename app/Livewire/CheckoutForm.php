@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+/**
+ * @property ComponentContainer $form
+ */
 class CheckoutForm extends Component implements HasForms
 {
     use InteractsWithForms;

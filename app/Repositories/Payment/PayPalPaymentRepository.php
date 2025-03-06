@@ -76,7 +76,7 @@ class PayPalPaymentRepository extends PaymentRepository
         $paypal_response = $request->all();
 
         // Get paypal webhook id, get this from paypal developer site when you create webhook
-        $paypal_webhook_id = env('PAYPAL_WEBHOOK_ID', null);
+        $paypal_webhook_id = config('paypal.webhook_id');
 
         // gather webhook data to verify it
         $verify_data = [
