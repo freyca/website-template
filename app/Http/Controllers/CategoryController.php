@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\DTO\SeoTags;
+use App\Factories\BreadCrumbs\StandardPageBreadCrumbs;
 use App\Models\Category;
 use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
@@ -20,6 +21,9 @@ class CategoryController extends Controller
         return view('pages.categories', [
             'categories' => $this->repository->getAll(),
             'seotags' => new SeoTags('categories'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Categories') => route('category-list'),
+            ]),
         ]);
     }
 
@@ -29,6 +33,10 @@ class CategoryController extends Controller
             'category' => $category,
             'products' => $this->repository->getProducts($category),
             'seotags' => new SeoTags($category),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Categories') => route('category-list'),
+                __($category->name) => $category->slug,
+            ]),
         ]);
     }
 }

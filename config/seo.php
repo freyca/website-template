@@ -19,8 +19,8 @@ return [
 
     // Use this if you want to reaturn a view and do not want to be indexed
     'noindex' => [
-        'title' => '',
-        'description' => '',
+        'title' => env('APP_NAME', ''),
+        'description' => env('APP_DESCRIPTION', ''),
         'robots' => 'noindex, nofollow',
     ],
 

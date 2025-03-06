@@ -1,4 +1,4 @@
-<nav class="flex mx-4 px-3 md:px-5 py-3 md:py-4 text-primary-700 border border-primary-200 rounded-full" aria-label="Breadcrumb">
+<nav class="flex mx-4 px-3 md:px-5 py-3 md:py-4 text-primary-700 border border-primary-200 rounded-full" aria-label="breadcrumb">
     <ol class="inline-flex items-center md:space-x-2 rtl:space-x-reverse truncate">
         @foreach ($breadcrumbs->getBreadCrumbs() as $breadcrumb => $url)
             @if($loop->first)

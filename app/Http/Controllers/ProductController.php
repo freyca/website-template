@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\DTO\SeoTags;
 use App\Enums\Role;
+use App\Factories\BreadCrumbs\ProductBreadCrumbs;
+use App\Factories\BreadCrumbs\StandardPageBreadCrumbs;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
@@ -31,6 +33,9 @@ class ProductController extends Controller
         return view('pages.products', [
             'products' => $this->productRepository->getAll(),
             'seotags' => new SeoTags('product_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Products') => route('product-list'),
+            ]),
         ]);
     }
 
@@ -67,6 +72,7 @@ class ProductController extends Controller
                 'featureValues' => ($variants->count() === 0) ? $featureValues : $featureValues->merge($first_variant->productFeatureValues()->get())->unique(),
                 'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
                 'seotags' => new SeoTags($product),
+                'breadcrumbs' => new ProductBreadCrumbs($product),
                 // TODO: difefference between related (other similar products, suitable components or spare parts)
                 // and featured (products we want to sell)
             ]
@@ -81,6 +87,9 @@ class ProductController extends Controller
         return view('pages.complements', [
             'products' => $this->productComplementRepository->getAll(),
             'seotags' => new SeoTags('complements_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Complements') => route('complement-list'),
+            ]),
         ]);
     }
 
@@ -96,6 +105,7 @@ class ProductController extends Controller
             'featureValues' => $productComplement->productFeatureValues,
             'featuredProducts' => $productComplement->products()->limit(5)->get(),
             'seotags' => new SeoTags($productComplement),
+            'breadcrumbs' => new ProductBreadCrumbs($productComplement),
         ]);
     }
 
@@ -107,6 +117,9 @@ class ProductController extends Controller
         return view('pages.spare-parts', [
             'products' => $this->productSparePartRepository->getAll(),
             'seotags' => new SeoTags('spare_parts_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Spare parts') => route('spare-part-list'),
+            ]),
         ]);
     }
 
@@ -122,6 +135,7 @@ class ProductController extends Controller
             'featureValues' => $productSparePart->productFeatureValues,
             'featuredProducts' => $productSparePart->products()->limit(5)->get(),
             'seotags' => new SeoTags($productSparePart),
+            'breadcrumbs' => new ProductBreadCrumbs($productSparePart),
         ]);
     }
 

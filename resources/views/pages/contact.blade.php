@@ -1,11 +1,5 @@
 <x-layouts.app :seotags="$seotags">
 
-    @php
-        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
-            __('Contact us') => route('contact'),
-        ]);
-    @endphp
-
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="mx-4">

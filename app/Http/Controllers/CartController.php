@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\SeoTags;
+use App\Factories\BreadCrumbs\StandardPageBreadCrumbs;
 use Illuminate\View\View;
 
 class CartController extends Controller
@@ -11,6 +12,9 @@ class CartController extends Controller
     {
         return view('pages.cart', [
             'seotags' => new SeoTags('noindex'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Cart') => route('checkout.cart'),
+            ]),
         ]);
     }
 }

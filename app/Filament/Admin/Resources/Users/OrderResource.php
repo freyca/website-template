@@ -38,7 +38,7 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('id')
-                        ->name(__('Order id (automatically generated)') . ':')
+                        ->name(__('Order id (automatically generated)').':')
                         ->disabled()
                         ->columnSpanFull(),
 
@@ -370,7 +370,7 @@ class OrderResource extends Resource
                         $product = Product::find($get('product_id'));
 
                         return $product?->can_be_assembled;
-                    })
+                    }),
             ])
             ->extraItemActions([
                 self::getProductUrl(Product::class),
@@ -576,7 +576,7 @@ class OrderResource extends Resource
 
         $formatted_price = round(floatval($price * 100) / 100, precision: 2);
 
-        data_set($livewire, $state_path . '.purchase_cost', $formatted_price);
+        data_set($livewire, $state_path.'.purchase_cost', $formatted_price);
     }
 
     public static function getProductUrl(string $product_class)
@@ -591,13 +591,13 @@ class OrderResource extends Resource
                 function (array $arguments, Repeater $component) use ($product_class, $short_class_name): ?string {
                     $itemData = $component->getRawItemState($arguments['item']);
 
-                    $product = $product_class::find($itemData[Str::snake($short_class_name) . '_id']);
+                    $product = $product_class::find($itemData[Str::snake($short_class_name).'_id']);
 
                     if (! $product) {
                         return null;
                     }
 
-                    $resource_class_name = 'App\\Filament\\Admin\\Resources\\Products\\' . $short_class_name . 'Resource';
+                    $resource_class_name = 'App\\Filament\\Admin\\Resources\\Products\\'.$short_class_name.'Resource';
 
                     return $resource_class_name::getUrl('edit', ['record' => $product]);
                 },
@@ -608,7 +608,7 @@ class OrderResource extends Resource
                     return blank(
                         $component->getRawItemState(
                             $arguments['item']
-                        )[Str::snake($short_class_name) . '_id']
+                        )[Str::snake($short_class_name).'_id']
                     );
                 }
             );

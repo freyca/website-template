@@ -1,11 +1,5 @@
 <x-layouts.app :seotags="$seotags">
 
-    @php
-        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
-            __('Spare parts') => route('spare-part-list'),
-        ]);
-    @endphp
-
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="main-content transition-all duration-500 ease-in-out px-4 w-auto">

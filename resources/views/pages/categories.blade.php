@@ -1,11 +1,5 @@
 <x-layouts.app :seotags="$seotags">
 
-    @php
-        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
-            __('Categories') => route('category-list'),
-        ]);
-    @endphp
-
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <h1 class="mt-5 text-center text-3xl font-bold mb-4">

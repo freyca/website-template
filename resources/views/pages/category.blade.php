@@ -1,13 +1,6 @@
 <x-layouts.app :seotags="$seotags">
     <div class="container mx-auto rounded-md">
 
-        @php
-            $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
-                __('Categories') => route('category-list'),
-                __($category->name) => $category->slug,
-            ]);
-        @endphp
-
         <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
         <div class="grid grid-cols-1 mt-4 lg:gap-4 lg:grid-cols-3 mb-4">

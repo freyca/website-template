@@ -1,10 +1,6 @@
 <x-layouts.app :seotags="$seotags">
     @inject(cart, '\App\Services\Cart')
 
-    @php
-        $breadcrumbs = new App\Factories\BreadCrumbs\ProductBreadCrumbs($product);
-    @endphp
-
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="mx-4 my-4">

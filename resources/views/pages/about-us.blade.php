@@ -1,11 +1,5 @@
 <x-layouts.app :seotags="$seotags">
 
-    @php
-        $breadcrumbs = new App\Factories\BreadCrumbs\StandardPageBreadCrumbs([
-            __('About us') => route('about-us'),
-        ]);
-    @endphp
-
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="container mx-auto p-4">

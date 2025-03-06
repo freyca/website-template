@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\SeoTags;
+use App\Factories\BreadCrumbs\StandardPageBreadCrumbs;
 use Illuminate\View\View;
 
 class LandingsController extends Controller
@@ -11,6 +12,9 @@ class LandingsController extends Controller
     {
         return view('pages.about-us', [
             'seotags' => new SeoTags('about_us'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('About us') => route('about-us'),
+            ]),
         ]);
     }
 
@@ -18,6 +22,9 @@ class LandingsController extends Controller
     {
         return view('pages.privacy-policy', [
             'seotags' => new SeoTags('privacy_policy'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Privacy policy') => route('privacy-policy'),
+            ]),
         ]);
     }
 
@@ -25,6 +32,9 @@ class LandingsController extends Controller
     {
         return view('pages.contact', [
             'seotags' => new SeoTags('contact'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Contact us') => route('contact'),
+            ]),
         ]);
     }
 }
