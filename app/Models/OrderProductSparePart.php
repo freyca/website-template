@@ -29,6 +29,7 @@ class OrderProductSparePart extends Model
     }
 
     protected $fillable = [
+        'order_id',
         'product_spare_part_id',
         'unit_price',
         'quantity',

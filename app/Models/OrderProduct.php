@@ -29,10 +29,12 @@ class OrderProduct extends Pivot
     {
         return [
             'unit_price' => MoneyCast::class,
+            'assembly_price' => MoneyCast::class,
         ];
     }
 
     protected $fillable = [
+        'order_id',
         'product_id',
         'product_variant_id',
         'unit_price',

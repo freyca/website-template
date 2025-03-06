@@ -29,6 +29,7 @@ class OrderProductComplement extends Model
     }
 
     protected $fillable = [
+        'order_id',
         'product_complement_id',
         'unit_price',
         'quantity',

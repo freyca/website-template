@@ -90,7 +90,7 @@ class ProductResource extends Resource
                     ->schema([
                         Forms\Components\Toggle::make('can_be_assembled')
                             ->required()
-                            ->label(__('Requires assembly'))
+                            ->label(__('Can be assembled'))
                             ->columnSpanFull()
                             ->live(),
 
@@ -100,7 +100,7 @@ class ProductResource extends Resource
                             ->required()
                             ->inline(false)
                             ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
+                                fn(Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                         Forms\Components\TextInput::make('assembly_price')
@@ -109,7 +109,7 @@ class ProductResource extends Resource
                             ->suffix('€')
                             ->required()
                             ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
+                                fn(Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                     ])->columns(2),
