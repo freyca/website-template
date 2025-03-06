@@ -57,7 +57,20 @@ class OrderResource extends Resource
                                         $set('billing_address_id', '');
                                     }
                                 })
-                                ->live(onBlur: true),
+                                ->live(onBlur: true)
+                                ->hintIconTooltip('asdasd')
+                                ->hintAction(
+                                    Action::make(__('Open user'))
+                                        ->icon('heroicon-o-user-group')
+                                        ->url(
+                                            function (Get $get): string {
+                                                $user_id = $get('user_id');
+
+                                                return $user_id !== null ? route('filament.admin.resources.users.users.edit', $user_id) : route('filament.admin.resources.users.users.index');
+                                            },
+                                            shouldOpenInNewTab: true
+                                        )
+                                ),
                             Forms\Components\Select::make('shipping_address_id')
                                 ->relationship('shippingAddress', 'address')
                                 ->options(

@@ -33,7 +33,7 @@ trait FormBuilderTrait
                 ->required()
                 ->maxLength(255)
                 ->hintAction(
-                    Action::make(__('OpenProductUrl'))
+                    Action::make(__('Open product url'))
                         ->icon('heroicon-o-link')
                         ->url(
                             function (Component $livewire): string {
