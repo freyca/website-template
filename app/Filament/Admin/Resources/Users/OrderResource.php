@@ -234,12 +234,10 @@ class OrderResource extends Resource
                         $set('product_variant_id', null);
                         self::setProductPrice($state, Product::class, $set);
 
-                        $product = Product::find($state);
-
                         // If product is null or has no variants, we recalculate
-                        // the cost, for products with cariants we'll recalculate
+                        // the cost, for products with variants we'll recalculate
                         // it later
-                        if ($product === null || $product->productVariants()->count() === 0) {
+                        if (Product::find(intval($state))?->productVariants()->count() === 0) {
                             self::calculateTotalPrice($livewire);
                         }
 
@@ -247,7 +245,7 @@ class OrderResource extends Resource
                         $set('assembly_price', 0);
                     })
                     ->distinct(function ($state) {
-                        return count(Product::find($state)->productVariants) === 0;
+                        return Product::find(intval($state))?->productVariants()->count() === 0;
                     })
                     ->columnSpan([
                         'md' => 5,
@@ -300,7 +298,7 @@ class OrderResource extends Resource
                         return true;
                     })
                     ->required(function (Get $get) {
-                        return Product::find($get('product_id'))?->productVariants()->count() !== 0;
+                        return Product::find(intval($get('product_id')))?->productVariants()->count() !== 0;
                     }),
 
                 Forms\Components\TextInput::make('quantity')
@@ -619,12 +617,12 @@ class OrderResource extends Resource
         $order_id = $get('id');
 
         if ($user_id === null && $order_id !== null) {
-            return [Order::find($order_id)->shippingAddress->address];
+            return [Order::find(intval($order_id))->shippingAddress->address];
         }
 
         return match ($user_id) {
             null => Address::select('address')->pluck('address')->toArray(),
-            default => User::find($user_id)->shippingAddresses->pluck('address', 'id'),
+            default => User::find(intval($user_id))->shippingAddresses->pluck('address', 'id')->toArray(),
         };
     }
 }

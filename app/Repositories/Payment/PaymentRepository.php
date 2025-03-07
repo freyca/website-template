@@ -21,7 +21,8 @@ abstract class PaymentRepository implements PaymentRepositoryInterface
         $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
 
         if ($response !== null) {
-            $this->orderRepository->paymentGatewayResponse($order, json_encode($response));
+            $encoded = json_encode($response);
+            $this->orderRepository->paymentGatewayResponse($order, ($encoded === false) ? null : $encoded);
         }
 
         return redirect()->route('payment.purchase-failed', ['order' => $order->id]);

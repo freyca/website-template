@@ -8,6 +8,7 @@ use App\Casts\MoneyCast;
 use Database\Factories\OrderProductSparePartFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderProductSparePart extends Model
 {
@@ -34,4 +35,9 @@ class OrderProductSparePart extends Model
         'unit_price',
         'quantity',
     ];
+
+    public function productSparePart(): BelongsTo
+    {
+        return $this->belongsTo(ProductSparePart::class);
+    }
 }

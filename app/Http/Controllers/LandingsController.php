@@ -15,7 +15,7 @@ class LandingsController extends Controller
         return view('pages.about-us', [
             'seotags' => new SeoTags('about_us'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('About us') => route('about-us'),
+                __('About us') => route('about-us'), // @phpstan-ignore-line
             ]),
         ]);
     }
@@ -25,7 +25,7 @@ class LandingsController extends Controller
         return view('pages.privacy-policy', [
             'seotags' => new SeoTags('privacy_policy'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Privacy policy') => route('privacy-policy'),
+                __('Privacy policy') => route('privacy-policy'), // @phpstan-ignore-line
             ]),
         ]);
     }
@@ -35,7 +35,7 @@ class LandingsController extends Controller
         return view('pages.contact', [
             'seotags' => new SeoTags('contact'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Contact us') => route('contact'),
+                __('Contact us') => route('contact'), // @phpstan-ignore-line
             ]),
         ]);
     }

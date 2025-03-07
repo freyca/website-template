@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\Exceptions\SeoException;
+use App\Models\BaseProduct;
+use App\Models\Category;
 
 class SeoTags
 {
@@ -15,7 +17,7 @@ class SeoTags
     private array $additional_headers;
 
     public function __construct(
-        string|object $seo_container,
+        string|BaseProduct|Category $seo_container,
     ) {
         match (true) {
             is_object($seo_container) => $this->buildFromClass($seo_container),
@@ -67,7 +69,7 @@ class SeoTags
         $this->meta_description = $config_seo_container['description'];
     }
 
-    private function buildFromClass(object $seo_container): void
+    private function buildFromClass(BaseProduct|Category $seo_container): void
     {
         try {
             $this->meta_title = $seo_container->name ? $seo_container->name : throw new SeoException('Object does not has meta_title');

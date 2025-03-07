@@ -8,6 +8,7 @@ use App\Casts\MoneyCast;
 use Database\Factories\OrderProductComplementFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderProductComplement extends Model
 {
@@ -34,4 +35,9 @@ class OrderProductComplement extends Model
         'unit_price',
         'quantity',
     ];
+
+    public function productComplement(): BelongsTo
+    {
+        return $this->belongsTo(ProductComplement::class);
+    }
 }

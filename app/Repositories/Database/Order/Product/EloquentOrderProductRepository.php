@@ -24,6 +24,6 @@ class EloquentOrderProductRepository implements OrderProductRepositoryInterface
             ),
         );
 
-        return is_a($o, Model::class);
+        return ($o === false) ? $o : is_a($o, Model::class);
     }
 }

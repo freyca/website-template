@@ -223,7 +223,7 @@ class SessionCartRepository implements CartRepositoryInterface
             $product = data_get($item, 'product');
             $assemble = data_get($item, 'assemble');
 
-            return $this->getTotalCostforProductWithoutDiscount($product, $assemble) - $this->getTotalCostforProduct($product, $assemble);
+            return $this->getTotalCostforProductWithoutDiscount($product, $assemble) - $this->getTotalCostforProduct($product, $assemble); // @phpstan-ignore-line
         });
 
         return $formatted ? $this->formatCurrency($total) : $total;

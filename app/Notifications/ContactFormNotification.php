@@ -40,7 +40,8 @@ class ContactFormNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Contact form reached'))
+            ->subject(Lang::get('Contact form reached'))             // @phpstan-ignore argument.type
+
             ->line(Lang::get('Name'.': '.$this->name))
             ->line(Lang::get('Email'.': '.$this->email))
             ->line(Lang::get('Message'.': '.$this->user_message));

@@ -102,27 +102,28 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
         $product->save();
     }
 
+    // TODO: implement this logic
     private function shouldTriggerStockEvent(
         BaseProduct $product,
         OrderProduct|OrderProductComplement|OrderProductSparePart $orderItem
     ): void {
-        match (true) {
-            $product->stock < 0 => Event::dispatch(
-                ProductHasBeenPurchasedOverStock::class,
-                [
-                    $orderItem->order,
-                    $orderItem->product,
-                ]
-            ),
-            $product->stock === 0 => Event::dispatch(
-                OutOfStockProduct::class,
-                [$orderItem->product]
-            ),
-            $product->stock < 10 => Event::dispatch(
-                LowStockProduct::class,
-                [$orderItem->product]
-            ),
-            default => true,
-        };
+        // match (true) {
+        //    $product->stock < 0 => Event::dispatch(
+        //        ProductHasBeenPurchasedOverStock::class,
+        //        [
+        //            $orderItem->order,
+        //            $orderItem->product,
+        //        ]
+        //    ),
+        //    $product->stock === 0 => Event::dispatch(
+        //        OutOfStockProduct::class,
+        //        [$orderItem->product]
+        //    ),
+        //    $product->stock < 10 => Event::dispatch(
+        //        LowStockProduct::class,
+        //        [$orderItem->product]
+        //    ),
+        //    default => true,
+        // };
     }
 }

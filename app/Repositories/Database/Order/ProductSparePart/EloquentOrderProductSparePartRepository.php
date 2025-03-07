@@ -23,6 +23,6 @@ class EloquentOrderProductSparePartRepository implements OrderProductSparePartRe
             ),
         );
 
-        return is_a($o, Model::class);
+        return ($o === false) ? $o : is_a($o, Model::class);
     }
 }

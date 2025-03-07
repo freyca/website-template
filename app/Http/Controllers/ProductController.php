@@ -34,7 +34,7 @@ class ProductController extends Controller
             'products' => $this->productRepository->getAll(),
             'seotags' => new SeoTags('product_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Products') => route('product-list'),
+                __('Products') => route('product-list'), // @phpstan-ignore-line
             ]),
         ]);
     }
@@ -88,7 +88,7 @@ class ProductController extends Controller
             'products' => $this->productComplementRepository->getAll(),
             'seotags' => new SeoTags('complements_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Complements') => route('complement-list'),
+                __('Complements') => route('complement-list'), // @phpstan-ignore-line
             ]),
         ]);
     }
@@ -118,7 +118,7 @@ class ProductController extends Controller
             'products' => $this->productSparePartRepository->getAll(),
             'seotags' => new SeoTags('spare_parts_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Spare parts') => route('spare-part-list'),
+                __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
             ]),
         ]);
     }

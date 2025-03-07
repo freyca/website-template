@@ -10,10 +10,12 @@ trait CurrencyFormatter
 {
     public function formatCurrency(float $value): string
     {
-        return Number::currency(
-            $value,
-            in: 'EUR',
-            locale: config('app.locale')
+        return strval(
+            Number::currency(
+                $value,
+                in: 'EUR',
+                locale: config('app.locale')
+            )
         );
     }
 }

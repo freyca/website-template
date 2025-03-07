@@ -21,7 +21,7 @@ class ProductGrid extends Component
     /**
      * Used only for comparison, do not touch it
      *
-     * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
+     * @var array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}
      */
     public array $default_filters = [
         'min_price' => 0,
@@ -31,7 +31,7 @@ class ProductGrid extends Component
     ];
 
     /**
-     * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
+     * @var array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}
      */
     public array $filters = [
         'min_price' => 0,

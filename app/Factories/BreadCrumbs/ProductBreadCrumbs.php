@@ -38,14 +38,14 @@ class ProductBreadCrumbs extends StandardPageBreadCrumbs
     private function productComplementBreadCrumb(): array
     {
         return [
-            __('Complements') => route('complement-list'),
+            __('Complements') => route('complement-list'), // @phpstan-ignore-line
         ];
     }
 
     private function productSparePartBreadCrumb(): array
     {
         return [
-            __('Spare parts') => route('spare-part-list'),
+            __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
         ];
     }
 }

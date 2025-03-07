@@ -30,16 +30,20 @@ class PayPalPaymentRepository extends PaymentRepository
                 $this->payPalOrderStructure($order)
             );
 
-            $response = collect($response);
+            $response = collect($response); // @phpstan-ignore-line
 
             // If response does not have ID, something has failed
             if ($response->get('id') === null) {
-                return $this->redirectWithFail($order, json_encode($response));
+                $encoded = json_encode($response);
+
+                return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
             }
 
             // If paypal does not asks for payment
             if ($response->get('status') !== self::ACTION) {
-                return $this->redirectWithFail($order, json_encode($response));
+                $encoded = json_encode($response);
+
+                return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
             }
 
             // Iterate over links to get the outer one
@@ -53,7 +57,9 @@ class PayPalPaymentRepository extends PaymentRepository
             }
 
             // Reached here, something has failed, mark order as failed and redirect user
-            return $this->redirectWithFail($order, json_encode($response));
+            $encoded = json_encode($response);
+
+            return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
         } catch (Throwable $throwable) {
             return $this->redirectWithFail($order);
         }
@@ -92,7 +98,9 @@ class PayPalPaymentRepository extends PaymentRepository
         // Verify webhook
         $validation = $provider->verifyWebHook($verify_data);
 
-        if ($validation['error']['name'] === self::VALIDATION_ERROR) {
+        $error = (is_array($validation)) ? $validation['error'] : null;
+
+        if (is_array($error) && $error['name'] === self::VALIDATION_ERROR) {
             return false;
         }
 
@@ -101,7 +109,8 @@ class PayPalPaymentRepository extends PaymentRepository
             throw new Exception('Invalid order ID '.json_encode($paypal_response));
         }
 
-        $this->orderRepository->paymentGatewayResponse($order, json_encode($paypal_response));
+        $encoded = json_encode($paypal_response);
+        $this->orderRepository->paymentGatewayResponse($order, ($encoded !== false) ? $encoded : null);
 
         if ($paypal_response['event_type'] !== self::ORDER_APPROVED) {
             $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
