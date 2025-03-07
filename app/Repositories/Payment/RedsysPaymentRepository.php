@@ -13,7 +13,6 @@ use Creagia\Redsys\Enums\TransactionType;
 use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysRequest;
 use Creagia\Redsys\RedsysResponse;
-use Creagia\Redsys\Support\PostRequestError;
 use Creagia\Redsys\Support\RequestParameters;
 use Exception;
 use Illuminate\Http\Request;

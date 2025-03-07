@@ -17,12 +17,12 @@ class ProductsWithDiscountPerPurchase implements ProductsWithDiscountPerPurchase
 
     public function addCartItem(int $ean13): void
     {
-        $this->repository->savePurchasedProducts($ean13);
+        $this->repository->addCartItem($ean13);
     }
 
     public function deleteCartItem(int $ean13): void
     {
-        $this->repository->savePurchasedProducts($ean13);
+        $this->repository->addCartItem($ean13);
     }
 
     public function hasItemToOfferDiscount(ProductComplement|ProductSparePart $product): bool

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Forms;
 
 use App\Events\ContactFormSubmitted;
-use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -15,7 +14,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 
 /**
- * @property ComponentContainer $form
+ * @property Form $form
  */
 class ContactForm extends Component implements HasForms
 {

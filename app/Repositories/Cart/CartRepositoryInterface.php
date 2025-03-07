@@ -34,7 +34,7 @@ interface CartRepositoryInterface
     public function canBeIncremented(BaseProduct $product): bool;
 
     /**
-     * @return Collection<string, array<string, BaseProduct|int>>
+     * @return Collection<string, array<string, BaseProduct|int|bool>>
      */
     public function getCart(): Collection;
 

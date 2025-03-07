@@ -76,7 +76,7 @@ final class Cart implements CartRepositoryInterface
     }
 
     /**
-     * @return Collection<string, array<string, BaseProduct|int>>
+     * @return Collection<string, array<string, BaseProduct|int|bool>>
      */
     public function getCart(): Collection
     {

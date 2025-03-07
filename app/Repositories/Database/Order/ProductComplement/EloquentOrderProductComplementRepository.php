@@ -13,7 +13,7 @@ class EloquentOrderProductComplementRepository implements OrderProductComplement
 {
     public function save(Order $order, array $productData): bool
     {
-        $o = $order->orderProducts()->save(
+        $o = $order->orderProductComplements()->save(
             new OrderProductComplement(
                 [
                     'product_complement_id' => Arr::get($productData, 'product_id'),

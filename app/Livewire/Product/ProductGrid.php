@@ -7,8 +7,6 @@ namespace App\Livewire\Product;
 use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -49,9 +47,9 @@ class ProductGrid extends Component
 
         $this->class_filter =
             match ($class_name) {
-                ProductComplement::class => $basename . '\ProductComplement\EloquentProductComplementRepository',
-                ProductSparePart::class => $basename . '\ProductSparePart\EloquentProductSparePartRepository',
-                default => $basename . '\Product\EloquentProductRepository',
+                ProductComplement::class => $basename.'\ProductComplement\EloquentProductComplementRepository',
+                ProductSparePart::class => $basename.'\ProductSparePart\EloquentProductSparePartRepository',
+                default => $basename.'\Product\EloquentProductRepository',
             };
     }
 

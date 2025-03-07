@@ -13,7 +13,7 @@ class EloquentOrderProductSparePartRepository implements OrderProductSparePartRe
 {
     public function save(Order $order, array $productData): bool
     {
-        $o = $order->orderProducts()->save(
+        $o = $order->orderProductSpareParts()->save(
             new OrderProductSparePart(
                 [
                     'product_spare_part_id' => Arr::get($productData, 'product_id'),

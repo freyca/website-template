@@ -133,7 +133,7 @@ class OrderResource extends Resource
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('unit_price', Product::find($state)->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -177,7 +177,7 @@ class OrderResource extends Resource
                     ->options(ProductComplement::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('unit_price', ProductComplement::find($state)->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductComplement::find($state)->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([
@@ -221,7 +221,7 @@ class OrderResource extends Resource
                     ->options(ProductSparePart::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('unit_price', ProductSparePart::find($state)->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductSparePart::find($state)->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([

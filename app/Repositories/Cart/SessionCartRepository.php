@@ -6,6 +6,8 @@ namespace App\Repositories\Cart;
 
 use App\Models\BaseProduct;
 use App\Models\Product;
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Repositories\ProductsWithDiscountPerPurchase\ProductsWithDiscountPerPurchaseInterface;
 use App\Traits\CurrencyFormatter;
@@ -107,11 +109,11 @@ class SessionCartRepository implements CartRepositoryInterface
     }
 
     /**
-     * @return Collection<string, array<string, BaseProduct|int>>
+     * @return Collection<string, array<string, BaseProduct|int|bool>>
      */
     public function getCart(): Collection
     {
-        /** @var Collection<string, array<string, BaseProduct|int>> */
+        /** @var Collection<string, array<string, BaseProduct|int|bool>> */
         return Session::get(self::SESSION);
     }
 
@@ -126,7 +128,7 @@ class SessionCartRepository implements CartRepositoryInterface
     }
 
     /**
-     * @param  Collection<string, array<string, BaseProduct|int>>  $cart
+     * @param  Collection<string, array<string, BaseProduct|int|bool>>  $cart
      */
     private function updateCart(Collection $cart): void
     {
@@ -160,11 +162,10 @@ class SessionCartRepository implements CartRepositoryInterface
     {
         $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
 
-        if (! isset($product->price_when_user_owns_product)) {
-            return $this->calculateCostForProduct($product, $assemble, $price, $formatted);
-        }
-
-        if ($this->discount_products->hasItemToOfferDiscount($product)) {
+        if (
+            (is_a($product, ProductComplement::class) || is_a($product, ProductSparePart::class))
+            && $this->discount_products->hasItemToOfferDiscount($product)
+        ) {
             $price = $product->price_when_user_owns_product;
         }
 
@@ -254,7 +255,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $assemble = $assemble ? 'assemble' : 'noAssemble';
 
-        return strval($product->ean13) . '+' . $assemble;
+        return strval($product->ean13).'+'.$assemble;
     }
 
     private function calculateCostForProduct(BaseProduct $product, bool $assemble, float $price, bool $formatted = false): float|string
@@ -265,9 +266,16 @@ class SessionCartRepository implements CartRepositoryInterface
         $quantity = data_get($cart->get($cart_product_key), 'quantity');
 
         $total = 0;
-        if ($cart->has($cart_product_key)) {
-            $total = $quantity * $price + $this->calculateAssemblyCost($product, $assemble);
+        if (! $cart->has($cart_product_key)) {
+            return $formatted ? $this->formatCurrency($total) : $total;
         }
+
+        $assembly_cost = 0;
+        if (is_a($product, ProductVariant::class) || is_a($product, Product::class)) {
+            $assembly_cost = $this->calculateAssemblyCost($product, $assemble);
+        }
+
+        $total = ($quantity * $price) + $assembly_cost;
 
         return $formatted ? $this->formatCurrency($total) : $total;
     }
