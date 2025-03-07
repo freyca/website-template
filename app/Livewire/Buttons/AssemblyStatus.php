@@ -43,7 +43,7 @@ class AssemblyStatus extends Component
     {
         if (is_a($this->product, ProductVariant::class)) {
             /**
-             * @var App\Models\Product
+             * @var \App\Models\Product
              */
             $product = $this->product->product;
 

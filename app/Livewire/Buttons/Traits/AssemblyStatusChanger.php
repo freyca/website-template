@@ -28,7 +28,7 @@ trait AssemblyStatusChanger
         }
 
         return match (true) {
-            is_a($this->product, ProductVariant::class) => isset($this->product->product->can_be_assembled) ? $this->product->product?->can_be_assembled : false,
+            is_a($this->product, ProductVariant::class) => isset($this->product->product->can_be_assembled) ? $this->product->product->can_be_assembled : false,
             is_a($this->product, Product::class) => $this->product->can_be_assembled ? true : false,
             default => false,
         };
