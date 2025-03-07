@@ -56,12 +56,12 @@ abstract class RedsysPaymentRepository extends PaymentRepository
             $redsys_response->setParametersFromResponse($inputs);
 
             $order->payment_gateway_response = $redsys_response instanceof PostRequestError
-                ? $redsys_response->responseParameters
-                : $redsys_response->merchantParametersArray;
+                ? json_encode($redsys_response->responseParameters)
+                : json_encode($redsys_response->merchantParametersArray);
 
             $notificationData = $redsys_response->checkResponse();
 
-            $this->orderRepository->changeStatus($order, $order->status = OrderStatus::Paid);
+            $this->orderRepository->changeStatus($order, OrderStatus::Paid);
 
             return true;
         } catch (Exception $e) {

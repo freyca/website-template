@@ -28,8 +28,8 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
 
     /**
      * After a user has purchased an item, call function with force
-     * parameter so it refreshes all purchased items so discounts can
-     * be applied
+     * parameter so it refreshes all purchased items and discounts per
+     * purchased products can be applied
      */
     public function savePurchasedProducts(bool $force = false): void
     {
@@ -57,7 +57,12 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
             $order_products = $order->orderProducts;
 
             foreach ($order_products as $order_product) {
-                $purchased->push($order_product->product->ean13);
+                /**
+                 * @var \App\Models\Product|App\Models\ProductVariant
+                 */
+                $product = $order_product->product;
+
+                $purchased->push($product->ean13);
             }
         }
 
@@ -130,9 +135,6 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
         $this->updateDiscountProducts($purchased, $in_cart);
     }
 
-    /**
-     * @return Collection<Collection<string>, Collection<string>>
-     */
     private function getDiscountProducts(): Collection
     {
         return Session::get(self::SESSION);

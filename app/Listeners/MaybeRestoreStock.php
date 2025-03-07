@@ -61,14 +61,14 @@ class MaybeRestoreStock
 
     private function restoreCancelledSparePartQuantity(OrderProductSparePart $orderItem): void
     {
-        $product = ProductComplement::find($orderItem->product_complement_id);
+        $product = ProductSparePart::find($orderItem->product_spare_part_id);
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }
 
     private function restoreCancelledComplementQuantity(OrderProductComplement $orderItem): void
     {
-        $product = ProductSparePart::find($orderItem->product_spare_part_id);
+        $product = ProductComplement::find($orderItem->product_complement_id);
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }

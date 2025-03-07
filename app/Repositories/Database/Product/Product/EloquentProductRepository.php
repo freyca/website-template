@@ -7,7 +7,6 @@ namespace App\Repositories\Database\Product\Product;
 use App\DTO\FilterDTO;
 use App\Models\Product;
 use App\Repositories\Database\Traits\CacheKeys;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
@@ -28,9 +27,6 @@ class EloquentProductRepository implements ProductRepositoryInterface
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        /**
-         * @var Collection<int, Product>
-         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-products');
 

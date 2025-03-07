@@ -496,7 +496,6 @@ class OrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        /** @var Order */
         $modelClass = static::$model;
 
         return (string) $modelClass::where('status', OrderStatus::Paid)->count();
@@ -515,7 +514,7 @@ class OrderResource extends Resource
     public static function setProductPrice(?string $id, string $class_name, Set $set): void
     {
         /**
-         * @var ?BaseProduct
+         * @var ?\App\Models\BaseProduct
          */
         $product = $class_name::find($id);
 
@@ -537,7 +536,7 @@ class OrderResource extends Resource
 
         // Retrieve the state path of the form.
         // Most likely it's `data` but it could be something else.
-        $state_path = $livewire->getFormStatePath();
+        $state_path = $livewire->getFormStatePath(); // @phpstan-ignore-line
 
         // Get the elements we need
         $form_elements = $livewire->all();

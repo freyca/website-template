@@ -246,13 +246,9 @@ class SessionCartRepository implements CartRepositoryInterface
 
     private function getProductKey(BaseProduct $product, ?bool $assemble = null): string
     {
-        $parent = $product;
+        $parent = is_a($product, ProductVariant::class) ? $product->product : $product;
 
-        if (is_a($product, ProductVariant::class)) {
-            $parent = $product->product;
-        }
-
-        if (! $parent->can_be_assembled) {
+        if (isset($parent->can_be_assembled) && $parent->can_be_assembled !== true) {
             return strval($product->ean13);
         }
 
@@ -276,7 +272,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
-    private function calculateAssemblyCost(BaseProduct $product, bool $assemble)
+    private function calculateAssemblyCost(Product|ProductVariant $product, bool $assemble)
     {
         if ($assemble === false) {
             return 0;
@@ -296,7 +292,7 @@ class SessionCartRepository implements CartRepositoryInterface
         $cart = $this->getCart();
 
         // If product cannot be assembled we only have to query cart once
-        if (! $product->can_be_assembled) {
+        if (isset($product->can_be_assembled) && ! $product->can_be_assembled) {
             $quantity = 0;
             $key = $this->getProductKey($product, false);
 
@@ -317,14 +313,14 @@ class SessionCartRepository implements CartRepositoryInterface
 
         // We search for the keys in the cart
         if ($cart->has($key1)) {
-            $quantity1 = data_get($cart->get($key1), 'quantity');
+            $quantity1 = intval(data_get($cart->get($key1), 'quantity'));
         }
 
         if ($cart->has($key2)) {
-            $quantity2 = data_get($cart->get($key2), 'quantity');
+            $quantity2 = intval(data_get($cart->get($key2), 'quantity'));
         }
 
-        return $quantity1 + $quantity2 < $product->stock;
+        return ($quantity1 + $quantity2) < $product->stock;
     }
 
     /**

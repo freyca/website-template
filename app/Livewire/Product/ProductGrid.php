@@ -19,9 +19,29 @@ class ProductGrid extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
-    public string $class_filter;
+    /**
+     * Used only for comparison, do not touch it
+     *
+     * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
+     */
+    public array $default_filters = [
+        'min_price' => 0,
+        'max_price' => 99999999,
+        'filtered_features' => [],
+        'filtered_category' => 0,
+    ];
 
-    public array $filters = [];
+    /**
+     * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
+     */
+    public array $filters = [
+        'min_price' => 0,
+        'max_price' => 99999999,
+        'filtered_features' => [],
+        'filtered_category' => 0,
+    ];
+
+    public string $class_filter;
 
     private LengthAwarePaginator|Collection $products;
 
@@ -38,12 +58,13 @@ class ProductGrid extends Component
     }
 
     /**
-     * @param  array{'min_price': int, 'maxPmax_pricerice': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
+     * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
      */
     #[On('refreshProductGrid')]
-    public function getFilteredProducts(array $filters = [])
+    public function getFilteredProducts(array $filters)
     {
-        if ($filters === []) {
+        // If no filters has been set, return all products
+        if ($filters === $this->default_filters) {
             $repository = app($this->class_filter);
 
             return $repository->getAll();

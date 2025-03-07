@@ -52,7 +52,6 @@ class AddressResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->label(__('Phone'))
-                    ->default($user->phone)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('address')

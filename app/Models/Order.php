@@ -18,6 +18,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+/**
+ * @property OrderStatus $status
+ * @property PaymentMethod $payment_method
+ */
 #[ScopedBy([OrderScope::class])]
 class Order extends Model
 {
@@ -65,7 +69,7 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<Adress, $this>
+     * @return BelongsTo<Address, $this>
      */
     public function shippingAddress(): BelongsTo
     {
@@ -73,7 +77,7 @@ class Order extends Model
     }
 
     /**
-     * @return BelongsTo<Adress, $this>
+     * @return BelongsTo<Address, $this>
      */
     public function billingAddress(): BelongsTo
     {

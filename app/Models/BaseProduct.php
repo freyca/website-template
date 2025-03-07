@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $description
  * @property string $main_image
  * @property array<string> $images
- * @property BelongsToMany<ProductFeatureValue> $productFeatureValues
+ * @property BelongsToMany<ProductFeatureValue, $this> $productFeatureValues
  */
 #[ScopedBy([PublishedScope::class])]
 abstract class BaseProduct extends Model

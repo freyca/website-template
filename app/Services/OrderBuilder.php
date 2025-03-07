@@ -7,6 +7,7 @@ use App\Enums\PaymentMethod;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
@@ -118,14 +119,10 @@ class OrderBuilder
 
     private function getAssemblyPrice(BaseProduct $product)
     {
-        if (is_a($product, ProductComplement::class) || is_a($product, ProductSparePart::class)) {
-            return null;
-        }
-
-        if (is_a($product, ProductVariant::class)) {
-            return $product->product->assembly_price;
-        }
-
-        return $product->assembly_price;
+        return match (true) {
+            is_a($product, ProductVariant::class) => $product->product->assembly_price,
+            is_a($product, Product::class) => $product->assembly_price,
+            default => null
+        };
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -39,20 +40,20 @@ class ProductCartButtons extends Component
 
     private function setAssemblyStatus(): void
     {
-        if (is_a($this->product, ProductVariant::class)) {
-            $this->can_be_assembled = $this->product->product->can_be_assembled;
-        }
-
-        $this->can_be_assembled = boolval($this->product->can_be_assembled);
+        $this->can_be_assembled = match (true) {
+            is_a($this->product, ProductVariant::class) => $this->product->product->can_be_assembled,
+            is_a($this->product, Product::class) => $this->product->can_be_assembled,
+            default => false,
+        };
     }
 
     private function setMandatoryAssemblyStatus(): void
     {
-        if (is_a($this->product, ProductVariant::class)) {
-            $this->mandatory_assembly = $this->product->product->mandatory_assembly;
-        }
-
-        $this->mandatory_assembly = boolval($this->product->mandatory_assembly);
+        $this->mandatory_assembly = match (true) {
+            is_a($this->product, ProductVariant::class) => $this->product->product->mandatory_assembly,
+            is_a($this->product, Product::class) => $this->product->mandatory_assembly,
+            default => false,
+        };
     }
 
     private function maybeSetVariant(): void
