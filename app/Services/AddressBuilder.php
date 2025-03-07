@@ -76,7 +76,7 @@ class AddressBuilder
 
     private PaymentMethod $payment_method;
 
-    public function __construct(private Form $form)
+    public function __construct(Form $form)
     {
         $form_data = $form->getState();
         $this->user = Auth::user();

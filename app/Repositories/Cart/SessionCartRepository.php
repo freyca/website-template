@@ -43,7 +43,7 @@ class SessionCartRepository implements CartRepositoryInterface
             $cart->put($cart_product_key, [
                 'product' => $product,
                 'quantity' => $quantity,
-                'assemble' => $assemble !== null ? $assemble : false,
+                'assemble' => $assemble,
             ]);
 
             $this->updateCart($cart);
@@ -254,7 +254,7 @@ class SessionCartRepository implements CartRepositoryInterface
 
         $assemble = $assemble ? 'assemble' : 'noAssemble';
 
-        return strval($product->ean13).'+'.$assemble;
+        return strval($product->ean13) . '+' . $assemble;
     }
 
     private function calculateCostForProduct(BaseProduct $product, bool $assemble, float $price, bool $formatted = false): float|string

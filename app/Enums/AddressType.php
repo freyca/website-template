@@ -23,7 +23,7 @@ enum AddressType: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string
     {
         return match ($this) {
             self::Billing => 'success',
@@ -32,7 +32,7 @@ enum AddressType: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Billing => 'heroicon-c-document-currency-euro',

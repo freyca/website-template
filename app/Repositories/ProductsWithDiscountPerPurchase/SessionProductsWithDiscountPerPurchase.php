@@ -58,7 +58,7 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
 
             foreach ($order_products as $order_product) {
                 /**
-                 * @var \App\Models\Product|App\Models\ProductVariant
+                 * @var \App\Models\Product|\App\Models\ProductVariant
                  */
                 $product = $order_product->product;
 

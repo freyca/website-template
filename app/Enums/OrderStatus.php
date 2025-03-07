@@ -32,7 +32,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string|array|null
+    public function getColor(): string|array
     {
         return match ($this) {
             self::Paid => Color::rgb('rgb(187, 247, 208)'),
@@ -45,7 +45,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getIcon(): ?string
+    public function getIcon(): string
     {
         return match ($this) {
             self::Paid => 'heroicon-m-sparkles',
