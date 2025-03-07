@@ -42,7 +42,12 @@ class AssemblyStatus extends Component
     private function setAssemblyPrice(): void
     {
         if (is_a($this->product, ProductVariant::class)) {
-            $this->assembly_price = $this->product->product->getFormattedAssemblyPrice();
+            /**
+             * @var App\Models\Product
+             */
+            $product = $this->product->product;
+
+            $this->assembly_price = $product->getFormattedAssemblyPrice();
 
             return;
         }

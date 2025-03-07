@@ -17,6 +17,10 @@ trait HasPriceWhenUserOwnsProduct
     {
         $this->mergeFillable(['price_when_user_owns_product']);
 
+        $this->mergeCasts([
+            'price_when_user_owns_product' => MoneyCast::class,
+        ]);
+
         parent::__construct($attributes);
     }
 
@@ -36,6 +40,8 @@ trait HasPriceWhenUserOwnsProduct
 
     public function getFormattedPriceWhenUserOwnsProduct(): string
     {
-        return $this->formatCurrency($this->price_when_user_owns_product);
+        $price_when_user_owns_product = $this->price_when_user_owns_product === null ? floatval(0) : $this->price_when_user_owns_product;
+
+        return $this->formatCurrency($price_when_user_owns_product);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Cart;
 
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -39,7 +40,7 @@ class ProductCard extends Component
 
     private function setProductParent(): void
     {
-        if (is_a($this->product, 'App\Models\ProductVariant')) {
+        if (is_a($this->product, ProductVariant::class) && isset($this->product->product)) {
             $this->parent = $this->product->product;
         }
     }

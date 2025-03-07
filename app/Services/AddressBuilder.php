@@ -240,6 +240,10 @@ class AddressBuilder
     {
         $address = Address::find($address_id);
 
+        if ($address === null) {
+            throw new Exception('Cannot find address', 1);
+        }
+
         if (! $this->validateAddressBelongsToUser($address)) {
             throw new Exception('Address does not belongs to user', 1);
         }
@@ -250,7 +254,7 @@ class AddressBuilder
     private function buildShippingAddressFromUserInput(): void
     {
         // If not set email value (user is registered but selects new address), we get user email
-        $email = $this->shipping_email !== '' ? $this->shipping_email : $this->user->email;
+        $email = $this->shipping_email !== '' ? $this->shipping_email : $this->user?->email;
 
         // If user is registered, we associate the address to the user
         $user_id = $this->user ? $this->user->id : null;
@@ -303,6 +307,10 @@ class AddressBuilder
 
     private function validateAddressBelongsToUser(Address $address): bool
     {
+        if (is_null($this->user)) {
+            return false;
+        }
+
         return $this->user->addresses->pluck('id')->contains($address->id);
     }
 }

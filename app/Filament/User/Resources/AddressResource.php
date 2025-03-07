@@ -24,6 +24,9 @@ class AddressResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /**
+         * @var \App\Models\User
+         */
         $user = Auth::user();
 
         return $form

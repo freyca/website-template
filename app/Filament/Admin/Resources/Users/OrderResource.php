@@ -287,7 +287,7 @@ class OrderResource extends Resource
                         }
 
                         // First time shown, we mark first variant as selected
-                        $set('product_variant_id', strval($product->productVariants()->first()->id));
+                        $set('product_variant_id', strval($product->productVariants()->first()?->id));
 
                         // We set variant price
                         self::setProductPrice($get('product_variant_id'), ProductVariant::class, $set);
@@ -494,7 +494,7 @@ class OrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $modelClass = static::$model;
+        $modelClass = strval(static::$model);
 
         return (string) $modelClass::where('status', OrderStatus::Paid)->count();
     }
@@ -611,18 +611,18 @@ class OrderResource extends Resource
             );
     }
 
-    public static function getAddressId(Get $get): array
+    public static function getAddressId(Get $get): ?array
     {
         $user_id = $get('user_id');
         $order_id = $get('id');
 
         if ($user_id === null && $order_id !== null) {
-            return [Order::find(intval($order_id))->shippingAddress->address];
+            return [Order::find(intval($order_id))?->shippingAddress?->address];
         }
 
         return match ($user_id) {
             null => Address::select('address')->pluck('address')->toArray(),
-            default => User::find(intval($user_id))->shippingAddresses->pluck('address', 'id')->toArray(),
+            default => User::find(intval($user_id))?->shippingAddresses->pluck('address', 'id')->toArray(),
         };
     }
 }

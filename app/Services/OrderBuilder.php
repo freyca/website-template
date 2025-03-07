@@ -127,7 +127,7 @@ class OrderBuilder
     private function getAssemblyPrice(BaseProduct $product): ?float
     {
         return match (true) {
-            is_a($product, ProductVariant::class) => $product->product->assembly_price,
+            is_a($product, ProductVariant::class) => $product->product?->assembly_price,
             is_a($product, Product::class) => $product->assembly_price,
             default => null
         };

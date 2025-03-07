@@ -160,13 +160,13 @@ class SessionCartRepository implements CartRepositoryInterface
 
     public function getTotalCostforProduct(BaseProduct $product, bool $assemble, bool $formatted = false): float|string
     {
-        $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
+        $price = floatval(isset($product->price_with_discount) ? $product->price_with_discount : $product->price);
 
         if (
             (is_a($product, ProductComplement::class) || is_a($product, ProductSparePart::class))
             && $this->discount_products->hasItemToOfferDiscount($product)
         ) {
-            $price = $product->price_when_user_owns_product;
+            $price = floatval($product->price_when_user_owns_product);
         }
 
         return $this->calculateCostForProduct($product, $assemble, $price, $formatted);
@@ -289,7 +289,7 @@ class SessionCartRepository implements CartRepositoryInterface
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assemble);
 
-        $assembly_price = is_a($product, ProductVariant::class) ? $product->product->assembly_price : $product->assembly_price;
+        $assembly_price = is_a($product, ProductVariant::class) ? $product->product?->assembly_price : $product->assembly_price;
         $quantity = data_get($cart->get($cart_product_key), 'quantity');
 
         return $assembly_price * $quantity;
@@ -338,19 +338,25 @@ class SessionCartRepository implements CartRepositoryInterface
      */
     private function addProductToDiscountable(BaseProduct $product): void
     {
-        match (true) {
-            is_a($product, Product::class) => $this->discount_products->addCartItem($product->ean13),
-            is_a($product, ProductVariant::class) => $this->discount_products->addCartItem($product->product->ean13),
-            default => true,
-        };
+        if (is_a($product, ProductVariant::class)) {
+            /**
+             * @var \App\Models\Product
+             */
+            $product = $product->product;
+        }
+
+        $this->discount_products->addCartItem($product->ean13);
     }
 
     private function removeProductFromDiscountable(BaseProduct $product): void
     {
-        match (true) {
-            is_a($product, Product::class) => $this->discount_products->deleteCartItem($product->ean13),
-            is_a($product, ProductVariant::class) => $this->discount_products->deleteCartItem($product->product->ean13),
-            default => true,
-        };
+        if (is_a($product, ProductVariant::class)) {
+            /**
+             * @var \App\Models\Product
+             */
+            $product = $product->product;
+        }
+
+        $this->discount_products->deleteCartItem($product->ean13);
     }
 }

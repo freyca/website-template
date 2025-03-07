@@ -60,6 +60,11 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
         }
 
         $product = Product::find($orderItem->product_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock - $orderItem->quantity;
 
         $this->shouldTriggerStockEvent($product, $orderItem);
@@ -69,6 +74,11 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
     private function substractProductVariantQuantity(OrderProduct $orderItem): void
     {
         $product = ProductVariant::find($orderItem->product_variant_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock - $orderItem->quantity;
 
         $this->shouldTriggerStockEvent($product, $orderItem);
@@ -78,6 +88,11 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
     private function substractComplementQuantity(OrderProductComplement $orderItem): void
     {
         $product = ProductComplement::find($orderItem->product_complement_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock - $orderItem->quantity;
 
         $this->shouldTriggerStockEvent($product, $orderItem);
@@ -87,6 +102,11 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
     private function substractSparePartQuantity(OrderProductSparePart $orderItem): void
     {
         $product = ProductSparePart::find($orderItem->product_spare_part_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock - $orderItem->quantity;
 
         $this->shouldTriggerStockEvent($product, $orderItem);

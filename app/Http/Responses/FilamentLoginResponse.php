@@ -16,7 +16,7 @@ class FilamentLoginResponse implements LoginResponse
 {
     public function toResponse($request): Redirector|RedirectResponse
     {
-        if (Auth::user()->role === Role::Admin) {
+        if (Auth::user()?->role === Role::Admin) {
             return redirect()->intended(Filament::getUrl());
         }
 

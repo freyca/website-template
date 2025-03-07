@@ -110,7 +110,7 @@ class PayPalPaymentRepository extends PaymentRepository
         }
 
         $encoded = json_encode($paypal_response);
-        $this->orderRepository->paymentGatewayResponse($order, ($encoded !== false) ? $encoded : null);
+        $this->orderRepository->paymentGatewayResponse($order, ($encoded !== false) ? $encoded : '');
 
         if ($paypal_response['event_type'] !== self::ORDER_APPROVED) {
             $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);

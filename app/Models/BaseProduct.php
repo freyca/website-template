@@ -76,17 +76,23 @@ abstract class BaseProduct extends Model
 
     public function getFormattedPrice(): string
     {
-        return $this->formatCurrency($this->price);
+        $price = $this->price === null ? floatval(0) : $this->price;
+
+        return $this->formatCurrency($price);
     }
 
     public function getFormattedPriceWithDiscount(): string
     {
-        return $this->formatCurrency($this->price_with_discount);
+        $price_with_discount = $this->price_with_discount === null ? floatval(0) : $this->price_with_discount;
+
+        return $this->formatCurrency($price_with_discount);
     }
 
     public function getFormattedSavings(): string
     {
-        return $this->formatCurrency($this->price - $this->price_with_discount);
+        $savings = floatval($this->price - $this->price_with_discount);
+
+        return $this->formatCurrency($savings);
     }
 
     /**

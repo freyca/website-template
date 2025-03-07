@@ -22,7 +22,7 @@ abstract class PaymentRepository implements PaymentRepositoryInterface
 
         if ($response !== null) {
             $encoded = json_encode($response);
-            $this->orderRepository->paymentGatewayResponse($order, ($encoded === false) ? null : $encoded);
+            $this->orderRepository->paymentGatewayResponse($order, ($encoded === false) ? '' : $encoded);
         }
 
         return redirect()->route('payment.purchase-failed', ['order' => $order->id]);

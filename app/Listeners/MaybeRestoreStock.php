@@ -50,6 +50,11 @@ class MaybeRestoreStock
         }
 
         $product = Product::find($orderItem->product_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }
@@ -57,6 +62,11 @@ class MaybeRestoreStock
     private function restoreProductVariantQuantity(OrderProduct $orderItem): void
     {
         $product = ProductVariant::find($orderItem->product_variant_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }
@@ -64,6 +74,11 @@ class MaybeRestoreStock
     private function restoreCancelledSparePartQuantity(OrderProductSparePart $orderItem): void
     {
         $product = ProductSparePart::find($orderItem->product_spare_part_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }
@@ -71,6 +86,11 @@ class MaybeRestoreStock
     private function restoreCancelledComplementQuantity(OrderProductComplement $orderItem): void
     {
         $product = ProductComplement::find($orderItem->product_complement_id);
+
+        if (is_null($product)) {
+            throw new Exception('NULL product');
+        }
+
         $product->stock = $product->stock + $orderItem->quantity;
         $product->save();
     }

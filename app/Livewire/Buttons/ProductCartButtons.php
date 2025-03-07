@@ -44,7 +44,7 @@ class ProductCartButtons extends Component
     private function setAssemblyStatus(): void
     {
         $this->can_be_assembled = match (true) {
-            is_a($this->product, ProductVariant::class) => $this->product->product->can_be_assembled,
+            is_a($this->product, ProductVariant::class) => isset($this->product->product->can_be_assembled) ? $this->product->product->can_be_assembled : false,
             is_a($this->product, Product::class) => $this->product->can_be_assembled,
             default => false,
         };
@@ -53,7 +53,7 @@ class ProductCartButtons extends Component
     private function setMandatoryAssemblyStatus(): void
     {
         $this->mandatory_assembly = match (true) {
-            is_a($this->product, ProductVariant::class) => $this->product->product->mandatory_assembly,
+            is_a($this->product, ProductVariant::class) => isset($this->product->product->mandatory_assembly) ? $this->product->product->mandatory_assembly : false,
             is_a($this->product, Product::class) => $this->product->mandatory_assembly,
             default => false,
         };
