@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire;
 
 use App\Enums\PaymentMethod;
@@ -53,7 +55,7 @@ class CheckoutForm extends Component implements HasForms
         return $form->statePath('checkoutFormData');
     }
 
-    public function create()
+    public function create(): void
     {
         try {
             $addressBuilder = new AddressBuilder($this->form);
@@ -110,7 +112,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function getShippingForm($shipping_addresses = new Collection)
+    private function getShippingForm(Collection $shipping_addresses = new Collection): Section
     {
         return Section::make(__('Shipping address'))
             ->icon('heroicon-s-truck')
@@ -140,7 +142,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function getBillingForm($billing_addresses = new Collection)
+    private function getBillingForm(Collection $billing_addresses = new Collection): Section
     {
         return Section::make(__('Billing address'))
             ->icon('heroicon-s-credit-card')
@@ -186,7 +188,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function addressFormFields(string $form_field_name, bool $is_guest = true)
+    private function addressFormFields(string $form_field_name, bool $is_guest = true): Group
     {
         return Group::make([
             TextInput::make($form_field_name.'_name')
@@ -282,7 +284,7 @@ class CheckoutForm extends Component implements HasForms
         ]);
     }
 
-    private function getOrderDetails()
+    private function getOrderDetails(): Section
     {
         return Section::make(__('Order details'))
             ->schema([
@@ -292,7 +294,7 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function getPaymentDetails()
+    private function getPaymentDetails(): Section
     {
         return Section::make(__('Payment method'))
             ->schema([

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\ContactFormSubmitted;
@@ -16,6 +18,5 @@ class SendContactFormEmail implements ShouldQueue
             User::where('role', 'admin')->first(),     // TODO: define who will receive this notifications
             new ContactFormNotification($event->form)
         );
-
     }
 }

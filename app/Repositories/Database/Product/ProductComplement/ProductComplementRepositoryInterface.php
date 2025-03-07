@@ -16,7 +16,13 @@ interface ProductComplementRepositoryInterface extends BaseProductRepositoryInte
      */
     public function getAll(): LengthAwarePaginator;
 
+    /**
+     * @return LengthAwarePaginator<ProductComplement>
+     */
     public function featured(): LengthAwarePaginator;
 
+    /**
+     * @return LengthAwarePaginator<ProductComplement>
+     */
     public function filter(FilterDTO $filters): LengthAwarePaginator;
 }

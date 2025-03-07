@@ -15,12 +15,13 @@ use Creagia\Redsys\RedsysRequest;
 use Creagia\Redsys\RedsysResponse;
 use Creagia\Redsys\Support\RequestParameters;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 abstract class RedsysPaymentRepository extends PaymentRepository
 {
-    public function createRedsysRequest(Order $order, PayMethod $payMethod)
+    public function createRedsysRequest(Order $order, PayMethod $payMethod): string|RedirectResponse
     {
         try {
             $redsysRequest = RedsysRequest::create(

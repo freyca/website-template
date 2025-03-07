@@ -280,10 +280,10 @@ class SessionCartRepository implements CartRepositoryInterface
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
-    private function calculateAssemblyCost(Product|ProductVariant $product, bool $assemble)
+    private function calculateAssemblyCost(Product|ProductVariant $product, bool $assemble): float
     {
         if ($assemble === false) {
-            return 0;
+            return floatval(0);
         }
 
         $cart = $this->getCart();
@@ -336,7 +336,7 @@ class SessionCartRepository implements CartRepositoryInterface
      * If Product is a Variant, since complements and SpareParts are associated
      * to parent, we use parent id
      */
-    private function addProductToDiscountable(BaseProduct $product)
+    private function addProductToDiscountable(BaseProduct $product): void
     {
         match (true) {
             is_a($product, Product::class) => $this->discount_products->addCartItem($product->ean13),
@@ -345,7 +345,7 @@ class SessionCartRepository implements CartRepositoryInterface
         };
     }
 
-    private function removeProductFromDiscountable(BaseProduct $product)
+    private function removeProductFromDiscountable(BaseProduct $product): void
     {
         match (true) {
             is_a($product, Product::class) => $this->discount_products->deleteCartItem($product->ean13),

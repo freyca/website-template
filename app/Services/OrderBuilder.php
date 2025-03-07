@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\OrderStatus;
@@ -40,7 +42,7 @@ class OrderBuilder
         private readonly OrderProductSparePartRepositoryInterface $orderProductSparePartRepository,
     ) {}
 
-    public function build(AddressBuilder $addressBuilder)
+    public function build(AddressBuilder $addressBuilder): void
     {
         $this->user = $addressBuilder->user();
         $this->payment_method = $addressBuilder->paymentMethod();
@@ -94,7 +96,7 @@ class OrderBuilder
         }
     }
 
-    private function getProductId(BaseProduct $product)
+    private function getProductId(BaseProduct $product): int
     {
         if (is_a($product, ProductVariant::class)) {
             return $product->product_id;
@@ -103,7 +105,7 @@ class OrderBuilder
         return $product->id;
     }
 
-    private function getProductVariantId(BaseProduct $product)
+    private function getProductVariantId(BaseProduct $product): ?int
     {
         if (is_a($product, ProductVariant::class)) {
             return $product->id;
@@ -112,12 +114,17 @@ class OrderBuilder
         return null;
     }
 
-    private function getProductPrice(BaseProduct $product)
+    private function getProductPrice(BaseProduct $product): float
     {
         return $product->price_with_discount ? $product->price_with_discount : $product->price;
     }
 
-    private function getAssemblyPrice(BaseProduct $product)
+    /**
+     * Dont' know why it's complaining since ProductVariant are children of
+     * BaseProduct
+     */
+    // @phpstan-ignore return.unusedType
+    private function getAssemblyPrice(BaseProduct $product): ?float
     {
         return match (true) {
             is_a($product, ProductVariant::class) => $product->product->assembly_price,

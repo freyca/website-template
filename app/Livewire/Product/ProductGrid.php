@@ -7,6 +7,7 @@ namespace App\Livewire\Product;
 use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -57,7 +58,7 @@ class ProductGrid extends Component
      * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
      */
     #[On('refreshProductGrid')]
-    public function getFilteredProducts(array $filters)
+    public function getFilteredProducts(array $filters): LengthAwarePaginator
     {
         // If no filters has been set, return all products
         if ($filters === $this->default_filters) {

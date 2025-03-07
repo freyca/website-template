@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\DTO\SeoTags;
@@ -22,7 +24,7 @@ class PaymentController extends Controller
         private readonly ProductsWithDiscountPerPurchase $purchasedProducts,
     ) {}
 
-    public function redirectToPayment(Order $order)
+    public function redirectToPayment(Order $order): mixed
     {
         $paymentService = new Payment($order);
 

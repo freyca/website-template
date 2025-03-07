@@ -27,7 +27,7 @@ final class Payment
         };
     }
 
-    public function payPurchase()
+    public function payPurchase(): mixed
     {
         return $this->repository->payPurchase($this->order);
     }

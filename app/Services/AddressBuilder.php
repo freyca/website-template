@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\AddressType;
@@ -272,7 +274,7 @@ class AddressBuilder
         );
     }
 
-    private function buildBillingAddressFromUserInput()
+    private function buildBillingAddressFromUserInput(): void
     {
         // We do not allow users to use two different emails
         $email = $this->shipping_address->email;

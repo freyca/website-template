@@ -21,7 +21,7 @@ class PayPalPaymentRepository extends PaymentRepository
 
     private const ORDER_APPROVED = 'CHECKOUT.ORDER.APPROVED';
 
-    public function payPurchase(Order $order)
+    public function payPurchase(Order $order): mixed
     {
         try {
             $provider = $this->getProvider();
@@ -45,7 +45,7 @@ class PayPalPaymentRepository extends PaymentRepository
             // Iterate over links to get the outer one
             $links = $response->get('links');
             foreach ($links as $link) {
-                $link = collect($link);
+                $link = collect($link); // @phpstan-ignore-line
 
                 if ($link->get('rel') === self::OUT_LINK) {
                     return redirect()->away($link->get('href'));

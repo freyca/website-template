@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Buttons;
 
 use App\Livewire\Buttons\Traits\ProductVariantChanger;

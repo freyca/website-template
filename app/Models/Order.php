@@ -12,6 +12,7 @@ use App\Events\OrderSaved;
 use App\Models\Scopes\OrderScope;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -116,7 +117,10 @@ class Order extends Model
         return $this->hasMany(OrderProductComplement::class);
     }
 
-    public function allPurchasedItems()
+    /**
+     * @return Collection<int, OrderProduct|OrderProductComplement|OrderProductSparePart>
+     */
+    public function allPurchasedItems(): Collection
     {
         $products = $this->orderProducts()->get();
         $complements = $this->orderProductComplements()->get();

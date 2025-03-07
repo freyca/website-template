@@ -530,7 +530,7 @@ class OrderResource extends Resource
     }
 
     // TODO: calculate prices with assembly cost
-    public static function calculateTotalPrice(Livewire $livewire)
+    public static function calculateTotalPrice(Livewire $livewire): void
     {
         $price = 0;
 
@@ -578,7 +578,7 @@ class OrderResource extends Resource
         data_set($livewire, $state_path.'.purchase_cost', $formatted_price);
     }
 
-    public static function getProductUrl(string $product_class)
+    public static function getProductUrl(string $product_class): Action
     {
         $exploded_class_name = explode('\\', $product_class);
         $short_class_name = end($exploded_class_name);
@@ -613,7 +613,7 @@ class OrderResource extends Resource
             );
     }
 
-    public static function getAddressId(Get $get)
+    public static function getAddressId(Get $get): array
     {
         $user_id = $get('user_id');
         $order_id = $get('id');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Factories\BreadCrumbs;
 
 use App\Models\BaseProduct;
@@ -26,21 +28,21 @@ class ProductBreadCrumbs extends StandardPageBreadCrumbs
         $this->bread_crumbs = array_merge($this->default_bread_crumb, $bread_crumbs);
     }
 
-    private function productBreadCrumb(Product $product)
+    private function productBreadCrumb(Product $product): array
     {
         return [
             $product->category->name => '/'.$product->category->slug,
         ];
     }
 
-    private function productComplementBreadCrumb()
+    private function productComplementBreadCrumb(): array
     {
         return [
             __('Complements') => route('complement-list'),
         ];
     }
 
-    private function productSparePartBreadCrumb()
+    private function productSparePartBreadCrumb(): array
     {
         return [
             __('Spare parts') => route('spare-part-list'),

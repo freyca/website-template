@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Buttons;
 
 use App\Models\BaseProduct;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -22,7 +25,7 @@ class ProductCartButtons extends Component
     public function mount(
         BaseProduct $product,
         Collection $variants,
-    ) {
+    ): void {
         $this->product = $product;
         $this->variants = $variants;
 
@@ -33,7 +36,7 @@ class ProductCartButtons extends Component
     }
 
     #[On('refresh-cart')]
-    public function render()
+    public function render(): View
     {
         return view('livewire.buttons.product-cart-buttons');
     }

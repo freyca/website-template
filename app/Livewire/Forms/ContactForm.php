@@ -54,13 +54,13 @@ class ContactForm extends Component implements HasForms
         return $form->statePath('contactFormData');
     }
 
-    public function submit()
+    public function submit(): void
     {
         ContactFormSubmitted::dispatch($this->form);
 
         session()->flash('contactFormSuccess');
 
-        return $this->redirect(route('contact'));
+        $this->redirect(route('contact'));
     }
 
     public function render(): View
