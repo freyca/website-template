@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 
 /**
@@ -99,33 +100,5 @@ class Order extends Model
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
-    }
-
-    /**
-     * @return HasMany<OrderProductSparePart, $this>
-     */
-    public function orderProductSpareParts(): HasMany
-    {
-        return $this->hasMany(OrderProductSparePart::class);
-    }
-
-    /**
-     * @return HasMany<OrderProductComplement, $this>
-     */
-    public function orderProductComplements(): HasMany
-    {
-        return $this->hasMany(OrderProductComplement::class);
-    }
-
-    /**
-     * @return Collection<int, OrderProduct|OrderProductComplement|OrderProductSparePart>
-     */
-    public function allPurchasedItems(): Collection
-    {
-        $products = $this->orderProducts()->get();
-        $complements = $this->orderProductComplements()->get();
-        $spareParts = $this->orderProductSpareParts()->get();
-
-        return $products->concat($complements)->concat($spareParts);
     }
 }

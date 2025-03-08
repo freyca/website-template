@@ -17,6 +17,7 @@ use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
+use Database\Factories\OrderableFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -70,8 +71,6 @@ class DatabaseSeeder extends Seeder
             ])
                 ->for($user)
                 ->has(OrderProduct::factory(2))
-                ->has(OrderProductSparePart::factory(2))
-                ->has(OrderProductComplement::factory(2))
                 ->create();
         }
 
@@ -108,13 +107,13 @@ class DatabaseSeeder extends Seeder
     {
         $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
+        if (Storage::disk('public')->exists($relativePath . '/' . $imageName)) {
             return;
         }
 
         $newImage = fake()->image($path);
         $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
 
-        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
+        Storage::disk('public')->move($imageRelativePath, $relativePath . '/' . $imageName);
     }
 }

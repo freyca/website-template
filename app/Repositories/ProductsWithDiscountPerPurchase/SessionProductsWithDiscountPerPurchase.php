@@ -64,7 +64,7 @@ class SessionProductsWithDiscountPerPurchase implements ProductsWithDiscountPerP
                  */
                 $product = $order_product->product;
 
-                $purchased->push($product->ean13);
+                $purchased->push($product?->ean13);
             }
         }
 

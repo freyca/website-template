@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,10 +15,11 @@ return new class extends Migration
         Schema::create('order_product', function (Blueprint $table) {
             $table->id();
             $table->foreignUlid('order_id')->constrained();
-            $table->foreignIdFor(Product::class)->constrained();
+            $table->unsignedInteger('orderable_id');
             $table->foreignIdFor(ProductVariant::class)->nullable()->constrained();
+            $table->string('orderable_type');
             $table->integer('unit_price');
-            $table->integer('assembly_price');
+            $table->integer('assembly_price')->default(0);
             $table->integer('quantity');
             $table->timestamps();
         });

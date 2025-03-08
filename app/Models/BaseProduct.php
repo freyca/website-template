@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -96,11 +97,11 @@ abstract class BaseProduct extends Model
     }
 
     /**
-     * @return BelongsToMany<Order, $this>
+     * @return MorphMany<Order, $this>
      */
-    public function orders(): BelongsToMany
+    public function orders(): MorphMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->morphMany(Order::class);
     }
 
     /**

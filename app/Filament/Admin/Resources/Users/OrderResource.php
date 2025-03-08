@@ -32,13 +32,15 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
 
+    public array $product_options = [];
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('id')
-                        ->name(__('Order id (automatically generated)').':')
+                        ->name(__('Order id (automatically generated)') . ':')
                         ->disabled()
                         ->columnSpanFull(),
 
@@ -115,14 +117,6 @@ class OrderResource extends Resource
 
                 Forms\Components\Section::make([
                     static::getProductsRepeater(),
-                ]),
-
-                Forms\Components\Section::make([
-                    static::getProductComplementsRepeater(),
-                ]),
-
-                Forms\Components\Section::make([
-                    static::getProductSparePartsRepeater(),
                 ]),
 
                 Forms\Components\Section::make(__('Payment'))
@@ -225,81 +219,94 @@ class OrderResource extends Resource
             ->label(__('Order products'))
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('product_id')
-                    ->label(__('Product'))
-                    ->options(Product::query()->pluck('name', 'id'))
+                Forms\Components\Select::make('orderable_type')
+                    ->options([
+                        Product::class => 'Producto',
+                        ProductComplement::class => 'Complemento',
+                        ProductSparePart::class => 'Repuesto',
+                    ])
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('orderable_id', '');
+                    })
+                    ->live()
                     ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, Set $set, Livewire $livewire) {
-                        $set('product_variant_id', null);
-                        self::setProductPrice($state, Product::class, $set);
+                    ->columnSpan([
+                        'md' => 5,
+                    ]),
 
-                        // If product is null or has no variants, we recalculate
-                        // the cost, for products with variants we'll recalculate
-                        // it later
-                        if (Product::find(intval($state))?->productVariants()->count() === 0) {
-                            self::calculateTotalPrice($livewire);
+                Forms\Components\Select::make('orderable_id')
+                    ->label(__('Product'))
+                    ->disabled(function (Get $get) {
+                        return !filled($get('orderable_type'));
+                    })
+                    ->options(function (Get $get) {
+                        if (!filled($get('orderable_type'))) {
+                            return;
                         }
 
-                        $set('assembly', false);
-                        $set('assembly_price', 0);
+                        $class_name = $get('orderable_type');
+
+                        return $class_name::query()->pluck('name', 'id')->toArray();
                     })
-                    ->distinct(function ($state) {
-                        return Product::find(intval($state))?->productVariants()->count() === 0;
+                    ->searchable()
+                    ->required()
+                    ->live()
+                    ->distinct()
+                    ->afterStateUpdated(function ($state, Get $get, Set $set) {
+                        $class_name = $get('orderable_type');
+                        $product = $class_name::find($state);
+
+                        $set('unit_price', $product->price);
                     })
                     ->columnSpan([
                         'md' => 5,
-                    ])
-                    ->searchable()
-                    ->live(onBlur: true),
+                    ]),
 
                 Forms\Components\Select::make('product_variant_id')
                     ->label(__('Product variant'))
                     ->options(function (Get $get) {
-                        return ProductVariant::where('product_id', $get('product_id'))->pluck('name', 'id');
+                        return ProductVariant::where('product_id', $get('orderable_id'))->pluck('name', 'id');
                     })
-                    ->live()
-                    ->distinct()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable()
                     ->afterStateUpdated(function ($state, Set $set, Livewire $livewire) {
                         self::setProductPrice($state, ProductVariant::class, $set);
                         self::calculateTotalPrice($livewire);
                     })
-                    ->visible(function (Get $get, Set $set, Livewire $livewire) {
-                        /**
-                         * @var ?Product
-                         */
-                        $product = Product::find($get('product_id'));
-
-                        if ($product === null) {
+                    ->visible(function (Get $get) {
+                        if (!filled($get('orderable_type'))) {
                             return false;
                         }
 
-                        if ($product->productVariants()->count() === 0) {
+                        if (!str_ends_with($get('orderable_type'), 'Product')) {
                             return false;
                         }
 
-                        if ($get('product_variant_id') !== null) {
-                            return true;
+                        if (!filled($get('orderable_id'))) {
+                            return false;
                         }
 
-                        // First time shown, we mark first variant as selected
-                        $set('product_variant_id', strval($product->productVariants()->first()?->id));
-
-                        // We set variant price
-                        self::setProductPrice($get('product_variant_id'), ProductVariant::class, $set);
-
-                        // Finally we calculate total price
-                        self::calculateTotalPrice($livewire);
-
-                        return true;
+                        return Product::find($get('orderable_id'))?->productVariants()?->count() !== 0;
                     })
                     ->required(function (Get $get) {
-                        return Product::find(intval($get('product_id')))?->productVariants()->count() !== 0;
-                    }),
+                        if (!filled($get('orderable_type'))) {
+                            return false;
+                        }
+
+                        if (!str_ends_with($get('orderable_type'), 'Product')) {
+                            return false;
+                        }
+
+                        if (!filled($get('orderable_id'))) {
+                            return false;
+                        }
+
+                        return Product::find($get('orderable_id'))?->productVariants()?->count() !== 0;
+                    })
+                    ->searchable()
+                    ->live()
+                    ->distinct()
+                    ->columnSpan([
+                        'md' => 5,
+                    ]),
 
                 Forms\Components\TextInput::make('quantity')
                     ->label(__('Quantity'))
@@ -340,7 +347,7 @@ class OrderResource extends Resource
                                 /**
                                  * @var ?Product
                                  */
-                                $product = Product::find($get('product_id'));
+                                $product = Product::find($get('orderable_id'));
 
                                 $set('assembly_price', $product?->assembly_price);
                             })
@@ -362,129 +369,20 @@ class OrderResource extends Resource
                     ->columns(3)
                     ->collapsible()
                     ->visible(function (Get $get) {
-                        /**
-                         * @var ?Product
-                         */
-                        $product = Product::find($get('product_id'));
+                        if (!filled($get('orderable_type'))) {
+                            return false;
+                        }
 
-                        return $product?->can_be_assembled;
+                        if (!str_ends_with($get('orderable_type'), 'Product')) {
+                            return false;
+                        }
+
+                        if (!filled($get('orderable_id'))) {
+                            return false;
+                        }
+
+                        return Product::find($get('orderable_id'))?->can_be_assembled === true;
                     }),
-            ])
-            ->extraItemActions([
-                self::getProductUrl(Product::class),
-            ])
-            ->defaultItems(1)
-            ->columns([
-                'md' => 10,
-            ])
-            ->mutateRelationshipDataBeforeCreateUsing(function (array $data) {
-                $data['assembly_price'] = isset($data['assembly_price']) ? $data['assembly_price'] : 0;
-
-                return $data;
-            });
-    }
-
-    public static function getProductComplementsRepeater(): Repeater
-    {
-        return Repeater::make('orderProductComplements')
-            ->label(__('Order product complements'))
-            ->relationship()
-            ->schema([
-                Forms\Components\Select::make('product_complement_id')
-                    ->label(__('Product complement'))
-                    ->options(ProductComplement::query()->pluck('name', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, Set $set, Livewire $livewire) {
-                        self::setProductPrice($state, ProductComplement::class, $set);
-                        self::calculateTotalPrice($livewire);
-                    })
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable(),
-
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('Quantity'))
-                    ->numeric()
-                    ->default(1)
-                    ->columnSpan([
-                        'md' => 2,
-                    ])
-                    ->afterStateUpdated(function (Livewire $livewire) {
-                        self::calculateTotalPrice($livewire);
-                    })
-                    ->required(),
-
-                Forms\Components\TextInput::make('unit_price')
-                    ->label(__('Unit price'))
-                    ->disabled()
-                    ->dehydrated()
-                    ->numeric()
-                    ->required()
-                    ->suffix('€')
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-            ])
-            ->extraItemActions([
-                self::getProductUrl(ProductComplement::class),
-            ])
-            ->defaultItems(1)
-            ->columns([
-                'md' => 10,
-            ]);
-    }
-
-    public static function getProductSparePartsRepeater(): Repeater
-    {
-        return Repeater::make('orderProductSpareParts')
-            ->label(__('Order product spare parts'))
-            ->relationship()
-            ->schema([
-                Forms\Components\Select::make('product_spare_part_id')
-                    ->label(__('Product spare part'))
-                    ->options(ProductSparePart::query()->pluck('name', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, Set $set, Livewire $livewire) {
-                        self::setProductPrice($state, ProductSparePart::class, $set);
-                        self::calculateTotalPrice($livewire);
-                    })
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable(),
-
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('Quantity'))
-                    ->numeric()
-                    ->default(1)
-                    ->afterStateUpdated(function (Livewire $livewire) {
-                        self::calculateTotalPrice($livewire);
-                    })
-                    ->columnSpan([
-                        'md' => 2,
-                    ])
-                    ->required(),
-
-                Forms\Components\TextInput::make('unit_price')
-                    ->label(__('Unit price'))
-                    ->disabled()
-                    ->dehydrated()
-                    ->numeric()
-                    ->required()
-                    ->suffix('€')
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-            ])
-            ->extraItemActions([
-                self::getProductUrl(ProductSparePart::class),
             ])
             ->defaultItems(1)
             ->columns([
@@ -539,27 +437,9 @@ class OrderResource extends Resource
         // Get the elements we need
         $form_elements = $livewire->all();
         $products = $form_elements[$state_path]['orderProducts'];
-        $complements = $form_elements[$state_path]['orderProductComplements'];
-        $spare_parts = $form_elements[$state_path]['orderProductSpareParts'];
-
-        foreach ($complements as $complement) {
-            if ($complement['product_complement_id'] === null) {
-                continue;
-            }
-
-            $price += $complement['quantity'] * $complement['unit_price'];
-        }
-
-        foreach ($spare_parts as $spare_part) {
-            if ($spare_part['product_spare_part_id'] === null) {
-                continue;
-            }
-
-            $price += $spare_part['quantity'] * $spare_part['unit_price'];
-        }
 
         foreach ($products as $product) {
-            if ($product['product_id'] === null) {
+            if ($product['orderable_id'] === null) {
                 continue;
             }
 
@@ -573,42 +453,7 @@ class OrderResource extends Resource
 
         $formatted_price = round(floatval($price * 100) / 100, precision: 2);
 
-        data_set($livewire, $state_path.'.purchase_cost', $formatted_price);
-    }
-
-    public static function getProductUrl(string $product_class): Action
-    {
-        $exploded_class_name = explode('\\', $product_class);
-        $short_class_name = end($exploded_class_name);
-
-        return Action::make('openProduct')
-            ->tooltip('Open product url')
-            ->icon('heroicon-m-arrow-top-right-on-square')
-            ->url(
-                function (array $arguments, Repeater $component) use ($product_class, $short_class_name): ?string {
-                    $itemData = $component->getRawItemState($arguments['item']);
-
-                    $product = $product_class::find($itemData[Str::snake($short_class_name).'_id']);
-
-                    if (! $product) {
-                        return null;
-                    }
-
-                    $resource_class_name = 'App\\Filament\\Admin\\Resources\\Products\\'.$short_class_name.'Resource';
-
-                    return $resource_class_name::getUrl('edit', ['record' => $product]);
-                },
-                shouldOpenInNewTab: true
-            )
-            ->hidden(
-                function (array $arguments, Repeater $component) use ($short_class_name): bool {
-                    return blank(
-                        $component->getRawItemState(
-                            $arguments['item']
-                        )[Str::snake($short_class_name).'_id']
-                    );
-                }
-            );
+        data_set($livewire, $state_path . '.purchase_cost', $formatted_price);
     }
 
     public static function getAddressId(Get $get): ?array
