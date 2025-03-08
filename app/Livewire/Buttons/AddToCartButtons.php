@@ -7,6 +7,7 @@ namespace App\Livewire\Buttons;
 use App\Livewire\Buttons\Traits\AssemblyStatusChanger;
 use App\Livewire\Buttons\Traits\ProductVariantChanger;
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use App\Services\Cart;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -19,7 +20,7 @@ class AddToCartButtons extends Component
 
     public bool $inCart;
 
-    public BaseProduct $product;
+    public BaseProduct|ProductVariant $product;
 
     #[On('refresh-cart')]
     public function render(): View

@@ -9,15 +9,12 @@ use App\Enums\PaymentMethod;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
-use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
-use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
 use Illuminate\Support\Arr;
 
 class OrderBuilder
@@ -38,8 +35,6 @@ class OrderBuilder
         private readonly Cart $cart,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderProductRepositoryInterface $orderProductRepository,
-        private readonly OrderProductComplementRepositoryInterface $orderProductComplementRepository,
-        private readonly OrderProductSparePartRepositoryInterface $orderProductSparePartRepository,
     ) {}
 
     public function build(AddressBuilder $addressBuilder): void
@@ -80,19 +75,16 @@ class OrderBuilder
             /** @var BaseProduct */
             $product = Arr::get($cartProduct, 'product');
 
-            $product_data = [
-                'product_id' => $this->getProductId($product),
+            $product_data = new OrderProduct([
+                'orderable_id' => $this->getProductId($product),
+                'orderable_type' => get_class($product),
                 'product_variant_id' => $this->getProductVariantId($product),
                 'price' => $this->getProductPrice($product),
                 'assembly_price' => $this->getAssemblyPrice($product),
                 'quantity' => Arr::get($cartProduct, 'quantity'),
-            ];
+            ]);
 
-            match (true) {
-                is_a($product, ProductComplement::class) => $this->orderProductComplementRepository->save($this->order, $product_data),
-                is_a($product, ProductSparePart::class) => $this->orderProductSparePartRepository->save($this->order, $product_data),
-                default => $this->orderProductRepository->save($this->order, $product_data),
-            };
+            $this->orderProductRepository->save($this->order, $product_data);
         }
     }
 
@@ -119,11 +111,6 @@ class OrderBuilder
         return $product->price_with_discount ? $product->price_with_discount : $product->price;
     }
 
-    /**
-     * Dont' know why it's complaining since ProductVariant are children of
-     * BaseProduct
-     */
-    // @phpstan-ignore return.unusedType
     private function getAssemblyPrice(BaseProduct $product): ?float
     {
         return match (true) {

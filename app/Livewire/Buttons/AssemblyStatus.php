@@ -15,7 +15,7 @@ class AssemblyStatus extends Component
 {
     use ProductVariantChanger;
 
-    public BaseProduct $product;
+    public BaseProduct|ProductVariant $product;
 
     public string $assembly_price;
 

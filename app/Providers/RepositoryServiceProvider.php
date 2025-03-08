@@ -12,10 +12,6 @@ use App\Repositories\Database\Order\Order\EloquentOrderRepository;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\EloquentOrderProductRepository;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
-use App\Repositories\Database\Order\ProductComplement\EloquentOrderProductComplementRepository;
-use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
-use App\Repositories\Database\Order\ProductSparePart\EloquentOrderProductSparePartRepository;
-use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
 use App\Repositories\Database\Product\Product\EloquentProductRepository;
 use App\Repositories\Database\Product\Product\ProductRepositoryInterface;
 use App\Repositories\Database\Product\ProductComplement\EloquentProductComplementRepository;
@@ -58,16 +54,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderProductRepositoryInterface::class,
             EloquentOrderProductRepository::class,
-        );
-
-        $this->app->bind(
-            OrderProductComplementRepositoryInterface::class,
-            EloquentOrderProductComplementRepository::class,
-        );
-
-        $this->app->bind(
-            OrderProductSparePartRepositoryInterface::class,
-            EloquentOrderProductSparePartRepository::class,
         );
 
         $this->app->bind(

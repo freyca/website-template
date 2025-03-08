@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories\Database\Order\Product;
 
 use App\Models\Order;
-use App\Repositories\Database\Order\BaseOrderProductRepositoryInterface;
+use App\Models\OrderProduct;
 
-interface OrderProductRepositoryInterface extends BaseOrderProductRepositoryInterface
+interface OrderProductRepositoryInterface
 {
-    public function save(Order $order, array $productData): bool;
+    public function save(Order $order, OrderProduct $order_product): bool;
 }

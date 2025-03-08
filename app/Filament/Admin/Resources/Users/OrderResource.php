@@ -23,7 +23,6 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Livewire\Component as Livewire;
 
 class OrderResource extends Resource
@@ -40,7 +39,7 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Section::make([
                     Forms\Components\TextInput::make('id')
-                        ->name(__('Order id (automatically generated)') . ':')
+                        ->name(__('Order id (automatically generated)').':')
                         ->disabled()
                         ->columnSpanFull(),
 
@@ -237,10 +236,10 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('orderable_id')
                     ->label(__('Product'))
                     ->disabled(function (Get $get) {
-                        return !filled($get('orderable_type'));
+                        return ! filled($get('orderable_type'));
                     })
                     ->options(function (Get $get) {
-                        if (!filled($get('orderable_type'))) {
+                        if (! filled($get('orderable_type'))) {
                             return;
                         }
 
@@ -272,34 +271,44 @@ class OrderResource extends Resource
                         self::calculateTotalPrice($livewire);
                     })
                     ->visible(function (Get $get) {
-                        if (!filled($get('orderable_type'))) {
+                        if (! filled($get('orderable_type'))) {
                             return false;
                         }
 
-                        if (!str_ends_with($get('orderable_type'), 'Product')) {
+                        if (! str_ends_with($get('orderable_type'), 'Product')) {
                             return false;
                         }
 
-                        if (!filled($get('orderable_id'))) {
+                        if (! filled($get('orderable_id'))) {
                             return false;
                         }
 
-                        return Product::find($get('orderable_id'))?->productVariants()?->count() !== 0;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($get('orderable_id'));
+
+                        return $product->productVariants()->count() !== 0;
                     })
                     ->required(function (Get $get) {
-                        if (!filled($get('orderable_type'))) {
+                        if (! filled($get('orderable_type'))) {
                             return false;
                         }
 
-                        if (!str_ends_with($get('orderable_type'), 'Product')) {
+                        if (! str_ends_with($get('orderable_type'), 'Product')) {
                             return false;
                         }
 
-                        if (!filled($get('orderable_id'))) {
+                        if (! filled($get('orderable_id'))) {
                             return false;
                         }
 
-                        return Product::find($get('orderable_id'))?->productVariants()?->count() !== 0;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($get('orderable_id'));
+
+                        return $product->productVariants()->count() !== 0;
                     })
                     ->searchable()
                     ->live()
@@ -369,19 +378,24 @@ class OrderResource extends Resource
                     ->columns(3)
                     ->collapsible()
                     ->visible(function (Get $get) {
-                        if (!filled($get('orderable_type'))) {
+                        if (! filled($get('orderable_type'))) {
                             return false;
                         }
 
-                        if (!str_ends_with($get('orderable_type'), 'Product')) {
+                        if (! str_ends_with($get('orderable_type'), 'Product')) {
                             return false;
                         }
 
-                        if (!filled($get('orderable_id'))) {
+                        if (! filled($get('orderable_id'))) {
                             return false;
                         }
 
-                        return Product::find($get('orderable_id'))?->can_be_assembled === true;
+                        /**
+                         * @var Product
+                         */
+                        $product = Product::find($get('orderable_id'));
+
+                        return $product->can_be_assembled === true;
                     }),
             ])
             ->defaultItems(1)
@@ -453,7 +467,7 @@ class OrderResource extends Resource
 
         $formatted_price = round(floatval($price * 100) / 100, precision: 2);
 
-        data_set($livewire, $state_path . '.purchase_cost', $formatted_price);
+        data_set($livewire, $state_path.'.purchase_cost', $formatted_price);
     }
 
     public static function getAddressId(Get $get): ?array

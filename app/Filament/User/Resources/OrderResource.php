@@ -9,8 +9,6 @@ use App\Enums\PaymentMethod;
 use App\Filament\User\Resources\OrderResource\Pages;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
@@ -124,7 +122,7 @@ class OrderResource extends Resource
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn($state, Forms\Set $set) => $set('unit_price', Product::find($state)->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([

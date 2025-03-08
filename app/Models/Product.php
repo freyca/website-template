@@ -77,14 +77,6 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue, $this>
-     */
-    public function productFeatureValues(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductFeatureValue::class);
-    }
-
-    /**
      * @return HasMany<ProductVariant, $this>
      */
     public function productVariants(): HasMany

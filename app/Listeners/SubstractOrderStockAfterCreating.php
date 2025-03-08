@@ -10,11 +10,7 @@ use App\Events\OutOfStockProduct;
 use App\Events\ProductHasBeenPurchasedOverStock;
 use App\Models\BaseProduct;
 use App\Models\OrderProduct;
-use App\Models\OrderProductComplement;
-use App\Models\OrderProductSparePart;
 use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -39,36 +35,29 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
     public function handle(OrderCreated $event): void
     {
         $order = $event->order;
-        $orderItems = $order->allPurchasedItems();
+        $orderItems = $order->orderProducts;
 
         foreach ($orderItems as $orderItem) {
-            match (true) {
-                is_a($orderItem, OrderProduct::class) => $this->substractProductQuantity($orderItem),
-                is_a($orderItem, OrderProductSparePart::class) => $this->substractSparePartQuantity($orderItem),
-                is_a($orderItem, OrderProductComplement::class) => $this->substractComplementQuantity($orderItem),
-                default => throw new Exception('Order should not have this order item '.get_class($orderItem))
-            };
+            if (! is_null($orderItem->product_variant_id)) {
+                $this->substractProductVariantQuantity($orderItem);
+
+                continue;
+            }
+
+            $class_name = $orderItem->orderable_type;
+            $product = $class_name::find($orderItem->orderable_id);
+            $new_stock = $product->stock - $orderItem->quantity;
+
+            if ($new_stock < 0) {
+                $this->shouldTriggerStockEvent($product, $orderItem);
+                $new_stock = 0;
+            }
+
+            $product->stock = $new_stock;
+
+            $this->shouldTriggerStockEvent($product, $orderItem);
+            $this->saveProduct($product);
         }
-    }
-
-    private function substractProductQuantity(OrderProduct $orderItem): void
-    {
-        if (! is_null($orderItem->product_variant_id)) {
-            $this->substractProductVariantQuantity($orderItem);
-
-            return;
-        }
-
-        $product = Product::find($orderItem->product_id);
-
-        if (is_null($product)) {
-            throw new Exception('NULL product');
-        }
-
-        $product->stock = $product->stock - $orderItem->quantity;
-
-        $this->shouldTriggerStockEvent($product, $orderItem);
-        $this->saveProduct($product);
     }
 
     private function substractProductVariantQuantity(OrderProduct $orderItem): void
@@ -85,35 +74,7 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
         $this->saveProduct($product);
     }
 
-    private function substractComplementQuantity(OrderProductComplement $orderItem): void
-    {
-        $product = ProductComplement::find($orderItem->product_complement_id);
-
-        if (is_null($product)) {
-            throw new Exception('NULL product');
-        }
-
-        $product->stock = $product->stock - $orderItem->quantity;
-
-        $this->shouldTriggerStockEvent($product, $orderItem);
-        $this->saveProduct($product);
-    }
-
-    private function substractSparePartQuantity(OrderProductSparePart $orderItem): void
-    {
-        $product = ProductSparePart::find($orderItem->product_spare_part_id);
-
-        if (is_null($product)) {
-            throw new Exception('NULL product');
-        }
-
-        $product->stock = $product->stock - $orderItem->quantity;
-
-        $this->shouldTriggerStockEvent($product, $orderItem);
-        $this->saveProduct($product);
-    }
-
-    private function saveProduct(BaseProduct $product): void
+    private function saveProduct(BaseProduct|ProductVariant $product): void
     {
         if ($product->stock < 0) {
             $product->stock = 0;
@@ -124,8 +85,8 @@ class SubstractOrderStockAfterCreating implements ShouldQueue
 
     // TODO: implement this logic
     private function shouldTriggerStockEvent(
-        BaseProduct $product,
-        OrderProduct|OrderProductComplement|OrderProductSparePart $orderItem
+        BaseProduct|ProductVariant $product,
+        OrderProduct $orderItem
     ): void {
         // match (true) {
         //    $product->stock < 0 => Event::dispatch(

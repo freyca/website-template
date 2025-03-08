@@ -34,7 +34,7 @@ class OrderProductFactory extends Factory
         }
 
         $price = match (true) {
-            isset($variant) => (!is_null($variant->price_with_discount)) ? $variant->price_with_discount : $variant->price,
+            isset($variant) => (! is_null($variant->price_with_discount)) ? $variant->price_with_discount : $variant->price,
             ! is_null($product->price_with_discount) => $product->price_with_discount,
             default => $product->price,
         };

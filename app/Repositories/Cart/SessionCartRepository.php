@@ -29,7 +29,7 @@ class SessionCartRepository implements CartRepositoryInterface
         }
     }
 
-    public function add(BaseProduct $product, int $quantity, bool $assemble): bool
+    public function add(BaseProduct|ProductVariant $product, int $quantity, bool $assemble): bool
     {
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assemble);
@@ -89,7 +89,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return true;
     }
 
-    public function remove(BaseProduct $product, bool $assemble): void
+    public function remove(BaseProduct|ProductVariant $product, bool $assemble): void
     {
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assemble);
@@ -100,7 +100,7 @@ class SessionCartRepository implements CartRepositoryInterface
         $this->removeProductFromDiscountable($product);
     }
 
-    public function hasProduct(BaseProduct $product, bool $assembly_status): bool
+    public function hasProduct(BaseProduct|ProductVariant $product, bool $assembly_status): bool
     {
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assembly_status);
@@ -143,7 +143,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $cart->sum('quantity');
     }
 
-    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble): int
+    public function getTotalQuantityForProduct(BaseProduct|ProductVariant $product, bool $assemble): int
     {
         $cart = $this->getCart();
         $cart_product_key = $this->getProductKey($product, $assemble);
@@ -158,7 +158,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return 0;
     }
 
-    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, bool $formatted = false): float|string
+    public function getTotalCostforProduct(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
     {
         $price = floatval(isset($product->price_with_discount) ? $product->price_with_discount : $product->price);
 
@@ -172,7 +172,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $this->calculateCostForProduct($product, $assemble, $price, $formatted);
     }
 
-    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, bool $formatted = false): float|string
+    public function getTotalCostforProductWithoutDiscount(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
     {
         $price = $product->price;
 
@@ -295,7 +295,7 @@ class SessionCartRepository implements CartRepositoryInterface
         return $assembly_price * $quantity;
     }
 
-    public function canBeIncremented(BaseProduct $product): bool
+    public function canBeIncremented(BaseProduct|ProductVariant $product): bool
     {
         $cart = $this->getCart();
 

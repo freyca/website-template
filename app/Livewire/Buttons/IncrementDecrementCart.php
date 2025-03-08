@@ -7,6 +7,7 @@ namespace App\Livewire\Buttons;
 use App\Livewire\Buttons\Traits\AssemblyStatusChanger;
 use App\Livewire\Buttons\Traits\ProductVariantChanger;
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
 use App\Services\Cart;
 use Filament\Notifications\Notification;
 use Illuminate\View\View;
@@ -17,7 +18,7 @@ class IncrementDecrementCart extends Component
     use AssemblyStatusChanger;
     use ProductVariantChanger;
 
-    public BaseProduct $product;
+    public BaseProduct|ProductVariant $product;
 
     public int $productQuantity = 0;
 

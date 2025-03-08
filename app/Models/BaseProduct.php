@@ -6,10 +6,10 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use App\Models\Scopes\PublishedScope;
+use App\Models\Traits\HasProductFeatures;
 use App\Models\Traits\HasSlug;
 use App\Traits\CurrencyFormatter;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 abstract class BaseProduct extends Model
 {
     use CurrencyFormatter;
+    use HasProductFeatures;
     use HasSlug;
 
     protected $fillable = [
@@ -96,24 +97,8 @@ abstract class BaseProduct extends Model
         return $this->formatCurrency($savings);
     }
 
-    /**
-     * @return MorphMany<Order, $this>
-     */
     public function orders(): MorphMany
     {
-        return $this->morphMany(Order::class);
-    }
-
-    /**
-     * @return Collection<int, ProductFeature>
-     */
-    public function productFeatures(): Collection
-    {
-        return ProductFeature::whereIn(
-            'id',
-            $this->productFeatureValues
-                ->pluck('product_feature_id')
-                ->unique()
-        )->get();
+        return $this->morphMany(OrderProduct::class, 'orderable');
     }
 }
