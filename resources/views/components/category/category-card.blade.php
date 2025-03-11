@@ -1,13 +1,13 @@
 <div class="bg-primary-800 rounded-md relative flex m-2">
     <a href="{{ $category->slug }}" class="h-full mx-auto">
-        <figure class="p-6 pb-10">
+        <figure>
             <picture>
-                <img class="h-20 md:h-40" src="{{ @asset('/storage/' . $category->big_image) }}" alt="{{ $category->name }}">
+                <img class="p-6 pb-12" src="{{ @asset('/storage/' . $category->big_image) }}" alt="{{ $category->name }}">
             </picture>
 
-            <figcaption class="absolute bottom-0 right-0 max-w-64 text-right">
-                <h3 class="text-lg font-semibold text-primary-800 rounded-tl-md truncate">
-                    <span class="bg-white py-2 px-2">
+            <figcaption class="absolute bottom-0 right-0 min-w-full md:min-w-64 max-w-full md:max-w-32 text-center">
+                <h3 class="md:text-lg md:font-semibold text-primary-800 rounded-md truncate border-2 md:border-b-4 md:border-r-4 border-primary-800 bg-white">
+                    <span class="py-2 px-2">
                         {{ $category->name }}
                     </span>
                 </h3>
