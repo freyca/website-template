@@ -42,9 +42,9 @@
     </div>
 
     <div id="mobile-menu" class="md:hidden hidden mx-5 space-x-4">
-        <ul class="mt-5 space-y-3">
+        <ul class="mt-5 space-y-2">
             @foreach (config('custom.nav-sections') as $section => $url)
-                <li>
+                <li class="@if(!$loop->first) border-primary-800 border-t-2 @endif">
                     <a class="block py-1" href="{{ $url }}">
                         <p>
                             {{ ucfirst($section) }}
