@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire;
+namespace App\Livewire\Forms;
 
 use App\Enums\PaymentMethod;
 use App\Http\Controllers\PaymentController;
@@ -81,7 +81,7 @@ class CheckoutForm extends Component implements HasForms
     #[On('refresh-cart')]
     public function render(): View
     {
-        return view('livewire.checkout-form');
+        return view('livewire.forms.checkout-form');
     }
 
     private function buildFormForLoggedInUser(User $user, Form $form): Form

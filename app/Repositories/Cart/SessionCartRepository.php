@@ -4,117 +4,77 @@ declare(strict_types=1);
 
 namespace App\Repositories\Cart;
 
+use App\DTO\OrderProductDTO;
 use App\Models\BaseProduct;
-use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
-use App\Repositories\ProductsWithDiscountPerPurchase\ProductsWithDiscountPerPurchaseInterface;
+use App\Services\PriceCalculator;
+use App\Services\SpecialPrices;
 use App\Traits\CurrencyFormatter;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class SessionCartRepository implements CartRepositoryInterface
 {
     use CurrencyFormatter;
 
+    private Collection $session_content;
+
     const SESSION = 'cart';
 
     public function __construct(
-        private readonly ProductsWithDiscountPerPurchaseInterface $discount_products,
+        private readonly SpecialPrices $special_prices,
+        private readonly PriceCalculator $price_calculator,
     ) {
         if (! Session::has(self::SESSION)) {
-            Session::put(self::SESSION, collect());
+            Session::put(self::SESSION, new Collection);
         }
     }
 
-    public function add(BaseProduct|ProductVariant $product, int $quantity, bool $assemble): bool
+    /**
+     * Functions for products
+     */
+    public function add(BaseProduct $product, int $quantity, bool $assemble, ?ProductVariant $variant): bool
     {
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assemble);
+        $order_products = $this->addProductToOrder($product, $assemble, $quantity, $variant);
 
-        // we do not need to check decrement since if the sum is less than 0
-        // we delete product from cart
-        if ($quantity > 0 && ! $this->canBeIncremented($product)) {
-            throw new Exception('Product cannot be incremented');
-        }
-
-        // Cart does not has the product, we simply add it
-        if (! $cart->has($cart_product_key)) {
-            $cart->put($cart_product_key, [
-                'product' => $product,
-                'quantity' => $quantity,
-                'assemble' => $assemble,
-            ]);
-
-            $this->updateCart($cart);
-            $this->addProductToDiscountable($product);
-
-            return true;
-        }
-
-        $session_product = $cart->get($cart_product_key);
-
-        // Cart has the product but in a different assemble state
-        if (data_get($session_product, 'assemble') !== $assemble) {
-            $cart->put($cart_product_key, [
-                'product' => $product,
-                'quantity' => $quantity,
-                'assemble' => $assemble,
-            ]);
-
-            $this->updateCart($cart);
-            $this->addProductToDiscountable($product);
-
-            return true;
-        }
-
-        // Cart has the product in same assemble state
-        $old_quantity = data_get($session_product, 'quantity');
-        $new_quantity = $old_quantity + $quantity;
-
-        if ($new_quantity <= 0) {
-            $this->remove($product, $assemble);
-            $this->removeProductFromDiscountable($product);
-
-            return false;
-        }
-
-        data_set($session_product, 'quantity', $new_quantity);
-        $cart->put($cart_product_key, $session_product);
-
-        $this->updateCart($cart);
+        $this->updateCart($order_products);
+        $this->addProductToDiscountable($product);
 
         return true;
     }
 
-    public function remove(BaseProduct|ProductVariant $product, bool $assemble): void
+    public function remove(BaseProduct $product, bool $assemble, ?ProductVariant $variant): void
     {
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assemble);
+        $order_products = $this->removeProductFromOrder($product, $assemble, $variant);
 
-        $cart->forget($cart_product_key);
-
-        $this->updateCart($cart);
+        $this->updateCart($order_products);
         $this->removeProductFromDiscountable($product);
     }
 
-    public function hasProduct(BaseProduct|ProductVariant $product, bool $assembly_status): bool
+    public function hasProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
     {
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assembly_status);
+        try {
+            $this->searchProductKey($product, $assemble, $variant);
 
-        return $cart->has($cart_product_key);
+            return true;
+        } catch (Throwable $th) {
+            return false;
+        }
     }
 
-    /**
-     * @return Collection<string, array<string, BaseProduct|int|bool>>
-     */
-    public function getCart(): Collection
+    public function canBeIncremented(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
     {
-        /** @var Collection<string, array<string, BaseProduct|int|bool>> */
-        return Session::get(self::SESSION);
+        try {
+            $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+        } catch (Throwable $th) {
+            return false;
+        }
+
+        $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+
+        return ($variant !== null) ? ($variant->stock - $quantity) > 0 : ($product->stock - $quantity) > 0;
     }
 
     public function isEmpty(): bool
@@ -127,236 +87,205 @@ class SessionCartRepository implements CartRepositoryInterface
         Session::forget(self::SESSION);
     }
 
-    /**
-     * @param  Collection<string, array<string, BaseProduct|int|bool>>  $cart
-     */
-    private function updateCart(Collection $cart): void
+    public function getCart(): Collection
     {
-        Session::put(self::SESSION, $cart);
+        /**
+         * Kind of cache to avoid repetitive queries
+         */
+        if (! isset($this->session_content)) {
+            $this->session_content = Session::get(self::SESSION);
+        }
+
+        return $this->session_content;
     }
 
+    /**
+     * Functions for quantities
+     */
     public function getTotalQuantity(): int
     {
-        $cart = $this->getCart();
+        $quantity = 0;
 
-        /** @var int */
-        return $cart->sum('quantity');
-    }
-
-    public function getTotalQuantityForProduct(BaseProduct|ProductVariant $product, bool $assemble): int
-    {
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assemble);
-
-        if ($cart->has($cart_product_key)) {
-            $productInCart = $cart->get($cart_product_key);
-
-            /** @var int */
-            return data_get($productInCart, 'quantity');
+        foreach ($this->getCart() as $cart_item) {
+            $quantity += $cart_item->quantity();
         }
 
-        return 0;
+        return $quantity;
     }
 
-    public function getTotalCostforProduct(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): int
     {
-        $price = floatval(isset($product->price_with_discount) ? $product->price_with_discount : $product->price);
-
-        if (
-            (is_a($product, ProductComplement::class) || is_a($product, ProductSparePart::class))
-            && $this->discount_products->hasItemToOfferDiscount($product)
-        ) {
-            $price = floatval($product->price_when_user_owns_product);
+        try {
+            return $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+        } catch (Throwable $th) {
+            return 0;
         }
-
-        return $this->calculateCostForProduct($product, $assemble, $price, $formatted);
     }
 
-    public function getTotalCostforProductWithoutDiscount(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
-    {
-        $price = $product->price;
-
-        return $this->calculateCostForProduct($product, $assemble, $price, $formatted);
-    }
-
+    /**
+     * Functions for prices
+     */
     public function getTotalCost(bool $formatted = false): float|string
     {
-        $cart = $this->getCart();
+        $order_products = $this->getCart();
 
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $assemble = data_get($item, 'assemble');
-
-            return $this->getTotalCostforProduct($product, $assemble);
-        });
+        $total = $this->price_calculator->getTotalCostForOrder($order_products);
 
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
     public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
     {
-        $cart = $this->getCart();
+        $order_products = $this->getCart();
 
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $assemble = data_get($item, 'assemble');
+        $total = $this->price_calculator->getTotalCostForOrderWithoutTaxes($order_products);
 
-            return $this->getTotalCostforProduct($product, $assemble);
-        });
-
-        $total_without_taxes = $total * (1 - config('custom.tax_iva'));
-
-        return $formatted ? $this->formatCurrency($total_without_taxes) : $total_without_taxes;
+        return $formatted ? $this->formatCurrency($total) : $total;
     }
 
     public function getTotalDiscount(bool $formatted = false): float|string
     {
-        $cart = $this->getCart();
+        $order_products = $this->getCart();
 
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $assemble = data_get($item, 'assemble');
-
-            return $this->getTotalCostforProductWithoutDiscount($product, $assemble) - $this->getTotalCostforProduct($product, $assemble); // @phpstan-ignore-line
-        });
+        $total = $this->price_calculator->getTotalDiscountForOrder($order_products);
 
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
     public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
     {
-        $cart = $this->getCart();
+        $order_products = $this->getCart();
 
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $assemble = data_get($item, 'assemble');
-
-            return $this->getTotalCostforProductWithoutDiscount($product, $assemble);
-        });
+        $total = $this->price_calculator->getTotaCostForOrderWithoutDiscount($order_products);
 
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
-    private function getProductKey(BaseProduct $product, ?bool $assemble = null): string
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
     {
-        $parent = is_a($product, ProductVariant::class) ? $product->product : $product;
+        $is_present = $this->searchProductKey($product, $assemble, $variant);
 
-        if (isset($parent->can_be_assembled) && $parent->can_be_assembled !== true) {
-            return strval($product->ean13);
-        }
-
-        $assemble = $assemble ? 'assemble' : 'noAssemble';
-
-        return strval($product->ean13).'+'.$assemble;
-    }
-
-    private function calculateCostForProduct(BaseProduct $product, bool $assemble, float $price, bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assemble);
-
-        $quantity = data_get($cart->get($cart_product_key), 'quantity');
-
-        $total = 0;
-        if (! $cart->has($cart_product_key)) {
-            return $formatted ? $this->formatCurrency($total) : $total;
-        }
-
-        $assembly_cost = 0;
-        if (is_a($product, ProductVariant::class) || is_a($product, Product::class)) {
-            $assembly_cost = $this->calculateAssemblyCost($product, $assemble);
-        }
-
-        $total = ($quantity * $price) + $assembly_cost;
+        $total = $this->price_calculator->getTotalCostForProduct($is_present['order_product_dto'], $is_present['order_product_dto']->quantity(), $assemble);
 
         return $formatted ? $this->formatCurrency($total) : $total;
     }
 
-    private function calculateAssemblyCost(Product|ProductVariant $product, bool $assemble): float
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
     {
-        if ($assemble === false) {
-            return floatval(0);
-        }
+        $is_present = $this->searchProductKey($product, $assemble, $variant);
 
-        $cart = $this->getCart();
-        $cart_product_key = $this->getProductKey($product, $assemble);
+        $total = $this->price_calculator->getTotalCostForProductWithoutDiscount($is_present['order_product_dto'], $is_present['order_product_dto']->quantity(), $assemble);
 
-        $assembly_price = is_a($product, ProductVariant::class) ? $product->product?->assembly_price : $product->assembly_price;
-        $quantity = data_get($cart->get($cart_product_key), 'quantity');
-
-        return $assembly_price * $quantity;
-    }
-
-    public function canBeIncremented(BaseProduct|ProductVariant $product): bool
-    {
-        $cart = $this->getCart();
-
-        // If product cannot be assembled we only have to query cart once
-        if (isset($product->can_be_assembled) && ! $product->can_be_assembled) {
-            $quantity = 0;
-            $key = $this->getProductKey($product, false);
-
-            // If product is in cart, we set the quantity
-            if ($cart->has($key)) {
-                $quantity = data_get($cart->get($key), 'quantity');
-            }
-
-            return $quantity < $product->stock;
-        }
-
-        // If product can be assembled could be twice in cart
-        $key1 = $this->getProductKey($product, true);
-        $key2 = $this->getProductKey($product, false);
-
-        $quantity1 = 0;
-        $quantity2 = 0;
-
-        // We search for the keys in the cart
-        if ($cart->has($key1)) {
-            $quantity1 = intval(data_get($cart->get($key1), 'quantity'));
-        }
-
-        if ($cart->has($key2)) {
-            $quantity2 = intval(data_get($cart->get($key2), 'quantity'));
-        }
-
-        return ($quantity1 + $quantity2) < $product->stock;
+        return $formatted ? $this->formatCurrency($total) : $total;
     }
 
     /**
-     * Only purchasing a product has discounts in Complements and Spare Parts
+     * Cart logic
+     */
+    private function addProductToOrder(BaseProduct $product, bool $assemble, int $quantity, ?ProductVariant $variant): Collection
+    {
+        $order_products = $this->getCart();
+
+        try {
+            $is_present = $this->searchProductKey($product, $assemble, $variant);
+
+            $is_present['order_product_dto']->setQuantity($is_present['order_product_dto']->quantity() + $quantity);
+
+            $order_products->replace([$is_present['key'] => $is_present['order_product_dto']]);
+        } catch (Throwable $th) {
+            $order_product = new OrderProductDTO(
+                orderable_id: $product->id,
+                orderable_type: get_class($product),
+                product_variant_id: ! is_null($variant) ? $variant->id : null,
+                unit_price: $product->price_with_discount ? $product->price_with_discount : $product->price,
+                assembly_price: ($assemble && isset($product->assembly_price)) ? $product->assembly_price : 0,
+                quantity: $quantity,
+                product: ! is_null($variant) ? $variant : $product,
+            );
+
+            $order_products->add($order_product);
+        }
+
+        return $order_products;
+    }
+
+    private function removeProductFromOrder(BaseProduct $product, bool $assemble, ?ProductVariant $variant): Collection
+    {
+        $order_products = $this->getCart();
+        $key = $this->searchProductKey($product, $assemble, $variant)['key'];
+
+        $order_products->forget($key);
+
+        return $order_products;
+    }
+
+    /**
+     * @return array{key: int, order_product_dto: OrderProductDTO}
+     */
+    private function searchProductKey(BaseProduct $product, bool $assemble, ?ProductVariant $variant): array
+    {
+        $order_products = $this->getCart();
+
+        $product_variant_id = null;
+        if (! is_null($variant)) {
+            $product_variant_id = $variant->id;
+        }
+
+        $match = $order_products->filter(function (OrderProductDTO $item) use ($product, $product_variant_id, $assemble) {
+            $class = get_class($product);
+            $id = $product->id;
+            $assembly_price = ! $assemble || ! isset($product->assembly_price) ? floatval(0) : $product->assembly_price;
+
+            return $item->orderableType() === $class
+                && $item->orderableId() === $id
+                && $item->productVariantId() === $product_variant_id
+                && $item->assemblyPrice() === $assembly_price;
+        });
+
+        if ($match->count() !== 1) {
+            throw new Exception('Found '.$match->count().' matches of product in cart');
+        }
+
+        $key = $match->keys()->first();
+
+        if (is_null($key)) {
+            throw new Exception('This product is not in cart');
+        }
+
+        /**
+         * @var OrderProductDTO
+         */
+        $order_product_dto = $order_products->get($key);
+
+        return [
+            'key' => intval($key),
+            'order_product_dto' => $order_product_dto,
+        ];
+    }
+
+    /**
+     * @param  Collection<int, OrderProductDTO>  $order_products
+     */
+    private function updateCart(Collection $order_products): void
+    {
+        // Update cached session
+        $this->session_content = $order_products;
+
+        Session::put(self::SESSION, $order_products);
+    }
+
+    /**
+     * Only Products has discounts in Complements and Spare Parts
      * If Product is a Variant, since complements and SpareParts are associated
      * to parent, we use parent id
      */
     private function addProductToDiscountable(BaseProduct $product): void
     {
-        if (is_a($product, ProductVariant::class)) {
-            /**
-             * @var \App\Models\Product
-             */
-            $product = $product->product;
-        }
-
-        $this->discount_products->addCartItem($product->ean13);
+        $this->special_prices->addCartItem($product->ean13);
     }
 
     private function removeProductFromDiscountable(BaseProduct $product): void
     {
-        if (is_a($product, ProductVariant::class)) {
-            /**
-             * @var \App\Models\Product
-             */
-            $product = $product->product;
-        }
-
-        $this->discount_products->deleteCartItem($product->ean13);
+        $this->special_prices->deleteCartItem($product->ean13);
     }
 }

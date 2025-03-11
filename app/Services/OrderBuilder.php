@@ -7,15 +7,10 @@ namespace App\Services;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Address;
-use App\Models\BaseProduct;
 use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Product;
-use App\Models\ProductVariant;
 use App\Models\User;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
-use Illuminate\Support\Arr;
 
 class OrderBuilder
 {
@@ -69,54 +64,9 @@ class OrderBuilder
 
     private function saveOrderProducts(): void
     {
-        $CartProducts = $this->cart->getCart();
-
-        foreach ($CartProducts as $cartProduct) {
-            /** @var BaseProduct */
-            $product = Arr::get($cartProduct, 'product');
-
-            $product_data = new OrderProduct([
-                'orderable_id' => $this->getProductId($product),
-                'orderable_type' => get_class($product),
-                'product_variant_id' => $this->getProductVariantId($product),
-                'price' => $this->getProductPrice($product),
-                'assembly_price' => $this->getAssemblyPrice($product),
-                'quantity' => Arr::get($cartProduct, 'quantity'),
-            ]);
-
-            $this->orderProductRepository->save($this->order, $product_data);
-        }
-    }
-
-    private function getProductId(BaseProduct $product): int
-    {
-        if (is_a($product, ProductVariant::class)) {
-            return $product->product_id;
-        }
-
-        return $product->id;
-    }
-
-    private function getProductVariantId(BaseProduct $product): ?int
-    {
-        if (is_a($product, ProductVariant::class)) {
-            return $product->id;
-        }
-
-        return null;
-    }
-
-    private function getProductPrice(BaseProduct $product): float
-    {
-        return $product->price_with_discount ? $product->price_with_discount : $product->price;
-    }
-
-    private function getAssemblyPrice(BaseProduct $product): ?float
-    {
-        return match (true) {
-            is_a($product, ProductVariant::class) => $product->product?->assembly_price,
-            is_a($product, Product::class) => $product->assembly_price,
-            default => null
-        };
+        $this->orderProductRepository->save(
+            $this->order,
+            $this->cart->getCart()
+        );
     }
 }

@@ -1,23 +1,44 @@
 <div class="my-6 flex flex-col gap-6">
     @if(is_a($product, App\Models\ProductSparePart::class) || is_a($product, App\Models\ProductComplement::class))
-        @if($product->price_when_user_owns_product != null) 
+        @if($product->price_when_user_owns_product != null)
             <x-product.product-price-when-user-owns-product :product="$product" />
         @endif
     @endif
 
-    @if (count($variants))
-        @livewire('product.product-variant-selector', ['variants' => $variants])
+    @if (isset($variants) && !is_null($variant))
+        <x-livewire.atoms.product-variant-selector :variants="$variants" />
     @endif
 
     @if($can_be_assembled)
-        @livewire('buttons.assembly-status', ['product' => $product, 'mandatory_assembly' => $mandatory_assembly])
+        <x-livewire.atoms.assembly-status :product="$product" :mandatoryassembly="$mandatory_assembly" :assembly-price="$assembly_price" />
     @endif
 
-    @if (count($variants))
-        @livewire('product.product-price', ['product' => $variants->first()])
+
+    @if (isset($variant) && !is_null($variant))
+        <x-livewire.atoms.product-price :product="$product" :variant="$variant" />
     @else
-        @livewire('product.product-price', ['product' => $product])
+        <x-livewire.atoms.product-price :product="$product" />
     @endif
 
-    @livewire('buttons.add-to-cart-buttons', ['product' => $product])
+    @inject(cart, '\App\Services\Cart')
+
+    <div class="flex">
+        @if(!$cart->hasProduct($product, $assembly_status, $variant ?? null))
+            <x-livewire.atoms.buttons.add-to-cart
+                :product="$product"
+            />
+        @else
+            <x-livewire.atoms.buttons.remove-from-cart
+                :product="$product"
+                :assembly_status="$assembly_status"
+                :variant="$this->variant ?? null"
+            />
+            <x-livewire.atoms.buttons.increment-decrement-cart
+                :product="$product"
+                :product-quantity="$productQuantity"
+                :assembly_status="$assembly_status"
+                :variant="$this->variant ?? null"
+            />
+        @endif
+    </div>
 </div>

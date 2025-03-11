@@ -15,10 +15,10 @@ final class Cart implements CartRepositoryInterface
         private readonly CartRepositoryInterface $repository,
     ) {}
 
-    public function add(BaseProduct|ProductVariant $product, int $quantity, bool $assemble): bool
+    public function add(BaseProduct $product, int $quantity, bool $assemble, ?ProductVariant $variant): bool
     {
         try {
-            $this->repository->add($product, $quantity, $assemble);
+            $this->repository->add($product, $quantity, $assemble, $variant);
 
             return true;
         } catch (\Throwable $th) {
@@ -26,24 +26,24 @@ final class Cart implements CartRepositoryInterface
         }
     }
 
-    public function remove(BaseProduct|ProductVariant $product, bool $assemble): void
+    public function remove(BaseProduct $product, bool $assemble, ?ProductVariant $variant): void
     {
-        $this->repository->remove($product, $assemble);
+        $this->repository->remove($product, $assemble, $variant);
     }
 
-    public function getTotalQuantityForProduct(BaseProduct|ProductVariant $product, bool $assemble): int
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): int
     {
-        return $this->repository->getTotalQuantityForProduct($product, $assemble);
+        return $this->repository->getTotalQuantityForProduct($product, $assemble, $variant);
     }
 
-    public function getTotalCostforProduct(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
     {
-        return $this->repository->getTotalCostforProduct($product, $assemble, $formatted);
+        return $this->repository->getTotalCostforProduct($product, $assemble, $variant, $formatted);
     }
 
-    public function getTotalCostforProductWithoutDiscount(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
     {
-        return $this->repository->getTotalCostforProductWithoutDiscount($product, $assemble, $formatted);
+        return $this->repository->getTotalCostforProductWithoutDiscount($product, $assemble, $variant, $formatted);
     }
 
     public function getTotalQuantity(): int
@@ -71,14 +71,11 @@ final class Cart implements CartRepositoryInterface
         return $this->repository->getTotalCostWithoutDiscount($formatted);
     }
 
-    public function hasProduct(BaseProduct|ProductVariant $product, bool $assemble_status): bool
+    public function hasProduct(BaseProduct $product, bool $assemble_status, ?ProductVariant $variant): bool
     {
-        return $this->repository->hasProduct($product, $assemble_status);
+        return $this->repository->hasProduct($product, $assemble_status, $variant);
     }
 
-    /**
-     * @return Collection<string, array<string, BaseProduct|int|bool>>
-     */
     public function getCart(): Collection
     {
         return $this->repository->getCart();
@@ -94,8 +91,8 @@ final class Cart implements CartRepositoryInterface
         $this->repository->clear();
     }
 
-    public function canBeIncremented(BaseProduct|ProductVariant $product): bool
+    public function canBeIncremented(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
     {
-        return $this->repository->canBeIncremented($product);
+        return $this->repository->canBeIncremented($product, $assemble, $variant);
     }
 }

@@ -11,14 +11,25 @@ trait ProductVariantChanger
 {
     public int $variant_id;
 
+    public ?ProductVariant $variant;
+
     #[On('variant-selection-changed')]
-    public function variantChanged(int $variant_id): void
+    public function variantChanged(): void
     {
         /**
          * @var ProductVariant
          */
-        $variant = ProductVariant::find($variant_id);
+        $variant = ProductVariant::find($this->variant_id);
 
-        $this->product = $variant;
+        $this->variant = $variant;
+    }
+
+    private function maybeSetVariant(): void
+    {
+        if (! $this->variants->count()) {
+            $this->variant = null;
+        }
+
+        $this->variant = $this->variants->first();
     }
 }

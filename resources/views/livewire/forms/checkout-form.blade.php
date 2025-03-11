@@ -1,30 +1,35 @@
 @inject('cart', 'App\Services\Cart')
 
-<div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
+<div class="mx-auto pt-10 max-w-4xl flex-1 space-y-6 xl:mb-2 lg:w-full">
+
+    <p class="py-2 text-2xl font-semibold text-center text-primary-900 ">
+        {{ __('User details') }}
+    </p>
+
     <form wire:submit="create">
         {{ $this->form }}
 
-        <div class="rounded-lg border bg-white p-2 shadow-sm md:p-6 space-x-6 mt-6">
+        <div class="rounded-lg border bg-white p-2 md:p-6 space-x-6 mt-10">
             <div class="space-y-3">
-            @if ($cart->getTotalDiscount() > 0)
-                <dl class="flex items-center justify-between gap-4">
-                    <dt class="text-base font-normal text-primary-500">
-                        {{ __('Price') }}
-                    </dt>
-                    <dd class="text-base line-through font-medium text-primary-900">
-                        {{ $cart->getTotalCostWithoutDiscount(true) }}
-                    </dd>
-                </dl>
+                @if ($cart->getTotalDiscount() > 0)
+                    <dl class="flex items-center justify-between gap-4">
+                        <dt class="text-base font-normal text-primary-500">
+                            {{ __('Price') }}
+                        </dt>
+                        <dd class="text-base line-through font-medium text-primary-900">
+                            {{ $cart->getTotalCostWithoutDiscount(true) }}
+                        </dd>
+                    </dl>
 
-                <dl class="flex items-center justify-between gap-4">
-                    <dt class="text-base font-normal text-primary-500">
-                        {{ __('Savings') }}
-                    </dt>
-                    <dd class="text-base font-bold text-success-600">
-                        - {{ $cart->getTotalDiscount(true) }}
-                    </dd>
-                </dl>
-            @endif
+                    <dl class="flex items-center justify-between gap-4">
+                        <dt class="text-base font-normal text-primary-500">
+                            {{ __('Savings') }}
+                        </dt>
+                        <dd class="text-base font-bold text-success-600">
+                            - {{ $cart->getTotalDiscount(true) }}
+                        </dd>
+                    </dl>
+                @endif
 
                 <dl class="flex items-center justify-between gap-4">
                     <dt class="text-base font-bold text-primary-900">

@@ -10,18 +10,33 @@ use Illuminate\Support\Collection;
 
 interface CartRepositoryInterface
 {
-    public function add(BaseProduct|ProductVariant $product, int $quantity, bool $assemble): bool;
+    /**
+     * Functions for products
+     */
+    public function add(BaseProduct $product, int $quantity, bool $assemble, ?ProductVariant $variant): bool;
 
-    public function remove(BaseProduct|ProductVariant $product, bool $assemble): void;
+    public function remove(BaseProduct $product, bool $assemble, ?ProductVariant $variant): void;
 
-    public function getTotalQuantityForProduct(BaseProduct|ProductVariant $product, bool $assemble): int;
+    public function hasProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool;
 
-    public function getTotalCostforProduct(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string;
+    public function canBeIncremented(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool;
 
-    public function getTotalCostforProductWithoutDiscount(BaseProduct|ProductVariant $product, bool $assemble, bool $formatted = false): float|string;
+    public function isEmpty(): bool;
 
+    public function clear(): void;
+
+    public function getCart(): Collection;
+
+    /**
+     * Functions for quantities
+     */
     public function getTotalQuantity(): int;
 
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): int;
+
+    /**
+     * Functions for prices
+     */
     public function getTotalCost(bool $formatted = false): float|string;
 
     public function getTotalCostWithoutTaxes(bool $formatted = false): float|string;
@@ -30,16 +45,7 @@ interface CartRepositoryInterface
 
     public function getTotalCostWithoutDiscount(bool $formatted = false): float|string;
 
-    public function hasProduct(BaseProduct|ProductVariant $product, bool $assemble): bool;
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string;
 
-    public function canBeIncremented(BaseProduct|ProductVariant $product): bool;
-
-    /**
-     * @return Collection<string, array<string, BaseProduct|int|bool>>
-     */
-    public function getCart(): Collection;
-
-    public function isEmpty(): bool;
-
-    public function clear(): void;
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string;
 }

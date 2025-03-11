@@ -8,22 +8,8 @@ parameters:
         - app/
 #        - tests/
 
-    # Level 9 is the highest level
     level: 8
 
     ignoreErrors:
-        -
-            messages:
-                - '#.* does not specify its types: .*#'
-                - '#.* no value type specified in iterable .*#'
-#    ignoreErrors:
-#        -
-#            messages:
-#                - '#Undefined variable: \$this#'
-#                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::group\(\).#'
-#                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\|Pest\\Support\\HigherOrderTapProxy::with\(\).#'
-#            path: tests/*
-
-#    excludePaths:
-#       -
-#    checkMissingIterableValueType: false
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue

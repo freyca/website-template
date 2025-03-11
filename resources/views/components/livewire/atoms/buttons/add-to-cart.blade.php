@@ -16,6 +16,10 @@
     @if($product->stock <= 0) {{ 'disabled' }} @endif
 >
 
+    @php
+        $icon = $this->product->stock > config('custom.stock-safety') ? 'heroicon-o-shopping-bag' : 'heroicon-m-x-mark'
+    @endphp
+
     <span class="flex items-center whitespace-nowrap text-primary-800 font-semibold text-md">
         @svg( $icon, 'w-5 h-5') &nbsp;
         @if ($product->stock > 0)

@@ -77,4 +77,9 @@ return [
      */
     'web_logo' => '/images/logo.png',
     'web_logo_alt' => 'Roteco',
+
+    /**
+     * Stock safety
+     */
+    'stock-safety' => 3,
 ];

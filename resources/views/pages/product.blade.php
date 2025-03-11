@@ -15,11 +15,7 @@
                     {!! $product->short_description !!}
                 </div>
 
-                @if (!isset($variants))
-                    @php $variants = collect(); @endphp
-                @endif
-
-                @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => $variants])
+                @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => isset($variants) ? $variants : collect() ])
 
                 <x-product.payment-banners />
             </div>

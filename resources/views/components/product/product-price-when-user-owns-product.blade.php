@@ -1,15 +1,18 @@
-<div class="bg-primary-200 p-4 rounded rounded-lg w-full md:w-2/3 justify-center">
+<div class="bg-primary-200 p-4 rounded-lg w-full md:w-2/3 justify-center">
     <div class="px-2 justify-text mb-2">
-        <p class="font-medium font-semibold">{{ __('Important') . ':' }}</p>
+        <p class="font-semibold">{{ __('Important') . ':' }}</p>
         <p>{{ __('If this complement or spare part is for a product you purchased us before you have an special price') }}</p>
-        <p>
-            <span>{{ __('To enjoy this especial price login to your account') }}</span>
-            <span>
-                <a class="underline font-md font-semibold" href="/user">
-                    {{ __('here' )}}
-                </a>
-            </span>
-        </p>
+
+        @if(! auth()->user() )
+            <p>
+                <span>{{ __('To enjoy this especial price login to your account') }}</span>
+                <span>
+                    <a class="underline font-md font-semibold" href="/user">
+                        {{ __('here' )}}
+                    </a>
+                </span>
+            </p>
+        @endif
     </div>
 
     <div class="px-2">

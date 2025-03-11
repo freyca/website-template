@@ -6,9 +6,9 @@ namespace App\Models;
 
 use App\Casts\MoneyCast;
 use App\Models\Scopes\PublishedScope;
+use App\Models\Traits\FormatsPrices;
 use App\Models\Traits\HasProductFeatures;
 use App\Models\Traits\HasSlug;
-use App\Traits\CurrencyFormatter;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 #[ScopedBy([PublishedScope::class])]
 abstract class BaseProduct extends Model
 {
-    use CurrencyFormatter;
+    use FormatsPrices;
     use HasProductFeatures;
     use HasSlug;
 
@@ -74,27 +74,6 @@ abstract class BaseProduct extends Model
             'price_with_discount' => MoneyCast::class,
             'images' => 'array',
         ];
-    }
-
-    public function getFormattedPrice(): string
-    {
-        $price = $this->price === null ? floatval(0) : $this->price;
-
-        return $this->formatCurrency($price);
-    }
-
-    public function getFormattedPriceWithDiscount(): string
-    {
-        $price_with_discount = $this->price_with_discount === null ? floatval(0) : $this->price_with_discount;
-
-        return $this->formatCurrency($price_with_discount);
-    }
-
-    public function getFormattedSavings(): string
-    {
-        $savings = floatval($this->price - $this->price_with_discount);
-
-        return $this->formatCurrency($savings);
     }
 
     public function orders(): MorphMany

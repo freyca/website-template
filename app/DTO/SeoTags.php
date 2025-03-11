@@ -53,15 +53,19 @@ class SeoTags
             throw new SeoException('SEO tags not defined in config: '.$seo_container);
         }
 
+        if (! is_array($config_seo_container)) {
+            throw new SeoException('SEO tags bad configured: '.$seo_container);
+        }
+
         if (count($config_seo_container) < 2) {
             throw new SeoException('SEO tags configuration needs at least two values in '.$seo_container);
         }
 
-        if (! isset($config_seo_container['title'])) {
+        if (! isset($config_seo_container['title']) || ! is_string($config_seo_container['title'])) {
             throw new SeoException('Title SEO tag not set in configuration: '.$seo_container);
         }
 
-        if (! isset($config_seo_container['description'])) {
+        if (! isset($config_seo_container['description']) || ! is_string($config_seo_container['description'])) {
             throw new SeoException('Description SEO tag not set in configuration: '.$seo_container);
         }
 
@@ -82,10 +86,21 @@ class SeoTags
     private function setAdditionalHeadersFromConfig(string $seo_container): void
     {
         $config_seo_container = config('seo.'.$seo_container);
+
+        if (! is_array($config_seo_container)) {
+            throw new SeoException('Invalid SEO configuration: '.$seo_container);
+        }
+
         unset($config_seo_container['title']);
         unset($config_seo_container['description']);
 
-        $this->additional_headers = array_merge(config('seo.default'), $config_seo_container);
+        $default_headers = config('seo.default');
+
+        if (! is_array($default_headers)) {
+            throw new SeoException('Invalid default headers');
+        }
+
+        $this->additional_headers = array_merge($default_headers, $config_seo_container);
     }
 
     /**
@@ -93,6 +108,12 @@ class SeoTags
      */
     private function setAdditionalHeadersFromObject(object $seo_container): void
     {
-        $this->additional_headers = config('seo.default');
+        $default_headers = config('seo.default');
+
+        if (! is_array($default_headers)) {
+            throw new SeoException('Invalid default headers');
+        }
+
+        $this->additional_headers = $default_headers;
     }
 }
