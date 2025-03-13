@@ -18,9 +18,9 @@ class EloquentProductSparePartRepository implements ProductSparePartRepositoryIn
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        return Cache::remember($cacheKey, 3600, function () {
-            return ProductSparePart::paginate(16);
-        });
+        //return Cache::remember($cacheKey, 3600, function () {
+        return ProductSparePart::paginate(16);
+        //});
     }
 
     public function featured(): LengthAwarePaginator

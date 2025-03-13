@@ -10,4 +10,10 @@
             <x-product.product-card :product="$product" />
         @endforeach
     </div>
+
+    @if (method_exists($products, 'links'))
+        <div class="my-4">
+            {{ $products->links() }}
+        </div>
+    @endif
 </div>
