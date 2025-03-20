@@ -9,6 +9,10 @@ use App\Filament\User\Pages\Auth\Login;
 use App\Filament\User\Pages\Auth\Register;
 use App\Http\Middleware\PushPurchasedItemsToCart;
 use App\Http\Middleware\RedirectsAdminUsersToAdminPanel;
+use App\Models\User;
+use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
+use DutchCodingCompany\FilamentSocialite\Models\Contracts\FilamentSocialiteUser as FilamentSocialiteUserContract;
+use DutchCodingCompany\FilamentSocialite\Provider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -23,6 +27,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 
 class UserPanelProvider extends PanelProvider
 {
@@ -113,6 +118,33 @@ class UserPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugin(
+                FilamentSocialitePlugin::make()
+                    ->providers([
+                        Provider::make('google')
+                            ->label('Google')
+                            ->icon('fab-google')
+                            ->outlined(true)
+                    ])
+                    ->registration(true)
+                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
+                        $exploded = explode(' ', $oauthUser->getName());
+                        $name = $exploded[0];
+                        unset($exploded[0]);
+                        $surname = implode(' ', $exploded);
+
+                        return User::firstOrCreate(
+                            ['email' => $oauthUser->getEmail()],
+                            [
+                                'name' => $name,
+                                'surname' => $surname,
+                            ],
+                        );
+                    })
+                    ->redirectAfterLoginUsing(function (string $provider, FilamentSocialiteUserContract $socialiteUser, FilamentSocialitePlugin $plugin) {
+                        return (new \App\Http\Responses\FilamentLoginResponse)->toResponse(new \Illuminate\Http\Request);
+                    })
+            );
     }
 }

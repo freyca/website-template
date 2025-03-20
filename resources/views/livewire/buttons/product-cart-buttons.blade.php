@@ -33,6 +33,7 @@
                 :assembly_status="$assembly_status"
                 :variant="$this->variant ?? null"
             />
+
             <x-livewire.atoms.buttons.increment-decrement-cart
                 :product="$product"
                 :product-quantity="$productQuantity"
