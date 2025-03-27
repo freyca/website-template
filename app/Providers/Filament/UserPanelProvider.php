@@ -125,7 +125,7 @@ class UserPanelProvider extends PanelProvider
                         Provider::make('google')
                             ->label('Google')
                             ->icon('fab-google')
-                            ->outlined(true)
+                            ->outlined(true),
                     ])
                     ->registration(true)
                     ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {

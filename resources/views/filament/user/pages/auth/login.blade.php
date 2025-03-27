@@ -24,7 +24,10 @@
             <x-filament-panels::form.actions :actions="$this->getCachedFormActions()" :full-width="$this->hasFullWidthFormActions()" />
         </x-filament-panels::form>
 
-        <x-filament-socialite::buttons />
+        @if(str_ends_with(url()->current(), '/user/login'))
+            <x-filament-socialite::buttons />
+        @endif
+
     </x-filament-panels::page.simple>
 
     <script>
