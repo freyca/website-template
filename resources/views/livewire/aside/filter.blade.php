@@ -102,7 +102,7 @@
                                     <div class="flex items-center mb-2">
                                         <label class="flex items-center">
                                             <input wire:model="filtered_features" value="{{ $featureValue->id }}"
-                                                type="checkbox" class="mr-2 filter-item">
+                                                type="checkbox" class="mr-2 rounded border-none ring-1 transition duration-75 checked:ring-0 focus:ring-2 focus:ring-offset-0 text-red-600 ring-gray-950/10 focus:ring-red-600 checked:focus:ring-red-500/50">
                                             {{ __($featureValue->name) }}
                                         </label>
                                     </div>
