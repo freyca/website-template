@@ -31,7 +31,6 @@ class ProductController extends Controller
     public function all(): View
     {
         return view('pages.products', [
-            'products' => $this->productRepository->getAll(),
             'seotags' => new SeoTags('product_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
                 __('Products') => route('product-list'), // @phpstan-ignore-line
@@ -88,7 +87,6 @@ class ProductController extends Controller
     public function complements(): View
     {
         return view('pages.complements', [
-            'products' => $this->productComplementRepository->getAll(),
             'seotags' => new SeoTags('complements_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
                 __('Complements') => route('complement-list'), // @phpstan-ignore-line
@@ -118,7 +116,6 @@ class ProductController extends Controller
     public function spareParts(): View
     {
         return view('pages.spare-parts', [
-            'products' => $this->productSparePartRepository->getAll(),
             'seotags' => new SeoTags('spare_parts_all'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
                 __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
