@@ -18,26 +18,28 @@ class ProductGrid extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
+    private LengthAwarePaginator $products;
+
     /**
      * Used only for comparison, do not touch it
      *
      * @var array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}
      */
     public array $default_filters = [
-        'min_price' => 0,
-        'max_price' => 99999999,
-        'filtered_features' => [],
         'filtered_category' => 0,
+        'min_price' => 0,
+        'max_price' => 10000,
+        'filtered_features' => [],
     ];
 
     /**
      * @var array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}
      */
     public array $filters = [
-        'min_price' => 0,
-        'max_price' => 99999999,
-        'filtered_features' => [],
         'filtered_category' => 0,
+        'min_price' => 0,
+        'max_price' => 10000,
+        'filtered_features' => [],
     ];
 
     public string $class_filter;
@@ -48,9 +50,9 @@ class ProductGrid extends Component
 
         $this->class_filter =
             match ($class_name) {
-                ProductComplement::class => $basename.'\ProductComplement\EloquentProductComplementRepository',
-                ProductSparePart::class => $basename.'\ProductSparePart\EloquentProductSparePartRepository',
-                default => $basename.'\Product\EloquentProductRepository',
+                ProductComplement::class => $basename . '\ProductComplement\EloquentProductComplementRepository',
+                ProductSparePart::class => $basename . '\ProductSparePart\EloquentProductSparePartRepository',
+                default => $basename . '\Product\EloquentProductRepository',
             };
     }
 
@@ -58,17 +60,17 @@ class ProductGrid extends Component
      * @param  array{'min_price': int, 'max_price': int, 'filtered_features': array<int>, 'filtered_category': int}  $filters
      */
     #[On('refreshProductGrid')]
-    public function getFilteredProducts(array $filters): LengthAwarePaginator
+    public function getFilteredProducts(array $filters): void
     {
         // If no filters has been set, return all products
         if ($filters === $this->default_filters) {
             $repository = app($this->class_filter);
 
-            return $repository->getAll();
+            $this->products = $repository->getAll();
         }
 
         // If filters change, we reset url pagination and save them
-        // Need to save then so pagination does not breaks filters
+        // Need to save them so pagination does not breaks filters
         if ($filters !== $this->filters) {
             $this->filters = $filters;
             $this->resetPage();
@@ -83,17 +85,19 @@ class ProductGrid extends Component
         $filter_dto->features($filters['filtered_features']);
 
         $repository = app($this->class_filter);
-        $products = $repository->filter($filter_dto);
-
-        return $products;
+        $this->products = $repository->filter($filter_dto);
     }
 
     public function render(): View
     {
+        if (! isset($this->products)) {
+            $this->getFilteredProducts($this->default_filters);
+        }
+
         return view(
             'livewire.product.product-grid',
             [
-                'products' => $this->getFilteredProducts($this->filters),
+                'products' => $this->products,
             ]
         );
     }
