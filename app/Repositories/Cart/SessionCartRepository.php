@@ -4,221 +4,77 @@ declare(strict_types=1);
 
 namespace App\Repositories\Cart;
 
+use App\DTO\OrderProductDTO;
 use App\Models\BaseProduct;
+use App\Models\ProductVariant;
+use App\Services\PriceCalculator;
+use App\Services\SpecialPrices;
 use App\Traits\CurrencyFormatter;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class SessionCartRepository implements CartRepositoryInterface
 {
     use CurrencyFormatter;
 
+    private Collection $session_content;
+
     const SESSION = 'cart';
 
-    public function __construct()
-    {
+    public function __construct(
+        private readonly SpecialPrices $special_prices,
+        private readonly PriceCalculator $price_calculator,
+    ) {
         if (! Session::has(self::SESSION)) {
-            Session::put(self::SESSION, collect());
+            Session::put(self::SESSION, new Collection);
         }
-    }
-
-    public function add(BaseProduct $product, int $quantity): void
-    {
-        $cart = $this->getCart();
-        $product = $this->cleanCartProduct($product);
-
-        if ($cart->has(strval($product->ean13))) {
-            $sessionProduct = $cart->get(strval($product->ean13));
-            $oldQuantity = data_get($sessionProduct, 'quantity');
-            data_set($sessionProduct, 'quantity', $oldQuantity + $quantity);
-            $cart->put(strval($product->ean13), $sessionProduct);
-        } else {
-            $cart->put(strval($product->ean13), [
-                'product' => $product,
-                'quantity' => $quantity,
-            ]);
-        }
-
-        $this->updateCart($cart);
     }
 
     /**
-     * @throws Exception
+     * Functions for products
      */
-    public function increment(BaseProduct $product): void
+    public function add(BaseProduct $product, int $quantity, bool $assemble, ?ProductVariant $variant): bool
     {
-        $cart = $this->getCart();
+        $order_products = $this->addProductToOrder($product, $assemble, $quantity, $variant);
 
-        if ($cart->has(strval($product->ean13))) {
-            if (data_get($cart->get(strval($product->ean13)), 'quantity') >= $product->stock) {
-                throw new Exception('Not enough stock of '.$product->name);
-            }
+        $this->updateCart($order_products);
+        $this->addProductToDiscountable($product);
 
-            $productInCart = $cart->get(strval($product->ean13));
-            $oldQuantity = data_get($productInCart, 'quantity');
-            data_set($productInCart, 'quantity', $oldQuantity + 1);
-            $cart->put(strval($product->ean13), $productInCart);
-            $this->updateCart($cart);
+        return true;
+    }
+
+    public function remove(BaseProduct $product, bool $assemble, ?ProductVariant $variant): void
+    {
+        $order_products = $this->removeProductFromOrder($product, $assemble, $variant);
+
+        $this->updateCart($order_products);
+        $this->removeProductFromDiscountable($product);
+    }
+
+    public function hasProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
+    {
+        try {
+            $this->searchProductKey($product, $assemble, $variant);
+
+            return true;
+        } catch (Throwable $th) {
+            return false;
         }
     }
 
-    public function decrement(BaseProduct $product): void
+    public function canBeIncremented(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
     {
-        $cart = $this->getCart();
-
-        if ($cart->has(strval($product->ean13))) {
-            $productInCart = $cart->get(strval($product->ean13));
-            $oldQuantity = data_get($productInCart, 'quantity');
-            data_set($productInCart, 'quantity', $oldQuantity - 1);
-            $cart->put(strval($product->ean13), $productInCart);
-            $this->updateCart($cart);
-
-            if (data_get($cart->get(strval($product->ean13)), 'quantity') <= 0) {
-                $cart->forget(strval($product->ean13));
-            }
-        }
-    }
-
-    public function remove(BaseProduct $product): void
-    {
-        $cart = $this->getCart();
-
-        $cart->forget(strval($product->ean13));
-
-        $this->updateCart($cart);
-    }
-
-    public function getTotalQuantityForProduct(BaseProduct $product): int
-    {
-        $cart = $this->getCart();
-
-        if ($cart->has(strval($product->ean13))) {
-            $productInCart = $cart->get(strval($product->ean13));
-
-            /** @var int */
-            return data_get($productInCart, 'quantity');
+        try {
+            $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+        } catch (Throwable $th) {
+            return false;
         }
 
-        return 0;
-    }
+        $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
 
-    public function getTotalCostforProduct(BaseProduct $product, bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        $total = 0;
-
-        if ($cart->has(strval($product->ean13))) {
-            $price = isset($product->price_with_discount) ? $product->price_with_discount : $product->price;
-            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
-        }
-
-        return $formatted ? $this->formatCurrency($total) : $total;
-    }
-
-    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        $total = 0;
-
-        if ($cart->has(strval($product->ean13))) {
-            $price = $product->price;
-            $total = data_get($cart->get(strval($product->ean13)), 'quantity') * $price;
-        }
-
-        return $formatted ? $this->formatCurrency($total) : $total;
-    }
-
-    public function getTotalQuantity(): int
-    {
-        $cart = $this->getCart();
-
-        /** @var int */
-        return $cart->sum('quantity');
-    }
-
-    public function getTotalCost(bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
-
-            return data_get($item, 'quantity') * $price;
-        });
-
-        return $formatted ? $this->formatCurrency($total) : $total;
-    }
-
-    public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $price = ! is_null($product->price_with_discount) ? $product->price_with_discount : $product->price;
-
-            return data_get($item, 'quantity') * $price;
-        });
-
-        $total_without_taxes = $total * (1 - config('custom.tax_iva'));
-
-        return $formatted ? $this->formatCurrency($total_without_taxes) : $total_without_taxes;
-    }
-
-    public function getTotalDiscount(bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $price = ! is_null($product->price_with_discount) ? ($product->price - $product->price_with_discount) : 0;
-
-            return data_get($item, 'quantity') * $price;
-        });
-
-        return $formatted ? $this->formatCurrency($total) : $total;
-    }
-
-    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
-    {
-        $cart = $this->getCart();
-
-        /** @var float */
-        $total = $cart->sum(function ($item) {
-            /** @var BaseProduct */
-            $product = data_get($item, 'product');
-            $price = $product->price;
-
-            return data_get($item, 'quantity') * $price;
-        });
-
-        return $formatted ? $this->formatCurrency($total) : $total;
-    }
-
-    public function hasProduct(BaseProduct $product): bool
-    {
-        $cart = $this->getCart();
-
-        return $cart->has(strval($product->ean13));
-    }
-
-    /**
-     * @return Collection<string, array<string, BaseProduct|int>>
-     */
-    public function getCart(): Collection
-    {
-        /** @var Collection<string, array<string, BaseProduct|int>> */
-        return Session::get(self::SESSION);
+        return ($variant !== null) ? ($variant->stock - $quantity) > 0 : ($product->stock - $quantity) > 0;
     }
 
     public function isEmpty(): bool
@@ -231,21 +87,205 @@ class SessionCartRepository implements CartRepositoryInterface
         Session::forget(self::SESSION);
     }
 
-    /**
-     * @param  Collection<string, array<string, BaseProduct|int>>  $cart
-     */
-    private function updateCart(Collection $cart): void
+    public function getCart(): Collection
     {
-        Session::put(self::SESSION, $cart);
+        /**
+         * Kind of cache to avoid repetitive queries
+         */
+        if (! isset($this->session_content)) {
+            $this->session_content = Session::get(self::SESSION);
+        }
+
+        return $this->session_content;
     }
 
-    private function cleanCartProduct(BaseProduct $product): BaseProduct
+    /**
+     * Functions for quantities
+     */
+    public function getTotalQuantity(): int
     {
-        $product->meta_description = '';
-        $product->short_description = '';
-        $product->description = '';
-        $product->images = [];
+        $quantity = 0;
 
-        return $product;
+        foreach ($this->getCart() as $cart_item) {
+            $quantity += $cart_item->quantity();
+        }
+
+        return $quantity;
+    }
+
+    public function getTotalQuantityForProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant): int
+    {
+        try {
+            return $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+        } catch (Throwable $th) {
+            return 0;
+        }
+    }
+
+    /**
+     * Functions for prices
+     */
+    public function getTotalCost(bool $formatted = false): float|string
+    {
+        $order_products = $this->getCart();
+
+        $total = $this->price_calculator->getTotalCostForOrder($order_products);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutTaxes(bool $formatted = false): float|string
+    {
+        $order_products = $this->getCart();
+
+        $total = $this->price_calculator->getTotalCostForOrderWithoutTaxes($order_products);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalDiscount(bool $formatted = false): float|string
+    {
+        $order_products = $this->getCart();
+
+        $total = $this->price_calculator->getTotalDiscountForOrder($order_products);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostWithoutDiscount(bool $formatted = false): float|string
+    {
+        $order_products = $this->getCart();
+
+        $total = $this->price_calculator->getTotaCostForOrderWithoutDiscount($order_products);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostforProduct(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
+    {
+        $is_present = $this->searchProductKey($product, $assemble, $variant);
+
+        $total = $this->price_calculator->getTotalCostForProduct($is_present['order_product_dto'], $is_present['order_product_dto']->quantity(), $assemble);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    public function getTotalCostforProductWithoutDiscount(BaseProduct $product, bool $assemble, ?ProductVariant $variant, bool $formatted = false): float|string
+    {
+        $is_present = $this->searchProductKey($product, $assemble, $variant);
+
+        $total = $this->price_calculator->getTotalCostForProductWithoutDiscount($is_present['order_product_dto'], $is_present['order_product_dto']->quantity(), $assemble);
+
+        return $formatted ? $this->formatCurrency($total) : $total;
+    }
+
+    /**
+     * Cart logic
+     */
+    private function addProductToOrder(BaseProduct $product, bool $assemble, int $quantity, ?ProductVariant $variant): Collection
+    {
+        $order_products = $this->getCart();
+
+        try {
+            $is_present = $this->searchProductKey($product, $assemble, $variant);
+
+            $is_present['order_product_dto']->setQuantity($is_present['order_product_dto']->quantity() + $quantity);
+
+            $order_products->replace([$is_present['key'] => $is_present['order_product_dto']]);
+        } catch (Throwable $th) {
+            $order_product = new OrderProductDTO(
+                orderable_id: $product->id,
+                orderable_type: get_class($product),
+                product_variant_id: ! is_null($variant) ? $variant->id : null,
+                unit_price: $product->price_with_discount ? $product->price_with_discount : $product->price,
+                assembly_price: ($assemble && isset($product->assembly_price)) ? $product->assembly_price : 0,
+                quantity: $quantity,
+                product: ! is_null($variant) ? $variant : $product,
+            );
+
+            $order_products->add($order_product);
+        }
+
+        return $order_products;
+    }
+
+    private function removeProductFromOrder(BaseProduct $product, bool $assemble, ?ProductVariant $variant): Collection
+    {
+        $order_products = $this->getCart();
+        $key = $this->searchProductKey($product, $assemble, $variant)['key'];
+
+        $order_products->forget($key);
+
+        return $order_products;
+    }
+
+    /**
+     * @return array{key: int, order_product_dto: OrderProductDTO}
+     */
+    private function searchProductKey(BaseProduct $product, bool $assemble, ?ProductVariant $variant): array
+    {
+        $order_products = $this->getCart();
+
+        $product_variant_id = null;
+        if (! is_null($variant)) {
+            $product_variant_id = $variant->id;
+        }
+
+        $match = $order_products->filter(function (OrderProductDTO $item) use ($product, $product_variant_id, $assemble) {
+            $class = get_class($product);
+            $id = $product->id;
+            $assembly_price = ! $assemble || ! isset($product->assembly_price) ? floatval(0) : $product->assembly_price;
+
+            return $item->orderableType() === $class
+                && $item->orderableId() === $id
+                && $item->productVariantId() === $product_variant_id
+                && $item->assemblyPrice() === $assembly_price;
+        });
+
+        if ($match->count() !== 1) {
+            throw new Exception('Found '.$match->count().' matches of product in cart');
+        }
+
+        $key = $match->keys()->first();
+
+        if (is_null($key)) {
+            throw new Exception('This product is not in cart');
+        }
+
+        /**
+         * @var OrderProductDTO
+         */
+        $order_product_dto = $order_products->get($key);
+
+        return [
+            'key' => intval($key),
+            'order_product_dto' => $order_product_dto,
+        ];
+    }
+
+    /**
+     * @param  Collection<int, OrderProductDTO>  $order_products
+     */
+    private function updateCart(Collection $order_products): void
+    {
+        // Update cached session
+        $this->session_content = $order_products;
+
+        Session::put(self::SESSION, $order_products);
+    }
+
+    /**
+     * Only Products has discounts in Complements and Spare Parts
+     * If Product is a Variant, since complements and SpareParts are associated
+     * to parent, we use parent id
+     */
+    private function addProductToDiscountable(BaseProduct $product): void
+    {
+        $this->special_prices->addCartItem($product->ean13);
+    }
+
+    private function removeProductFromDiscountable(BaseProduct $product): void
+    {
+        $this->special_prices->deleteCartItem($product->ean13);
     }
 }

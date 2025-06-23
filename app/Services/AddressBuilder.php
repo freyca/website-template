@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\AddressType;
@@ -76,7 +78,7 @@ class AddressBuilder
 
     private PaymentMethod $payment_method;
 
-    public function __construct(private Form $form)
+    public function __construct(Form $form)
     {
         $form_data = $form->getState();
         $this->user = Auth::user();
@@ -238,6 +240,10 @@ class AddressBuilder
     {
         $address = Address::find($address_id);
 
+        if ($address === null) {
+            throw new Exception('Cannot find address', 1);
+        }
+
         if (! $this->validateAddressBelongsToUser($address)) {
             throw new Exception('Address does not belongs to user', 1);
         }
@@ -248,7 +254,7 @@ class AddressBuilder
     private function buildShippingAddressFromUserInput(): void
     {
         // If not set email value (user is registered but selects new address), we get user email
-        $email = $this->shipping_email !== '' ? $this->shipping_email : $this->user->email;
+        $email = $this->shipping_email !== '' ? $this->shipping_email : $this->user?->email;
 
         // If user is registered, we associate the address to the user
         $user_id = $this->user ? $this->user->id : null;
@@ -272,7 +278,7 @@ class AddressBuilder
         );
     }
 
-    private function buildBillingAddressFromUserInput()
+    private function buildBillingAddressFromUserInput(): void
     {
         // We do not allow users to use two different emails
         $email = $this->shipping_address->email;
@@ -301,6 +307,10 @@ class AddressBuilder
 
     private function validateAddressBelongsToUser(Address $address): bool
     {
+        if (is_null($this->user)) {
+            return false;
+        }
+
         return $this->user->addresses->pluck('id')->contains($address->id);
     }
 }

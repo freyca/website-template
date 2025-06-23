@@ -7,7 +7,6 @@ namespace App\Repositories\Database\Product\Product;
 use App\DTO\FilterDTO;
 use App\Models\Product;
 use App\Repositories\Database\Traits\CacheKeys;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,45 +19,41 @@ class EloquentProductRepository implements ProductRepositoryInterface
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
         // return Cache::remember($cacheKey, 3600, function () {
-        return Product::where('published', true)->paginate(15);
+        return Product::paginate(16);
         // });
     }
 
-    public function featured(): Collection
+    public function featured(): LengthAwarePaginator
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        /**
-         * @var Collection<int, Product>
-         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-products');
 
-            return Product::whereIn('id', $featured_products)->where('published', true)->get();
+            return Product::whereIn('id', $featured_products)->paginate(15);
         });
     }
 
-    public function filter(FilterDTO $filters): Collection
+    public function filter(FilterDTO $filters): LengthAwarePaginator
     {
-        $query = Product::where('published', true)
-            ->where(function ($q) use ($filters) {
-                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '>', $filters->minPrice);
-            })->where(function ($q) use ($filters) {
-                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
-            });
+        $query = Product::where(function ($q) use ($filters) {
+            $q->where('price', '>', $filters->getMinPrice())->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '>', $filters->getMinPrice());
+        })->where(function ($q) use ($filters) {
+            $q->where('price', '<', $filters->getMaxPrice())->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '<', $filters->getMaxPrice());
+        });
 
-        if ($filters->category !== 0) {
-            $query = $query->where('category_id', $filters->category);
+        if ($filters->getCategory() !== 0) {
+            $query = $query->where('category_id', $filters->getCategory());
         }
 
-        if ($filters->features !== []) {
+        if ($filters->getfeatures() !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
-                return $query->where('product_feature_value_id', $filters->features);
+                return $query->where('product_feature_value_id', $filters->getfeatures());
             });
         }
 
-        return $query->get();
+        return $query->paginate(16);
     }
 }

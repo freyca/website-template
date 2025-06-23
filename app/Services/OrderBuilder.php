@@ -1,22 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Address;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
-use App\Models\ProductVariant;
 use App\Models\User;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
-use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
-use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
-use Exception;
-use Illuminate\Support\Arr;
 
 class OrderBuilder
 {
@@ -36,11 +30,9 @@ class OrderBuilder
         private readonly Cart $cart,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderProductRepositoryInterface $orderProductRepository,
-        private readonly OrderProductComplementRepositoryInterface $orderProductComplementRepository,
-        private readonly OrderProductSparePartRepositoryInterface $orderProductSparePartRepository,
     ) {}
 
-    public function build(AddressBuilder $addressBuilder)
+    public function build(AddressBuilder $addressBuilder): void
     {
         $this->user = $addressBuilder->user();
         $this->payment_method = $addressBuilder->paymentMethod();
@@ -72,35 +64,9 @@ class OrderBuilder
 
     private function saveOrderProducts(): void
     {
-        $CartProducts = $this->cart->getCart();
-
-        foreach ($CartProducts as $cartProduct) {
-            $quantity = Arr::get($cartProduct, 'quantity');
-            /** @var BaseProduct */
-            $product = Arr::get($cartProduct, 'product');
-
-            $product_id = $product->id;
-            $product_variant_id = null;
-            $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
-
-            if (is_a($product, ProductVariant::class)) {
-                $product_variant_id = $product->id;
-                $product_id = $product->product_id;
-            }
-
-            $productData = [
-                'product_id' => $product_id,
-                'product_variant_id' => $product_variant_id,
-                'price' => $price,
-                'quantity' => $quantity,
-            ];
-
-            match (true) {
-                is_a($product, Product::class) || is_a($product, ProductVariant::class) => $this->orderProductRepository->save($this->order, $productData),
-                is_a($product, ProductComplement::class) => $this->orderProductComplementRepository->save($this->order, $productData),
-                is_a($product, ProductSparePart::class) => $this->orderProductSparePartRepository->save($this->order, $productData),
-                default => throw (new Exception('Unknown Product Type'))
-            };
-        }
+        $this->orderProductRepository->save(
+            $this->order,
+            $this->cart->getCart()
+        );
     }
 }

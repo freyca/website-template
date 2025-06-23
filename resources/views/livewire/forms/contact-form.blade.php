@@ -1,9 +1,9 @@
 <div>
     <form wire:submit="submit" class="col-span-5 mt-10 mb-8">
         @if (session()->has('contactFormSuccess'))
-            <div class="mb-4 mx-auto">
+            <div class="mb-10 mx-auto text-center">
                 <p class="text-primary-500 font-semibold mb-1">{{ __('We have received your message') }}</p>
-                <p class="text-primary-500 font-semibold mb-1">{{ __('We will answer back as soon as possible') }}</p>
+                <p class="text-primary-800 font-semibold mb-1">{{ __('We will answer back as soon as possible') }}</p>
             </div>
         @endif
 

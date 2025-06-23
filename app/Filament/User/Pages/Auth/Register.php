@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Pages\Auth;
 
+use App\DTO\SeoTags;
 use App\Filament\User\Pages\Auth\Traits\HasSurname;
 use Filament\Pages\Auth\Register as BaseRegister;
 use Illuminate\View\View;
@@ -19,8 +20,7 @@ class Register extends BaseRegister
         )->layout(
             'layouts.app',
             [
-                'title' => config('custom.title'),
-                'metaDescription' => 'Descripción de la página de registro',
+                'seotags' => new SeoTags('noindex'),
             ]
         );
     }

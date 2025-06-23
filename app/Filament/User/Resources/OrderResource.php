@@ -9,8 +9,6 @@ use App\Enums\PaymentMethod;
 use App\Filament\User\Resources\OrderResource\Pages;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
@@ -47,15 +45,6 @@ class OrderResource extends Resource
                 Forms\Components\Section::make([
                     static::getProductsRepeater(),
                 ]),
-
-                Forms\Components\Section::make([
-                    static::getProductComplementsRepeater(),
-                ]),
-
-                Forms\Components\Section::make([
-                    static::getProductSparePartsRepeater(),
-                ]),
-
             ]);
     }
 
@@ -128,100 +117,12 @@ class OrderResource extends Resource
             ->label(__('Products'))
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('product_id')
+                Forms\Components\Select::make('orderable_id')
                     ->label(__('Product'))
                     ->options(Product::query()->pluck('name', 'id'))
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable(),
-
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('Quantity'))
-                    ->numeric()
-                    ->default(1)
-                    ->columnSpan([
-                        'md' => 2,
-                    ])
-                    ->required(),
-
-                Forms\Components\TextInput::make('unit_price')
-                    ->label(__('Unit price'))
-                    ->disabled()
-                    ->dehydrated()
-                    ->numeric()
-                    ->required()
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-            ])
-            ->defaultItems(1)
-            ->columns([
-                'md' => 10,
-            ]);
-    }
-
-    public static function getProductComplementsRepeater(): Repeater
-    {
-        return Repeater::make('orderProductComplements')
-            ->label(__('Product complements'))
-            ->relationship()
-            ->schema([
-                Forms\Components\Select::make('product_complement_id')
-                    ->label(__('Product complement'))
-                    ->options(ProductComplement::query()->pluck('name', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductComplement::find($state)?->price ?? 0))
-                    ->distinct()
-                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                    ->columnSpan([
-                        'md' => 5,
-                    ])
-                    ->searchable(),
-
-                Forms\Components\TextInput::make('quantity')
-                    ->label(__('Quantity'))
-                    ->numeric()
-                    ->default(1)
-                    ->columnSpan([
-                        'md' => 2,
-                    ])
-                    ->required(),
-
-                Forms\Components\TextInput::make('unit_price')
-                    ->label(__('Unit price'))
-                    ->disabled()
-                    ->dehydrated()
-                    ->numeric()
-                    ->required()
-                    ->columnSpan([
-                        'md' => 3,
-                    ]),
-            ])
-            ->defaultItems(1)
-            ->columns([
-                'md' => 10,
-            ]);
-    }
-
-    public static function getProductSparePartsRepeater(): Repeater
-    {
-        return Repeater::make('orderProductSpareParts')
-            ->label(__('Product spare parts'))
-            ->relationship()
-            ->schema([
-                Forms\Components\Select::make('product_spare_part_id')
-                    ->label('Product spare part')
-                    ->options(ProductSparePart::query()->pluck('name', 'id'))
-                    ->required()
-                    ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', ProductSparePart::find($state)?->price ?? 0))
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                     ->columnSpan([

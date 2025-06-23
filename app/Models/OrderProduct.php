@@ -8,6 +8,7 @@ use App\Casts\MoneyCast;
 use Database\Factories\OrderProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class OrderProduct extends Pivot
@@ -29,13 +30,17 @@ class OrderProduct extends Pivot
     {
         return [
             'unit_price' => MoneyCast::class,
+            'assembly_price' => MoneyCast::class,
         ];
     }
 
     protected $fillable = [
-        'product_id',
+        'order_id',
+        'orderable_id',
+        'orderable_type',
         'product_variant_id',
         'unit_price',
+        'assembly_price',
         'quantity',
     ];
 
@@ -44,17 +49,8 @@ class OrderProduct extends Pivot
         return $this->belongsTo(Order::class);
     }
 
-    public function product(): BelongsTo
+    public function orderable(): MorphTo
     {
-        if ($this->product_variant_id === null) {
-            return $this->belongsTo(Product::class);
-        }
-
-        return $this->productVariant();
-    }
-
-    private function productVariant(): BelongsTo
-    {
-        return $this->belongsTo(ProductVariant::class);
+        return $this->morphTo();
     }
 }

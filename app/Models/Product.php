@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use App\Events\ProductDeleted;
+use App\Models\Scopes\PublishedScope;
 use Database\Factories\ProductFactory;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ScopedBy([PublishedScope::class])]
 class Product extends BaseProduct
 {
     /** @use HasFactory<ProductFactory> */
@@ -24,7 +27,18 @@ class Product extends BaseProduct
      */
     public function __construct(array $attributes = [])
     {
-        $this->mergeFillable(['category_id']);
+        $this->mergeFillable([
+            'category_id',
+            'can_be_assembled',
+            'mandatory_assembly',
+            'assembly_price',
+        ]);
+
+        $this->mergeCasts([
+            'can_be_assembled' => 'boolean',
+            'mandatory_assembly' => 'boolean',
+            'assembly_price' => MoneyCast::class,
+        ]);
 
         parent::__construct($attributes);
     }
@@ -63,18 +77,15 @@ class Product extends BaseProduct
     }
 
     /**
-     * @return BelongsToMany<ProductFeatureValue, $this>
-     */
-    public function productFeatureValues(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductFeatureValue::class);
-    }
-
-    /**
      * @return HasMany<ProductVariant, $this>
      */
     public function productVariants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function getFormattedAssemblyPrice(): string
+    {
+        return $this->formatCurrency($this->assembly_price);
     }
 }

@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\FormatsPrices;
+use App\Models\Traits\HasProductFeatures;
 use Database\Factories\ProductVariantFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class ProductVariant extends BaseProduct
+class ProductVariant extends Model
 {
+    use FormatsPrices;
+
     /** @use HasFactory<ProductVariantFactory> */
     use HasFactory;
 
+    use HasProductFeatures;
+
     protected $fillable = [
+        'name',
         'product_id',
         'ean13',
         'price',
@@ -34,13 +41,5 @@ class ProductVariant extends BaseProduct
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    /**
-     * @return BelongsToMany<ProductFeatureValue, $this>
-     */
-    public function productFeatureValues(): BelongsToMany
-    {
-        return $this->belongsToMany(ProductFeatureValue::class);
     }
 }

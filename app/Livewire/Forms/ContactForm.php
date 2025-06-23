@@ -13,6 +13,9 @@ use Filament\Forms\Form;
 use Illuminate\View\View;
 use Livewire\Component;
 
+/**
+ * @property Form $form
+ */
 class ContactForm extends Component implements HasForms
 {
     use InteractsWithForms;
@@ -28,20 +31,20 @@ class ContactForm extends Component implements HasForms
     {
         $form = $form
             ->schema([
-                TextInput::make(__('Name'))
+                TextInput::make('name')
                     ->required()
                     ->placeholder(__('Name'))
                     ->hiddenLabel()
                     ->prefixIcon('heroicon-s-user')
                     ->maxLength(255),
-                TextInput::make(__('Email'))
+                TextInput::make('email')
                     ->required()
                     ->email()
                     ->placeholder(__('Email'))
                     ->hiddenLabel()
                     ->prefixIcon('heroicon-s-envelope')
                     ->maxLength(255),
-                Textarea::make(__('Message'))
+                Textarea::make('message')
                     ->required()
                     ->placeholder(__('Write your message here'))
                     ->hiddenLabel()
@@ -51,13 +54,13 @@ class ContactForm extends Component implements HasForms
         return $form->statePath('contactFormData');
     }
 
-    public function submit()
+    public function submit(): void
     {
         ContactFormSubmitted::dispatch($this->form);
 
         session()->flash('contactFormSuccess');
 
-        return $this->redirect(route('contact'));
+        $this->redirect(route('contact'));
     }
 
     public function render(): View

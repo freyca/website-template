@@ -7,7 +7,6 @@ namespace App\Repositories\Database\Product\ProductComplement;
 use App\DTO\FilterDTO;
 use App\Models\ProductComplement;
 use App\Repositories\Database\Traits\CacheKeys;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,41 +19,39 @@ class EloquentProductComplementRepository implements ProductComplementRepository
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
         // return Cache::remember($cacheKey, 3600, function () {
-        return ProductComplement::where('published', true)->paginate(15);
+        return ProductComplement::paginate(16);
         // });
     }
 
-    public function featured(): Collection
+    public function featured(): LengthAwarePaginator
     {
         $cacheKey = $this->generateCacheKey(__FUNCTION__);
 
-        /**
-         * @var Collection<int, ProductComplement>
-         */
         return Cache::remember($cacheKey, 3600, function () {
             $featured_products = config('custom.featured-product-complements');
 
-            return ProductComplement::whereIn('id', $featured_products)->where('published', true)->get();
+            return ProductComplement::whereIn('id', $featured_products)->paginate(15);
         });
     }
 
-    public function filter(FilterDTO $filters): Collection
+    public function filter(FilterDTO $filters): LengthAwarePaginator
     {
-        $query = ProductComplement::where('published', true)
-            ->where(function ($q) use ($filters) {
-                $q->where('price', '>', $filters->minPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '>', $filters->minPrice);
-            })->where(function ($q) use ($filters) {
-                $q->where('price', '<', $filters->maxPrice)->where('price_with_discount', null)
-                    ->orWhere('price_with_discount', '<', $filters->maxPrice);
-            });
+        $query = ProductComplement::where(function ($q) use ($filters) {
+            $q->where('price', '>', $filters->getMinPrice())
+                ->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '>', $filters->getMinPrice());
+        })->where(function ($q) use ($filters) {
+            $q->where('price', '<', $filters->getMaxPrice())
+                ->where('price_with_discount', null)
+                ->orWhere('price_with_discount', '<', $filters->getMaxPrice());
+        });
 
-        if ($filters->features !== []) {
+        if ($filters->getfeatures() !== []) {
             $query = $query->whereHas('productFeatureValues', function ($query) use ($filters) {
-                return $query->where('product_complement_feature_value_id', $filters->features);
+                return $query->where('product_feature_value_id', $filters->getfeatures());
             });
         }
 
-        return $query->get();
+        return $query->paginate(16);
     }
 }

@@ -10,9 +10,11 @@ use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\TiptapEditor;
 
 class ProductResource extends Resource
 {
@@ -52,14 +54,10 @@ class ProductResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->columnSpanFull(),
-                                        Forms\Components\RichEditor::make('description')
+                                        TiptapEditor::make('description')
                                             ->label(__('Description'))
                                             ->required()
-                                            ->columnSpanFull()
-                                            ->disableToolbarButtons([
-                                                'attachFiles',
-                                                'table',
-                                            ]),
+                                            ->columnSpanFull(),
                                     ])
                                         ->columns(2),
 
@@ -87,6 +85,34 @@ class ProductResource extends Resource
                     ]),
 
                 self::priceSection(),
+
+                Forms\Components\Section::make(__('Assembly'))
+                    ->schema([
+                        Forms\Components\Toggle::make('can_be_assembled')
+                            ->required()
+                            ->label(__('Can be assembled'))
+                            ->columnSpanFull()
+                            ->live(),
+
+                        Forms\Components\Toggle::make('mandatory_assembly')
+                            ->required()
+                            ->label(__('Mandatory assembly'))
+                            ->required()
+                            ->inline(false)
+                            ->hidden(
+                                fn (Get $get): bool => $get('can_be_assembled') === false
+                            ),
+
+                        Forms\Components\TextInput::make('assembly_price')
+                            ->label(__('Assembly price'))
+                            ->numeric()
+                            ->suffix('€')
+                            ->required()
+                            ->hidden(
+                                fn (Get $get): bool => $get('can_be_assembled') === false
+                            ),
+
+                    ])->columns(2),
 
                 self::dimensionsSection(),
 

@@ -14,8 +14,6 @@ return [
      * correspondant dataset
      */
     'nav-sections' => [
-        'inicio' => '/',
-        'categorías' => '/categorias',
         'productos' => '/productos',
         'complementos' => '/complementos-producto',
         'repuestos' => '/piezas-de-repuesto',
@@ -28,25 +26,19 @@ return [
     ],
 
     /**
-     * This sections will be shown on navbar, floating to the right
-     */
-    // 'customer-sections' => [
-    //     'carrito' => '/carrito',
-    //     'login' => '/user',
-    // ],
-
-    /**
      * Categories to show in the main page after banner
      */
     'featured-categories' => [
         1,
-        5,
         2,
+        3,
+        4,
     ],
 
     /**
      * Products to show in the main page
      * If the array is empty, it will 15 products Products table
+     * Products need to be published to be shown
      * TODO: criteria to show products
      */
     'featured-products' => [
@@ -57,20 +49,37 @@ return [
         5,
         6,
         7,
+        13,
     ],
 
     /**
      * Directory to save product images
      */
-    'product-image-storage' => public_path('/storage/product-images'),
+    'product-image-storage' => '/product-images',
 
     /**
      * Directory to save category images
      */
-    'category-image-storage' => public_path('/storage/category-images'),
+    'category-image-storage' => '/category-images',
 
     /**
      * Taxes
      */
     'tax_iva' => 0.21,
+
+    /**
+     * Mail destination addresses
+     */
+    'admin_email' => env('MAIL_ADMIN_EMAIL'),
+
+    /**
+     * Web logo
+     */
+    'web_logo' => '/images/logo.png',
+    'web_logo_alt' => 'Roteco',
+
+    /**
+     * Stock safety
+     */
+    'stock-safety' => 3,
 ];

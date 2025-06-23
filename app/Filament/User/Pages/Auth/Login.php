@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Pages\Auth;
 
+use App\DTO\SeoTags;
 use Filament\Pages\Auth\Login as BaseLogin;
 use Illuminate\View\View;
 
@@ -16,8 +17,7 @@ class Login extends BaseLogin
         )->layout(
             'layouts.app',
             [
-                'title' => config('custom.title'),
-                'metaDescription' => 'Descripción de la página de registro',
+                'seotags' => new SeoTags('noindex'),
             ]
         );
     }

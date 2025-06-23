@@ -6,32 +6,59 @@ namespace App\DTO;
 
 class FilterDTO
 {
-    public int $minPrice;
+    private int $min_price;
 
-    public int $maxPrice;
+    private int $max_price;
 
-    public int $category;
+    private int $category;
 
     /**
      * @var array<int>
      */
-    public array $features = [];
+    private array $features = [];
+
+    public function minPrice(int $price): void
+    {
+        $this->min_price = $price;
+    }
+
+    public function maxPrice(int $price): void
+    {
+        $this->max_price = $price;
+    }
+
+    public function category(int $category): void
+    {
+        $this->category = $category;
+    }
 
     /**
      * @param  array<int>  $features
      */
-    public function __construct(
-        int $minPrice,
-        int $maxPrice,
-        int $category,
-        array $features,
-    ) {
-        $this->minPrice = intval($minPrice);
-        $this->maxPrice = intval($maxPrice);
-        $this->category = intval($category);
-
+    public function features(array $features): void
+    {
         foreach ($features as $featureId) {
             array_push($this->features, intval($featureId));
         }
+    }
+
+    public function getMinPrice(): int
+    {
+        return $this->min_price;
+    }
+
+    public function getMaxPrice(): int
+    {
+        return $this->max_price;
+    }
+
+    public function getCategory(): int
+    {
+        return $this->category;
+    }
+
+    public function getfeatures(): array
+    {
+        return $this->features;
     }
 }

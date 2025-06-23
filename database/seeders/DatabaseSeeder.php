@@ -8,8 +8,6 @@ use App\Models\Address;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\OrderProductComplement;
-use App\Models\OrderProductSparePart;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductFeature;
@@ -70,8 +68,6 @@ class DatabaseSeeder extends Seeder
             ])
                 ->for($user)
                 ->has(OrderProduct::factory(2))
-                ->has(OrderProductSparePart::factory(2))
-                ->has(OrderProductComplement::factory(2))
                 ->create();
         }
 

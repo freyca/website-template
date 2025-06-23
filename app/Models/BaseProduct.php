@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use App\Models\Scopes\PublishedScope;
+use App\Models\Traits\FormatsPrices;
+use App\Models\Traits\HasProductFeatures;
 use App\Models\Traits\HasSlug;
-use App\Traits\CurrencyFormatter;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * @property int $id
@@ -30,11 +33,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $description
  * @property string $main_image
  * @property array<string> $images
- * @property BelongsToMany<ProductFeatureValue> $productFeatureValues
+ * @property BelongsToMany<ProductFeatureValue, $this> $productFeatureValues
  */
+#[ScopedBy([PublishedScope::class])]
 abstract class BaseProduct extends Model
 {
-    use CurrencyFormatter;
+    use FormatsPrices;
+    use HasProductFeatures;
     use HasSlug;
 
     protected $fillable = [
@@ -71,39 +76,8 @@ abstract class BaseProduct extends Model
         ];
     }
 
-    public function getFormattedPrice(): string
+    public function orders(): MorphMany
     {
-        return $this->formatCurrency($this->price);
-    }
-
-    public function getFormattedPriceWithDiscount(): string
-    {
-        return $this->formatCurrency($this->price_with_discount);
-    }
-
-    public function getFormattedSavings(): string
-    {
-        return $this->formatCurrency($this->price - $this->price_with_discount);
-    }
-
-    /**
-     * @return BelongsToMany<Order, $this>
-     */
-    public function orders(): BelongsToMany
-    {
-        return $this->belongsToMany(Order::class);
-    }
-
-    /**
-     * @return Collection<int, ProductFeature>
-     */
-    public function productFeatures(): Collection
-    {
-        return ProductFeature::whereIn(
-            'id',
-            $this->productFeatureValues
-                ->pluck('product_feature_id')
-                ->unique()
-        )->get();
+        return $this->morphMany(OrderProduct::class, 'orderable');
     }
 }

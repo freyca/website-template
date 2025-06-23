@@ -14,10 +14,12 @@ class MoneyCast implements CastsAttributes
      *
      * @param  array<string, mixed>  $attributes
      */
-    public function get(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function get(Model $model, string $key, mixed $value, array $attributes): ?float
     {
         // Transform the integer stored in the database into a float.
-        return $value === null ? null : round(floatval($value) / 100, precision: 2);
+        return ($value === null || floatval($value) === floatval(0))
+            ? null
+            : round(floatval($value) / 100, precision: 2);
     }
 
     /**
@@ -25,9 +27,11 @@ class MoneyCast implements CastsAttributes
      *
      * @param  array<string, mixed>  $attributes
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function set(Model $model, string $key, mixed $value, array $attributes): ?float
     {
         // Transform the float into an integer for storage.
-        return $value === null ? null : round(floatval($value) * 100);
+        return $value === null
+            ? null
+            : round(floatval($value) * 100);
     }
 }

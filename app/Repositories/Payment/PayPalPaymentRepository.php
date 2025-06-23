@@ -13,15 +13,15 @@ use Throwable;
 
 class PayPalPaymentRepository extends PaymentRepository
 {
-    private const string OUT_LINK = 'payer-action';
+    private const OUT_LINK = 'payer-action';
 
-    private const string ACTION = 'PAYER_ACTION_REQUIRED';
+    private const ACTION = 'PAYER_ACTION_REQUIRED';
 
-    private const string VALIDATION_ERROR = 'VALIDATION_ERROR';
+    private const VALIDATION_ERROR = 'VALIDATION_ERROR';
 
-    private const string ORDER_APPROVED = 'CHECKOUT.ORDER.APPROVED';
+    private const ORDER_APPROVED = 'CHECKOUT.ORDER.APPROVED';
 
-    public function payPurchase(Order $order)
+    public function payPurchase(Order $order): mixed
     {
         try {
             $provider = $this->getProvider();
@@ -30,22 +30,26 @@ class PayPalPaymentRepository extends PaymentRepository
                 $this->payPalOrderStructure($order)
             );
 
-            $response = collect($response);
+            $response = collect($response); // @phpstan-ignore-line
 
             // If response does not have ID, something has failed
             if ($response->get('id') === null) {
-                return $this->redirectWithFail($order, json_encode($response));
+                $encoded = json_encode($response);
+
+                return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
             }
 
             // If paypal does not asks for payment
             if ($response->get('status') !== self::ACTION) {
-                return $this->redirectWithFail($order, json_encode($response));
+                $encoded = json_encode($response);
+
+                return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
             }
 
             // Iterate over links to get the outer one
             $links = $response->get('links');
             foreach ($links as $link) {
-                $link = collect($link);
+                $link = collect($link); // @phpstan-ignore-line
 
                 if ($link->get('rel') === self::OUT_LINK) {
                     return redirect()->away($link->get('href'));
@@ -53,7 +57,9 @@ class PayPalPaymentRepository extends PaymentRepository
             }
 
             // Reached here, something has failed, mark order as failed and redirect user
-            return $this->redirectWithFail($order, json_encode($response));
+            $encoded = json_encode($response);
+
+            return $this->redirectWithFail($order, ($encoded !== false) ? $encoded : null);
         } catch (Throwable $throwable) {
             return $this->redirectWithFail($order);
         }
@@ -76,7 +82,7 @@ class PayPalPaymentRepository extends PaymentRepository
         $paypal_response = $request->all();
 
         // Get paypal webhook id, get this from paypal developer site when you create webhook
-        $paypal_webhook_id = env('PAYPAL_WEBHOOK_ID', null);
+        $paypal_webhook_id = config('paypal.webhook_id');
 
         // gather webhook data to verify it
         $verify_data = [
@@ -92,7 +98,9 @@ class PayPalPaymentRepository extends PaymentRepository
         // Verify webhook
         $validation = $provider->verifyWebHook($verify_data);
 
-        if ($validation['error']['name'] === self::VALIDATION_ERROR) {
+        $error = (is_array($validation)) ? $validation['error'] : null;
+
+        if (is_array($error) && $error['name'] === self::VALIDATION_ERROR) {
             return false;
         }
 
@@ -101,7 +109,8 @@ class PayPalPaymentRepository extends PaymentRepository
             throw new Exception('Invalid order ID '.json_encode($paypal_response));
         }
 
-        $this->orderRepository->paymentGatewayResponse($order, json_encode($paypal_response));
+        $encoded = json_encode($paypal_response);
+        $this->orderRepository->paymentGatewayResponse($order, ($encoded !== false) ? $encoded : '');
 
         if ($paypal_response['event_type'] !== self::ORDER_APPROVED) {
             $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);

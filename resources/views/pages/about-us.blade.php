@@ -1,4 +1,6 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de sobre nosotros">
+<x-layouts.app :seotags="$seotags">
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="container mx-auto p-4">
         <div class="grid gap-4">
@@ -7,7 +9,7 @@
                     Nuestra Historia
                 </h2>
 
-                <p class="text-gray-700">
+                <p class="text-primary-700">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel urna quis urna fermentum
                     bibendum.
                 </p>
@@ -17,7 +19,7 @@
                 <h2 class="text-xl font-bold mb-2">
                     Nuestro Equipo
                 </h2>
-                <p class="text-gray-700">
+                <p class="text-primary-700">
                     Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
             </div>
@@ -28,7 +30,7 @@
                     About Us
                 </h2>
 
-                <p class="text-gray-700 mb-4">
+                <p class="text-primary-700 mb-4">
                     We are a company dedicated to providing the best products and services to our
                     customers...
                 </p>

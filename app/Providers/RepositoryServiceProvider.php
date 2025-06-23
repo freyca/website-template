@@ -12,16 +12,14 @@ use App\Repositories\Database\Order\Order\EloquentOrderRepository;
 use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Repositories\Database\Order\Product\EloquentOrderProductRepository;
 use App\Repositories\Database\Order\Product\OrderProductRepositoryInterface;
-use App\Repositories\Database\Order\ProductComplement\EloquentOrderProductComplementRepository;
-use App\Repositories\Database\Order\ProductComplement\OrderProductComplementRepositoryInterface;
-use App\Repositories\Database\Order\ProductSparePart\EloquentOrderProductSparePartRepository;
-use App\Repositories\Database\Order\ProductSparePart\OrderProductSparePartRepositoryInterface;
 use App\Repositories\Database\Product\Product\EloquentProductRepository;
 use App\Repositories\Database\Product\Product\ProductRepositoryInterface;
 use App\Repositories\Database\Product\ProductComplement\EloquentProductComplementRepository;
 use App\Repositories\Database\Product\ProductComplement\ProductComplementRepositoryInterface;
 use App\Repositories\Database\Product\ProductSparePart\EloquentProductSparePartRepository;
 use App\Repositories\Database\Product\ProductSparePart\ProductSparePartRepositoryInterface;
+use App\Repositories\SpecialPrices\SessionSpecialPriceRepository;
+use App\Repositories\SpecialPrices\SpecialPriceRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -59,18 +57,13 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            OrderProductComplementRepositoryInterface::class,
-            EloquentOrderProductComplementRepository::class,
-        );
-
-        $this->app->bind(
-            OrderProductSparePartRepositoryInterface::class,
-            EloquentOrderProductSparePartRepository::class,
-        );
-
-        $this->app->bind(
             OrderRepositoryInterface::class,
             EloquentOrderRepository::class,
+        );
+
+        $this->app->bind(
+            SpecialPriceRepositoryInterface::class,
+            SessionSpecialPriceRepository::class,
         );
     }
 }

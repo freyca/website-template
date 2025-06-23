@@ -24,6 +24,9 @@ class AddressResource extends Resource
 
     public static function form(Form $form): Form
     {
+        /**
+         * @var \App\Models\User
+         */
         $user = Auth::user();
 
         return $form
@@ -52,7 +55,6 @@ class AddressResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->label(__('Phone'))
-                    ->default($user->phone)
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('address')

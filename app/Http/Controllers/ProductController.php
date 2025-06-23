@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\DTO\SeoTags;
 use App\Enums\Role;
+use App\Factories\BreadCrumbs\ProductBreadCrumbs;
+use App\Factories\BreadCrumbs\StandardPageBreadCrumbs;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
@@ -27,12 +30,12 @@ class ProductController extends Controller
      */
     public function all(): View
     {
-        return view(
-            'pages.products',
-            [
-                'products' => $this->productRepository->getAll(),
-            ]
-        );
+        return view('pages.products', [
+            'seotags' => new SeoTags('product_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Products') => route('product-list'), // @phpstan-ignore-line
+            ]),
+        ]);
     }
 
     public function product(Product $product): View
@@ -41,35 +44,39 @@ class ProductController extends Controller
             abort(403);
         }
 
+        $variants = $product->productVariants()->get();
+        if ($variants->count() !== 0) {
+            /**
+             * @var \App\Models\ProductVariant
+             */
+            $first_variant = $variants->first();
+        }
+
         /**
          * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
          */
         $features = $product->productFeatures();
+
         /**
          * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeatureValue>
          */
         $featureValues = $product->productFeatureValues;
-        $variants = $product->productVariants()->get();
-        $featuredProducts = \App\Models\Product::limit(5)->get();
 
-        if (count($variants) !== 0) {
-            /**
-             * @var \App\Models\ProductVariant
-             */
-            $variant = $variants->first();
-
-            $features = $features->merge($variant->productFeatures())->unique();
-            $featureValues = $featureValues->merge($variant->productFeatureValues()->get())->unique();
-        }
+        $relatedComplements = $product->productComplements()->limit(5)->get();
+        $relatedSpareparts = $product->productSpareParts()->limit(5)->get();
 
         return view(
             'pages.product',
             [
                 'product' => $product,
-                'features' => $features,
-                'featureValues' => $featureValues,
                 'variants' => $variants,
-                'featuredProducts' => $featuredProducts,
+                'features' => ($variants->count() === 0) ? $features : $features->merge($first_variant->productFeatures())->unique(),
+                'featureValues' => ($variants->count() === 0) ? $featureValues : $featureValues->merge($first_variant->productFeatureValues()->get())->unique(),
+                'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
+                'seotags' => new SeoTags($product),
+                'breadcrumbs' => new ProductBreadCrumbs($product),
+                // TODO: difefference between related (other similar products, suitable components or spare parts)
+                // and featured (products we want to sell)
             ]
         );
     }
@@ -79,12 +86,12 @@ class ProductController extends Controller
      */
     public function complements(): View
     {
-        return view(
-            'pages.complements',
-            [
-                'products' => $this->productComplementRepository->getAll(),
-            ]
-        );
+        return view('pages.complements', [
+            'seotags' => new SeoTags('complements_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Complements') => route('complement-list'), // @phpstan-ignore-line
+            ]),
+        ]);
     }
 
     public function productComplement(ProductComplement $productComplement): View
@@ -93,15 +100,14 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productComplement->productFeatureValues;
-
-        return view(
-            'pages.product',
-            [
-                'product' => $productComplement,
-                'features' => $features,
-            ]
-        );
+        return view('pages.product', [
+            'product' => $productComplement,
+            'features' => $productComplement->productFeatures(),
+            'featureValues' => $productComplement->productFeatureValues,
+            'featuredProducts' => $productComplement->products()->limit(5)->get(),
+            'seotags' => new SeoTags($productComplement),
+            'breadcrumbs' => new ProductBreadCrumbs($productComplement),
+        ]);
     }
 
     /**
@@ -109,12 +115,12 @@ class ProductController extends Controller
      */
     public function spareParts(): View
     {
-        return view(
-            'pages.spare-parts',
-            [
-                'products' => $this->productSparePartRepository->getAll(),
-            ]
-        );
+        return view('pages.spare-parts', [
+            'seotags' => new SeoTags('spare_parts_all'),
+            'breadcrumbs' => new StandardPageBreadCrumbs([
+                __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
+            ]),
+        ]);
     }
 
     public function ProductSparePart(ProductSparePart $productSparePart): View
@@ -123,15 +129,14 @@ class ProductController extends Controller
             abort(403);
         }
 
-        $features = $productSparePart->productFeatureValues;
-
-        return view(
-            'pages.product',
-            [
-                'product' => $productSparePart,
-                'features' => $features,
-            ]
-        );
+        return view('pages.product', [
+            'product' => $productSparePart,
+            'features' => $productSparePart->productFeatures(),
+            'featureValues' => $productSparePart->productFeatureValues,
+            'featuredProducts' => $productSparePart->products()->limit(5)->get(),
+            'seotags' => new SeoTags($productSparePart),
+            'breadcrumbs' => new ProductBreadCrumbs($productSparePart),
+        ]);
     }
 
     private function canAccessPrivateProducts(): bool

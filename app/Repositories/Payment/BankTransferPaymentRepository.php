@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class BankTransferPaymentRepository extends PaymentRepository
 {
-    public function payPurchase(Order $order)
+    public function payPurchase(Order $order): mixed
     {
         return response(null, 301, [
             'Location' => route('payment.purchase-complete', ['order' => $order->id]),

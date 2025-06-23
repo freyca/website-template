@@ -7,15 +7,16 @@ namespace App\View\Components;
 use App\Models\BaseProduct;
 use Illuminate\Contracts\View\View;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class ProductGrid extends Component
 {
     /**
-     * @param  LengthAwarePaginator<BaseProduct>  $products
+     * @param  Collection|LengthAwarePaginator<BaseProduct>  $products
      */
     public function __construct(
-        public LengthAwarePaginator $products
+        public Collection|LengthAwarePaginator $products
     ) {}
 
     public function render(): View

@@ -1,6 +1,8 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de contacto">
+<x-layouts.app :seotags="$seotags">
 
-    <div class="mx-10">
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
+
+    <div class="mx-4">
         @livewire('forms.contact-form')
 
         <x-location-map />

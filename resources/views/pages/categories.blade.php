@@ -1,4 +1,7 @@
-<x-layouts.app title="{{ config('custom.title') }}" metaDescription="Metadescripcion de la pagina de categorias">
+<x-layouts.app :seotags="$seotags">
+
+    <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
+
     <h1 class="mt-5 text-center text-3xl font-bold mb-4">
         {{ __('Categories') }}
     </h1>

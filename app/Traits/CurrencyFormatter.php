@@ -8,12 +8,20 @@ use Illuminate\Support\Number;
 
 trait CurrencyFormatter
 {
-    public function formatCurrency(float $value): string
+    public static function formatCurrency(float $value): string
     {
-        return Number::currency(
-            $value,
-            in: 'EUR',
-            locale: config('app.locale')
+        $locale = config('app.locale');
+
+        if (! is_string($locale)) {
+            throw new \Exception('Invalid locale configured');
+        }
+
+        return strval(
+            Number::currency(
+                $value,
+                in: 'EUR',
+                locale: $locale,
+            )
         );
     }
 }

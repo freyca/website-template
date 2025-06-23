@@ -9,7 +9,7 @@ use Creagia\Redsys\Enums\PayMethod;
 
 class BizumPaymentRepository extends RedsysPaymentRepository
 {
-    public function payPurchase(Order $order)
+    public function payPurchase(Order $order): mixed
     {
         return parent::createRedsysRequest($order, PayMethod::Bizum);
     }

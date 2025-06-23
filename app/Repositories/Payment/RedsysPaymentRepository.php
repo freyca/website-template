@@ -13,15 +13,15 @@ use Creagia\Redsys\Enums\TransactionType;
 use Creagia\Redsys\RedsysClient;
 use Creagia\Redsys\RedsysRequest;
 use Creagia\Redsys\RedsysResponse;
-use Creagia\Redsys\Support\PostRequestError;
 use Creagia\Redsys\Support\RequestParameters;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 abstract class RedsysPaymentRepository extends PaymentRepository
 {
-    public function createRedsysRequest(Order $order, PayMethod $payMethod)
+    public function createRedsysRequest(Order $order, PayMethod $payMethod): string|RedirectResponse
     {
         try {
             $redsysRequest = RedsysRequest::create(
@@ -46,25 +46,26 @@ abstract class RedsysPaymentRepository extends PaymentRepository
 
     public function isGatewayOkWithPayment(Order $order, Request $request): bool
     {
+        $inputs = $request->all();
+
         try {
             /**
              *  @see: https://github.com/creagia/laravel-redsys/blob/main/src/Controllers/RedsysNotificationController.php#L32
              */
             $redsys_response = new RedsysResponse($this->createClient());
-            $inputs = $request->all();
             $redsys_response->setParametersFromResponse($inputs);
+            $redsys_response->checkResponse();
 
-            $order->payment_gateway_response = $redsys_response instanceof PostRequestError
-                ? $redsys_response->responseParameters
-                : $redsys_response->merchantParametersArray;
+            $encoded = json_encode($redsys_response->merchantParametersArray);
 
-            $notificationData = $redsys_response->checkResponse();
+            $order->payment_gateway_response = ($encoded === false) ? null : $encoded;
 
-            $this->orderRepository->changeStatus($order, $order->status = OrderStatus::Paid);
+            $this->orderRepository->changeStatus($order, OrderStatus::Paid);
 
             return true;
         } catch (Exception $e) {
-            $this->redirectWithFail($order, json_encode($inputs));
+            $response = json_encode($inputs);
+            $this->redirectWithFail($order, ($response == false) ? null : $response);
             $this->orderRepository->changeStatus($order, OrderStatus::PaymentFailed);
 
             return false;

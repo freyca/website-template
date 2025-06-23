@@ -21,6 +21,9 @@ return new class extends Migration
             $table->integer('price_with_discount')->nullable();
             $table->boolean('published')->default(false)->index();
             $table->unsignedInteger('stock');
+            $table->boolean('can_be_assembled')->default(false);
+            $table->boolean('mandatory_assembly')->default(false);
+            $table->integer('assembly_price')->default(0);
             $table->float('dimension_length');
             $table->float('dimension_width');
             $table->float('dimension_height');
