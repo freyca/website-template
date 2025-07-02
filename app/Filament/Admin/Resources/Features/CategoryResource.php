@@ -33,6 +33,7 @@ class CategoryResource extends Resource
                     Forms\Components\TextInput::make('meta_description')
                         ->label(__('Meta description'))
                         ->required()
+                        ->columnSpanFull()
                         ->maxLength(255),
                     TiptapEditor::make('description')
                         ->label(__('Description'))

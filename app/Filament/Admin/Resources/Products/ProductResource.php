@@ -50,10 +50,11 @@ class ProductResource extends Resource
                                             ->maxLength(255),
                                         Forms\Components\TextInput::make('slug')
                                             ->disabled(),
-                                        Forms\Components\TextInput::make('slogan')
+                                        Forms\Components\TextInput::make('meta_description')
+                                            ->label(__('Meta description'))
                                             ->required()
-                                            ->maxLength(255)
-                                            ->columnSpanFull(),
+                                            ->columnSpanFull()
+                                            ->maxLength(255),
                                         TiptapEditor::make('description')
                                             ->label(__('Description'))
                                             ->required()
@@ -100,7 +101,7 @@ class ProductResource extends Resource
                             ->required()
                             ->inline(false)
                             ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
+                                fn(Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                         Forms\Components\TextInput::make('assembly_price')
@@ -109,7 +110,7 @@ class ProductResource extends Resource
                             ->suffix('€')
                             ->required()
                             ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
+                                fn(Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                     ])->columns(2),
