@@ -34,7 +34,7 @@
                 </h3>
             </div>
 
-            <div class="text-primary-700 text-justify">
+            <div id="product-long-description" class="text-primary-700 text-justify">
                 {!! $product->description !!}
             </div>
         </div>

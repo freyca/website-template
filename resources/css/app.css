@@ -88,6 +88,13 @@ html {
     background-color: #edf2f7;
 }
 
+#product-long-description li {
+    margin-left: 1.5em;
+    display: list-item;
+    list-style-type: "✅";
+    padding-inline-start: 1ch;
+}
+
 #applied-filters-list {
     list-style: none;
     padding: 0;

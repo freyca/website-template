@@ -85,13 +85,14 @@
     </button>
 
     <!-- slides -->
-    <!-- Change min-h-[50svh] to your preferred height size -->
-    <div class="relative h-full min-h-[40svh] w-full" x-on:touchstart="handleTouchStart($event)" x-on:touchmove="handleTouchMove($event)" x-on:touchend="handleTouchEnd()">
-        <template x-for="(slide, index) in slides">
-            <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.700ms>
-                <img class="rounded-md absolute w-full h-full inset-0 object-contain text-on-surface dark:text-on-surface-dark" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" />
-            </div>
-        </template>
+    <div class="mx-auto max-w-lg w-full">
+        <div class="relative w-full overflow-hidden pb-[112.5%]" x-on:touchstart="handleTouchStart($event)" x-on:touchmove="handleTouchMove($event)" x-on:touchend="handleTouchEnd()">
+            <template x-for="(slide, index) in slides">
+                <div x-show="currentSlideIndex == index + 1" class="absolute inset-0" x-transition.opacity.duration.700ms>
+                    <img class="rounded-md absolute inset-0 w-full h-full object-cover" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" />
+                </div>
+            </template>
+        </div>
     </div>
 
 </div>
