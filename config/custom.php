@@ -15,14 +15,14 @@ return [
      */
     'nav-sections' => [
         'productos' => '/productos',
-        'complementos' => '/complementos-producto',
-        'repuestos' => '/piezas-de-repuesto',
+        //    'complementos' => '/complementos-producto',
+        //    'repuestos' => '/piezas-de-repuesto',
     ],
 
     'footer-sections' => [
-        'contacto' => '/contacto',
-        'sobre nosotros' => '/sobre-nosotros',
-        'politica de privacidad' => '/politica-de-privacidad',
+        //    'contacto' => '/contacto',
+        //    'sobre nosotros' => '/sobre-nosotros',
+        //    'politica de privacidad' => '/politica-de-privacidad',
     ],
 
     /**
@@ -32,7 +32,6 @@ return [
         1,
         2,
         3,
-        4,
     ],
 
     /**
@@ -42,14 +41,9 @@ return [
      * TODO: criteria to show products
      */
     'featured-products' => [
-        52,
+        1,
         2,
         3,
-        4,
-        5,
-        6,
-        7,
-        13,
     ],
 
     /**
