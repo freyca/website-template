@@ -26,41 +26,41 @@ Route::group(['as' => 'checkout.'], function () {
 });
 
 /** Payment */
-Route::group(['as' => 'payment.'], function () {
-    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinishedOk'])
-        ->name('purchase-complete');
-
-    Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
-        ->name('purchase-failed');
-
-    /**
-     * Payment notifications
-     */
-    Route::post('notificacion-pago/{order}', [PaymentController::class, 'paymentGatewayNotification'])
-        ->name('gateway-notification')
-        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-
-    Route::post('notificacion-pago-paypal', [PaymentController::class, 'paypalGatewayNotification'])
-        ->name('paypal-gateway-notification')
-        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-});
+// Route::group(['as' => 'payment.'], function () {
+//    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinishedOk'])
+//        ->name('purchase-complete');
+//
+//    Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
+//        ->name('purchase-failed');
+//
+//    /**
+//     * Payment notifications
+//     */
+//    Route::post('notificacion-pago/{order}', [PaymentController::class, 'paymentGatewayNotification'])
+//        ->name('gateway-notification')
+//        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+//
+//    Route::post('notificacion-pago-paypal', [PaymentController::class, 'paypalGatewayNotification'])
+//        ->name('paypal-gateway-notification')
+//        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+// });
 
 /** Products */
 Route::get('/productos', [ProductController::class, 'all'])->name('product-list');
 Route::get('producto/{product}', [ProductController::class, 'product'])->name('product');
 
 /** Complements */
-Route::get('/complementos-producto', [ProductController::class, 'complements'])->name('complement-list');
-Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement'])->name('complement');
+// Route::get('/complementos-producto', [ProductController::class, 'complements'])->name('complement-list');
+// Route::get('complemento/{productComplement}', [ProductController::class, 'productComplement'])->name('complement');
 
 /** Spare parts */
-Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts'])->name('spare-part-list');
-Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])->name('spare-part');
+// Route::get('/piezas-de-repuesto', [ProductController::class, 'spareParts'])->name('spare-part-list');
+// Route::get('pieza-de-repuesto/{productSparePart}', [ProductController::class, 'productSparePart'])->name('spare-part');
 
 /** Seo URL's */
-Route::name('seo.')->group(function () {
-    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas'])->name('desbrozadoras-baratas');
-});
+// Route::name('seo.')->group(function () {
+//    Route::get('/desbrozadoras-por-menos-de-1000-euros', [SeoController::class, 'desbrozadorasBaratas'])->name('desbrozadoras-baratas');
+// });
 
 /** Categories */
 Route::get('categorias', [CategoryController::class, 'index'])->name('category-list');

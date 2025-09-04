@@ -15,12 +15,15 @@
                     {!! $product->short_description !!}
                 </div>
 
+                {{--
                 @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => isset($variants) ? $variants : collect() ])
 
                 <x-product.payment-banners />
+                --}}
             </div>
         </div>
 
+        {{--
         <div class="container mx-auto my-6">
             @if (isset($featureValues) && !is_null($featureValues) && count($featureValues) > 0)
                 @livewire('product.product-feature-container', ['features' => $features, 'featureValues' => $featureValues])
@@ -50,6 +53,7 @@
 
             <x-product-grid :products="$featuredProducts" />
         @endif
+        --}}
     </div>
 
     <x-buttons.whats-app-button />

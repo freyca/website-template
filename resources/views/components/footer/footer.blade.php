@@ -18,6 +18,7 @@
                 @endforeach
             </ul>
 
+            {{--
             <ul
                 class="social-icon text-lg font-medium text-primary-300 sm:mb-0 flex flex-col justify-center sm:flex-row mt-2 sm:mt-0">
                 <li class="social-icon__item m-1">
@@ -38,6 +39,7 @@
                     </a>
                 </li>
             </ul>
+            --}}
         </div>
     </div>
 </footer>

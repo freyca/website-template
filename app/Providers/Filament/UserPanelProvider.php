@@ -66,20 +66,20 @@ class UserPanelProvider extends PanelProvider
                     ->icon('heroicon-o-rectangle-stack')
                     ->group(__('Website urls'))
                     ->sort(5),
-                NavigationItem::make(__('Product complements'))
-                    ->url(function () {
-                        return route('complement-list');
-                    })
-                    ->icon('heroicon-o-puzzle-piece')
-                    ->group(__('Website urls'))
-                    ->sort(5),
-                NavigationItem::make(__('Product spare parts'))
-                    ->url(function () {
-                        return route('spare-part-list');
-                    })
-                    ->icon('heroicon-s-wrench')
-                    ->group(__('Website urls'))
-                    ->sort(5),
+                //NavigationItem::make(__('Product complements'))
+                //    ->url(function () {
+                //        return route('complement-list');
+                //    })
+                //    ->icon('heroicon-o-puzzle-piece')
+                //    ->group(__('Website urls'))
+                //    ->sort(5),
+                //NavigationItem::make(__('Product spare parts'))
+                //    ->url(function () {
+                //        return route('spare-part-list');
+                //    })
+                //    ->icon('heroicon-s-wrench')
+                //    ->group(__('Website urls'))
+                //    ->sort(5),
                 NavigationItem::make(__('Profile'))
                     ->url('/user/profile', shouldOpenInNewTab: false)
                     ->icon('heroicon-s-user-circle')
