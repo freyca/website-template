@@ -6,58 +6,65 @@
             </a>
 
             <div class="hidden md:flex space-x-4 content-start">
-                @foreach (config('custom.nav-sections') as $section => $url)
-                    <a class="relative block space-y-3 p-3 rounded hover:bg-primary-700 hover:text-white" href="{{ $url }}">
-                        <p class="font-semibold test-primary-700">{{ ucfirst($section) }}</p>
-                    </a>
-                @endforeach
+                @if(Auth::user())
+                    @foreach (config('custom.nav-sections') as $section => $url)
+                        <a class="relative block space-y-3 p-3 rounded hover:bg-primary-700 hover:text-white" href="{{ $url }}">
+                            <p class="font-semibold test-primary-700">{{ ucfirst($section) }}</p>
+                        </a>
+                    @endforeach
+                @endif
             </div>
         </div>
 
         <div class="flex flex-end">
-            <div class="hidden md:flex space-x-4 content-start">
-                @livewire('search-bar')
-            </div>
+            @if(Auth::user())
+                <div class="hidden md:flex space-x-4 content-start">
+                    @livewire('search-bar')
+                </div>
+            @endif
 
             <div class="flex space-x-4">
-                <button id="search-button" class="text-primary-900 md:hidden">
-                    @svg('heroicon-o-magnifying-glass', 'w-8 h-8')
-                </button>
-
-                <a href="/user">
-                    <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button"
-                        aria-expanded="false" >
-                        <span class="sr-only">Login</span>
-                        @svg('heroicon-s-user', 'w-8 h-8')
+                @if(Auth::user())
+                    <button id="search-button" class="text-primary-900 md:hidden">
+                        @svg('heroicon-o-magnifying-glass', 'w-8 h-8')
                     </button>
-                </a>
 
-                @livewire('buttons.cart-icon')
+                    <a href="/user">
+                        <button type="button" class="flex text-sm rounded-full md:me-0" id="user-menu-button"
+                            aria-expanded="false" >
+                            <span class="sr-only">Login</span>
+                            @svg('heroicon-s-user', 'w-8 h-8')
+                        </button>
+                    </a>
+                        @livewire('buttons.cart-icon')
 
-                <button id="menu-button" class="mx-3 text-primary-900 md:hidden">
-                    @svg('heroicon-o-bars-3-bottom-right', 'w-8 h-8')
-                </button>
+                    <button id="menu-button" class="mx-3 text-primary-900 md:hidden">
+                        @svg('heroicon-o-bars-3-bottom-right', 'w-8 h-8')
+                    </button>
+                @endif
             </div>
         </div>
     </div>
 
-    <div id="mobile-menu" class="md:hidden hidden mx-5 space-x-4">
-        <ul class="mt-5 space-y-2">
-            @foreach (config('custom.nav-sections') as $section => $url)
-                <li class="@if(!$loop->first) border-primary-800 border-t-2 @endif">
-                    <a class="block py-1" href="{{ $url }}">
-                        <p>
-                            {{ ucfirst($section) }}
-                        </p>
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+    @if(Auth::user())
+        <div id="mobile-menu" class="md:hidden hidden mx-5 space-x-4">
+            <ul class="mt-5 space-y-2">
+                @foreach (config('custom.nav-sections') as $section => $url)
+                    <li class="@if(!$loop->first) border-primary-800 border-t-2 @endif">
+                        <a class="block py-1" href="{{ $url }}">
+                            <p>
+                                {{ ucfirst($section) }}
+                            </p>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
 
-    <div id="mobile-search-bar" class="md:hidden hidden mx-2">
-        @livewire('search-bar')
-    </div>
+        <div id="mobile-search-bar" class="md:hidden hidden mx-2">
+            @livewire('search-bar')
+        </div>
+    @endif
 </nav>
 
 <script>

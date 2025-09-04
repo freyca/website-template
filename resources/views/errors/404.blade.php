@@ -1,3 +1,8 @@
+<script>
+    window.location.href = "{{ route('/') }}";
+</script>
+
+{{--
 <x-layouts.app :seotags="new App\DTO\SeoTags('noindex')">
     <section>
         <div class="container mx-auto p-4">
@@ -24,3 +29,4 @@
         </div>
     </section>
 </x-layouts.app>
+--}}

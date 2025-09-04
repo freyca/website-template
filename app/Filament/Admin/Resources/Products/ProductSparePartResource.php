@@ -28,15 +28,15 @@ class ProductSparePartResource extends Resource
             ->schema([
                 self::mainSection(),
 
-                self::priceSectionWithParentProduct(),
+                // self::priceSectionWithParentProduct(),
 
                 self::dimensionsSection(),
 
-                self::featuresSection(),
+                // self::featuresSection(),
 
-                self::relatedProductsSection(),
+                // self::relatedProductsSection(),
 
-                self::textsSection(),
+                // self::textsSection(),
 
                 self::imagesSection(),
             ]);

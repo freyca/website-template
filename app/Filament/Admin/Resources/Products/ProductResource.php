@@ -87,57 +87,57 @@ class ProductResource extends Resource
 
                 self::priceSection(),
 
-                Forms\Components\Section::make(__('Assembly'))
-                    ->schema([
-                        Forms\Components\Toggle::make('can_be_assembled')
-                            ->required()
-                            ->label(__('Can be assembled'))
-                            ->columnSpanFull()
-                            ->live(),
+                //Forms\Components\Section::make(__('Assembly'))
+                //    ->schema([
+                //        Forms\Components\Toggle::make('can_be_assembled')
+                //            ->required()
+                //            ->label(__('Can be assembled'))
+                //            ->columnSpanFull()
+                //            ->live(),
+                //
+                //        Forms\Components\Toggle::make('mandatory_assembly')
+                //            ->required()
+                //            ->label(__('Mandatory assembly'))
+                //            ->required()
+                //            ->inline(false)
+                //            ->hidden(
+                //                fn (Get $get): bool => $get('can_be_assembled') === false
+                //            ),
+                //
+                //        Forms\Components\TextInput::make('assembly_price')
+                //            ->label(__('Assembly price'))
+                //            ->numeric()
+                //            ->suffix('€')
+                //            ->required()
+                //            ->hidden(
+                //                fn (Get $get): bool => $get('can_be_assembled') === false
+                //            ),
+                //
+                //    ])->columns(2),
 
-                        Forms\Components\Toggle::make('mandatory_assembly')
-                            ->required()
-                            ->label(__('Mandatory assembly'))
-                            ->required()
-                            ->inline(false)
-                            ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
-                            ),
+                // self::dimensionsSection(),
 
-                        Forms\Components\TextInput::make('assembly_price')
-                            ->label(__('Assembly price'))
-                            ->numeric()
-                            ->suffix('€')
-                            ->required()
-                            ->hidden(
-                                fn (Get $get): bool => $get('can_be_assembled') === false
-                            ),
+                // self::featuresSection(),
 
-                    ])->columns(2),
-
-                self::dimensionsSection(),
-
-                self::featuresSection(),
-
-                Forms\Components\Section::make(__('Related products'))
-                    ->schema([
-                        Forms\Components\Select::make('product_complements')
-                            ->label(__('Product complements'))
-                            ->relationship(name: 'productComplements', titleAttribute: 'name')
-                            ->searchable()
-                            ->preload()
-                            ->multiple(),
-
-                        Forms\Components\Select::make('product_spare_parts')
-                            ->label(__('Product spare parts'))
-                            ->relationship(name: 'productSpareParts', titleAttribute: 'name')
-                            ->searchable()
-                            ->preload()
-                            ->multiple(),
-
-                    ])->columns(2),
-
-                self::textsSection(),
+                //Forms\Components\Section::make(__('Related products'))
+                //    ->schema([
+                //        Forms\Components\Select::make('product_complements')
+                //            ->label(__('Product complements'))
+                //            ->relationship(name: 'productComplements', titleAttribute: 'name')
+                //            ->searchable()
+                //            ->preload()
+                //            ->multiple(),
+                //
+                //        Forms\Components\Select::make('product_spare_parts')
+                //            ->label(__('Product spare parts'))
+                //            ->relationship(name: 'productSpareParts', titleAttribute: 'name')
+                //            ->searchable()
+                //            ->preload()
+                //            ->multiple(),
+                //
+                //    ])->columns(2),
+                //
+                //self::textsSection(),
 
                 self::imagesSection(),
             ]);

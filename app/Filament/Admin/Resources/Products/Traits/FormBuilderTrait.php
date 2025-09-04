@@ -31,38 +31,38 @@ trait FormBuilderTrait
             Forms\Components\TextInput::make('name')
                 ->label(__('Name'))
                 ->required()
-                ->maxLength(255)
-                ->hintAction(
-                    Action::make(__('Open product url'))
-                        ->icon('heroicon-o-link')
-                        ->url(
-                            function (Component $livewire): string {
-                                /** @phpstan-ignore-next-line */
-                                $record = $livewire->record;
-
-                                return match (true) {
-                                    is_a($record, Product::class) => route('product', ['product' => $record->slug]),
-                                    is_a($record, ProductComplement::class) => route('complement', ['productComplement' => $record->slug]),
-                                    is_a($record, ProductSparePart::class) => route('spare-part', ['productSparePart' => $record->slug]),
-                                    default => route('home')
-                                };
-                            },
-                            shouldOpenInNewTab: true
-                        )
-                ),
+                ->maxLength(255),
+            //->hintAction(
+            //    Action::make(__('Open product url'))
+            //        ->icon('heroicon-o-link')
+            //        ->url(
+            //            function (Component $livewire): string {
+            //                /** @phpstan-ignore-next-line */
+            //                $record = $livewire->record;
+            //
+            //                return match (true) {
+            //                    is_a($record, Product::class) => route('product', ['product' => $record->slug]),
+            //                    is_a($record, ProductComplement::class) => route('complement', ['productComplement' => $record->slug]),
+            //                    is_a($record, ProductSparePart::class) => route('spare-part', ['productSparePart' => $record->slug]),
+            //                    default => route('home')
+            //                };
+            //            },
+            //            shouldOpenInNewTab: true
+            //        )
+            //),
 
             Forms\Components\TextInput::make('slug')
                 ->disabled(),
 
-            Forms\Components\TextInput::make('slogan')
-                ->required()
-                ->maxLength(255),
-
-            Forms\Components\TextInput::make('meta_description')
-                ->label(__('Meta description'))
-                ->required()
-                ->columnSpan('full')
-                ->maxLength(255),
+            //Forms\Components\TextInput::make('slogan')
+            //    ->required()
+            //    ->maxLength(255),
+            //
+            //Forms\Components\TextInput::make('meta_description')
+            //    ->label(__('Meta description'))
+            //    ->required()
+            //    ->columnSpan('full')
+            //    ->maxLength(255),
 
         ])->columns(2);
     }

@@ -38,7 +38,7 @@ class UserPanelProvider extends PanelProvider
             ->path('user')
             ->login(Login::class)
             ->passwordReset()
-            ->registration(Register::class)
+            //->registration(Register::class)
             ->profile(
                 page: EditProfile::class,
                 isSimple: false

@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         // For convenience, all categories and products has the same image
         // We hardcode it here and, if it not exists, we create it
         $imageName = 'sample-image.png';
-        //$this->generateImage(config('custom.product-image-storage'), $imageName);
-        //$this->generateImage(config('custom.category-image-storage'), $imageName);
+        // $this->generateImage(config('custom.product-image-storage'), $imageName);
+        // $this->generateImage(config('custom.category-image-storage'), $imageName);
 
         ProductFeature::factory(10)
             ->has(
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             ->has(
                 Product::factory(10)
                     ->has(
-                        ProductSparePart::factory(1)
+                        ProductSparePart::factory(10)
                             ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
                     )->has(
                         ProductComplement::factory(1)
