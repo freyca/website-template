@@ -101,7 +101,7 @@ class ProductResource extends Resource
                             ->required()
                             ->inline(false)
                             ->hidden(
-                                fn(Get $get): bool => $get('can_be_assembled') === false
+                                fn (Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                         Forms\Components\TextInput::make('assembly_price')
@@ -110,7 +110,7 @@ class ProductResource extends Resource
                             ->suffix('€')
                             ->required()
                             ->hidden(
-                                fn(Get $get): bool => $get('can_be_assembled') === false
+                                fn (Get $get): bool => $get('can_be_assembled') === false
                             ),
 
                     ])->columns(2),

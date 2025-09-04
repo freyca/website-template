@@ -220,8 +220,8 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Select::make('orderable_type')
                     ->options([
-                        Product::class => 'Producto',
-                        ProductComplement::class => 'Complemento',
+                        // Product::class => 'Producto',
+                        // ProductComplement::class => 'Complemento',
                         ProductSparePart::class => 'Repuesto',
                     ])
                     ->afterStateUpdated(function (Set $set) {

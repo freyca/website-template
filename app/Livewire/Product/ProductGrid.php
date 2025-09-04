@@ -50,9 +50,9 @@ class ProductGrid extends Component
 
         $this->class_filter =
             match ($class_name) {
-                ProductComplement::class => $basename . '\ProductComplement\EloquentProductComplementRepository',
-                ProductSparePart::class => $basename . '\ProductSparePart\EloquentProductSparePartRepository',
-                default => $basename . '\Product\EloquentProductRepository',
+                ProductComplement::class => $basename.'\ProductComplement\EloquentProductComplementRepository',
+                ProductSparePart::class => $basename.'\ProductSparePart\EloquentProductSparePartRepository',
+                default => $basename.'\Product\EloquentProductRepository',
             };
     }
 
