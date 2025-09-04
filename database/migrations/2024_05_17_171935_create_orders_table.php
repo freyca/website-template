@@ -15,23 +15,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $payment_methods = [];
-
-        foreach (PaymentMethod::cases() as $case) {
-            array_push($payment_methods, $case->value);
-        }
-
-        $order_status = [];
-
-        foreach (OrderStatus::cases() as $case) {
-            array_push($order_status, $case->value);
-        }
-
-        Schema::create('orders', function (Blueprint $table) use ($payment_methods, $order_status) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->integer('purchase_cost');
-            $table->enum('payment_method', $payment_methods);
-            $table->enum('status', $order_status);
+            $table->string('payment_method');
+            $table->string('status');
             $table->foreignIdFor(User::class)->nullable()->constrained();
             $table->foreignIdFor(Address::class)->name('shipping_address_id')->constrained();
             $table->foreignIdFor(Address::class)->name('billing_address_id')->nullable()->constrained();

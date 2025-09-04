@@ -12,16 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $family = [];
-
-        foreach (ProductFeatureFamily::cases() as $case) {
-            array_push($family, $case->value);
-        }
-
-        Schema::create('product_features', function (Blueprint $table) use ($family) {
+        Schema::create('product_features', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->enum('family', $family);
+            $table->string('family');
             $table->text('description');
             $table->timestamps();
         });

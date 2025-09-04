@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         // For convenience, all categories and products has the same image
         // We hardcode it here and, if it not exists, we create it
         $imageName = 'sample-image.png';
-        $this->generateImage(config('custom.product-image-storage'), $imageName);
-        $this->generateImage(config('custom.category-image-storage'), $imageName);
+        //$this->generateImage(config('custom.product-image-storage'), $imageName);
+        //$this->generateImage(config('custom.category-image-storage'), $imageName);
 
         ProductFeature::factory(10)
             ->has(
@@ -104,13 +104,13 @@ class DatabaseSeeder extends Seeder
     {
         $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
+        if (Storage::disk('public')->exists($relativePath . '/' . $imageName)) {
             return;
         }
 
         $newImage = fake()->image($path);
         $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
 
-        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
+        Storage::disk('public')->move($imageRelativePath, $relativePath . '/' . $imageName);
     }
 }

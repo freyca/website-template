@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $address_types = [];
-
-        foreach (AddressType::cases() as $case) {
-            array_push($address_types, $case->value);
-        }
-
-        Schema::create('addresses', function (Blueprint $table) use ($address_types) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained();
-            $table->enum('address_type', $address_types);
+            $table->string('address_type');
             $table->string('name')->maxLength(255);
             $table->string('surname')->maxLength(255);
             $table->string('bussiness_name')->nullable()->maxLength(255);

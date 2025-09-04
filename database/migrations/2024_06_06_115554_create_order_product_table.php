@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(ProductVariant::class)->nullable()->constrained();
             $table->string('orderable_type');
             $table->integer('unit_price');
-            $table->integer('assembly_price')->default(0);
+            $table->integer('assembly_price')->default(0)->nullable();
             $table->integer('quantity');
             $table->timestamps();
         });
