@@ -11,11 +11,12 @@
             <x-product.product-image-gallery :product="$product" />
 
             <div class="text-primary-700 text-justify">
+                <x-product-spare-part-list :relatedSpareparts="$relatedSpareparts" />
+                {{--
                 <div id="product-short-description" class="mb-4">
                     {!! $product->short_description !!}
                 </div>
 
-                {{--
                 @livewire('buttons.product-cart-buttons', ['product' => $product, 'variants' => isset($variants) ? $variants : collect() ])
 
                 <x-product.payment-banners />

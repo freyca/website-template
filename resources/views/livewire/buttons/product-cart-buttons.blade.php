@@ -1,4 +1,5 @@
-<div class="my-6 flex flex-col gap-6">
+<div class="flex flex-col gap-6">
+    {{--
     @if(is_a($product, App\Models\ProductSparePart::class) || is_a($product, App\Models\ProductComplement::class))
         @if($product->price_when_user_owns_product != null)
             <x-product.product-price-when-user-owns-product :product="$product" />
@@ -19,7 +20,7 @@
     @else
         <x-livewire.atoms.product-price :product="$product" />
     @endif
-
+ --}}
     @inject(cart, '\App\Services\Cart')
 
     <div class="flex">
