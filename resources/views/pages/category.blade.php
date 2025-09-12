@@ -1,9 +1,10 @@
-<x-layouts.app :seotags="$seotags">
+<x-layouts.app > {{-- :seotags="$seotags">  --}}
     <div class="container mx-auto rounded-md">
 
         <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
-        <div class="grid grid-cols-1 mt-4 lg:gap-4 lg:grid-cols-3 mb-4">
+        <div class="grid grid-cols-1 mt-4 lg:gap-4 {{--lg:grid-cols-3--}} mb-4">
+            {{--
             <div class="flex bg-primary-800 rounded mx-4">
                 <figure class="p-6">
                     <picture>
@@ -11,6 +12,7 @@
                     </picture>
                 </figure>
             </div>
+            --}}
 
             <div class="grid place-content-center col-span-2 m-4">
                 <div class="align-middle">

@@ -1,4 +1,4 @@
-<x-layouts.app :seotags="$seotags">
+<x-layouts.app > {{-- :seotags="$seotags">  --}}
 
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 

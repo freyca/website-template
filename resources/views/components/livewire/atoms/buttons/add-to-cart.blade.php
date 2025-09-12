@@ -14,20 +14,28 @@
             'hover:bg-primary-200' => $product->stock > 0,
             'bg-gray-300' => $product->stock <= 0,
             ])
+        {{--
         @if($product->stock <= 0) {{ 'disabled' }} @endif
+         --}}
     >
 
         @php
-            $icon = $this->product->stock > config('custom.stock-safety') ? 'heroicon-o-shopping-bag' : 'heroicon-m-x-mark'
+            // $icon = $this->product->stock > config('custom.stock-safety') ? 'heroicon-o-shopping-bag' : 'heroicon-m-x-mark'
+            $icon = 'heroicon-o-shopping-bag'
         @endphp
 
         <span wire:loading.remove class="flex items-center whitespace-nowrap text-primary-800 font-semibold text-md">
             @svg( $icon, 'w-5 h-5') &nbsp;
+            {{--
             @if ($product->stock > 0)
+            --}}
                 {{ '' }}
+            {{--
             @else
                 {{ __('Not enough stock' )}}
+            {{--
             @endif
+            --}}
         </span>
 
         <span wire:loading class="flex items-center whitespace-nowrap text-primary-800 font-semibold text-md">

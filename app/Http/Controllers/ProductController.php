@@ -62,8 +62,9 @@ class ProductController extends Controller
          */
         $featureValues = $product->productFeatureValues;
 
-        $relatedComplements = $product->productComplements()->limit(5)->get();
-        $relatedSpareparts = $product->productSpareParts()->get(); // ->limit(5)->get();
+        //$relatedComplements = $product->productComplements()->limit(5)->get();
+        //$relatedSpareparts = $product->productSpareParts()->get(); // ->limit(5)->get();
+        $relatedDisassemblies = $product->disassemblies;
 
         return view(
             'pages.product',
@@ -73,8 +74,8 @@ class ProductController extends Controller
                 'features' => ($variants->count() === 0) ? $features : $features->merge($first_variant->productFeatures())->unique(),
                 'featureValues' => ($variants->count() === 0) ? $featureValues : $featureValues->merge($first_variant->productFeatureValues()->get())->unique(),
                 // 'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
-                'relatedSpareparts' => $relatedSpareparts,
-                'seotags' => new SeoTags($product),
+                'relatedDisassemblies' => $relatedDisassemblies,
+                //'seotags' => new SeoTags($product),
                 'breadcrumbs' => new ProductBreadCrumbs($product),
                 // TODO: difefference between related (other similar products, suitable components or spare parts)
                 // and featured (products we want to sell)
@@ -85,60 +86,60 @@ class ProductController extends Controller
     /**
      * Complements
      */
-    public function complements(): View
-    {
-        return view('pages.complements', [
-            'seotags' => new SeoTags('complements_all'),
-            'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Complements') => route('complement-list'), // @phpstan-ignore-line
-            ]),
-        ]);
-    }
+    //public function complements(): View
+    //{
+    //    return view('pages.complements', [
+    //        'seotags' => new SeoTags('complements_all'),
+    //        'breadcrumbs' => new StandardPageBreadCrumbs([
+    //            __('Complements') => route('complement-list'), // @phpstan-ignore-line
+    //        ]),
+    //    ]);
+    //}
 
-    public function productComplement(ProductComplement $productComplement): View
-    {
-        if (! $productComplement->published && ! $this->canAccessPrivateProducts()) {
-            abort(403);
-        }
-
-        return view('pages.product', [
-            'product' => $productComplement,
-            'features' => $productComplement->productFeatures(),
-            'featureValues' => $productComplement->productFeatureValues,
-            'featuredProducts' => $productComplement->products()->limit(5)->get(),
-            'seotags' => new SeoTags($productComplement),
-            'breadcrumbs' => new ProductBreadCrumbs($productComplement),
-        ]);
-    }
+    //public function productComplement(ProductComplement $productComplement): View
+    //{
+    //    if (! $productComplement->published && ! $this->canAccessPrivateProducts()) {
+    //        abort(403);
+    //    }
+    //
+    //    return view('pages.product', [
+    //        'product' => $productComplement,
+    //        'features' => $productComplement->productFeatures(),
+    //        'featureValues' => $productComplement->productFeatureValues,
+    //        'featuredProducts' => $productComplement->products()->limit(5)->get(),
+    //        'seotags' => new SeoTags($productComplement),
+    //        'breadcrumbs' => new ProductBreadCrumbs($productComplement),
+    //    ]);
+    //}
 
     /**
      * Spare parts
      */
-    public function spareParts(): View
-    {
-        return view('pages.spare-parts', [
-            'seotags' => new SeoTags('spare_parts_all'),
-            'breadcrumbs' => new StandardPageBreadCrumbs([
-                __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
-            ]),
-        ]);
-    }
+    //public function spareParts(): View
+    //{
+    //    return view('pages.spare-parts', [
+    //        'seotags' => new SeoTags('spare_parts_all'),
+    //        'breadcrumbs' => new StandardPageBreadCrumbs([
+    //            __('Spare parts') => route('spare-part-list'), // @phpstan-ignore-line
+    //        ]),
+    //    ]);
+    //}
 
-    public function ProductSparePart(ProductSparePart $productSparePart): View
-    {
-        if (! $productSparePart->published && ! $this->canAccessPrivateProducts()) {
-            abort(403);
-        }
-
-        return view('pages.product', [
-            'product' => $productSparePart,
-            'features' => $productSparePart->productFeatures(),
-            'featureValues' => $productSparePart->productFeatureValues,
-            'featuredProducts' => $productSparePart->products()->limit(5)->get(),
-            'seotags' => new SeoTags($productSparePart),
-            'breadcrumbs' => new ProductBreadCrumbs($productSparePart),
-        ]);
-    }
+    //public function ProductSparePart(ProductSparePart $productSparePart): View
+    //{
+    //    if (! $productSparePart->published && ! $this->canAccessPrivateProducts()) {
+    //        abort(403);
+    //    }
+    //
+    //    return view('pages.product', [
+    //        'product' => $productSparePart,
+    //        'features' => $productSparePart->productFeatures(),
+    //        'featureValues' => $productSparePart->productFeatureValues,
+    //        'featuredProducts' => $productSparePart->products()->limit(5)->get(),
+    //        'seotags' => new SeoTags($productSparePart),
+    //        'breadcrumbs' => new ProductBreadCrumbs($productSparePart),
+    //    ]);
+    //}
 
     private function canAccessPrivateProducts(): bool
     {

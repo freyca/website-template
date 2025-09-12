@@ -1,5 +1,5 @@
 <script>
-    window.location.href = "{{ route('/') }}";
+    window.location.href = "{{ route('home') }}";
 </script>
 
 {{--

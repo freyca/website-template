@@ -29,6 +29,7 @@
                     </h3>
                 </div>
 
+                {{--
                 <div class="text-nowrap col-span-3 md:col-span-1 md:text-right">
                     @if ($product->price_with_discount)
                         <p class="text-md text-center font-semibold text-sm bg-danger-500 rounded-md py-1">
@@ -47,7 +48,8 @@
                         </p>
                     @endif
                 </div>
-                {{-- @livewire('buttons.add-to-cart', ['product' => $product]) --}}
+                @livewire('buttons.add-to-cart', ['product' => $product])
+                --}}
             </div>
         </div>
     </a>

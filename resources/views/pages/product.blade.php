@@ -1,4 +1,4 @@
-<x-layouts.app :seotags="$seotags">
+<x-layouts.app> {{-- :seotags="$seotags"> --}}
     @inject(cart, '\App\Services\Cart')
 
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
@@ -8,10 +8,10 @@
         <h2 class="mb-4">{{ $product->slogan }}</h2>
 
         <div class="grid gap-4 md:gap-14 lg:grid-cols-1 xl:grid-cols-2">
-            <x-product.product-image-gallery :product="$product" />
+            <x-product.product-image-gallery :image="$product->main_image" />
 
             <div class="text-primary-700 text-justify">
-                <x-product-spare-part-list :relatedSpareparts="$relatedSpareparts" />
+                <x-disassembly-list :relatedDisassemblies="$relatedDisassemblies" />
                 {{--
                 <div id="product-short-description" class="mb-4">
                     {!! $product->short_description !!}
