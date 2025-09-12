@@ -30,15 +30,15 @@ class CategoryResource extends Resource
                         ->maxLength(255),
                     Forms\Components\TextInput::make('slug')
                         ->disabled(),
-                    Forms\Components\TextInput::make('meta_description')
-                        ->label(__('Meta description'))
-                        ->required()
-                        ->columnSpanFull()
-                        ->maxLength(255),
-                    TiptapEditor::make('description')
-                        ->label(__('Description'))
-                        ->required()
-                        ->columnSpanFull(),
+                    // Forms\Components\TextInput::make('meta_description')
+                    //    ->label(__('Meta description'))
+                    //    ->required()
+                    //    ->columnSpanFull()
+                    //    ->maxLength(255),
+                    // TiptapEditor::make('description')
+                    //    ->label(__('Description'))
+                    //    ->required()
+                    //    ->columnSpanFull(),
                 ])->columns(2),
 
                 Forms\Components\FileUpload::make('big_image')
@@ -48,13 +48,13 @@ class CategoryResource extends Resource
                     ->preserveFilenames()
                     ->orientImagesFromExif(false)
                     ->directory(config('custom.category-image-storage')),
-                Forms\Components\FileUpload::make('small_image')
-                    ->label(__('Small image'))
-                    ->required()
-                    ->moveFiles()
-                    ->preserveFilenames()
-                    ->orientImagesFromExif(false)
-                    ->directory('category-images'),
+                // Forms\Components\FileUpload::make('small_image')
+                //    ->label(__('Small image'))
+                //    ->required()
+                //    ->moveFiles()
+                //    ->preserveFilenames()
+                //    ->orientImagesFromExif(false)
+                //    ->directory('category-images'),
             ]);
     }
 

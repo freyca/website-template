@@ -20,8 +20,8 @@ class OrderProductFactory extends Factory
     public function definition(): array
     {
         $class_names = [
-            Product::class,
-            ProductComplement::class,
+            // Product::class,
+            // ProductComplement::class,
             ProductSparePart::class,
         ];
 

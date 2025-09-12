@@ -6,6 +6,7 @@ use App\Enums\AddressType;
 use App\Enums\Role;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Disassembly;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -31,31 +32,39 @@ class DatabaseSeeder extends Seeder
         // $this->generateImage(config('custom.product-image-storage'), $imageName);
         // $this->generateImage(config('custom.category-image-storage'), $imageName);
 
-        ProductFeature::factory(10)
-            ->has(
-                ProductFeatureValue::factory(2)
-            )->create();
+        // ProductFeature::factory(10)
+        //    ->has(
+        //        ProductFeatureValue::factory(2)
+        //    )->create();
 
-        Category::factory(5)
+        Category::factory(3)
             ->has(
-                Product::factory(10)
+                Product::factory(5)
                     ->has(
-                        ProductSparePart::factory(10)
-                            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-                    )->has(
-                        ProductComplement::factory(1)
-                            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-                    )->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+                        Disassembly::factory(3)
+                            ->has(ProductSparePart::factory(5))
+                    )
+                // ->has(
+                //    ProductSparePart::factory(10)
+                //        ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+                // )->has(
+                //    ProductComplement::factory(1)
+                //        ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+                // )->hasAttached(ProductFeatureValue::find(rand(1, 10)))
             )
             ->create();
 
         // Products with variations
-        Product::factory(5)
-            ->has(
-                ProductVariant::factory(2)
-                    ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-            )
-            ->create();
+        // Product::factory(5)
+        //    ->has(
+        //        ProductVariant::factory(2)
+        //            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
+        //    )
+        //    ->has(
+        //        Disassembly::factory(3)
+        //            ->has(ProductSparePart::factory(5))
+        //    )
+        //    ->create();
 
         // Create users and attach its orders
         for ($counter = 0; $counter < 10; $counter++) {
@@ -104,13 +113,13 @@ class DatabaseSeeder extends Seeder
     {
         $relativePath = Str::replace(public_path('/storage'), '', $path);
 
-        if (Storage::disk('public')->exists($relativePath . '/' . $imageName)) {
+        if (Storage::disk('public')->exists($relativePath.'/'.$imageName)) {
             return;
         }
 
         $newImage = fake()->image($path);
         $imageRelativePath = Str::replace(public_path('/storage'), '', $newImage);
 
-        Storage::disk('public')->move($imageRelativePath, $relativePath . '/' . $imageName);
+        Storage::disk('public')->move($imageRelativePath, $relativePath.'/'.$imageName);
     }
 }

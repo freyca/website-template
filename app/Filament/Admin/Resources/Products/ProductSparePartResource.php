@@ -7,6 +7,8 @@ namespace App\Filament\Admin\Resources\Products;
 use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\ProductSparePart;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -28,9 +30,19 @@ class ProductSparePartResource extends Resource
             ->schema([
                 self::mainSection(),
 
-                // self::priceSectionWithParentProduct(),
+                Section::make(__('Disassembly'))
+                    ->schema([
+                        Select::make('Disassembly')
+                            ->required()
+                            ->label(__('Disassembly'))
+                            ->relationship(name: 'disassembly', titleAttribute: 'name')
+                            ->columnSpanFull()
+                            ->searchable(),
+                    ]),
 
-                self::dimensionsSection(),
+                self::priceSectionWithParentProduct(),
+
+                // self::dimensionsSection(),
 
                 // self::featuresSection(),
 
@@ -38,7 +50,7 @@ class ProductSparePartResource extends Resource
 
                 // self::textsSection(),
 
-                self::imagesSection(),
+                // self::imagesSection(),
             ]);
     }
 

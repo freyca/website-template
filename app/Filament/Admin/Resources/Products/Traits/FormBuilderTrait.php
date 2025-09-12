@@ -32,7 +32,7 @@ trait FormBuilderTrait
                 ->label(__('Name'))
                 ->required()
                 ->maxLength(255),
-            //->hintAction(
+            // ->hintAction(
             //    Action::make(__('Open product url'))
             //        ->icon('heroicon-o-link')
             //        ->url(
@@ -49,16 +49,16 @@ trait FormBuilderTrait
             //            },
             //            shouldOpenInNewTab: true
             //        )
-            //),
+            // ),
 
             Forms\Components\TextInput::make('slug')
                 ->disabled(),
 
-            //Forms\Components\TextInput::make('slogan')
+            // Forms\Components\TextInput::make('slogan')
             //    ->required()
             //    ->maxLength(255),
             //
-            //Forms\Components\TextInput::make('meta_description')
+            // Forms\Components\TextInput::make('meta_description')
             //    ->label(__('Meta description'))
             //    ->required()
             //    ->columnSpan('full')
@@ -82,10 +82,10 @@ trait FormBuilderTrait
                     ->suffix('€')
                     ->numeric(),
 
-                Forms\Components\TextInput::make('stock')
-                    ->required()
-                    ->numeric()
-                    ->integer(),
+                // Forms\Components\TextInput::make('stock')
+                //    ->required()
+                //    ->numeric()
+                //    ->integer(),
 
             ])->columns(3);
     }
@@ -105,15 +105,15 @@ trait FormBuilderTrait
                     ->suffix('€')
                     ->numeric(),
 
-                Forms\Components\TextInput::make('price_when_user_owns_product')
-                    ->label(__('Price when user owns parent product'))
-                    ->suffix('€')
-                    ->numeric(),
+                // Forms\Components\TextInput::make('price_when_user_owns_product')
+                //    ->label(__('Price when user owns parent product'))
+                //    ->suffix('€')
+                //    ->numeric(),
 
-                Forms\Components\TextInput::make('stock')
-                    ->required()
-                    ->numeric()
-                    ->integer(),
+                // Forms\Components\TextInput::make('stock')
+                //    ->required()
+                //    ->numeric()
+                //    ->integer(),
 
             ])->columns(2);
     }
@@ -203,15 +203,15 @@ trait FormBuilderTrait
                     ->preserveFilenames()
                     ->directory(config('custom.product-image-storage')),
 
-                Forms\Components\FileUpload::make('images')
-                    ->label(__('Additional images'))
-                    ->multiple()
-                    ->required()
-                    ->reorderable()
-                    ->moveFiles()
-                    ->orientImagesFromExif(false)
-                    ->preserveFilenames()
-                    ->directory(config('custom.product-image-storage')),
+                // Forms\Components\FileUpload::make('images')
+                //    ->label(__('Additional images'))
+                //    ->multiple()
+                //    ->required()
+                //    ->reorderable()
+                //    ->moveFiles()
+                //    ->orientImagesFromExif(false)
+                //    ->preserveFilenames()
+                //    ->directory(config('custom.product-image-storage')),
 
             ])->columns(2);
     }

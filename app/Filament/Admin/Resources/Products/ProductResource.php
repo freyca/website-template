@@ -50,15 +50,15 @@ class ProductResource extends Resource
                                             ->maxLength(255),
                                         Forms\Components\TextInput::make('slug')
                                             ->disabled(),
-                                        Forms\Components\TextInput::make('meta_description')
-                                            ->label(__('Meta description'))
-                                            ->required()
-                                            ->columnSpanFull()
-                                            ->maxLength(255),
-                                        TiptapEditor::make('description')
-                                            ->label(__('Description'))
-                                            ->required()
-                                            ->columnSpanFull(),
+                                        // Forms\Components\TextInput::make('meta_description')
+                                        //    ->label(__('Meta description'))
+                                        //    ->required()
+                                        //    ->columnSpanFull()
+                                        //    ->maxLength(255),
+                                        // TiptapEditor::make('description')
+                                        //    ->label(__('Description'))
+                                        //    ->required()
+                                        //    ->columnSpanFull(),
                                     ])
                                         ->columns(2),
 
@@ -69,13 +69,13 @@ class ProductResource extends Resource
                                         ->orientImagesFromExif(false)
                                         ->preserveFilenames()
                                         ->directory('category-images'),
-                                    Forms\Components\FileUpload::make('small_image')
-                                        ->label(__('Small image'))
-                                        ->required()
-                                        ->moveFiles()
-                                        ->preserveFilenames()
-                                        ->orientImagesFromExif(false)
-                                        ->directory('category-images'),
+                                    // Forms\Components\FileUpload::make('small_image')
+                                    //    ->label(__('Small image'))
+                                    //    ->required()
+                                    //    ->moveFiles()
+                                    //    ->preserveFilenames()
+                                    //    ->orientImagesFromExif(false)
+                                    //    ->directory('category-images'),
                                 ]
                             )
                             ->createOptionAction(function (Action $action) {
@@ -85,9 +85,9 @@ class ProductResource extends Resource
                             })->columnSpan(1),
                     ]),
 
-                self::priceSection(),
+                // self::priceSection(),
 
-                //Forms\Components\Section::make(__('Assembly'))
+                // Forms\Components\Section::make(__('Assembly'))
                 //    ->schema([
                 //        Forms\Components\Toggle::make('can_be_assembled')
                 //            ->required()
@@ -119,7 +119,7 @@ class ProductResource extends Resource
 
                 // self::featuresSection(),
 
-                //Forms\Components\Section::make(__('Related products'))
+                // Forms\Components\Section::make(__('Related products'))
                 //    ->schema([
                 //        Forms\Components\Select::make('product_complements')
                 //            ->label(__('Product complements'))
@@ -137,9 +137,35 @@ class ProductResource extends Resource
                 //
                 //    ])->columns(2),
                 //
-                //self::textsSection(),
+                // self::textsSection(),
 
                 self::imagesSection(),
+
+                Forms\Components\Section::make(__('Disassemblies'))->schema([
+                    Forms\Components\Repeater::make('disassemblies')
+                        ->label(__('Disassembly'))
+                        ->relationship()
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->label(__('Name'))
+                                ->required()
+                                ->maxLength(255)
+                                ->live(),
+
+                            Forms\Components\FileUpload::make('main_image')
+                                ->label(__('Main image'))
+                                ->required()
+                                ->reorderable()
+                                ->moveFiles()
+                                ->orientImagesFromExif(false)
+                                ->preserveFilenames()
+                                ->directory(config('custom.product-image-storage')),
+                        ])
+                        ->columns(2)
+                        ->collapsed()
+                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
+                ]),
+
             ]);
     }
 
@@ -159,23 +185,23 @@ class ProductResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('price')
-                    ->label(__('Price'))
-                    ->badge()
-                    ->money(
-                        currency: 'eur',
-                        locale: 'es'
-                    )
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('price_with_discount')
-                    ->label(__('Price with discount'))
-                    ->badge()
-                    ->money(
-                        currency: 'eur',
-                        locale: 'es'
-                    )
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('price')
+                //    ->label(__('Price'))
+                //    ->badge()
+                //    ->money(
+                //        currency: 'eur',
+                //        locale: 'es'
+                //    )
+                //    ->sortable(),
+                //
+                // Tables\Columns\TextColumn::make('price_with_discount')
+                //    ->label(__('Price with discount'))
+                //    ->badge()
+                //    ->money(
+                //        currency: 'eur',
+                //        locale: 'es'
+                //    )
+                //    ->sortable(),
 
                 Tables\Columns\IconColumn::make('published')
                     ->label(__('Published'))
@@ -204,7 +230,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ProductResource\RelationManagers\ProductVariantsRelationManager::class,
+            // ProductResource\RelationManagers\ProductVariantsRelationManager::class,
         ];
     }
 

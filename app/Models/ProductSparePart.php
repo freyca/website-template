@@ -10,6 +10,7 @@ use Database\Factories\ProductSparePartFactory;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 #[ScopedBy([PublishedScope::class])]
@@ -20,12 +21,29 @@ class ProductSparePart extends BaseProduct
 
     use HasPriceWhenUserOwnsProduct;
 
-    /**
-     * @return BelongsToMany<Product, $this>
-     */
-    public function products(): BelongsToMany
+    public function __construct(array $attributes = [])
     {
-        return $this->belongsToMany(Product::class);
+        $this->mergeFillable([
+            'disassembly_id',
+        ]);
+
+        parent::__construct($attributes);
+    }
+
+    // /**
+    // * @return BelongsToMany<Product, $this>
+    // */
+    // public function products(): BelongsToMany
+    // {
+    //    return $this->belongsToMany(Product::class);
+    // }
+
+    /**
+     * @return BelongsTo<Product, $this>
+     */
+    public function disassembly(): BelongsTo
+    {
+        return $this->belongsTo(Disassembly::class);
     }
 
     /**

@@ -63,7 +63,7 @@ class ProductController extends Controller
         $featureValues = $product->productFeatureValues;
 
         $relatedComplements = $product->productComplements()->limit(5)->get();
-        $relatedSpareparts = $product->productSpareParts()->get(); //->limit(5)->get();
+        $relatedSpareparts = $product->productSpareParts()->get(); // ->limit(5)->get();
 
         return view(
             'pages.product',
@@ -72,7 +72,7 @@ class ProductController extends Controller
                 'variants' => $variants,
                 'features' => ($variants->count() === 0) ? $features : $features->merge($first_variant->productFeatures())->unique(),
                 'featureValues' => ($variants->count() === 0) ? $featureValues : $featureValues->merge($first_variant->productFeatureValues()->get())->unique(),
-                //'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
+                // 'featuredProducts' => $relatedComplements->concat($relatedSpareparts),
                 'relatedSpareparts' => $relatedSpareparts,
                 'seotags' => new SeoTags($product),
                 'breadcrumbs' => new ProductBreadCrumbs($product),

@@ -39,7 +39,7 @@ class UserPanelProvider extends PanelProvider
             ->path('user')
             ->login(Login::class)
             ->passwordReset()
-            //->registration(Register::class)
+            // ->registration(Register::class)
             ->profile(
                 page: EditProfile::class,
                 isSimple: false
@@ -67,14 +67,14 @@ class UserPanelProvider extends PanelProvider
                     ->icon('heroicon-o-rectangle-stack')
                     ->group(__('Website urls'))
                     ->sort(5),
-                //NavigationItem::make(__('Product complements'))
+                // NavigationItem::make(__('Product complements'))
                 //    ->url(function () {
                 //        return route('complement-list');
                 //    })
                 //    ->icon('heroicon-o-puzzle-piece')
                 //    ->group(__('Website urls'))
                 //    ->sort(5),
-                //NavigationItem::make(__('Product spare parts'))
+                // NavigationItem::make(__('Product spare parts'))
                 //    ->url(function () {
                 //        return route('spare-part-list');
                 //    })

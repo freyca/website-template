@@ -88,4 +88,9 @@ class Product extends BaseProduct
     {
         return $this->formatCurrency($this->assembly_price);
     }
+
+    public function disassemblies(): HasMany
+    {
+        return $this->hasMany(Disassembly::class);
+    }
 }

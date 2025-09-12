@@ -18,10 +18,10 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => fake()->unique()->catchPhrase(),
-            'meta_description' => fake()->realText(30),
-            'description' => fake()->realText(1000),
+            // 'meta_description' => fake()->realText(30),
+            // 'description' => fake()->realText(1000),
             'big_image' => 'category-images/sample-image.png',
-            'small_image' => 'category-images/sample-image.png',
+            // 'small_image' => 'category-images/sample-image.png',
         ];
     }
 }

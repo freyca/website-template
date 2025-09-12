@@ -7,15 +7,15 @@ use App\Http\Controllers\LandingsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SeoController;
-use Illuminate\Support\Facades\Route;
 use Filament\Http\Middleware\Authenticate;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(Authenticate::class)->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    //Route::get('sobre-nosotros', [LandingsController::class, 'aboutUs'])->name('about-us');
-    //Route::get('politica-de-privacidad', [LandingsController::class, 'privacyPolicy'])->name('privacy-policy');
-    //Route::get('contacto', [LandingsController::class, 'contact'])->name('contact');
+    // Route::get('sobre-nosotros', [LandingsController::class, 'aboutUs'])->name('about-us');
+    // Route::get('politica-de-privacidad', [LandingsController::class, 'privacyPolicy'])->name('privacy-policy');
+    // Route::get('contacto', [LandingsController::class, 'contact'])->name('contact');
 
     /** Checkout */
     Route::group(['as' => 'checkout.'], function () {
