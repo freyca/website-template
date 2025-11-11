@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
-use Filament\Auth\Pages\Login;
 use App\Filament\User\Pages\Auth\EditProfile;
 use App\Http\Middleware\PushPurchasedItemsToCart;
 use App\Http\Middleware\RedirectsAdminUsersToAdminPanel;
-use App\Http\Responses\FilamentLoginResponse;
-use App\Models\User;
-use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
-use DutchCodingCompany\FilamentSocialite\Models\Contracts\FilamentSocialiteUser as FilamentSocialiteUserContract;
-use DutchCodingCompany\FilamentSocialite\Provider;
+use Filament\Auth\Pages\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -23,12 +18,10 @@ use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 
 class UserPanelProvider extends PanelProvider
 {
