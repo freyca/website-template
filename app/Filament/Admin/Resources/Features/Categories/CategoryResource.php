@@ -7,10 +7,12 @@ namespace App\Filament\Admin\Resources\Features\Categories;
 use App\Filament\Admin\Resources\Features\Categories\Pages\CreateCategory;
 use App\Filament\Admin\Resources\Features\Categories\Pages\EditCategory;
 use App\Filament\Admin\Resources\Features\Categories\Pages\ListCategories;
+use App\Filament\Imports\CategoryImporter;
 use App\Models\Category;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -33,6 +35,8 @@ class CategoryResource extends Resource
         return $schema
             ->components([
                 Section::make([
+                    TextInput::make('id')
+                        ->disabled(),
                     TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
@@ -70,7 +74,14 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(CategoryImporter::class)
+            ])
             ->columns([
+                TextColumn::make('id')
+                    ->sortable(),
+
                 ImageColumn::make('small_image')
                     ->circular()
                     ->label(__('Image')),
