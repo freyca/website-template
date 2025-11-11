@@ -22,6 +22,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link rel="stylesheet" href="{{ asset('css/filament/filament/app.css?v=4.2.1.0') }}">
+
     @vite('resources/css/app.css')
     @filamentStyles
+    @livewireStyles
 </head>

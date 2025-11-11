@@ -23,7 +23,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
-        "filament/upgrade": "^4.0",
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.15",
         "laravel/sail": "^1.26",

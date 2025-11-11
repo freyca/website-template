@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use Filament\Auth\Pages\Login;
 use App\Filament\User\Pages\Auth\EditProfile;
-use App\Filament\User\Pages\Auth\Login;
-use App\Filament\User\Pages\Auth\Register;
 use App\Http\Middleware\PushPurchasedItemsToCart;
 use App\Http\Middleware\RedirectsAdminUsersToAdminPanel;
 use App\Http\Responses\FilamentLoginResponse;
@@ -39,8 +38,8 @@ class UserPanelProvider extends PanelProvider
             ->default()
             ->id('user')
             ->path('user')
-            ->login(Login::class)
             ->passwordReset()
+            ->login(Login::class)
             // ->registration(Register::class)
             ->profile(
                 page: EditProfile::class,
@@ -121,33 +120,6 @@ class UserPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->plugin(
-                FilamentSocialitePlugin::make()
-                    ->providers([
-                        Provider::make('google')
-                            ->label('Google')
-                            ->icon('fab-google')
-                            ->outlined(true),
-                    ])
-                    ->registration(true)
-                    ->createUserUsing(function (string $provider, SocialiteUserContract $oauthUser, FilamentSocialitePlugin $plugin) {
-                        $exploded = explode(' ', $oauthUser->getName());
-                        $name = $exploded[0];
-                        unset($exploded[0]);
-                        $surname = implode(' ', $exploded);
-
-                        return User::firstOrCreate(
-                            ['email' => $oauthUser->getEmail()],
-                            [
-                                'name' => $name,
-                                'surname' => $surname,
-                            ],
-                        );
-                    })
-                    ->redirectAfterLoginUsing(function (string $provider, FilamentSocialiteUserContract $socialiteUser, FilamentSocialitePlugin $plugin) {
-                        return (new FilamentLoginResponse)->toResponse(new Request);
-                    })
-            );
+            ]);
     }
 }
