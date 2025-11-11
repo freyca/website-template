@@ -40,7 +40,7 @@ class UserPanelProvider extends PanelProvider
             )
             ->darkMode(false)
             ->topbar()
-            ->brandLogo(asset('images/logo.png'))
+            ->brandLogo(config('custom.web_logo'))
             ->navigationItems([
                 NavigationItem::make(__('Home'))
                     ->url('/')
