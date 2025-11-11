@@ -15,7 +15,7 @@
     @vite('resources/js/app.js')
     @livewire('notifications')
     @filamentScripts
-    @livewireStyles
+    @livewireScripts
 </body>
 
 </html>
