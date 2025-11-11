@@ -9,6 +9,7 @@ use App\Enums\PaymentMethod;
 use App\Filament\Admin\Resources\Users\Orders\Pages\CreateOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\EditOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\ListOrders;
+use App\Filament\Exports\OrderExporter;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;
@@ -21,6 +22,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -49,7 +51,7 @@ class OrderResource extends Resource
             ->components([
                 Section::make([
                     TextInput::make('id')
-                        ->name(__('Order id (automatically generated)').':')
+                        ->name(__('Order id (automatically generated)') . ':')
                         ->disabled()
                         ->columnSpanFull(),
 
@@ -164,6 +166,10 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(OrderExporter::class),
+            ])
             ->columns([
                 TextColumn::make('id')
                     ->searchable()
@@ -477,7 +483,7 @@ class OrderResource extends Resource
 
         $formatted_price = round(floatval($price * 100) / 100, precision: 2);
 
-        data_set($livewire, $state_path.'.purchase_cost', $formatted_price);
+        data_set($livewire, $state_path . '.purchase_cost', $formatted_price);
     }
 
     public static function getAddressId(Get $get): ?array

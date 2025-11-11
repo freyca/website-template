@@ -28,6 +28,9 @@ trait FormBuilderTrait
                 ->columnSpan('full')
                 ->default(false),
 
+            TextInput::make('id')
+                ->disabled(),
+
             TextInput::make('ean13')
                 ->label(__('Ean13'))
                 ->required()

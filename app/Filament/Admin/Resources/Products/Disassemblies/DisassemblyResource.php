@@ -6,10 +6,12 @@ use App\Filament\Admin\Resources\Products\Disassemblies\Pages\CreateDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\EditDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\ListDisassemblies;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait as TraitsFormBuilderTrait;
+use App\Filament\Imports\DisassemblyImporter;
 use App\Models\Disassembly;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -35,11 +37,14 @@ class DisassemblyResource extends Resource
         return $schema
             ->components([
                 Section::make()->schema([
+                    TextInput::make('id')
+                        ->disabled(),
+
                     TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
-                ]),
+                ])->columns(2),
 
                 Section::make(__('Product'))->schema([
                     Select::make('product_id')
@@ -69,6 +74,10 @@ class DisassemblyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(DisassemblyImporter::class)
+            ])
             ->columns([
                 TextColumn::make('id')
                     ->sortable(),

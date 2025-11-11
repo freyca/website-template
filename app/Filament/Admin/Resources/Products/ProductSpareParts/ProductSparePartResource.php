@@ -8,10 +8,12 @@ use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\CreateProductS
 use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\EditProductSparePart;
 use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\ListProductSpareParts;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
+use App\Filament\Imports\ProductSparePartImporter;
 use App\Models\ProductSparePart;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -64,6 +66,10 @@ class ProductSparePartResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                ImportAction::make()
+                    ->importer(ProductSparePartImporter::class)
+            ])
             ->columns([
                 TextColumn::make('id')
                     ->sortable(),
