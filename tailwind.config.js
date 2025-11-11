@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindcss from "@tailwindcss/vite";
 
 import preset from './vendor/filament/support/tailwind.config.preset'
 
@@ -18,5 +19,6 @@ export default {
     ],
     plugins: [
         require('flowbite/plugin'),
+        tailwindcss(),
     ],
 }
