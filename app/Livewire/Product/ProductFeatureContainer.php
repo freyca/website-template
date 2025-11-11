@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Product;
 
+use App\Models\Product;
 use App\Models\ProductFeature;
 use App\Models\ProductFeatureValue;
-use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;

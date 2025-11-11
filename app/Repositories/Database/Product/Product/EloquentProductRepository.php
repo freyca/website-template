@@ -34,8 +34,8 @@ class EloquentProductRepository implements ProductRepositoryInterface
         });
     }
 
-    //public function filter(FilterDTO $filters): LengthAwarePaginator
-    //{
+    // public function filter(FilterDTO $filters): LengthAwarePaginator
+    // {
     //    $query = Product::where(function ($q) use ($filters) {
     //        $q->where('price', '>', $filters->getMinPrice())->where('price_with_discount', null)
     //            ->orWhere('price_with_discount', '>', $filters->getMinPrice());
@@ -55,5 +55,5 @@ class EloquentProductRepository implements ProductRepositoryInterface
     //    }
     //
     //    return $query->paginate(16);
-    //}
+    // }
 }

@@ -14,5 +14,5 @@ interface ProductRepositoryInterface extends BaseProductRepositoryInterface
 
     public function featured(): LengthAwarePaginator;
 
-    //public function filter(FilterDTO $filters): LengthAwarePaginator;
+    // public function filter(FilterDTO $filters): LengthAwarePaginator;
 }

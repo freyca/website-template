@@ -67,15 +67,15 @@ class SessionCartRepository implements CartRepositoryInterface
     public function canBeIncremented(BaseProduct $product, bool $assemble, ?ProductVariant $variant): bool
     {
         return true;
-        //try {
+        // try {
         //    $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
-        //} catch (Throwable $th) {
+        // } catch (Throwable $th) {
         //    return false;
-        //}
+        // }
         //
-        //$quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
+        // $quantity = $this->searchProductKey($product, $assemble, $variant)['order_product_dto']->quantity();
         //
-        //return ($variant !== null) ? ($variant->stock - $quantity) > 0 : ($product->stock - $quantity) > 0;
+        // return ($variant !== null) ? ($variant->stock - $quantity) > 0 : ($product->stock - $quantity) > 0;
     }
 
     public function isEmpty(): bool
@@ -244,7 +244,7 @@ class SessionCartRepository implements CartRepositoryInterface
         });
 
         if ($match->count() !== 1) {
-            throw new Exception('Found ' . $match->count() . ' matches of product in cart');
+            throw new Exception('Found '.$match->count().' matches of product in cart');
         }
 
         $key = $match->keys()->first();

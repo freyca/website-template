@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
-use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use App\Enums\Role;
 use App\Services\Cart;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use Filament\Facades\Filament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

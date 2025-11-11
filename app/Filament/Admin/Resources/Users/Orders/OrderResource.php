@@ -4,37 +4,34 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users\Orders;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Utilities\Set;
-use Filament\Actions\Action;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Forms\Components\ToggleButtons;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\Users\Orders\Pages\ListOrders;
-use App\Filament\Admin\Resources\Users\Orders\Pages\CreateOrder;
-use App\Filament\Admin\Resources\Users\Orders\Pages\EditOrder;
-use Filament\Forms\Components\Toggle;
-use App\Models\BaseProduct;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
-use App\Filament\Admin\Resources\Users\OrderResource\Pages;
+use App\Filament\Admin\Resources\Users\Orders\Pages\CreateOrder;
+use App\Filament\Admin\Resources\Users\Orders\Pages\EditOrder;
+use App\Filament\Admin\Resources\Users\Orders\Pages\ListOrders;
 use App\Models\Address;
+use App\Models\BaseProduct;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
-use Filament\Forms;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Livewire\Component as Livewire;
 
@@ -42,7 +39,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-euro';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-currency-euro';
 
     public array $product_options = [];
 

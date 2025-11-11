@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users\Orders\Pages;
 
-use Filament\Actions\CreateAction;
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Enums\OrderStatus;
 use App\Filament\Admin\Resources\Users\Orders\OrderResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 
 class ListOrders extends ListRecords
 {

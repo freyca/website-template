@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
-use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
 use App\Services\Cart;
+use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Features\SupportRedirects\Redirector;
 

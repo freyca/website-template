@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\ProductComplementResource\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Admin\Resources\Products\ProductComplementResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListProductComplements extends ListRecords

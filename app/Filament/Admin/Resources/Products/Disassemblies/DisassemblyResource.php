@@ -2,25 +2,22 @@
 
 namespace App\Filament\Admin\Resources\Products\Disassemblies;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\Products\Disassemblies\Pages\ListDisassemblies;
-use App\Filament\Admin\Resources\Products\Disassemblies\Pages\EditDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\CreateDisassembly;
-use App\Filament\Admin\Resources\Products\DisassemblyResource\Pages;
+use App\Filament\Admin\Resources\Products\Disassemblies\Pages\EditDisassembly;
+use App\Filament\Admin\Resources\Products\Disassemblies\Pages\ListDisassemblies;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait as TraitsFormBuilderTrait;
 use App\Models\Disassembly;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class DisassemblyResource extends Resource
@@ -29,7 +26,7 @@ class DisassemblyResource extends Resource
 
     protected static ?string $model = Disassembly::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-s-wrench-screwdriver';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-s-wrench-screwdriver';
 
     protected static ?int $navigationSort = 2;
 

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\Traits;
 
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\FileUpload;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Livewire\Component;
 
 trait FormBuilderTrait

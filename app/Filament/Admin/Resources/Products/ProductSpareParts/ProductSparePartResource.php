@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\ProductSpareParts;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\ListProductSpareParts;
 use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\CreateProductSparePart;
 use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\EditProductSparePart;
-use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages;
+use App\Filament\Admin\Resources\Products\ProductSpareParts\Pages\ListProductSpareParts;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\ProductSparePart;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ProductSparePartResource extends Resource
@@ -29,7 +27,7 @@ class ProductSparePartResource extends Resource
 
     protected static ?string $model = ProductSparePart::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-s-wrench';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-s-wrench';
 
     protected static ?int $navigationSort = 3;
 

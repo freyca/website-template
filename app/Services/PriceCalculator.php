@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\ProductComplement;
-use App\Models\ProductSparePart;
 use App\DTO\OrderProductDTO;
 use App\Models\Product;
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 

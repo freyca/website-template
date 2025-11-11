@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Filament\Schemas\Schema;
 use App\Enums\AddressType;
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
@@ -12,6 +11,7 @@ use App\Events\UserCreated;
 use App\Models\Address;
 use App\Models\User;
 use Exception;
+use Filament\Schemas\Schema;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

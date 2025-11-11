@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Pages\Auth;
 
-use Filament\Schemas\Schema;
 use App\Filament\User\Pages\Auth\Traits\HasSurname;
+use Filament\Schemas\Schema;
 
 class EditProfile extends \Filament\Auth\Pages\EditProfile
 {

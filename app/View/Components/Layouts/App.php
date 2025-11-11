@@ -11,7 +11,7 @@ use Illuminate\View\Component;
 class App extends Component
 {
     public function __construct(
-        //public SeoTags $seotags
+        // public SeoTags $seotags
     ) {}
 
     public function render(): View

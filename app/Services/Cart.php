@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Throwable;
 use App\Models\BaseProduct;
 use App\Models\ProductVariant;
 use App\Repositories\Cart\CartRepositoryInterface;
 use Illuminate\Support\Collection;
+use Throwable;
 
 final class Cart implements CartRepositoryInterface
 {

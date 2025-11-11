@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
-use Filament\Auth\Http\Responses\Contracts\LoginResponse;
-use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
-use SocialiteProviders\Manager\SocialiteWasCalled;
-use SocialiteProviders\Google\Provider;
 use App\Http\Responses\FilamentLoginResponse;
 use App\Http\Responses\FilamentLogoutResponse;
 use App\Http\Responses\FilamentRegistrationResponse;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse;
+use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
+use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use SocialiteProviders\Google\Provider;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AppServiceProvider extends ServiceProvider
 {

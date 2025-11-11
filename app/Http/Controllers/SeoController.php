@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\DTO\SeoTags;
+use App\Models\Category;
 use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
 

@@ -4,30 +4,28 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users\Users;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use App\Filament\Admin\Resources\Users\Users\RelationManagers\AddressRelationManager;
-use App\Filament\Admin\Resources\Users\Users\Pages\ListUsers;
+use App\Enums\Role;
 use App\Filament\Admin\Resources\Users\Users\Pages\CreateUser;
 use App\Filament\Admin\Resources\Users\Users\Pages\EditUser;
-use App\Enums\Role;
-use App\Filament\Admin\Resources\Users\UserResource\Pages;
+use App\Filament\Admin\Resources\Users\Users\Pages\ListUsers;
+use App\Filament\Admin\Resources\Users\Users\RelationManagers\AddressRelationManager;
 use App\Models\User;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-group';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Schema $schema): Schema
     {

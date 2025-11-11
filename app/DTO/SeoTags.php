@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use Throwable;
 use App\Exceptions\SeoException;
 use App\Models\BaseProduct;
 use App\Models\Category;
+use Throwable;
 
 class SeoTags
 {

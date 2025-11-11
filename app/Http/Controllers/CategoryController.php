@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         return view('pages.categories', [
             'categories' => $this->repository->getAll(),
-            //'seotags' => new SeoTags('categories'),
+            // 'seotags' => new SeoTags('categories'),
             'breadcrumbs' => new StandardPageBreadCrumbs([
                 __('Categories') => route('category-list'), // @phpstan-ignore-line
             ]),
@@ -32,7 +32,7 @@ class CategoryController extends Controller
         return view('pages.category', [
             'category' => $category,
             'products' => $this->repository->getProducts($category),
-            //'seotags' => new SeoTags($category),
+            // 'seotags' => new SeoTags($category),
             'breadcrumbs' => new StandardPageBreadCrumbs([
                 __('Categories') => route('category-list'), // @phpstan-ignore-line
                 __($category->name) => $category->slug, // @phpstan-ignore-line

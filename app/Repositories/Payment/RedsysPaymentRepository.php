@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories\Payment;
 
-use Throwable;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use Creagia\Redsys\Enums\Currency;
@@ -19,6 +18,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Throwable;
 
 abstract class RedsysPaymentRepository extends PaymentRepository
 {

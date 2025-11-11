@@ -4,25 +4,22 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Resources\Orders;
 
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
+use App\Filament\User\Resources\Orders\Pages\ListOrders;
+use App\Filament\User\Resources\Orders\Pages\ViewOrder;
+use App\Models\Order;
+use App\Models\Product;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\ViewAction;
-use App\Filament\User\Resources\Orders\Pages\ListOrders;
-use App\Filament\User\Resources\Orders\Pages\ViewOrder;
-use Filament\Schemas\Components\Utilities\Set;
-use App\Enums\OrderStatus;
-use App\Enums\PaymentMethod;
-use App\Filament\User\Resources\OrderResource\Pages;
-use App\Models\Order;
-use App\Models\Product;
-use Filament\Forms;
-use Filament\Forms\Components\Repeater;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,7 +27,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-m-shopping-bag';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-m-shopping-bag';
 
     public static function form(Schema $schema): Schema
     {

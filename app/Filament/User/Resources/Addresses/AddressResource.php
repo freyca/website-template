@@ -4,22 +4,19 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Resources\Addresses;
 
-use Filament\Schemas\Schema;
+use App\Enums\AddressType;
+use App\Filament\User\Resources\Addresses\Pages\CreateAddress;
+use App\Filament\User\Resources\Addresses\Pages\EditAddress;
+use App\Filament\User\Resources\Addresses\Pages\ListAddress;
+use App\Models\Address;
+use App\Models\User;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use App\Filament\User\Resources\Addresses\Pages\CreateAddress;
-use App\Filament\User\Resources\Addresses\Pages\ListAddress;
-use App\Filament\User\Resources\Addresses\Pages\EditAddress;
-use App\Models\User;
-use App\Enums\AddressType;
-use App\Filament\User\Resources\AddressResource\Pages;
-use App\Models\Address;
-use Filament\Forms;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +24,7 @@ class AddressResource extends Resource
 {
     protected static ?string $model = Address::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-truck';
 
     protected static ?int $navigationSort = 2;
 

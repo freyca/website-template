@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms;
 
-use Filament\Actions\Contracts\HasActions;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Schemas\Components\Group;
 use App\Enums\PaymentMethod;
 use App\Http\Controllers\PaymentController;
 use App\Models\Address;
 use App\Models\User;
 use App\Services\AddressBuilder;
 use App\Services\OrderBuilder;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -23,6 +19,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Collection;
@@ -33,7 +33,7 @@ use Livewire\Component;
 /**
  * @property \Filament\Schemas\Schema $form
  */
-class CheckoutForm extends Component implements HasForms, HasActions
+class CheckoutForm extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
     use InteractsWithForms;
