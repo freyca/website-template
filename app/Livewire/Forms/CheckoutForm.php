@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms;
 
+use Filament\Actions\Contracts\HasActions;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Group;
 use App\Enums\PaymentMethod;
 use App\Http\Controllers\PaymentController;
 use App\Models\Address;
@@ -11,16 +17,12 @@ use App\Models\User;
 use App\Services\AddressBuilder;
 use App\Services\OrderBuilder;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Collection;
@@ -29,10 +31,11 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 
 /**
- * @property Form $form
+ * @property \Filament\Schemas\Schema $form
  */
-class CheckoutForm extends Component implements HasForms
+class CheckoutForm extends Component implements HasForms, HasActions
 {
+    use InteractsWithActions;
     use InteractsWithForms;
 
     public ?array $checkoutFormData = [];
@@ -42,17 +45,17 @@ class CheckoutForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         /** @var ?User */
         $user = Auth::user();
 
-        $form = match ($user) {
-            null => $this->buildFormForNotLoggedInUser($form),
-            default => $this->buildFormForLoggedInUser($user, $form),
+        $schema = match ($user) {
+            null => $this->buildFormForNotLoggedInUser($schema),
+            default => $this->buildFormForLoggedInUser($user, $schema),
         };
 
-        return $form->statePath('checkoutFormData');
+        return $schema->statePath('checkoutFormData');
     }
 
     public function create(): void
@@ -84,7 +87,7 @@ class CheckoutForm extends Component implements HasForms
         return view('livewire.forms.checkout-form');
     }
 
-    private function buildFormForLoggedInUser(User $user, Form $form): Form
+    private function buildFormForLoggedInUser(User $user, Schema $schema): Schema
     {
         $shipping_addresses = Address::where('user_id', $user->id)->pluck('address', 'id');
 
@@ -92,8 +95,8 @@ class CheckoutForm extends Component implements HasForms
             $shipping_addresses->put(0, __('New address'));
         }
 
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $this->getShippingForm($shipping_addresses),
                 $this->getBillingForm($shipping_addresses),
                 $this->getOrderDetails(),
@@ -101,10 +104,10 @@ class CheckoutForm extends Component implements HasForms
             ]);
     }
 
-    private function buildFormForNotLoggedInUser(Form $form): Form
+    private function buildFormForNotLoggedInUser(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $this->getShippingForm(),
                 $this->getBillingForm(),
                 $this->getOrderDetails(),

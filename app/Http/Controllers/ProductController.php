@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductVariant;
+use Illuminate\Database\Eloquent\Collection;
+use App\Models\ProductFeature;
+use App\Models\ProductFeatureValue;
+use App\Models\User;
 use App\DTO\SeoTags;
 use App\Enums\Role;
 use App\Factories\BreadCrumbs\ProductBreadCrumbs;
@@ -47,18 +52,18 @@ class ProductController extends Controller
         $variants = $product->productVariants()->get();
         if ($variants->count() !== 0) {
             /**
-             * @var \App\Models\ProductVariant
+             * @var ProductVariant
              */
             $first_variant = $variants->first();
         }
 
         /**
-         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeature>
+         * @var Collection<int, ProductFeature>
          */
         $features = $product->productFeatures();
 
         /**
-         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeatureValue>
+         * @var Collection<int, ProductFeatureValue>
          */
         $featureValues = $product->productFeatureValues;
 
@@ -143,7 +148,7 @@ class ProductController extends Controller
 
     private function canAccessPrivateProducts(): bool
     {
-        /** @var ?\App\Models\User */
+        /** @var ?User */
         $user = Auth::user();
 
         return match (true) {

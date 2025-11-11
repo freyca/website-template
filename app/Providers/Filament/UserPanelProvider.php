@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers\Filament;
 
+use Filament\Widgets\AccountWidget;
+use App\Http\Responses\FilamentLoginResponse;
+use Illuminate\Http\Request;
 use App\Filament\User\Pages\Auth\EditProfile;
 use App\Filament\User\Pages\Auth\Login;
 use App\Filament\User\Pages\Auth\Register;
@@ -102,7 +105,7 @@ class UserPanelProvider extends PanelProvider
                 for: 'App\\Filament\\User\\Widgets'
             )
             ->widgets([
-                Widgets\AccountWidget::class,
+                AccountWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -144,7 +147,7 @@ class UserPanelProvider extends PanelProvider
                         );
                     })
                     ->redirectAfterLoginUsing(function (string $provider, FilamentSocialiteUserContract $socialiteUser, FilamentSocialitePlugin $plugin) {
-                        return (new \App\Http\Responses\FilamentLoginResponse)->toResponse(new \Illuminate\Http\Request);
+                        return (new FilamentLoginResponse)->toResponse(new Request);
                     })
             );
     }

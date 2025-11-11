@@ -35,10 +35,10 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
     public function getColor(): string|array
     {
         return match ($this) {
-            self::Paid => Color::rgb('rgb(187, 247, 208)'),
-            self::Processing => Color::rgb('rgb(74, 222, 128)'),
-            self::Shipped => Color::rgb('rgb(22, 163, 74)'),
-            self::Delivered => Color::rgb('rgb(22, 101, 52)'),
+            self::Paid => Color::generateV3Palette('rgb(187, 247, 208)'),
+            self::Processing => Color::generateV3Palette('rgb(74, 222, 128)'),
+            self::Shipped => Color::generateV3Palette('rgb(22, 163, 74)'),
+            self::Delivered => Color::generateV3Palette('rgb(22, 101, 52)'),
             self::Cancelled => 'gray',
             self::PaymentFailed => 'red',
             self::PaymentPending => 'amber',

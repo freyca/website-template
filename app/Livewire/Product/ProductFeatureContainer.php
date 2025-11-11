@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Product;
 
+use App\Models\ProductFeature;
+use App\Models\ProductFeatureValue;
+use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,12 +16,12 @@ use Livewire\Component;
 class ProductFeatureContainer extends Component
 {
     /**
-     * @var Collection<int, \App\Models\ProductFeature>
+     * @var Collection<int, ProductFeature>
      */
     public Collection $features;
 
     /**
-     * @var Collection<int, \App\Models\ProductFeatureValue>
+     * @var Collection<int, ProductFeatureValue>
      */
     public Collection $featureValues;
 
@@ -31,7 +34,7 @@ class ProductFeatureContainer extends Component
         $variant = ProductVariant::find($variant_id);
 
         /**
-         * @var \App\Models\Product
+         * @var Product
          */
         $product = $variant->product;
 
@@ -39,7 +42,7 @@ class ProductFeatureContainer extends Component
         $features = $product->productFeatures();
 
         /**
-         * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductFeatureValue>
+         * @var Collection<int, ProductFeatureValue>
          */
         $featureValues = $product->productFeatureValues;
 

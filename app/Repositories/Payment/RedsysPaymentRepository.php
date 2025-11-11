@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Payment;
 
+use Throwable;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use Creagia\Redsys\Enums\Currency;
@@ -39,7 +40,7 @@ abstract class RedsysPaymentRepository extends PaymentRepository
             );
 
             return $redsysRequest->getRedirectFormHtml();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return $this->redirectWithFail($order);
         }
     }

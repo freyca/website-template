@@ -65,7 +65,7 @@ trait AssemblyStatusChanger
     {
         if (is_a($this->product, ProductVariant::class)) {
             /**
-             * @var \App\Models\Product
+             * @var Product
              */
             $product = $this->product->product;
 

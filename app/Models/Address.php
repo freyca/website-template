@@ -51,7 +51,7 @@ class Address extends Model
     protected static function booted(): void
     {
         static::creating(function (Address $address) {
-            /** @var ?\App\Models\User $user */
+            /** @var ?User $user */
             $user = Auth::getUser();
 
             match (true) {

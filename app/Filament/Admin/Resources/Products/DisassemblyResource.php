@@ -2,11 +2,23 @@
 
 namespace App\Filament\Admin\Resources\Products;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Admin\Resources\Products\DisassemblyResource\Pages\ListDisassemblies;
+use App\Filament\Admin\Resources\Products\DisassemblyResource\Pages\EditDisassembly;
+use App\Filament\Admin\Resources\Products\DisassemblyResource\Pages\CreateDisassembly;
 use App\Filament\Admin\Resources\Products\DisassemblyResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait as TraitsFormBuilderTrait;
 use App\Models\Disassembly;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,23 +29,23 @@ class DisassemblyResource extends Resource
 
     protected static ?string $model = Disassembly::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-wrench-screwdriver';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-s-wrench-screwdriver';
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                Section::make()->schema([
+                    TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
                 ]),
 
-                Forms\Components\Section::make(__('Product'))->schema([
-                    Forms\Components\Select::make('product_id')
+                Section::make(__('Product'))->schema([
+                    Select::make('product_id')
                         ->label(__('Product'))
                         ->required()
                         ->relationship(name: 'product', titleAttribute: 'name')
@@ -44,8 +56,8 @@ class DisassemblyResource extends Resource
 
                 self::imagesSection(),
 
-                Forms\Components\Section::make(__('Spare parts'))->schema([
-                    Forms\Components\Repeater::make('productSpareParts')
+                Section::make(__('Spare parts'))->schema([
+                    Repeater::make('productSpareParts')
                         ->label(__('Product spare parts'))
                         ->relationship()
                         ->schema([
@@ -61,12 +73,12 @@ class DisassemblyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('main_image')
+                ImageColumn::make('main_image')
                     ->circular()
                     ->label(__('Image')),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
@@ -75,12 +87,12 @@ class DisassemblyResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -95,9 +107,9 @@ class DisassemblyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDisassemblies::route('/'),
-            'edit' => Pages\EditDisassembly::route('/{record}/edit'),
-            'create' => Pages\CreateDisassembly::route('/create'),
+            'index' => ListDisassemblies::route('/'),
+            'edit' => EditDisassembly::route('/{record}/edit'),
+            'create' => CreateDisassembly::route('/create'),
         ];
     }
 

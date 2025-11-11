@@ -4,6 +4,23 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Admin\Resources\Users\OrderResource\Pages\ListOrders;
+use App\Filament\Admin\Resources\Users\OrderResource\Pages\CreateOrder;
+use App\Filament\Admin\Resources\Users\OrderResource\Pages\EditOrder;
+use Filament\Forms\Components\Toggle;
+use App\Models\BaseProduct;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Filament\Admin\Resources\Users\OrderResource\Pages;
@@ -15,11 +32,7 @@ use App\Models\ProductSparePart;
 use App\Models\ProductVariant;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,23 +42,23 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-euro';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-currency-euro';
 
     public array $product_options = [];
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make([
-                    Forms\Components\TextInput::make('id')
+        return $schema
+            ->components([
+                Section::make([
+                    TextInput::make('id')
                         ->name(__('Order id (automatically generated)').':')
                         ->disabled()
                         ->columnSpanFull(),
 
-                    Forms\Components\Section::make(__('Customer data'))
+                    Section::make(__('Customer data'))
                         ->schema([
-                            Forms\Components\Select::make('user_id')
+                            Select::make('user_id')
                                 ->relationship('user', 'email')
                                 ->label(__('Customer email'))
                                 ->searchable()
@@ -72,7 +85,7 @@ class OrderResource extends Resource
                                             shouldOpenInNewTab: true
                                         )
                                 ),
-                            Forms\Components\Select::make('shipping_address_id')
+                            Select::make('shipping_address_id')
                                 ->relationship('shippingAddress', 'address')
                                 ->options(
                                     function (Get $get) {
@@ -92,7 +105,7 @@ class OrderResource extends Resource
                                 ->columnSpanFull()
                                 ->label(__('Shipping address'))
                                 ->required(),
-                            Forms\Components\Select::make('billing_address_id')
+                            Select::make('billing_address_id')
                                 ->relationship('billingAddress', 'address')
                                 ->options(
                                     function (Get $get) {
@@ -114,18 +127,18 @@ class OrderResource extends Resource
                         ]),
                 ])->columns(2),
 
-                Forms\Components\Section::make([
+                Section::make([
                     static::getProductsRepeater(),
                 ]),
 
-                Forms\Components\Section::make(__('Payment'))
+                Section::make(__('Payment'))
                     ->schema([
-                        Forms\Components\TextInput::make('purchase_cost')
+                        TextInput::make('purchase_cost')
                             ->label(__('Price'))
                             ->required()
                             ->numeric(),
 
-                        Forms\Components\TextInput::make('discount')
+                        TextInput::make('discount')
                             ->label(__('Discount (in percentage %)'))
                             ->numeric()
                             ->afterStateUpdated(function (Livewire $livewire) {
@@ -133,13 +146,13 @@ class OrderResource extends Resource
                             })
                             ->live(debounce: 500),
 
-                        Forms\Components\ToggleButtons::make('payment_method')
+                        ToggleButtons::make('payment_method')
                             ->label(__('Payment method'))
                             ->inline()
                             ->options(PaymentMethod::class)
                             ->required(),
 
-                        Forms\Components\ToggleButtons::make('status')
+                        ToggleButtons::make('status')
                             ->label(__('Status'))
                             ->inline()
                             ->options(OrderStatus::class)
@@ -155,14 +168,14 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.email')
+                TextColumn::make('user.email')
                     ->label(__('User'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('purchase_cost')
+                TextColumn::make('purchase_cost')
                     ->label(__('Purchase cost'))
                     ->money(
                         currency: 'eur',
@@ -170,14 +183,14 @@ class OrderResource extends Resource
                     )
                     ->badge()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label(__('Status'))
                     ->sortable()
                     ->badge(),
-                Tables\Columns\TextColumn::make('payment_method')
+                TextColumn::make('payment_method')
                     ->label(__('Payment method'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->sortable()
                     ->date()
                     ->label(__('Order date')),
@@ -186,12 +199,12 @@ class OrderResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -206,9 +219,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'index' => ListOrders::route('/'),
+            'create' => CreateOrder::route('/create'),
+            'edit' => EditOrder::route('/{record}/edit'),
         ];
     }
 
@@ -218,7 +231,7 @@ class OrderResource extends Resource
             ->label(__('Order products'))
             ->relationship()
             ->schema([
-                Forms\Components\Select::make('orderable_type')
+                Select::make('orderable_type')
                     ->options([
                         // Product::class => 'Producto',
                         // ProductComplement::class => 'Complemento',
@@ -233,7 +246,7 @@ class OrderResource extends Resource
                         'md' => 5,
                     ]),
 
-                Forms\Components\Select::make('orderable_id')
+                Select::make('orderable_id')
                     ->label(__('Product'))
                     ->disabled(function (Get $get) {
                         return ! filled($get('orderable_type'));
@@ -261,7 +274,7 @@ class OrderResource extends Resource
                         'md' => 5,
                     ]),
 
-                Forms\Components\Select::make('product_variant_id')
+                Select::make('product_variant_id')
                     ->label(__('Product variant'))
                     ->options(function (Get $get) {
                         return ProductVariant::where('product_id', $get('orderable_id'))->pluck('name', 'id');
@@ -317,7 +330,7 @@ class OrderResource extends Resource
                         'md' => 5,
                     ]),
 
-                Forms\Components\TextInput::make('quantity')
+                TextInput::make('quantity')
                     ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
@@ -329,7 +342,7 @@ class OrderResource extends Resource
                     ])
                     ->required(),
 
-                Forms\Components\TextInput::make('unit_price')
+                TextInput::make('unit_price')
                     ->label(__('Unit price'))
                     ->disabled()
                     ->dehydrated()
@@ -340,9 +353,9 @@ class OrderResource extends Resource
                         'md' => 3,
                     ]),
 
-                Forms\Components\Section::make(__('Assembly'))
+                Section::make(__('Assembly'))
                     ->schema([
-                        Forms\Components\Toggle::make('assembly')
+                        Toggle::make('assembly')
                             ->label(__('Assembly'))
                             ->onIcon('heroicon-s-wrench-screwdriver')
                             ->offIcon('heroicon-c-x-mark')
@@ -366,7 +379,7 @@ class OrderResource extends Resource
                             })
                             ->default(false),
 
-                        Forms\Components\TextInput::make('assembly_price')
+                        TextInput::make('assembly_price')
                             ->label(__('Assembly price'))
                             ->disabled()
                             ->dehydrated()
@@ -424,7 +437,7 @@ class OrderResource extends Resource
     public static function setProductPrice(?string $id, string $class_name, Set $set): void
     {
         /**
-         * @var ?\App\Models\BaseProduct
+         * @var ?BaseProduct
          */
         $product = $class_name::find($id);
 

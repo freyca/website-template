@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Filament\Schemas\Schema;
 use App\Enums\AddressType;
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
@@ -11,7 +12,6 @@ use App\Events\UserCreated;
 use App\Models\Address;
 use App\Models\User;
 use Exception;
-use Filament\Forms\Form;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -78,9 +78,9 @@ class AddressBuilder
 
     private PaymentMethod $payment_method;
 
-    public function __construct(Form $form)
+    public function __construct(Schema $schema)
     {
-        $form_data = $form->getState();
+        $form_data = $schema->getState();
         $this->user = Auth::user();
 
         // Shipping values

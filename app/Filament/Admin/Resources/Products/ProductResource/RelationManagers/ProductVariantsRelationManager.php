@@ -4,9 +4,16 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\ProductResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,16 +25,16 @@ class ProductVariantsRelationManager extends RelationManager
 
     protected static string $relationship = 'productVariants';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('ean13')
+        return $schema
+            ->components([
+                TextInput::make('ean13')
                     ->label(__('Ean13'))
                     ->required()
                     ->numeric(),
 
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->label(__('Name'))
                     ->required(),
 
@@ -42,10 +49,10 @@ class ProductVariantsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute(__('Product variants'))
             ->columns([
-                Tables\Columns\TextColumn::make('ean13')
+                TextColumn::make('ean13')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->label(__('Price'))
                     ->money(
                         currency: 'eur',
@@ -53,7 +60,7 @@ class ProductVariantsRelationManager extends RelationManager
                     )
                     ->badge()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('price_with_discount')
+                TextColumn::make('price_with_discount')
                     ->label(__('Price with discount'))
                     ->money(
                         currency: 'eur',
@@ -61,7 +68,7 @@ class ProductVariantsRelationManager extends RelationManager
                     )
                     ->badge()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('productFeatureValues.name')
+                TextColumn::make('productFeatureValues.name')
                     ->sortable()
                     ->searchable()
                     ->label(__('Product feature values')),
@@ -70,15 +77,15 @@ class ProductVariantsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -4,12 +4,26 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Admin\Resources\Products\ProductResource\Pages\ListProducts;
+use App\Filament\Admin\Resources\Products\ProductResource\Pages\CreateProduct;
+use App\Filament\Admin\Resources\Products\ProductResource\Pages\EditProduct;
 use App\Filament\Admin\Resources\Products\ProductResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\Product;
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,19 +36,19 @@ class ProductResource extends Resource
 
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 1;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 self::mainSection(),
 
-                Forms\Components\Section::make(__('Category'))
+                Section::make(__('Category'))
                     ->schema([
-                        Forms\Components\Select::make('category_id')
+                        Select::make('category_id')
                             ->required()
                             ->label(__('Category'))
                             ->relationship(name: 'category', titleAttribute: 'name')
@@ -43,12 +57,12 @@ class ProductResource extends Resource
                             ->preload()
                             ->createOptionForm(
                                 [
-                                    Forms\Components\Section::make([
-                                        Forms\Components\TextInput::make('name')
+                                    Section::make([
+                                        TextInput::make('name')
                                             ->label(__('Name'))
                                             ->required()
                                             ->maxLength(255),
-                                        Forms\Components\TextInput::make('slug')
+                                        TextInput::make('slug')
                                             ->disabled(),
                                         // Forms\Components\TextInput::make('meta_description')
                                         //    ->label(__('Meta description'))
@@ -62,7 +76,7 @@ class ProductResource extends Resource
                                     ])
                                         ->columns(2),
 
-                                    Forms\Components\FileUpload::make('big_image')
+                                    FileUpload::make('big_image')
                                         ->label(__('Big image'))
                                         ->required()
                                         ->moveFiles()
@@ -141,18 +155,18 @@ class ProductResource extends Resource
 
                 self::imagesSection(),
 
-                Forms\Components\Section::make(__('Disassemblies'))->schema([
-                    Forms\Components\Repeater::make('disassemblies')
+                Section::make(__('Disassemblies'))->schema([
+                    Repeater::make('disassemblies')
                         ->label(__('Disassembly'))
                         ->relationship()
                         ->schema([
-                            Forms\Components\TextInput::make('name')
+                            TextInput::make('name')
                                 ->label(__('Name'))
                                 ->required()
                                 ->maxLength(255)
                                 ->live(),
 
-                            Forms\Components\FileUpload::make('main_image')
+                            FileUpload::make('main_image')
                                 ->label(__('Main image'))
                                 ->required()
                                 ->reorderable()
@@ -173,14 +187,14 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->sortable(),
 
-                Tables\Columns\ImageColumn::make('main_image')
+                ImageColumn::make('main_image')
                     ->circular()
                     ->label(__('Image')),
 
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
@@ -203,12 +217,12 @@ class ProductResource extends Resource
                 //    )
                 //    ->sortable(),
 
-                Tables\Columns\IconColumn::make('published')
+                IconColumn::make('published')
                     ->label(__('Published'))
                     ->boolean()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->sortable()
                     ->date()
                     ->label(__('Creation date')),
@@ -216,12 +230,12 @@ class ProductResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('id', 'desc');
@@ -237,9 +251,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => ListProducts::route('/'),
+            'create' => CreateProduct::route('/create'),
+            'edit' => EditProduct::route('/{record}/edit'),
         ];
     }
 

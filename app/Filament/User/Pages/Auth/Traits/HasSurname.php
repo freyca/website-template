@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\User\Pages\Auth\Traits;
 
-use Filament\Forms\Components\Component;
+use Filament\Schemas\Components\Component;
 use Filament\Forms\Components\TextInput;
 
 trait HasSurname

@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages\ListProductSpareParts;
+use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages\CreateProductSparePart;
+use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages\EditProductSparePart;
 use App\Filament\Admin\Resources\Products\ProductSparePartResource\Pages;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\ProductSparePart;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,14 +29,14 @@ class ProductSparePartResource extends Resource
 
     protected static ?string $model = ProductSparePart::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-wrench';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-s-wrench';
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 self::mainSection(),
 
                 Section::make(__('Disassembly'))
@@ -58,19 +67,19 @@ class ProductSparePartResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->sortable(),
 
-                Tables\Columns\ImageColumn::make('main_image')
+                ImageColumn::make('main_image')
                     ->circular()
                     ->label(__('Image')),
 
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->label(__('Price'))
                     ->badge()
                     ->money(
@@ -79,7 +88,7 @@ class ProductSparePartResource extends Resource
                     )
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('price_with_discount')
+                TextColumn::make('price_with_discount')
                     ->label(__('Price with discount'))
                     ->badge()
                     ->money(
@@ -88,12 +97,12 @@ class ProductSparePartResource extends Resource
                     )
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('published')
+                IconColumn::make('published')
                     ->label(__('Published'))
                     ->boolean()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->sortable()
                     ->date()
                     ->label(__('Creation date')),
@@ -101,12 +110,12 @@ class ProductSparePartResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('id', 'desc');
@@ -120,9 +129,9 @@ class ProductSparePartResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductSpareParts::route('/'),
-            'create' => Pages\CreateProductSparePart::route('/create'),
-            'edit' => Pages\EditProductSparePart::route('/{record}/edit'),
+            'index' => ListProductSpareParts::route('/'),
+            'create' => CreateProductSparePart::route('/create'),
+            'edit' => EditProductSparePart::route('/{record}/edit'),
         ];
     }
 

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Users\OrderResource\Pages;
 
+use Filament\Actions\CreateAction;
+use Filament\Schemas\Components\Tabs\Tab;
 use App\Enums\OrderStatus;
 use App\Filament\Admin\Resources\Users\OrderResource;
 use Filament\Actions;
-use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 
 class ListOrders extends ListRecords
@@ -17,7 +18,7 @@ class ListOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 

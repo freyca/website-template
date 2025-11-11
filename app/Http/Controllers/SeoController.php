@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\DTO\SeoTags;
 use App\Repositories\Database\Categories\CategoryRepositoryInterface;
 use Illuminate\View\View;
@@ -15,7 +16,7 @@ class SeoController extends Controller
     public function desbrozadorasBaratas(): View
     {
         /**
-         * @var \App\Models\Category
+         * @var Category
          */
         $category = $this->categoryRepository->getAll()->first();
         $products = $this->categoryRepository->getProducts($category);

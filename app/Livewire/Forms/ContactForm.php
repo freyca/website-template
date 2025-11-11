@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms;
 
+use Filament\Actions\Contracts\HasActions;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Schemas\Schema;
 use App\Events\ContactFormSubmitted;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Illuminate\View\View;
 use Livewire\Component;
 
 /**
- * @property Form $form
+ * @property \Filament\Schemas\Schema $form
  */
-class ContactForm extends Component implements HasForms
+class ContactForm extends Component implements HasForms, HasActions
 {
+    use InteractsWithActions;
     use InteractsWithForms;
 
     public ?array $contactFormData = [];
@@ -27,10 +30,10 @@ class ContactForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        $form = $form
-            ->schema([
+        $schema = $schema
+            ->components([
                 TextInput::make('name')
                     ->required()
                     ->placeholder(__('Name'))
@@ -51,7 +54,7 @@ class ContactForm extends Component implements HasForms
                     ->columnSpanFull(),
             ])->columns(['sm' => 1, 'lg' => 2]);
 
-        return $form->statePath('contactFormData');
+        return $schema->statePath('contactFormData');
     }
 
     public function submit(): void

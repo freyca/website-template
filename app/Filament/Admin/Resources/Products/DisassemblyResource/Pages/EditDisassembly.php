@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Products\DisassemblyResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use App\Filament\Admin\Resources\Products\DisassemblyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -13,7 +14,7 @@ class EditDisassembly extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

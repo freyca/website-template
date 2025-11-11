@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Features;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Admin\Resources\Features\CategoryResource\Pages\ListCategories;
+use App\Filament\Admin\Resources\Features\CategoryResource\Pages\CreateCategory;
+use App\Filament\Admin\Resources\Features\CategoryResource\Pages\EditCategory;
 use App\Filament\Admin\Resources\Features\CategoryResource\Pages;
 use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,18 +28,18 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-tag';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make([
-                    Forms\Components\TextInput::make('name')
+        return $schema
+            ->components([
+                Section::make([
+                    TextInput::make('name')
                         ->label(__('Name'))
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\TextInput::make('slug')
+                    TextInput::make('slug')
                         ->disabled(),
                     // Forms\Components\TextInput::make('meta_description')
                     //    ->label(__('Meta description'))
@@ -41,7 +52,7 @@ class CategoryResource extends Resource
                     //    ->columnSpanFull(),
                 ])->columns(2),
 
-                Forms\Components\FileUpload::make('big_image')
+                FileUpload::make('big_image')
                     ->label(__('Big image'))
                     ->required()
                     ->moveFiles()
@@ -62,11 +73,11 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('small_image')
+                ImageColumn::make('small_image')
                     ->circular()
                     ->label(__('Image')),
 
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->label(__('Name'))
                     ->sortable()
                     ->searchable(),
@@ -74,12 +85,12 @@ class CategoryResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -94,9 +105,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => ListCategories::route('/'),
+            'create' => CreateCategory::route('/create'),
+            'edit' => EditCategory::route('/{record}/edit'),
         ];
     }
 

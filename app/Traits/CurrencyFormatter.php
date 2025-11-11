@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use Exception;
 use Illuminate\Support\Number;
 
 trait CurrencyFormatter
@@ -13,7 +14,7 @@ trait CurrencyFormatter
         $locale = config('app.locale');
 
         if (! is_string($locale)) {
-            throw new \Exception('Invalid locale configured');
+            throw new Exception('Invalid locale configured');
         }
 
         return strval(

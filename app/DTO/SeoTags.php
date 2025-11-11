@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use Throwable;
 use App\Exceptions\SeoException;
 use App\Models\BaseProduct;
 use App\Models\Category;
@@ -78,7 +79,7 @@ class SeoTags
         try {
             $this->meta_title = $seo_container->name ? $seo_container->name : throw new SeoException('Object does not has meta_title');
             $this->meta_description = $seo_container->meta_description ? $seo_container->meta_description : throw new SeoException('Object does not has meta_description');
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw new SeoException($th->getMessage().' '.$seo_container::class.' - ID: '.$seo_container->id);
         }
     }

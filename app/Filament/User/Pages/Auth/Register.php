@@ -6,10 +6,9 @@ namespace App\Filament\User\Pages\Auth;
 
 use App\DTO\SeoTags;
 use App\Filament\User\Pages\Auth\Traits\HasSurname;
-use Filament\Pages\Auth\Register as BaseRegister;
 use Illuminate\View\View;
 
-class Register extends BaseRegister
+class Register extends \Filament\Auth\Pages\Register
 {
     use HasSurname;
 
@@ -30,7 +29,7 @@ class Register extends BaseRegister
         return [
             'form' => $this->form(
                 $this->makeForm()
-                    ->schema([
+                    ->components([
                         $this->getNameFormComponent(),
                         $this->getSurNameFormComponent(),
                         $this->getEmailFormComponent(),

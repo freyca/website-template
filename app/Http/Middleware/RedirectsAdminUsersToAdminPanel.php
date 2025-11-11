@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use App\Enums\Role;
 use Closure;
 use Illuminate\Http\Request;
@@ -15,11 +16,11 @@ class RedirectsAdminUsersToAdminPanel
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request):Response $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var ?\App\Models\User */
+        /** @var ?User */
         $user = Auth::getUser();
 
         return match (true) {

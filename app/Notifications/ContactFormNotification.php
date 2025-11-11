@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -20,7 +20,7 @@ class ContactFormNotification extends Notification
 
     private string $user_message;
 
-    public function __construct(private Form $form)
+    public function __construct(private Schema $form)
     {
         $form_data = $this->form->getState();
 

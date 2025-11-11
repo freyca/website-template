@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\ProductComplement;
+use App\Models\ProductSparePart;
 use App\DTO\OrderProductDTO;
 use App\Models\Product;
 use Illuminate\Support\Collection;
@@ -98,7 +100,7 @@ class PriceCalculator
         }
 
         /**
-         * @var \App\Models\ProductComplement|\App\Models\ProductSparePart
+         * @var ProductComplement|ProductSparePart
          */
         $product = $order_product->getProduct();
 

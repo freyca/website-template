@@ -4,31 +4,36 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\Traits;
 
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 use App\Models\Product;
 use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
-use FilamentTiptapEditor\TiptapEditor;
+use Filament\Forms\Components\RichEditor;
 use Livewire\Component;
 
 trait FormBuilderTrait
 {
-    private static function mainSection(): Forms\Components\Section
+    private static function mainSection(): Section
     {
-        return Forms\Components\Section::make()->schema([
-            Forms\Components\Toggle::make('published')
+        return Section::make()->schema([
+            Toggle::make('published')
                 ->label(__('Visible on shop'))
                 ->helperText(__('If off, this product will be hidden from the shop.'))
                 ->columnSpan('full')
                 ->default(false),
 
-            Forms\Components\TextInput::make('ean13')
+            TextInput::make('ean13')
                 ->label(__('Ean13'))
                 ->required()
                 ->numeric(),
 
-            Forms\Components\TextInput::make('name')
+            TextInput::make('name')
                 ->label(__('Name'))
                 ->required()
                 ->maxLength(255),
@@ -51,7 +56,7 @@ trait FormBuilderTrait
             //        )
             // ),
 
-            Forms\Components\TextInput::make('slug')
+            TextInput::make('slug')
                 ->disabled(),
 
             // Forms\Components\TextInput::make('slogan')
@@ -67,17 +72,17 @@ trait FormBuilderTrait
         ])->columns(2);
     }
 
-    private static function priceSection(): Forms\Components\Section
+    private static function priceSection(): Section
     {
-        return Forms\Components\Section::make(__('Pricing'))
+        return Section::make(__('Pricing'))
             ->schema([
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->label(__('Precio'))
                     ->numeric()
                     ->suffix('€')
                     ->required(),
 
-                Forms\Components\TextInput::make('price_with_discount')
+                TextInput::make('price_with_discount')
                     ->label(__('Price with discount'))
                     ->suffix('€')
                     ->numeric(),
@@ -90,17 +95,17 @@ trait FormBuilderTrait
             ])->columns(3);
     }
 
-    private static function priceSectionWithParentProduct(): Forms\Components\Section
+    private static function priceSectionWithParentProduct(): Section
     {
-        return Forms\Components\Section::make(__('Pricing'))
+        return Section::make(__('Pricing'))
             ->schema([
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->label(__('Precio'))
                     ->numeric()
                     ->suffix('€')
                     ->required(),
 
-                Forms\Components\TextInput::make('price_with_discount')
+                TextInput::make('price_with_discount')
                     ->label(__('Price with discount'))
                     ->suffix('€')
                     ->numeric(),
@@ -118,29 +123,29 @@ trait FormBuilderTrait
             ])->columns(2);
     }
 
-    private static function dimensionsSection(): Forms\Components\Section
+    private static function dimensionsSection(): Section
     {
-        return Forms\Components\Section::make(__('Dimensions'))
+        return Section::make(__('Dimensions'))
             ->schema([
-                Forms\Components\TextInput::make('dimension_length')
+                TextInput::make('dimension_length')
                     ->label(__('Length'))
                     ->numeric()
                     ->suffix('cm')
                     ->required(),
 
-                Forms\Components\TextInput::make('dimension_width')
+                TextInput::make('dimension_width')
                     ->label(__('Width'))
                     ->suffix('cm')
                     ->numeric()
                     ->required(),
 
-                Forms\Components\TextInput::make('dimension_height')
+                TextInput::make('dimension_height')
                     ->label(__('Height'))
                     ->suffix('cm')
                     ->numeric()
                     ->required(),
 
-                Forms\Components\TextInput::make('dimension_weight')
+                TextInput::make('dimension_weight')
                     ->label(__('Weight'))
                     ->suffix('kg')
                     ->numeric()
@@ -149,11 +154,11 @@ trait FormBuilderTrait
             ])->columns(4);
     }
 
-    private static function featuresSection(): Forms\Components\Section
+    private static function featuresSection(): Section
     {
-        return Forms\Components\Section::make(__('Features'))
+        return Section::make(__('Features'))
             ->schema([
-                Forms\Components\Select::make('product_features')
+                Select::make('product_features')
                     ->required()
                     ->label(__('Select features'))
                     ->relationship(name: 'productFeatureValues', titleAttribute: 'name')
@@ -162,11 +167,11 @@ trait FormBuilderTrait
                     ->preload()
                     ->multiple()
                     ->createOptionForm([
-                        Forms\Components\Section::make()->schema([
-                            Forms\Components\TextInput::make('name')
+                        Section::make()->schema([
+                            TextInput::make('name')
                                 ->required()
                                 ->maxLength(255),
-                            TiptapEditor::make('description')
+                            RichEditor::make('description')
                                 ->required()
                                 ->columnSpan('full'),
                         ]),
@@ -175,26 +180,26 @@ trait FormBuilderTrait
             ])->columns(1);
     }
 
-    private static function textsSection(): Forms\Components\Section
+    private static function textsSection(): Section
     {
-        return Forms\Components\Section::make(__('Texts'))->schema([
-            TiptapEditor::make('short_description')
+        return Section::make(__('Texts'))->schema([
+            RichEditor::make('short_description')
                 ->label(__('Short description'))
                 ->required()
                 ->columnSpan('full'),
 
-            TiptapEditor::make('description')
+            RichEditor::make('description')
                 ->label(__('Full Description'))
                 ->required()
                 ->columnSpan('full'),
         ]);
     }
 
-    private static function imagesSection(): Forms\Components\Section
+    private static function imagesSection(): Section
     {
-        return Forms\Components\Section::make(__('Images'))
+        return Section::make(__('Images'))
             ->schema([
-                Forms\Components\FileUpload::make('main_image')
+                FileUpload::make('main_image')
                     ->label(__('Main image'))
                     ->required()
                     ->reorderable()
@@ -216,11 +221,11 @@ trait FormBuilderTrait
             ])->columns(2);
     }
 
-    private static function relatedProductsSection(): Forms\Components\Section
+    private static function relatedProductsSection(): Section
     {
-        return Forms\Components\Section::make(__('Related products'))
+        return Section::make(__('Related products'))
             ->schema([
-                Forms\Components\Select::make('related_products')
+                Select::make('related_products')
                     ->label(__('Select products'))
                     ->required()
                     ->multiple()

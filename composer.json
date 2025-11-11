@@ -10,11 +10,10 @@
     "require": {
         "php": "^8.2",
         "andreiio/blade-remix-icon": "^3.6",
-        "awcodes/filament-tiptap-editor": "^3.5",
         "blade-ui-kit/blade-heroicons": "^2.3",
         "creagia/redsys-php": "^3.0",
-        "dutchcodingcompany/filament-socialite": "^2.4",
-        "filament/filament": "^3.2",
+        "dutchcodingcompany/filament-socialite": "^3.0",
+        "filament/filament": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.9",
         "owenvoke/blade-fontawesome": "^2.9",
@@ -24,6 +23,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
+        "filament/upgrade": "^4.0",
         "larastan/larastan": "^3.0",
         "laravel/pint": "^1.15",
         "laravel/sail": "^1.26",

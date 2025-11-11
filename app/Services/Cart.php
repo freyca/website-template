@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Throwable;
 use App\Models\BaseProduct;
 use App\Models\ProductVariant;
 use App\Repositories\Cart\CartRepositoryInterface;
@@ -21,7 +22,7 @@ final class Cart implements CartRepositoryInterface
             $this->repository->add($product, $quantity, $assemble, $variant);
 
             return true;
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return false;
         }
     }
