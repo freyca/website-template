@@ -1,5 +1,6 @@
 @import 'swiper/css/bundle';
 @import 'tailwindcss';
+@import "./filament_colors.css";
 
 /* latin-ext */
 @font-face {

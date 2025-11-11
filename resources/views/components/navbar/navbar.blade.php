@@ -8,7 +8,7 @@
             <div class="hidden md:flex space-x-4 content-start">
                 @if(Auth::user())
                     @foreach (config('custom.nav-sections') as $section => $url)
-                        <a class="relative block space-y-3 p-3 rounded hover:bg-primary-700 hover:text-white" href="{{ $url }}">
+                        <a class="relative block space-y-3 p-3 rounded hover:bg-primary-300 hover:text-white" href="{{ $url }}">
                             <p class="font-semibold text-primary-700">{{ ucfirst($section) }}</p>
                         </a>
                     @endforeach

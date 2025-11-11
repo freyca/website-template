@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+
 import tailwindcss from "@tailwindcss/vite";
-
-import preset from './vendor/filament/support/tailwind.config.preset'
-
 const colors = require('tailwindcss/colors');
 
 export default {
-    presets: [preset],
     content: [
         './app/Filament/**/*.php',
         './resources/views/**/*.blade.php',
