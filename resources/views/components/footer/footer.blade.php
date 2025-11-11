@@ -2,7 +2,7 @@
     <div class="w-full max-w-screen-xl mx-auto py-2 sm:py-4">
         <div class="mx-4 sm:mx-10 flex items-center justify-between">
             <a href="/" class="text-sm font-medium text-primary-300 mb-2 sm:mb-0 sm:flex items-center text-center">
-                <img src="{{ @asset('/images/logo.png') }}" class="h-8 mx-2" alt="Roteco" />
+                <img src="{{ config('custom.web_logo') }}" class="h-8 mx-2" alt="{{ config('custom.web_logo_alt') }}" />
                 <span class="self-center text-xl sm:text-2xl font-semibold text-primary-50 whitespace-nowrap">
                     Roteco
                 </span>

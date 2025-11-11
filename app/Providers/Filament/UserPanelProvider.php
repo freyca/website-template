@@ -40,7 +40,7 @@ class UserPanelProvider extends PanelProvider
             )
             ->darkMode(false)
             ->topbar()
-            ->brandLogo('https://roteco.es/wp-content/uploads/2020/12/roteco-logo-web.png')
+            ->brandLogo(asset('images/logo.png'))
             ->navigationItems([
                 NavigationItem::make(__('Home'))
                     ->url('/')
