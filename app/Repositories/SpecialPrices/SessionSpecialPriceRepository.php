@@ -190,6 +190,6 @@ class SessionSpecialPriceRepository implements SpecialPriceRepositoryInterface
             $this->product = $product;
         }
 
-        $this->related_ean_13 = $product->products()->pluck('ean13');
+        $this->related_ean_13 = $product->products()?->pluck('ean13');
     }
 }
