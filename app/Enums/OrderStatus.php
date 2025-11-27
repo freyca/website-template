@@ -40,8 +40,8 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Shipped => Color::generateV3Palette('rgb(22, 163, 74)'),
             self::Delivered => Color::generateV3Palette('rgb(22, 101, 52)'),
             self::Cancelled => 'gray',
-            self::PaymentFailed => 'red',
-            self::PaymentPending => 'amber',
+            self::PaymentFailed => 'danger',
+            self::PaymentPending => 'warning',
         };
     }
 

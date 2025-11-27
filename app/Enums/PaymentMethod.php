@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Filament\Support\Colors\Color;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -25,12 +26,12 @@ enum PaymentMethod: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string
+    public function getColor(): string|array
     {
         return match ($this) {
             self::BankTransfer => 'warning',
             self::Card => 'success',
-            self::Bizum => 'teal',
+            self::Bizum => Color::generateV3Palette('rgb(8, 131, 135)'),
             self::PayPal => 'info',
         };
     }
