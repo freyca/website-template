@@ -4,7 +4,7 @@
     <x-bread-crumbs :breadcrumbs="$breadcrumbs" />
 
     <div class="mx-4 my-4">
-        <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
+        <h1 class="text-3xl font-bold mb-4 text-center">{{ $product->name }}</h1>
         <h2 class="mb-4">{{ $product->slogan }}</h2>
 
         <div class="grid gap-4 md:gap-14 lg:grid-cols-1 xl:grid-cols-2">
