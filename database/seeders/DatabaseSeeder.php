@@ -24,49 +24,28 @@ class DatabaseSeeder extends Seeder
         $this->generateImage(config('custom.product-image-storage'), $imageName);
         $this->generateImage(config('custom.category-image-storage'), $imageName);
 
-        // ProductFeature::factory(10)
-        //    ->has(
-        //        ProductFeatureValue::factory(2)
-        //    )->create();
-
-        Category::factory(3)
+        // Create minimal product catalog (fast seeding)
+        // 2 categories × 3 products × 2 disassemblies × 3 spare parts = 36 total
+        Category::factory(2)
             ->has(
-                Product::factory(5)
+                Product::factory(3)
                     ->has(
-                        Disassembly::factory(3)
-                            ->has(ProductSparePart::factory(5))
+                        Disassembly::factory(2)
+                            ->has(ProductSparePart::factory(3))
                     )
-                // ->has(
-                //    ProductSparePart::factory(10)
-                //        ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-                // )->has(
-                //    ProductComplement::factory(1)
-                //        ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-                // )->hasAttached(ProductFeatureValue::find(rand(1, 10)))
             )
             ->create();
 
-        // Products with variations
-        // Product::factory(5)
-        //    ->has(
-        //        ProductVariant::factory(2)
-        //            ->hasAttached(ProductFeatureValue::find(rand(1, 10)))
-        //    )
-        //    ->has(
-        //        Disassembly::factory(3)
-        //            ->has(ProductSparePart::factory(5))
-        //    )
-        //    ->create();
-
-        // Create customers with addresses and orders
-        for ($counter = 0; $counter < 10; $counter++) {
+        // Create customers with addresses and minimal orders
+        // 5 customers × 3 addresses × 2 orders × 1 product = fast
+        for ($counter = 0; $counter < 5; $counter++) {
             $user = User::factory()->customer()->create();
 
-            Address::factory(5)->for($user)->create();
+            Address::factory(3)->for($user)->create();
 
-            Order::factory(5)
+            Order::factory(2)
                 ->for($user)
-                ->has(OrderProduct::factory(2))
+                ->has(OrderProduct::factory(1))
                 ->create();
         }
 
