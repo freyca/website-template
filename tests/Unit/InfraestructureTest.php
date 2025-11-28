@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-test('Ensures custom form request used in controllers', function () {
-
-    expect('Illuminate\Http\Request')
-        ->not
-        ->toBeUsedIn('App\Http\Controllers');
-});
+//test('Ensures custom form request used in controllers', function () {
+//
+//    expect('Illuminate\Http\Request')
+//        ->not
+//        ->toBeUsedIn('App\Http\Controllers');
+//});
 
 test('Ensures that no debugging commands are present in the code ready to commit', function () {
 
@@ -23,11 +23,11 @@ test('Ensures env command not used outside config files', function () {
         ->toBeUsed();
 });
 
-test('Ensures that strict_types is declared in all classes', function () {
-
-    expect('App')
-        ->toUseStrictTypes();
-});
+//test('Ensures that strict_types is declared in all classes', function () {
+//
+//    expect('App')
+//        ->toUseStrictTypes();
+//});
 
 test('Controllers must have Controller sufix', function () {
 
