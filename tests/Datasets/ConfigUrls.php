@@ -5,10 +5,6 @@ dataset('configurls', function () {
         '/',
         '/categorias',
         '/productos',
-        '/complementos-producto',
-        '/piezas-de-repuesto',
-        '/sobre-nosotros',
         '/carrito',
-        '/contacto',
     ];
 });
