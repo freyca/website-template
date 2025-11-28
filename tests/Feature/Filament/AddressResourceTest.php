@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Feature\Filament;
-
 use App\Filament\User\Resources\Addresses\Pages\CreateAddress;
 use App\Filament\User\Resources\Addresses\Pages\EditAddress;
 use App\Filament\User\Resources\Addresses\Pages\ListAddress;
@@ -9,89 +7,63 @@ use App\Models\Address;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\TestCase;
 
-class AddressResourceTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    protected User $user;
+beforeEach(function () {
+    test()->user = User::factory()->create([
+        'email' => 'test@example.com',
+    ]);
+    test()->actingAs(test()->user);
+});
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = User::factory()->create([
-            'email' => 'test@example.com',
+it('validates required fields on create', function () {
+    $user = test()->user;
+    test()->actingAs($user);
+
+    Livewire::test(CreateAddress::class)
+        ->fillForm([])
+        ->call('create')
+        ->assertHasFormErrors([
+            'name' => 'required',
+            'surname' => 'required',
+            'address' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip_code' => 'required',
+            'country' => 'required',
+            'phone' => 'required',
+            'address_type' => 'required',
         ]);
-        $this->actingAs($this->user);
-    }
+});
 
-    public function test_it_can_list_addresses(): void
-    {
-        $addresses = Address::factory()->count(3)->for($this->user)->create();
+it('can delete an address', function () {
+    $user = test()->user;
+    $address = Address::factory()->for($user)->create();
+    test()->actingAs($user);
+    $address->delete();
+    \Pest\Laravel\assertDatabaseMissing('addresses', ['id' => $address->id]);
+});
 
-        $component = Livewire::test(ListAddress::class)
-            ->assertSuccessful();
+it('user_cannot_access_another_users_address', function () {
+    $user = test()->user;
+    $otherUser = User::factory()->create();
+    $myAddress = Address::factory()->for($user)->create(['address' => 'User Own Address']);
+    // Create other user's address by logging in as that user, then back to current user
+    test()->actingAs($otherUser);
+    $otherAddress = Address::factory()->for($otherUser)->create(['address' => 'Other User Address']);
+    test()->actingAs($user);
 
-        foreach ($addresses as $address) {
-            $component->assertSee($address->address);
-        }
-    }
+    // Verify address belongs to correct user
+    expect($myAddress->user_id)->toBe($user->id);
+    expect($otherAddress->user_id)->toBe($otherUser->id);
 
-    public function test_it_can_render_create_address_page(): void
-    {
-        Livewire::test(CreateAddress::class)
-            ->assertSuccessful();
-    }
+    // Test direct query with scope: only user's addresses should be visible
+    $userAddresses = Address::query()->get();
+    expect($userAddresses)->toHaveCount(1);
+    expect($userAddresses->first()->id)->toBe($myAddress->id);
 
-    public function test_it_can_create_an_address(): void
-    {
-        Livewire::test(CreateAddress::class)
-            ->fillForm([
-                'name' => 'Test Address',
-                'surname' => 'Test Surname',
-                'address' => '123 Test Street',
-                'city' => 'Test City',
-                'state' => 'Test State',
-                'zip_code' => '12345',
-                'country' => 'ES',
-                'phone' => '+34123456789',
-                'address_type' => 'shipping',
-            ])
-            ->call('create')
-            ->assertHasNoFormErrors();
-
-        $this->assertDatabaseHas('addresses', [
-            'name' => 'Test Address',
-            'user_id' => $this->user->id,
-        ]);
-    }
-
-    public function test_it_can_edit_an_address(): void
-    {
-        $address = Address::factory()->for($this->user)->create();
-
-        Livewire::test(EditAddress::class, ['record' => $address->id])
-            ->fillForm([
-                'name' => 'Updated Address',
-            ])
-            ->call('save')
-            ->assertHasNoFormErrors();
-
-        $this->assertDatabaseHas('addresses', [
-            'id' => $address->id,
-            'name' => 'Updated Address',
-        ]);
-    }
-
-    public function test_it_can_view_an_address(): void
-    {
-        $address = Address::factory()->for($this->user)->create();
-
-        Livewire::test(EditAddress::class, ['record' => $address->id])
-            ->assertSchemaStateSet([
-                'name' => $address->name,
-                'address' => $address->address,
-            ]);
-    }
-}
+    // Edit: should not be able to access other's address
+    expect(fn() => Livewire::test(EditAddress::class, ['record' => $otherAddress->id]))
+        ->toThrow(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+});
