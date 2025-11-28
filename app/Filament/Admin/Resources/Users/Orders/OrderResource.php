@@ -9,7 +9,7 @@ use App\Enums\PaymentMethod;
 use App\Filament\Admin\Resources\Users\Orders\Pages\CreateOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\EditOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\ListOrders;
-use App\Filament\Exports\OrderExporter;
+use App\Filament\Admin\Exports\OrderExporter;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;

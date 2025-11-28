@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Exports;
+namespace App\Filament\Admin\Exports;
 
 use App\Models\Order;
 use Filament\Actions\Exports\ExportColumn;

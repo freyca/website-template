@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Imports;
+namespace App\Filament\Admin\Imports;
 
 use App\Models\ProductSparePart;
 use Filament\Actions\Imports\ImportColumn;

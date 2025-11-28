@@ -6,7 +6,7 @@ use App\Filament\Admin\Resources\Products\Disassemblies\Pages\CreateDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\EditDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\ListDisassemblies;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait as TraitsFormBuilderTrait;
-use App\Filament\Imports\DisassemblyImporter;
+use App\Filament\Admin\Imports\DisassemblyImporter;
 use App\Models\Disassembly;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;

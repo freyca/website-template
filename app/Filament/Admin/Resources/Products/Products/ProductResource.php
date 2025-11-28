@@ -8,7 +8,7 @@ use App\Filament\Admin\Resources\Products\Products\Pages\CreateProduct;
 use App\Filament\Admin\Resources\Products\Products\Pages\EditProduct;
 use App\Filament\Admin\Resources\Products\Products\Pages\ListProducts;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
-use App\Filament\Imports\ProductImporter;
+use App\Filament\Admin\Imports\ProductImporter;
 use App\Models\Product;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
