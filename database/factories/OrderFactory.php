@@ -19,34 +19,43 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::inRandomOrder()->first();
-
         return [
+            'user_id' => User::factory(),
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
         ];
     }
 
+    public function configure()
+    {
+        return $this->afterCreating(function ($order) {
+            // Auto-create a shipping address if the order doesn't have one
+            if (!$order->shippingAddress) {
+                $order->shippingAddress()->create([
+                    'user_id' => $order->user_id,
+                    'type' => 'shipping',
+                    'name' => fake()->name(),
+                    'address' => fake()->address(),
+                    'phone' => fake()->phoneNumber(),
+                    'city' => fake()->city(),
+                    'province' => fake()->state(),
+                    'postal_code' => fake()->postcode(),
+                    'country' => 'ES',
+                ]);
+            }
+        });
+    }
+
     private function getRandomPaymentMethod(): string
     {
-        $payment_methods = [];
-
-        foreach (PaymentMethod::cases() as $case) {
-            array_push($payment_methods, $case->value);
-        }
-
-        return fake()->randomElement($payment_methods);
+        return fake()->randomElement(
+            array_map(fn($case) => $case->value, PaymentMethod::cases())
+        );
     }
 
     private function getRandomOrderStatus(): OrderStatus
     {
-        $order_status = [];
-
-        foreach (OrderStatus::cases() as $case) {
-            array_push($order_status, $case);
-        }
-
-        return fake()->randomElement($order_status);
+        return fake()->randomElement(OrderStatus::cases());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class DisassemblyFactory extends Factory
         return [
             'name' => fake()->unique()->catchPhrase(),
             'main_image' => 'product-images/sample-image.png',
+            'product_id' => Product::factory(),
         ];
     }
 }
