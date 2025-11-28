@@ -20,8 +20,13 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
+        $shippingAddress = \App\Models\Address::factory()->for($user)->create([
+            'address_type' => \App\Enums\AddressType::Shipping,
+        ]);
         return [
-            'user_id' => User::factory(),
+            'user_id' => $user->id,
+            'shipping_address_id' => $shippingAddress->id,
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),
             'payment_method' => $this->getRandomPaymentMethod(),
             'status' => $this->getRandomOrderStatus(),
