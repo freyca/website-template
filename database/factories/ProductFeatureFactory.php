@@ -19,19 +19,8 @@ class ProductFeatureFactory extends Factory
     {
         return [
             'name' => fake()->unique()->catchPhrase(),
-            'family' => $this->getRandomFamily(),
+            'family' => fake()->randomElement(ProductFeatureFamily::cases())->value,
             'description' => fake()->realText(1000),
         ];
-    }
-
-    private function getRandomFamily(): string
-    {
-        $feature_families = [];
-
-        foreach (ProductFeatureFamily::cases() as $case) {
-            array_push($feature_families, $case->value);
-        }
-
-        return fake()->randomElement($feature_families);
     }
 }

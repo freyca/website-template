@@ -18,28 +18,17 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'address_type' => $this->getRandomAddressType(),
-            'name' => fake()->name(),
+            'address_type' => fake()->randomElement(AddressType::cases()),
+            'name' => fake()->firstName(),
             'surname' => fake()->lastName(),
-            'email' => fake()->email(),
-            'financial_number' => fake()->randomNumber(9, true).fake()->randomLetter(),
+            'email' => fake()->unique()->safeEmail(),
+            'financial_number' => fake()->numerify('#########') . fake()->randomLetter(),
             'phone' => fake()->phoneNumber(),
-            'address' => fake()->address(),
+            'address' => fake()->streetAddress(),
             'city' => fake()->city(),
             'state' => fake()->state(),
             'zip_code' => fake()->numberBetween(10000, 99999),
             'country' => fake()->country(),
         ];
-    }
-
-    private function getRandomAddressType(): AddressType
-    {
-        $address_type = [];
-
-        foreach (AddressType::cases() as $case) {
-            array_push($address_type, $case);
-        }
-
-        return fake()->randomElement($address_type);
     }
 }

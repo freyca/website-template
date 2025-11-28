@@ -49,7 +49,7 @@ class ProductFactory extends Factory
             // 'meta_description' => fake()->realText(20),
             // 'short_description' => fake()->realText(200),
             // 'description' => fake()->realText(1000),
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory()->create()->id,
             'main_image' => 'product-images/sample-image.png',
         ];
     }

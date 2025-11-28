@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\AddressType;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Models\Address;
@@ -21,47 +22,16 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $user = User::factory()->create();
-        $shippingAddress = \App\Models\Address::factory()->for($user)->create([
-            'address_type' => \App\Enums\AddressType::Shipping,
-        ]);
+        $shippingAddress = Address::factory()
+            ->for($user)
+            ->create(['address_type' => AddressType::Shipping]);
+
         return [
             'user_id' => $user->id,
             'shipping_address_id' => $shippingAddress->id,
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),
-            'payment_method' => $this->getRandomPaymentMethod(),
-            'status' => $this->getRandomOrderStatus(),
+            'payment_method' => fake()->randomElement(PaymentMethod::cases())->value,
+            'status' => fake()->randomElement(OrderStatus::cases()),
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function ($order) {
-            // Auto-create a shipping address if the order doesn't have one
-            if (!$order->shippingAddress) {
-                $order->shippingAddress()->create([
-                    'user_id' => $order->user_id,
-                    'type' => 'shipping',
-                    'name' => fake()->name(),
-                    'address' => fake()->address(),
-                    'phone' => fake()->phoneNumber(),
-                    'city' => fake()->city(),
-                    'province' => fake()->state(),
-                    'postal_code' => fake()->postcode(),
-                    'country' => 'ES',
-                ]);
-            }
-        });
-    }
-
-    private function getRandomPaymentMethod(): string
-    {
-        return fake()->randomElement(
-            array_map(fn($case) => $case->value, PaymentMethod::cases())
-        );
-    }
-
-    private function getRandomOrderStatus(): OrderStatus
-    {
-        return fake()->randomElement(OrderStatus::cases());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Disassembly;
 use Database\Traits\WithProductDiscounts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,8 +27,9 @@ class ProductSparePartFactory extends Factory
             'ean13' => fake()->unique()->ean13(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),
-            // 'price_when_user_owns_product' => $price * 0.8,
             'published' => fake()->boolean(75),
+            'disassembly_id' => Disassembly::inRandomOrder()->first()?->id ?? Disassembly::factory(),
+            // 'price_when_user_owns_product' => $price * 0.8,
             // 'stock' => fake()->numberBetween(10, 100),
             // 'dimension_length' => fake()->randomFloat(2, 5, 100),
             // 'dimension_width' => fake()->randomFloat(2, 5, 100),
