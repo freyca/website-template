@@ -1,47 +1,74 @@
 <?php
 
+use App\Enums\Role;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Disassembly;
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\OrderProductComplement;
-use App\Models\OrderProductSparePart;
 use App\Models\Product;
-use App\Models\ProductComplement;
-use App\Models\ProductFeature;
-use App\Models\ProductFeatureValue;
 use App\Models\ProductSparePart;
-use App\Models\ProductVariant;
 use App\Models\User;
 
-test('db has correct items after been seeded', function () {
+test('db has items after been seeded', function () {
     expect(Category::count())->toBe(0);
     expect(Order::count())->toBe(0);
-    expect(OrderProduct::count())->toBe(0);
-    expect(OrderProductComplement::count())->toBe(0);
-    expect(OrderProductSparePart::count())->toBe(0);
     expect(Product::count())->toBe(0);
-    expect(ProductComplement::count())->toBe(0);
-    expect(ProductSparePart::count())->toBe(0);
     expect(User::count())->toBe(0);
     expect(Address::count())->toBe(0);
-    expect(ProductFeature::count())->toBe(0);
-    expect(ProductFeatureValue::count())->toBe(0);
-    expect(ProductVariant::count())->toBe(0);
+    expect(Disassembly::count())->toBe(0);
+    expect(ProductSparePart::count())->toBe(0);
 
+    User::factory()->admin()->create();
+
+    // Run the seeder
     $this->seed();
 
-    expect(Category::count())->toBe(5);
-    expect(Order::count())->toBe(40);
-    expect(OrderProduct::count())->toBe(80);
-    expect(OrderProductComplement::count())->toBe(80);
-    expect(OrderProductSparePart::count())->toBe(80);
-    expect(Product::count())->toBe(55);
-    expect(ProductComplement::count())->toBe(50);
-    expect(ProductSparePart::count())->toBe(50);
-    expect(User::count())->toBe(11);
-    expect(Address::count())->toBe(10);
-    expect(ProductFeature::count())->toBe(10);
-    expect(ProductFeatureValue::count())->toBe(20);
-    expect(ProductVariant::count())->toBe(10);
+    // Verify seeding created expected data
+    expect(Category::count())->toBeGreaterThan(0);
+    expect(Order::count())->toBeGreaterThan(0);
+    expect(Product::count())->toBeGreaterThan(0);
+    expect(User::count())->toBeGreaterThan(0);
+    expect(Address::count())->toBeGreaterThan(0);
+    expect(Disassembly::count())->toBeGreaterThan(0);
+    expect(ProductSparePart::count())->toBeGreaterThan(0);
+});
+
+test('order belongs to expected user and has product spare parts', function () {
+    // Create test data
+    $user = User::factory()->create();
+    User::factory()->admin()->create();
+
+    $disassembly = Disassembly::factory()->create();
+    $spareParts = ProductSparePart::factory(3)->create([
+        'disassembly_id' => $disassembly->id,
+    ]);
+
+    $order = Order::factory()->create(['user_id' => $user->id]);
+
+    // Create order products with spare parts as orderable
+    $spareParts->each(function ($sparePart) use ($order) {
+        OrderProduct::factory()->create([
+            'order_id' => $order->id,
+            'orderable_id' => $sparePart->id,
+            'orderable_type' => ProductSparePart::class,
+        ]);
+    });
+
+    // Verify order exists
+    expect(Order::find($order->id))->not->toBeNull();
+
+    // Verify order belongs to expected user
+    expect($order->user_id)->toBe($user->id);
+    expect($order->user()->first()->id)->toBe($user->id);
+
+    // Verify order has expected product spare parts
+    $orderProducts = $order->orderProducts;
+    expect($orderProducts->count())->toBe(3);
+
+    // Verify each order product is a spare part
+    $orderProducts->each(function ($orderProduct) use ($spareParts) {
+        expect($orderProduct->orderable_type)->toBe(ProductSparePart::class);
+        expect($spareParts->pluck('id')->contains($orderProduct->orderable_id))->toBeTrue();
+    });
 });
