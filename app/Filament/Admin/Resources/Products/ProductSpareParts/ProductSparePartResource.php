@@ -41,7 +41,7 @@ class ProductSparePartResource extends Resource
 
                 Section::make(__('Disassembly'))
                     ->schema([
-                        Select::make('Disassembly')
+                        Select::make('disassembly_id')
                             ->required()
                             ->label(__('Disassembly'))
                             ->relationship(name: 'disassembly', titleAttribute: 'name')
