@@ -6,7 +6,7 @@
 
             <a href="{{ $path . '/' . $product->slug }}" class="shrink-0 md:order-1">
                 <img class="mx-auto h-20 w-20 xl:h-32 xl:w-32 object-contain"
-                    src="{{ @asset('/storage/' . $product->main_image) }}" alt=""
+                    src="{{ @asset('/storage/' . $product->disassembly->product->main_image) }}" alt=""
                 />
             </a>
 

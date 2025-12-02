@@ -28,24 +28,24 @@ Route::middleware(Authenticate::class)->group(function () {
     });
 
     /** Payment */
-    // Route::group(['as' => 'payment.'], function () {
-    //    Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinishedOk'])
-    //        ->name('purchase-complete');
-    //
-    //    Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
-    //        ->name('purchase-failed');
-    //
-    //    /**
-    //     * Payment notifications
-    //     */
-    //    Route::post('notificacion-pago/{order}', [PaymentController::class, 'paymentGatewayNotification'])
-    //        ->name('gateway-notification')
-    //        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-    //
-    //    Route::post('notificacion-pago-paypal', [PaymentController::class, 'paypalGatewayNotification'])
-    //        ->name('paypal-gateway-notification')
-    //        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-    // });
+    Route::group(['as' => 'payment.'], function () {
+        Route::get('pago-completo/{order}', [PaymentController::class, 'orderFinishedOk'])
+            ->name('purchase-complete');
+        //
+        //    Route::get('pago-fallido/{order}', [PaymentController::class, 'orderFinishedKo'])
+        //        ->name('purchase-failed');
+        //
+        //    /**
+        //     * Payment notifications
+        //     */
+        //    Route::post('notificacion-pago/{order}', [PaymentController::class, 'paymentGatewayNotification'])
+        //        ->name('gateway-notification')
+        //        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+        //
+        //    Route::post('notificacion-pago-paypal', [PaymentController::class, 'paypalGatewayNotification'])
+        //        ->name('paypal-gateway-notification')
+        //        ->withoutMiddleware([Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+    });
 
     /** Products */
     Route::get('/productos', [ProductController::class, 'all'])->name('product-list');

@@ -100,7 +100,7 @@ class CheckoutForm extends Component implements HasActions, HasForms
                 $this->getShippingForm($shipping_addresses),
                 $this->getBillingForm($shipping_addresses),
                 $this->getOrderDetails(),
-                $this->getPaymentDetails(),
+                // $this->getPaymentDetails(),
             ]);
     }
 
@@ -194,19 +194,19 @@ class CheckoutForm extends Component implements HasActions, HasForms
     private function addressFormFields(string $form_field_name, bool $is_guest = true): Group
     {
         return Group::make([
-            TextInput::make($form_field_name.'_name')
+            TextInput::make($form_field_name . '_name')
                 ->placeholder(__('Name'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-user')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name.'_surname')
+            TextInput::make($form_field_name . '_surname')
                 ->placeholder(__('Surname'))
                 ->hiddenLabel()
                 ->maxLength(255)
                 ->prefixIcon('heroicon-c-user-group')
                 ->required(),
-            TextInput::make($form_field_name.'_email')
+            TextInput::make($form_field_name . '_email')
                 ->placeholder(__('Email'))
                 ->hiddenLabel()
                 ->maxLength(255)
@@ -222,17 +222,17 @@ class CheckoutForm extends Component implements HasActions, HasForms
                     // Hidden if user is registered
                     return $is_guest === false;
                 }),
-            TextInput::make($form_field_name.'_cif')
-                ->placeholder(__('NIF/CIF').' ('.__('optional').')')
+            TextInput::make($form_field_name . '_cif')
+                ->placeholder(__('NIF/CIF') . ' (' . __('optional') . ')')
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->prefixIcon('heroicon-s-identification'),
-            TextInput::make($form_field_name.'_business_name')
-                ->placeholder(__('Business name').' ('.__('optional').')')
+            TextInput::make($form_field_name . '_business_name')
+                ->placeholder(__('Business name') . ' (' . __('optional') . ')')
                 ->hiddenLabel()
                 ->maxLength(20)
                 ->prefixIcon('heroicon-s-building-storefront'),
-            TextInput::make($form_field_name.'_phone')
+            TextInput::make($form_field_name . '_phone')
                 ->placeholder(__('Phone'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-phone')
@@ -240,32 +240,32 @@ class CheckoutForm extends Component implements HasActions, HasForms
                 ->maxLength(20)
                 ->tel()
                 ->required(),
-            TextInput::make($form_field_name.'_address')
+            TextInput::make($form_field_name . '_address')
                 ->placeholder(__('Address'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-truck')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name.'_city')
+            TextInput::make($form_field_name . '_city')
                 ->placeholder(__('City'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-building-office-2')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name.'_state')
+            TextInput::make($form_field_name . '_state')
                 ->placeholder(__('State'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-globe-alt')
                 ->maxLength(255)
                 ->required(),
-            TextInput::make($form_field_name.'_zip_code')
+            TextInput::make($form_field_name . '_zip_code')
                 ->placeholder(__('Zip code'))
                 ->numeric()
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-m-hashtag')
                 ->maxLength(20)
                 ->required(),
-            TextInput::make($form_field_name.'_country')
+            TextInput::make($form_field_name . '_country')
                 ->placeholder(__('Country'))
                 ->hiddenLabel()
                 ->prefixIcon('heroicon-s-globe-europe-africa')

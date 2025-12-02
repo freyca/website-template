@@ -21,9 +21,11 @@ class ProductSparePartFactory extends Factory
     public function definition(): array
     {
         $price = fake()->randomFloat(2, 10, 3000);
+        $name = fake()->unique()->catchPhrase();
 
         return [
-            'name' => fake()->unique()->catchPhrase(),
+            'name' => $name,
+            'slug' => str()->slug($name),
             'ean13' => fake()->unique()->ean13(),
             'price' => $price,
             'price_with_discount' => $this->isProductDiscounted($price),

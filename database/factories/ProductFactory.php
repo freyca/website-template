@@ -31,8 +31,10 @@ class ProductFactory extends Factory
             $assembly_price = fake()->randomFloat(2, 50, 500);
         }
 
+        $name = fake()->unique()->catchPhrase();
         return [
-            'name' => fake()->unique()->catchPhrase(),
+            'name' => $name,
+            'slug' => str()->slug($name),
             'ean13' => fake()->unique()->ean13(),
             // 'price' => $price,
             // 'price_with_discount' => $this->isProductDiscounted($price),

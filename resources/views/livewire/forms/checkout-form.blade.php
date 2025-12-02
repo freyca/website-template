@@ -52,7 +52,7 @@
                 <div class="space-y-3">
                     <button type="submit"
                             class="flex w-full items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-500">
-                            {{ __('Proceed to Checkout') }}
+                            {{ __('Place order') }}
                         </a>
                     </button>
 

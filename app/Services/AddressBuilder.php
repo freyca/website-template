@@ -124,7 +124,7 @@ class AddressBuilder
         $this->order_details = strval(data_get($form_data, 'order_details'));
 
         // Payment method
-        $this->payment_method = data_get($form_data, 'payment_method');
+        $this->payment_method = PaymentMethod::BankTransfer;
     }
 
     public function paymentMethod(): PaymentMethod

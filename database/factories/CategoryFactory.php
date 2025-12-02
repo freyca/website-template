@@ -16,8 +16,10 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->catchPhrase();
         return [
-            'name' => fake()->unique()->catchPhrase(),
+            'name' => $name,
+            'slug' => str()->slug($name),
             // 'meta_description' => fake()->realText(30),
             // 'description' => fake()->realText(1000),
             'big_image' => 'category-images/sample-image.png',
