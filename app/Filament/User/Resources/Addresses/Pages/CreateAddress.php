@@ -14,6 +14,7 @@ class CreateAddress extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['email'] = auth()->user()->email;
+
         return $data;
     }
 }

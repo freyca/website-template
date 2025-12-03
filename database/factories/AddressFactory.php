@@ -22,7 +22,7 @@ class AddressFactory extends Factory
             'name' => fake()->firstName(),
             'surname' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
-            'financial_number' => fake()->numerify('#########') . fake()->randomLetter(),
+            'financial_number' => fake()->numerify('#########').fake()->randomLetter(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->streetAddress(),
             'city' => fake()->city(),

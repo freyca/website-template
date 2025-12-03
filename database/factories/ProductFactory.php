@@ -32,6 +32,7 @@ class ProductFactory extends Factory
         }
 
         $name = fake()->unique()->catchPhrase();
+
         return [
             'name' => $name,
             'slug' => str()->slug($name),

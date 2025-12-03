@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
 
     private function generateImage(string $path, string $imageName): void
     {
-        $filePath = $path . '/' . $imageName;
+        $filePath = $path.'/'.$imageName;
 
         if (Storage::disk('public')->exists($filePath)) {
             return;
@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
         $fontSize = 5;
         $textX = ($width - strlen($text) * imagefontwidth($fontSize)) / 2;
         $textY = ($height - imagefontheight($fontSize)) / 2;
-        imagestring($image, $fontSize, (int)$textX, (int)$textY, $text, $textColor);
+        imagestring($image, $fontSize, (int) $textX, (int) $textY, $text, $textColor);
 
         return $image;
     }

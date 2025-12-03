@@ -1,12 +1,12 @@
 <?php
 
-use App\Filament\Admin\Resources\Products\Products\Pages\ListProducts;
+use App\Enums\Role;
 use App\Filament\Admin\Resources\Products\Products\Pages\CreateProduct;
 use App\Filament\Admin\Resources\Products\Products\Pages\EditProduct;
-use App\Models\Product;
+use App\Filament\Admin\Resources\Products\Products\Pages\ListProducts;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
-use App\Enums\Role;
 use Filament\Facades\Filament;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

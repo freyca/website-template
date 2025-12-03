@@ -10,11 +10,10 @@ use App\Http\Responses\FilamentRegistrationResponse;
 use Filament\Auth\Http\Responses\Contracts\LoginResponse;
 use Filament\Auth\Http\Responses\Contracts\LogoutResponse;
 use Filament\Auth\Http\Responses\Contracts\RegistrationResponse;
-use Illuminate\Support\ServiceProvider;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
-
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,13 +32,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Fieldset::configureUsing(fn(Fieldset $fieldset) => $fieldset
+        Fieldset::configureUsing(fn (Fieldset $fieldset) => $fieldset
             ->columnSpanFull());
 
-        Grid::configureUsing(fn(Grid $grid) => $grid
+        Grid::configureUsing(fn (Grid $grid) => $grid
             ->columnSpanFull());
 
-        Section::configureUsing(fn(Section $section) => $section
+        Section::configureUsing(fn (Section $section) => $section
             ->columnSpanFull());
     }
 }

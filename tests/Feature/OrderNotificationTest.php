@@ -107,7 +107,7 @@ describe('Order Notifications', function () {
             $mail = $notification->toMail($user);
             $rendered = $mail->render();
 
-            expect(str_contains($rendered, (string)$order->id))->toBeTrue();
+            expect(str_contains($rendered, (string) $order->id))->toBeTrue();
             expect(str_contains($rendered, $user->name))->toBeTrue();
             expect(str_contains($rendered, $order->shippingAddress->address))->toBeTrue();
             expect(str_contains($rendered, __('Order Confirmation')))->toBeTrue();
@@ -139,7 +139,7 @@ describe('Order Notifications', function () {
             $rendered = $mail->render();
 
             // Verify notification includes product details
-            expect(str_contains($rendered, (string)$order->id))->toBeTrue();
+            expect(str_contains($rendered, (string) $order->id))->toBeTrue();
             expect(str_contains($rendered, __('Thank you for your order!')))->toBeTrue();
             expect(str_contains($rendered, $sparePart->name))->toBeTrue();
             expect(str_contains($rendered, '2'))->toBeTrue(); // quantity
@@ -179,7 +179,7 @@ describe('Order Notifications', function () {
             $mail = $notification->toMail(test()->admin);
             $rendered = $mail->render();
 
-            expect(str_contains($rendered, (string)$order->id))->toBeTrue();
+            expect(str_contains($rendered, (string) $order->id))->toBeTrue();
             expect(str_contains($rendered, $user->name))->toBeTrue();
             expect(str_contains($rendered, $user->email))->toBeTrue();
             expect(str_contains($rendered, $order->shippingAddress->address))->toBeTrue();
@@ -212,7 +212,7 @@ describe('Order Notifications', function () {
             $rendered = $mail->render();
 
             // Verify admin notification includes product and pricing details
-            expect(str_contains($rendered, (string)$order->id))->toBeTrue();
+            expect(str_contains($rendered, (string) $order->id))->toBeTrue();
             expect(str_contains($rendered, __('Payment Method')))->toBeTrue();
             expect(str_contains($rendered, __('Total Amount')))->toBeTrue();
             expect(str_contains($rendered, $sparePart->name))->toBeTrue();

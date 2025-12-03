@@ -1,11 +1,11 @@
 <?php
 
-use App\Filament\Admin\Resources\Features\Categories\Pages\ListCategories;
+use App\Enums\Role;
 use App\Filament\Admin\Resources\Features\Categories\Pages\CreateCategory;
 use App\Filament\Admin\Resources\Features\Categories\Pages\EditCategory;
+use App\Filament\Admin\Resources\Features\Categories\Pages\ListCategories;
 use App\Models\Category;
 use App\Models\User;
-use App\Enums\Role;
 use Filament\Facades\Filament;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

@@ -1,17 +1,16 @@
 <?php
 
-use App\Models\User;
 use App\Models\Disassembly;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductSparePart;
-use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Notifications\OrderConfirmationNotification;
+use App\Models\User;
 use App\Notifications\AdminOrderNotification;
+use App\Notifications\OrderConfirmationNotification;
 use Illuminate\Support\Facades\Notification;
-use function Pest\Laravel\get;
-use function Pest\Laravel\post;
 use Livewire\Livewire;
+
+use function Pest\Laravel\get;
 
 test('user can visit home and login', function () {
     // Visit home page (may redirect if not authenticated)
@@ -46,7 +45,7 @@ test('product page displays only published disassemblies and their spare parts',
     test()->actingAs($user);
 
     // Visit the product page
-    $response = get('/producto/' . $product->slug);
+    $response = get('/producto/'.$product->slug);
     $response->assertStatus(200);
 
     // Assert published disassembly is visible

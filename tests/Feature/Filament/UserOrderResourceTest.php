@@ -39,10 +39,10 @@ it('shows only own orders', function () {
         ->assertSuccessful();
 
     foreach ($myOrders as $order) {
-        $component->assertSee((string)$order->id);
+        $component->assertSee((string) $order->id);
     }
     foreach ($otherOrders as $order) {
-        $component->assertDontSee((string)$order->id);
+        $component->assertDontSee((string) $order->id);
     }
 });
 
@@ -52,9 +52,9 @@ it('cannot view other users order', function () {
     test()->actingAs($user);
     $otherOrder = Order::factory()->for($otherUser)->create();
 
-    expect(fn() => Livewire::test(\App\Filament\User\Resources\Orders\Pages\ViewOrder::class, ['record' => $otherOrder->id]))
+    expect(fn () => Livewire::test(\App\Filament\User\Resources\Orders\Pages\ViewOrder::class, ['record' => $otherOrder->id]))
         ->toThrow(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 
-    expect(fn() => test()->get(route('filament.user.resources.orders.view', ['record' => $otherOrder->id])))
+    expect(fn () => test()->get(route('filament.user.resources.orders.view', ['record' => $otherOrder->id])))
         ->toThrow(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 });

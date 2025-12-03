@@ -1,10 +1,10 @@
 <?php
 
-use App\Filament\Admin\Resources\Users\Users\Pages\ListUsers;
+use App\Enums\Role;
 use App\Filament\Admin\Resources\Users\Users\Pages\CreateUser;
 use App\Filament\Admin\Resources\Users\Users\Pages\EditUser;
+use App\Filament\Admin\Resources\Users\Users\Pages\ListUsers;
 use App\Models\User;
-use App\Enums\Role;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 

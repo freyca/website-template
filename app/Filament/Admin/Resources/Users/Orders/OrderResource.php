@@ -6,10 +6,10 @@ namespace App\Filament\Admin\Resources\Users\Orders;
 
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
+use App\Filament\Admin\Exports\OrderExporter;
 use App\Filament\Admin\Resources\Users\Orders\Pages\CreateOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\EditOrder;
 use App\Filament\Admin\Resources\Users\Orders\Pages\ListOrders;
-use App\Filament\Admin\Exports\OrderExporter;
 use App\Models\Address;
 use App\Models\BaseProduct;
 use App\Models\Order;
@@ -51,7 +51,7 @@ class OrderResource extends Resource
             ->components([
                 Section::make([
                     TextInput::make('id')
-                        ->name(__('Order id (automatically generated)') . ':')
+                        ->name(__('Order id (automatically generated)').':')
                         ->disabled()
                         ->columnSpanFull(),
 

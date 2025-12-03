@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Products\Products;
 
+use App\Filament\Admin\Imports\ProductImporter;
 use App\Filament\Admin\Resources\Products\Products\Pages\CreateProduct;
 use App\Filament\Admin\Resources\Products\Products\Pages\EditProduct;
 use App\Filament\Admin\Resources\Products\Products\Pages\ListProducts;
 use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
-use App\Filament\Admin\Imports\ProductImporter;
 use App\Models\Product;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -178,7 +178,7 @@ class ProductResource extends Resource
                         ])
                         ->columns(2)
                         ->collapsed()
-                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null),
+                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null),
                 ]),
 
             ]);
@@ -189,7 +189,7 @@ class ProductResource extends Resource
         return $table
             ->headerActions([
                 ImportAction::make()
-                    ->importer(ProductImporter::class)
+                    ->importer(ProductImporter::class),
             ])
             ->columns([
                 TextColumn::make('id')

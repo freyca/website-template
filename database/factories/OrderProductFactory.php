@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
-use App\Models\ProductComplement;
 use App\Models\ProductSparePart;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

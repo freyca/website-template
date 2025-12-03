@@ -2,9 +2,10 @@
 
 use App\Enums\Role;
 use App\Models\User;
+use Filament\Facades\Filament;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use Filament\Facades\Filament;
 
 test('guest users are redirected to login for all the application', function (string $url) {
     $response = get($url);

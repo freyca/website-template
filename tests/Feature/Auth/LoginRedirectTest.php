@@ -11,7 +11,7 @@ describe('LoginRedirect', function () {
 
         Auth::login($admin);
 
-        $response = new FilamentLoginResponse();
+        $response = new FilamentLoginResponse;
         $redirectResponse = $response->toResponse(request());
 
         expect($redirectResponse->getTargetUrl())->toContain('/admin');
@@ -22,7 +22,7 @@ describe('LoginRedirect', function () {
 
         Auth::login($user);
 
-        $response = new FilamentLoginResponse();
+        $response = new FilamentLoginResponse;
         $redirectResponse = $response->toResponse(request());
 
         expect($redirectResponse->getTargetUrl())->toContain('/');
@@ -33,7 +33,7 @@ describe('LoginRedirect', function () {
 
         Auth::login($user);
 
-        $response = new FilamentLoginResponse();
+        $response = new FilamentLoginResponse;
         $redirectResponse = $response->toResponse(request());
 
         expect($redirectResponse->getTargetUrl())->toContain('/');

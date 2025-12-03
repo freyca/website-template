@@ -2,7 +2,6 @@
 
 use App\Filament\User\Resources\Addresses\Pages\CreateAddress;
 use App\Filament\User\Resources\Addresses\Pages\EditAddress;
-use App\Filament\User\Resources\Addresses\Pages\ListAddress;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -64,6 +63,6 @@ it('user_cannot_access_another_users_address', function () {
     expect($userAddresses->first()->id)->toBe($myAddress->id);
 
     // Edit: should not be able to access other's address
-    expect(fn() => Livewire::test(EditAddress::class, ['record' => $otherAddress->id]))
+    expect(fn () => Livewire::test(EditAddress::class, ['record' => $otherAddress->id]))
         ->toThrow(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 });

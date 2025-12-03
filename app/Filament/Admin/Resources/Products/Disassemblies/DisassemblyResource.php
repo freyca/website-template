@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-
-
 namespace App\Filament\Admin\Resources\Products\Disassemblies;
 
+use App\Filament\Admin\Imports\DisassemblyImporter;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\CreateDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\EditDisassembly;
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\ListDisassemblies;
-use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait as TraitsFormBuilderTrait;
-use App\Filament\Admin\Imports\DisassemblyImporter;
+use App\Filament\Admin\Resources\Products\Traits\FormBuilderTrait;
 use App\Models\Disassembly;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -28,7 +26,7 @@ use Filament\Tables\Table;
 
 class DisassemblyResource extends Resource
 {
-    use TraitsFormBuilderTrait;
+    use FormBuilderTrait;
 
     protected static ?string $model = Disassembly::class;
 
@@ -80,7 +78,7 @@ class DisassemblyResource extends Resource
         return $table
             ->headerActions([
                 ImportAction::make()
-                    ->importer(DisassemblyImporter::class)
+                    ->importer(DisassemblyImporter::class),
             ])
             ->columns([
                 TextColumn::make('id')

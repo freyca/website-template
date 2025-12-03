@@ -101,7 +101,7 @@ describe('Order filters and search', function () {
         $component = Livewire::test(ListOrders::class)->assertSuccessful();
 
         foreach ($orders as $order) {
-            $component->assertSee((string)$order->id);
+            $component->assertSee((string) $order->id);
         }
     });
 
@@ -122,7 +122,7 @@ describe('Order filters and search', function () {
         // Verify pagination controls are present in the component
         expect($component->html())->toContain('pagination');
         // Verify we can see some orders on first page
-        expect($component->html())->toContain((string)$orders->first()->id);
+        expect($component->html())->toContain((string) $orders->first()->id);
     });
 
     it('only shows authenticated user orders', function () {
@@ -138,11 +138,11 @@ describe('Order filters and search', function () {
 
         // Verify only user's orders are shown in the component
         foreach ($userOrders as $order) {
-            $component->assertSee((string)$order->id);
+            $component->assertSee((string) $order->id);
         }
         // Verify other user's orders are NOT shown
         foreach ($otherOrders as $order) {
-            $component->assertDontSee((string)$order->id);
+            $component->assertDontSee((string) $order->id);
         }
     });
 
@@ -154,7 +154,7 @@ describe('Order filters and search', function () {
         $component = Livewire::test(ListOrders::class)->assertSuccessful();
 
         // Verify order ID is visible
-        $component->assertSee((string)$order->id);
+        $component->assertSee((string) $order->id);
         // Verify order status is displayed
         $component->assertSee($order->status->getLabel());
     });

@@ -93,7 +93,7 @@ describe('Translations Coverage', function () {
             $translations = json_decode(file_get_contents($filePath), true);
 
             foreach ($translations as $key => $value) {
-                expect(!empty($value))->toBeTrue();
+                expect(! empty($value))->toBeTrue();
             }
         });
     });

@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Role;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Disassembly;

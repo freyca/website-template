@@ -31,10 +31,10 @@ class OrderConfirmationNotification extends Notification
             ->subject(__('Order Confirmation'))
             ->greeting(__('Hello :name', ['name' => $order->user->name]))
             ->line(__('Thank you for your order!'))
-            ->line(__('Order ID') . ': ' . $order->id)
-            ->line(__('Order Status') . ': ' . $order->status->getLabel())
-            ->line(__('Total Amount') . ': €' . number_format($order->purchase_cost / 100, 2))
-            ->line(__('Products' . ':'))
+            ->line(__('Order ID').': '.$order->id)
+            ->line(__('Order Status').': '.$order->status->getLabel())
+            ->line(__('Total Amount').': €'.number_format($order->purchase_cost / 100, 2))
+            ->line(__('Products'.':'))
             ->with('products', $order->orderProducts)
             ->markdown('emails.order-confirmation', [
                 'order' => $order,

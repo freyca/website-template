@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Admin\Resources\Features\Categories;
 
+use App\Filament\Admin\Imports\CategoryImporter;
 use App\Filament\Admin\Resources\Features\Categories\Pages\CreateCategory;
 use App\Filament\Admin\Resources\Features\Categories\Pages\EditCategory;
 use App\Filament\Admin\Resources\Features\Categories\Pages\ListCategories;
-use App\Filament\Admin\Imports\CategoryImporter;
 use App\Models\Category;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -76,7 +76,7 @@ class CategoryResource extends Resource
         return $table
             ->headerActions([
                 ImportAction::make()
-                    ->importer(CategoryImporter::class)
+                    ->importer(CategoryImporter::class),
             ])
             ->columns([
                 TextColumn::make('id')
