@@ -23,11 +23,11 @@ test('Ensures env command not used outside config files', function () {
         ->toBeUsed();
 });
 
-//test('Ensures that strict_types is declared in all classes', function () {
-//
-//    expect('App')
-//        ->toUseStrictTypes();
-//});
+test('Ensures that strict_types is declared in all classes', function () {
+
+    expect('App')
+        ->toUseStrictTypes();
+});
 
 test('Controllers must have Controller sufix', function () {
 

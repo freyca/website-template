@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+
+
 namespace App\Filament\Admin\Resources\Products\Disassemblies;
 
 use App\Filament\Admin\Resources\Products\Disassemblies\Pages\CreateDisassembly;
