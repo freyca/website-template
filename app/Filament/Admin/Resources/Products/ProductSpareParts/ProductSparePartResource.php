@@ -46,7 +46,8 @@ class ProductSparePartResource extends Resource
                             ->label(__('Disassembly'))
                             ->relationship(name: 'disassembly', titleAttribute: 'name')
                             ->columnSpanFull()
-                            ->searchable(),
+                            ->searchable()
+                            ->preload(),
                     ]),
 
                 self::priceSectionWithParentProduct(),
