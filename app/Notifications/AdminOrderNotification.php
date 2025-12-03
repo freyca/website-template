@@ -25,17 +25,23 @@ class AdminOrderNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        $order = $this->order->load('orderProducts.orderable', 'user', 'shippingAddress', 'billingAddress');
+        $order = $this->order->load('user', 'shippingAddress', 'billingAddress');
+
+        // Load orderProducts with orderable relationship, bypassing PublishedScope
+        // If we respect the scope, a product could be missing from the email
+        $order->orderProducts = $order->orderProducts()
+            ->with(['orderable' => fn($query) => $query->withoutGlobalScopes()])
+            ->get();
 
         return (new MailMessage)
-            ->subject(__('New Order Created').' - #'.$order->id)
+            ->subject(__('New Order Created') . ' - #' . $order->id)
             ->line(__('A new order has been created'))
-            ->line(__('Order ID').': '.$order->id)
-            ->line(__('Customer').': '.$order->user->name.' '.$order->user->surname)
-            ->line(__('Customer Email').': '.$order->user->email)
-            ->line(__('Total Amount').': €'.number_format($order->purchase_cost / 100, 2))
-            ->line(__('Payment Method').': '.$order->payment_method->value)
-            ->line(__('Products'.':'))
+            ->line(__('Order ID') . ': ' . $order->id)
+            ->line(__('Customer') . ': ' . $order->user->name . ' ' . $order->user->surname)
+            ->line(__('Customer Email') . ': ' . $order->user->email)
+            ->line(__('Total Amount') . ': €' . number_format($order->purchase_cost / 100, 2))
+            ->line(__('Payment Method') . ': ' . $order->payment_method->value)
+            ->line(__('Products' . ':'))
             ->markdown('emails.admin-order', [
                 'order' => $order,
                 'products' => $order->orderProducts,

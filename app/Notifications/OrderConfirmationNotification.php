@@ -25,16 +25,22 @@ class OrderConfirmationNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        $order = $this->order->load('orderProducts.orderable', 'user', 'shippingAddress', 'billingAddress');
+        $order = $this->order->load('user', 'shippingAddress', 'billingAddress');
+
+        // Load orderProducts with orderable relationship, bypassing PublishedScope
+        // If we respect the scope, a product could be missing from the email
+        $order->orderProducts = $order->orderProducts()
+            ->with(['orderable' => fn($query) => $query->withoutGlobalScopes()])
+            ->get();
 
         return (new MailMessage)
             ->subject(__('Order Confirmation'))
             ->greeting(__('Hello :name', ['name' => $order->user->name]))
             ->line(__('Thank you for your order!'))
-            ->line(__('Order ID').': '.$order->id)
-            ->line(__('Order Status').': '.$order->status->getLabel())
-            ->line(__('Total Amount').': €'.number_format($order->purchase_cost / 100, 2))
-            ->line(__('Products'.':'))
+            ->line(__('Order ID') . ': ' . $order->id)
+            ->line(__('Order Status') . ': ' . $order->status->getLabel())
+            ->line(__('Total Amount') . ': €' . number_format($order->purchase_cost / 100, 2))
+            ->line(__('Products' . ':'))
             ->with('products', $order->orderProducts)
             ->markdown('emails.order-confirmation', [
                 'order' => $order,
