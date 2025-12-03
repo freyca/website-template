@@ -38,6 +38,7 @@
     "Customer data": "Datos del cliente",
     "Customer email": "Email del cliente",
     "Customer name": "Nombre del cliente",
+    "Dashboard": "Panel de Control",
     "Delivered": "Entregado",
     "Description": "Descripción",
     "Dimensions": "Dimensiones",
@@ -199,5 +200,16 @@
     "Unit Price": "Precio Unitario",
     "Total": "Total",
     "A new order has been created": "Se ha creado un nuevo pedido",
-    "Customer Email": "Email del Cliente"
+    "Customer Email": "Email del Cliente",
+    "Total Orders": "Pedidos Totales",
+    "All orders": "Todos los pedidos",
+    "Total Revenue": "Ingresos Totales",
+    "All time": "Desde siempre",
+    "Pending Orders": "Pedidos Pendientes",
+    "Waiting for payment": "Esperando pago",
+    "Completed Orders": "Pedidos Completados",
+    "Successfully delivered": "Entregados exitosamente",
+    "Orders by Status": "Pedidos por Estado",
+    "Revenue (Last 7 Days)": "Ingresos (Últimos 7 Días)",
+    "Revenue (€)": "Ingresos (€)"
 }
