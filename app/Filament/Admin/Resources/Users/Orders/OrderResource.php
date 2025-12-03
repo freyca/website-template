@@ -137,14 +137,6 @@ class OrderResource extends Resource
                             ->required()
                             ->numeric(),
 
-                        TextInput::make('discount')
-                            ->label(__('Discount (in percentage %)'))
-                            ->numeric()
-                            ->afterStateUpdated(function (Livewire $livewire) {
-                                self::calculateTotalPrice($livewire);
-                            })
-                            ->live(debounce: 500),
-
                         ToggleButtons::make('payment_method')
                             ->label(__('Payment method'))
                             ->inline()
@@ -284,7 +276,6 @@ class OrderResource extends Resource
                     })
                     ->afterStateUpdated(function ($state, Set $set, Livewire $livewire) {
                         self::setProductPrice($state, ProductVariant::class, $set);
-                        self::calculateTotalPrice($livewire);
                     })
                     ->visible(function (Get $get) {
                         if (! filled($get('orderable_type'))) {
@@ -337,9 +328,6 @@ class OrderResource extends Resource
                     ->label(__('Quantity'))
                     ->numeric()
                     ->default(1)
-                    ->afterStateUpdated(function (Livewire $livewire) {
-                        self::calculateTotalPrice($livewire);
-                    })
                     ->columnSpan([
                         'md' => 2,
                     ])
@@ -453,37 +441,6 @@ class OrderResource extends Resource
 
         $price = $product->price_with_discount ? $product->price_with_discount : $product->price;
         $set('unit_price', $price);
-    }
-
-    // TODO: calculate prices with assembly cost
-    public static function calculateTotalPrice(Livewire $livewire): void
-    {
-        $price = 0;
-
-        // Retrieve the state path of the form.
-        // Most likely it's `data` but it could be something else.
-        $state_path = $livewire->getFormStatePath(); // @phpstan-ignore-line
-
-        // Get the elements we need
-        $form_elements = $livewire->all();
-        $products = $form_elements[$state_path]['orderProducts'];
-
-        foreach ($products as $product) {
-            if ($product['orderable_id'] === null) {
-                continue;
-            }
-
-            $price += $product['quantity'] * $product['unit_price'];
-        }
-
-        // Intval of null and '' is 0
-        $discount = intval($form_elements[$state_path]['discount']);
-
-        $price = $price * ((100 - $discount) / 100);
-
-        $formatted_price = round(floatval($price * 100) / 100, precision: 2);
-
-        data_set($livewire, $state_path . '.purchase_cost', $formatted_price);
     }
 
     public static function getAddressId(Get $get): ?array
