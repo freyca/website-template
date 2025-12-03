@@ -126,6 +126,7 @@ class CheckoutForm extends Component implements HasActions, HasForms
                     ->selectablePlaceholder(false)
                     ->default($shipping_addresses->keys()->first())
                     ->live()
+                    ->reactive()
                     ->hidden(function () use ($shipping_addresses) {
                         // If there is no addresses
                         return $shipping_addresses->count() === 0;
@@ -139,7 +140,9 @@ class CheckoutForm extends Component implements HasActions, HasForms
                             }
 
                             // If is checked 'new address
-                            return $get('shipping_address_id') !== '0';
+                            $selectedId = $get('shipping_address_id');
+
+                            return ! ($selectedId === 0 || $selectedId === '0');
                         }
                     ),
             ]);
@@ -160,6 +163,7 @@ class CheckoutForm extends Component implements HasActions, HasForms
                     ->selectablePlaceholder(false)
                     ->default($billing_addresses->keys()->first())
                     ->live()
+                    ->reactive()
                     ->hidden(
                         function (Get $get) use ($billing_addresses) {
                             // If is checked use_shipping_address_as_billing_address
@@ -185,7 +189,9 @@ class CheckoutForm extends Component implements HasActions, HasForms
                             }
 
                             // If is checked "New address
-                            return $get('billing_address_id') !== '0';
+                            $selectedId = $get('shipping_address_id');
+
+                            return ! ($selectedId === 0 || $selectedId === '0');
                         }
                     ),
             ]);

@@ -16,8 +16,8 @@ class SearchByName
     public static function search(string $search_term): array
     {
         $results['products'] = self::queryProducts($search_term, self::$limit_results);
-        //$results['complements'] = self::queryProductComplements($search_term, self::$limit_results - $results['products']->count());
-        //$results['spare-parts'] = self::querySpareParts($search_term, self::$limit_results - $results['products']->count() - $results['complements']->count());
+        // $results['complements'] = self::queryProductComplements($search_term, self::$limit_results - $results['products']->count());
+        // $results['spare-parts'] = self::querySpareParts($search_term, self::$limit_results - $results['products']->count() - $results['complements']->count());
 
         // Return empty array allows the hability to do not display the div
         // from the view without inspecting the array elements
@@ -52,7 +52,7 @@ class SearchByName
         return ($limit_results === 0)
             ? new Collection
             : $class_name::where('name', 'like', "%{$search_term}%")
-            ->limit($limit_results)
-            ->get();
+                ->limit($limit_results)
+                ->get();
     }
 }
