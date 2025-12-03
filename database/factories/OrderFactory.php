@@ -8,6 +8,7 @@ use App\Enums\PaymentMethod;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -27,6 +28,7 @@ class OrderFactory extends Factory
             ->create(['address_type' => AddressType::Shipping]);
 
         return [
+            'id' => Str::ulid(),
             'user_id' => $user->id,
             'shipping_address_id' => $shippingAddress->id,
             'purchase_cost' => fake()->randomFloat(2, 10, 3000),

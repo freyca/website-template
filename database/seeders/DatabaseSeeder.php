@@ -38,16 +38,19 @@ class DatabaseSeeder extends Seeder
 
         // Create customers with addresses and minimal orders
         // 5 customers × 3 addresses × 2 orders × 1 product = fast
-        for ($counter = 0; $counter < 5; $counter++) {
-            $user = User::factory()->customer()->create();
+        // Disable Order events to prevent notifications during seeding
+        Order::withoutEvents(function () {
+            for ($counter = 0; $counter < 5; $counter++) {
+                $user = User::factory()->customer()->create();
 
-            Address::factory(3)->for($user)->create();
+                Address::factory(3)->for($user)->create();
 
-            Order::factory(2)
-                ->for($user)
-                ->has(OrderProduct::factory(1))
-                ->create();
-        }
+                Order::factory(2)
+                    ->for($user)
+                    ->has(OrderProduct::factory(1))
+                    ->create();
+            }
+        });
 
         // Create admin user if not exists
         if (User::where('email', 'fran@gmail.com')->doesntExist()) {
