@@ -1,4 +1,4 @@
-<div id="search-bar-container" class="container mx-auto block justify-between items-center w-full mt-4 md:mt-0 md:w-96">
+<div id="search-bar-container" class="container mx-auto block justify-between items-center w-full mt-4 md:mt-0 md:w-96 mr-4">
     <form id="search-form"
             role="search"
             class="w-full float-end"
