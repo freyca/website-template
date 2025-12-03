@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-// test('Ensures custom form request used in controllers', function () {
-//
-//    expect('Illuminate\Http\Request')
-//        ->not
-//        ->toBeUsedIn('App\Http\Controllers');
-// });
+test('Ensures custom form request used in controllers', function () {
+
+    expect('Illuminate\Http\Request')
+        ->not
+        ->toBeUsedIn('App\Http\Controllers');
+});
 
 test('Ensures that no debugging commands are present in the code ready to commit', function () {
 

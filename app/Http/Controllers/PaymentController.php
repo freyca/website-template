@@ -11,10 +11,7 @@ use App\Repositories\Database\Order\Order\OrderRepositoryInterface;
 use App\Services\Cart;
 use App\Services\Payment;
 use App\Services\SpecialPrices;
-use Exception;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Throwable;
 
 class PaymentController extends Controller
 {
@@ -55,27 +52,5 @@ class PaymentController extends Controller
             'order' => $order,
             'seotags' => new SeoTags('noindex'),
         ]);
-    }
-
-    public function paymentGatewayNotification(Order $order, Request $request): void
-    {
-        $paymentService = new Payment($order);
-        $paymentService->isGatewayOkWithPayment($request);
-    }
-
-    public function paypalGatewayNotification(Request $request): void
-    {
-        try {
-            $order_id = $request->resource['purchase_units'][0]['invoice_id'];
-            $order = $this->orderRepository->find($order_id);
-
-            if ($order === null) {
-                throw new Exception('Invalid PayPal request '.json_encode($request->all()));
-            }
-
-            $this->paymentGatewayNotification($order, $request);
-        } catch (Throwable $th) {
-            throw ($th);
-        }
     }
 }
