@@ -48,4 +48,14 @@ class ProductSparePartFactory extends Factory
             // ],
         ];
     }
+
+    /**
+     * Mark the spare part as published.
+     */
+    public function published(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'published' => true,
+        ]);
+    }
 }

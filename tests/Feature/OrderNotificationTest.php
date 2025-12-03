@@ -120,7 +120,7 @@ describe('Order Notifications', function () {
 
             // Create ProductSparePart with its dependencies
             $disassembly = Disassembly::factory()->create();
-            $sparePart = ProductSparePart::factory()->for($disassembly)->create();
+            $sparePart = ProductSparePart::factory()->published()->for($disassembly)->create();
 
             // Add product to order using spare part's actual price
             $order->orderProducts()->create([
@@ -193,7 +193,7 @@ describe('Order Notifications', function () {
 
             // Create ProductSparePart with its dependencies
             $disassembly = Disassembly::factory()->create();
-            $sparePart = ProductSparePart::factory()->for($disassembly)->create();
+            $sparePart = ProductSparePart::factory()->published()->for($disassembly)->create();
 
             // Add product to order using spare part's actual price
             $order->orderProducts()->create([
@@ -268,7 +268,7 @@ describe('Order Notifications', function () {
 
             // Add a product to the order
             $disassembly = Disassembly::factory()->create();
-            $sparePart = ProductSparePart::factory()->for($disassembly)->create();
+            $sparePart = ProductSparePart::factory()->published()->for($disassembly)->create();
 
             $order->orderProducts()->create([
                 'orderable_id' => $sparePart->id,
