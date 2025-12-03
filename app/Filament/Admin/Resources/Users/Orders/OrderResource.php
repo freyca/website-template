@@ -412,7 +412,7 @@ class OrderResource extends Resource
     {
         $modelClass = strval(static::$model);
 
-        return (string) $modelClass::where('status', OrderStatus::Paid)->count();
+        return (string) $modelClass::whereNotIn('status', [OrderStatus::Cancelled, OrderStatus::Delivered])->count();
     }
 
     public static function getNavigationGroup(): ?string
